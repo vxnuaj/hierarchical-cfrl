@@ -83,7 +83,7 @@ def main():
 
     # critic: frozen trunk (pretrained copy), trainable head
     ck = torch.load(a.critic, map_location="cpu")
-    critic = Critic(model, cfg, mode=ck["mode"], trunk_trainable=False).to(dev)
+    critic = Critic(model, cfg, mode=ck["mode"], trunk_trainable=False, blind_clusters=bool(ck.get("blind_clusters", False))).to(dev)
     if ck.get("trunk") is not None:
         critic.trunk.load_state_dict(ck["trunk"])
     critic.head.load_state_dict(ck["head"]); critic.eval()

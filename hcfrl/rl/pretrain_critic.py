@@ -105,7 +105,7 @@ def main():
     ap.add_argument("--bs", type=int, default=64); ap.add_argument("--lr_trunk", type=float, default=1e-5)
     ap.add_argument("--lr_head", type=float, default=1e-4); ap.add_argument("--holdout_frac", type=float, default=0.1)
     ap.add_argument("--freeze_trunk", action="store_true"); ap.add_argument("--seed", type=int, default=0)
-    ap.add_argument("--max_shards", type=int, default=0)
+    ap.add_argument("--max_shards", type=int, default=0); ap.add_argument("--blind_clusters", action="store_true")
     a = ap.parse_args()
     torch.manual_seed(a.seed)
     dev = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -119,7 +119,7 @@ def main():
     print(f"shards train/hold {len(shards) - n_hold}/{n_hold}; states {len(train_ds)}/{len(hold_ds)}; "
           f"success rate {torch.cat([s['reward'] for s in shards]).mean():.3f}", flush=True)
 
-    critic = Critic(model, cfg, mode=a.mode, trunk_trainable=not a.freeze_trunk).to(dev)
+    critic = Critic(model, cfg, mode=a.mode, trunk_trainable=not a.freeze_trunk, blind_clusters=a.blind_clusters).to(dev)
     groups = [{"params": critic.head.parameters(), "lr": a.lr_head}]
     if not a.freeze_trunk:
         groups.append({"params": critic.trunk.parameters(), "lr": a.lr_trunk})
@@ -141,7 +141,7 @@ def main():
         rec = {"epoch": ep, "train_loss": tot / n, "time": time.time() - t0, **{f"k{k}": v for k, v in ev.items() if k != "field_score"}, "field_score": ev["field_score"]}
         log.append(rec); print(json.dumps(rec), flush=True)
         torch.save({"head": critic.head.state_dict(), "trunk": None if a.freeze_trunk else critic.trunk.state_dict(),
-                    "mode": a.mode, "epoch": ep, "eval": ev}, os.path.join(a.out, f"critic_ep{ep}.pt"))
+                    "mode": a.mode, "epoch": ep, "eval": ev, "blind_clusters": a.blind_clusters}, os.path.join(a.out, f"critic_ep{ep}.pt"))
         if ev["field_score"] > best[0]:
             best = (ev["field_score"], ep)
     json.dump({"log": log, "best_epoch": best[1], "best_field_score": best[0]}, open(os.path.join(a.out, "log.json"), "w"), indent=1)

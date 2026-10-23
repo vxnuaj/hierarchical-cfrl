@@ -53,11 +53,15 @@ class CriticOutput:
 class Critic(nn.Module):
     """Frozen trunk copy + trainable head. `mode` in {"2d", "1d"}."""
 
-    def __init__(self, denoiser: nn.Module, config, mode: str = "2d", trunk_trainable: bool = False):
+    def __init__(self, denoiser: nn.Module, config, mode: str = "2d", trunk_trainable: bool = False,
+                 blind_clusters: bool = False):
         super().__init__()
         assert mode in ("2d", "1d")
         self.mode = mode
         self.config = config
+        # ablation: critic cannot see the coarse stream (cluster channels zeroed in z and x_prev)
+        self.blind_clusters = blind_clusters
+        self.n_clusters = int(getattr(config, "n_clusters", 0) or 0)
         self.trunk = copy.deepcopy(denoiser)
         self.trunk.requires_grad_(trunk_trainable)
         self.head = ValueHead(self.trunk.hidden_size)
@@ -70,7 +74,12 @@ class Critic(nn.Module):
         x_prev = inp.x_prev
         if x_prev is None:
             x_prev = restore_cond(torch.zeros_like(inp.z), cond_seq, cond_mask)
-        z_in = torch.cat([inp.z, x_prev], dim=-1) if self.config.self_cond_prob > 0 else inp.z
+        z, x_prev = inp.z, x_prev
+        if self.blind_clusters and self.n_clusters > 0:
+            D = z.shape[-1] - self.n_clusters
+            keep = torch.ones(z.shape[-1], dtype=z.dtype, device=z.device); keep[D:] = 0
+            z, x_prev = z * keep, x_prev * keep
+        z_in = torch.cat([z, x_prev], dim=-1) if self.config.self_cond_prob > 0 else z
         sc = (torch.full((B,), 1.0, dtype=inp.z.dtype, device=inp.z.device)
               if self.config.num_self_cond_cfg_tokens > 0 else None)
         return self.trunk(z_in, t_batch, deterministic=True, self_cond_cfg_scale=sc, return_hidden=True)
