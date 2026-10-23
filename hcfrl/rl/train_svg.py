@@ -71,6 +71,8 @@ def main():
     ap.add_argument("--n_val", type=int, default=0, help="cap val prompts (0 = all)")
     ap.add_argument("--objective", default="logit", choices=["logit", "prob"])
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--bf16", type=int, default=1)
+    ap.add_argument("--resume", action="store_true", help="resume from <out>/state.pt if present")
+    ap.add_argument("--save_every", type=int, default=50, help="save full resumable state every N iters")
     a = ap.parse_args()
 
     torch.manual_seed(a.seed); random.seed(a.seed)
@@ -133,8 +135,26 @@ def main():
         out = critic(DenoiserInput(k_hi, h, t_hi, None), None, None, m, h=h)
         return rank_metrics(out.value.cpu(), r).get("auc")
 
-    best_val, t_start = -1.0, time.time()
-    for it in range(a.iters + 1):
+    best_val, t_start, start_it = -1.0, time.time(), 0
+    state_path = os.path.join(a.out, "state.pt")
+    if a.resume and os.path.exists(state_path):
+        st = torch.load(state_path, map_location="cpu")
+        model.load_state_dict(st["model"]); opt_a.load_state_dict(st["opt_a"])
+        critic.head.load_state_dict(st["critic_head"]); opt_c.load_state_dict(st["opt_c"])
+        for h_, m_, r_ in zip(st["buf_h"], st["buf_m"], st["buf_r"]):
+            buf_h.append(h_); buf_m.append(m_); buf_r.append(r_)
+        start_it, best_val = st["iter"] + 1, st["best_val"]
+        g.set_state(st["g"]); geval.set_state(st["geval"]); random.setstate(st["py_random"]); torch.set_rng_state(st["torch_rng"])
+        print(f"resumed from iter {st['iter']} (buffer {len(buf_r)})", flush=True)
+
+    def save_state(it):
+        torch.save({"model": model.state_dict(), "opt_a": opt_a.state_dict(), "critic_head": critic.head.state_dict(),
+                    "opt_c": opt_c.state_dict(), "buf_h": list(buf_h), "buf_m": list(buf_m), "buf_r": list(buf_r),
+                    "iter": it, "best_val": best_val, "g": g.get_state(), "geval": geval.get_state(),
+                    "py_random": random.getstate(), "torch_rng": torch.get_rng_state()}, state_path + ".tmp")
+        os.replace(state_path + ".tmp", state_path)
+
+    for it in range(start_it, a.iters + 1):
         # ---- eval / checkpoint ----
         if it % a.eval_every == 0:
             model.eval()
@@ -199,6 +219,8 @@ def main():
         logf.write(json.dumps(rec) + "\n"); logf.flush()
         if it % 10 == 0:
             print(json.dumps({k: (round(v, 4) if isinstance(v, float) else v) for k, v in rec.items()}), flush=True)
+        if a.save_every and it % a.save_every == 0:
+            save_state(it)
     print(f"done. best val {best_val:.4f}")
 
 

@@ -1,6 +1,6 @@
 # Dataset
 data_path: "data/game24/train_hf"
-eval_data_path: "data/game24/val_hf"
+eval_data_path: null
 max_length: 72
 max_input_length: 16
 pad_token: eos
@@ -52,7 +52,7 @@ num_samples: 1000
 # Logging & Checkpointing
 log_freq: 100
 save_freq: 10
-eval_freq: 10
+eval_freq: 100000
 
 # Output
 output_dir: "outputs/helf_b-game24"
