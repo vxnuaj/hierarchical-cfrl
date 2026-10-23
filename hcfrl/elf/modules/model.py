@@ -164,8 +164,10 @@ class ELF(nn.Module):
         deterministic: bool = True,
         self_cond_cfg_scale: Optional[torch.Tensor] = None,
         decoder_step_active: Optional[bool] = None,
+        return_hidden: bool = False,
     ) -> Tuple[torch.Tensor, Optional[torch.Tensor]]:
-        """x: (N, S, C) or (N, S, 2C) with self-cond. t: (N,). attention_mask: (N, S), 1=valid."""
+        """x: (N, S, C) or (N, S, 2C) with self-cond. t: (N,). attention_mask: (N, S), 1=valid.
+        return_hidden=True returns the (N, S, hidden) trunk features instead (hcfrl critic)."""
         B = x.shape[0]
 
         # Self-conditioning: input is [z, x_pred] when 2x encoder dim
@@ -218,6 +220,9 @@ class ELF(nn.Module):
                           deterministic=deterministic)
 
         x = x[:, prefix_len + model_mode_offset:]
+
+        if return_hidden:  # hcfrl: per-position trunk features for the critic
+            return x
 
         # Factored decoder unembedding: hidden -> text_encoder_dim -> vocab
         with torch.amp.autocast('cuda', enabled=False):
