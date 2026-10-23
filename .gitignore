@@ -1,0 +1,8 @@
+.venv/
+outputs/
+__pycache__/
+*.pyc
+data/*/*_hf/
+data/countdown/
+data/countdown_small/
+notes/*_tex/
