@@ -39,7 +39,7 @@ epochs: 40
 global_batch_size: 256
 blr: 0.001
 weight_decay: 0.0
-warmup_steps: 5000
+warmup_steps: 280
 optimizer: muon
 
 # EMA
