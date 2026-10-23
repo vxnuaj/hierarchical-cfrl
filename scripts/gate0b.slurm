@@ -13,7 +13,18 @@
 source scripts/common.sh
 CFG=$1; CKPT=$2; TASK=$3; TAG=$4; SEED=${5:-0}; K=${6:-64}; GAMMA=${7:-56}; ITERS=${8:-1500}
 set -x
-BEST=$(python -c "import json;print(json.load(open('outputs/critic/${TAG}_2d/log.json'))['best_epoch'])")
+# best epoch from log.json if present, else from the per-epoch checkpoints' stored eval (field score)
+BEST=$(python - <<PY
+import json, glob, os, torch
+d = "outputs/critic/${TAG}_2d"
+if os.path.exists(f"{d}/log.json"):
+    print(json.load(open(f"{d}/log.json"))["best_epoch"])
+else:
+    best = max(glob.glob(f"{d}/critic_ep*.pt"), key=lambda f: torch.load(f, map_location="cpu")["eval"]["field_score"])
+    print(int(best.split("critic_ep")[1].split(".pt")[0]))
+PY
+)
+echo "using critic epoch $BEST"
 python -m hcfrl.rl.train_svg --config $CFG --ckpt $CKPT --critic outputs/critic/${TAG}_2d/critic_ep${BEST}.pt \
     --train_prompts $TASK/train.jsonl --val_prompts $TASK/val.jsonl --test_prompts $TASK/test.jsonl \
     --out outputs/rl/${TAG}_svg2d_s${SEED} --K $K --gamma $GAMMA --iters $ITERS --seed $SEED

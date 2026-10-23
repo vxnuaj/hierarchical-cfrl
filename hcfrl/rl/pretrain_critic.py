@@ -144,7 +144,8 @@ def main():
                     "mode": a.mode, "epoch": ep, "eval": ev, "blind_clusters": a.blind_clusters}, os.path.join(a.out, f"critic_ep{ep}.pt"))
         if ev["field_score"] > best[0]:
             best = (ev["field_score"], ep)
-    json.dump({"log": log, "best_epoch": best[1], "best_field_score": best[0]}, open(os.path.join(a.out, "log.json"), "w"), indent=1)
+        json.dump({"log": log, "best_epoch": best[1], "best_field_score": best[0], "epochs_done": ep},
+                  open(os.path.join(a.out, "log.json"), "w"), indent=1)  # written every epoch (survives job time limits)
     print(f"best epoch {best[1]} field score {best[0]:.3f}")
 
 
