@@ -28,7 +28,7 @@ If H1 fails on a task, H2 is not expected to hold on that task, and we say so.
 
 **Coarse map Γ.** Two instantiations, both deterministic functions of the token so the joint sampler remains an exact token sampler (H-CDLM Prop. 1):
 - Γ_kmeans: k-means (n=16, k-means++, 10 restarts) over T5-small input embeddings. Generic; identical to H-CDLM.
-- Γ_task: a task-informed abstraction for arithmetic tasks, e.g. number tokens mapped to magnitude bins and operators to their class. This exists because on Countdown/Game24 the cluster sequence under Γ_kmeans is a near-fixed template (NUM OP NUM = NUM ,) that any SFT model already knows, so it may carry no reward-relevant information. Reported as a second design, not hidden.
+- Γ_task: a task-informed abstraction for arithmetic tasks: number tokens mapped to 8 magnitude bins, operators to 4 classes, plus "=", separators, other, special (n=16; `hcfrl/hier/clusters.py`). This exists because on Countdown/Game24 the cluster sequence under Γ_kmeans is a fixed template that any SFT model already knows. **Confirmed 2026-10-23:** k-means over T5-small embeddings puts all 529 number tokens in one cluster and all operators in another, so Γ_kmeans carries zero reward-relevant information on these tasks. Γ_task is therefore the primary design for arithmetic tasks; Γ_kmeans is the design for natural-language tasks (K&K) and is kept as a control on arithmetic. Reported openly in the paper.
 
 **Architecture.** Per position, state = [z1 ∈ R^512 (token embedding stream), z2 ∈ R^16 (cluster one-hot stream)], both noised; coupled per-modality schedules; one backbone; output heads: x1-prediction (existing) and a 16-way cluster softmax (new, loss weight λ2). Parameter overhead about 1 percent. Decoding uses tokens only.
 
