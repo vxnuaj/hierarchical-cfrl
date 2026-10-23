@@ -120,6 +120,7 @@ def main():
           f"success rate {torch.cat([s['reward'] for s in shards]).mean():.3f}", flush=True)
 
     critic = Critic(model, cfg, mode=a.mode, trunk_trainable=not a.freeze_trunk, blind_clusters=a.blind_clusters).to(dev)
+    ac = torch.amp.autocast("cuda", dtype=torch.bfloat16, enabled=dev.type == "cuda")  # speed; head/loss stay fp32
     groups = [{"params": critic.head.parameters(), "lr": a.lr_head}]
     if not a.freeze_trunk:
         groups.append({"params": critic.trunk.parameters(), "lr": a.lr_trunk})
@@ -132,7 +133,8 @@ def main():
         for b0 in range(0, len(perm), a.bs):
             idx = perm[b0 : b0 + a.bs]
             zb, xb, tb, rb, pb, kb, clb = train_ds.batch(idx, dev)
-            outs, gen_mask = forward_batch(critic, cfg, None, zb, xb, tb, clb, dev)
+            with ac:
+                outs, gen_mask = forward_batch(critic, cfg, None, zb, xb, tb, clb, dev)
             loss = sum(critic.loss(o, rb[sel], gen_mask[sel]) * len(sel) for sel, o in outs) / len(idx)
             opt.zero_grad(set_to_none=True); loss.backward()
             torch.nn.utils.clip_grad_norm_(critic.parameters(), 1.0); opt.step()
