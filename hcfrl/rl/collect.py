@@ -10,7 +10,7 @@ usage (on a GPU node):
 """
 from __future__ import annotations
 
-import argparse, os, time
+import argparse, json, os, time
 from pathlib import Path
 
 import torch
@@ -60,6 +60,10 @@ def main():
                                 for k, inp in ro.inputs.items()},
                      "texts": texts, "prompts": [p.text for p in pb]}
             torch.save(shard, os.path.join(a.out, f"shard_{b0 // a.batch:05d}.pt"))
+        if a.no_states:  # keep generations for inspection
+            with open(os.path.join(a.out, "generations.jsonl"), "a" if b0 else "w") as f:
+                for p_, t_, r_ in zip(pb, texts, r.tolist()):
+                    f.write(json.dumps({"prompt": p_.text, "gen": t_, "reward": r_}) + "\n")
         done = b0 + len(pb)
         print(f"{done}/{len(prompts)}  acc so far {torch.cat(rewards).mean():.4f}  {time.time() - t0:.0f}s", flush=True)
     acc = torch.cat(rewards).mean().item()
