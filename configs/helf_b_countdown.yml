@@ -1,6 +1,6 @@
 # Dataset
-data_path: "data/countdown/train.jsonl"
-eval_data_path: "data/countdown/val.jsonl"
+data_path: "data/countdown/train_hf"
+eval_data_path: "data/countdown/val_hf"
 max_length: 72
 max_input_length: 16
 pad_token: eos
