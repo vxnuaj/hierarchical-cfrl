@@ -14,6 +14,8 @@ source scripts/common.sh
 CFG=$1; CKPT=$2; TASK=$3; TAG=$4; SEED=${5:-0}; K=${6:-64}; GAMMA=${7:-56}; ITERS=${8:-1500}
 set -x
 # best epoch from log.json if present, else from the per-epoch checkpoints' stored eval (field score)
+# use the checkpoint gate0a selected, if any
+[ -f outputs/eval/${TAG}_ckpt.txt ] && CKPT=$(sed 's/^CKPT=//' outputs/eval/${TAG}_ckpt.txt)
 BEST=$(python - <<PY
 import json, glob, os, torch
 d = "outputs/critic/${TAG}_2d"

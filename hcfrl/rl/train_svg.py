@@ -30,13 +30,9 @@ from hcfrl.rl.sampler import ChurnSampler, DenoiserInput
 
 
 def load_train_prompts(path: str) -> list[Prompt]:
-    """Train JSONL has {input, output}; derive nums/target from the prompt text 'T : a b c d'."""
-    out = []
-    for line in open(path):
-        if line.strip():
-            r = json.loads(line); t, rest = r["input"].split(":")
-            out.append(Prompt(r["input"], [int(x) for x in rest.split()], int(t)))
-    return out
+    """Train JSONL has {input, output[, task]}."""
+    from hcfrl.rl.env import prompt_from_train_row
+    return [prompt_from_train_row(json.loads(l)) for l in open(path) if l.strip()]
 
 
 @torch.no_grad()

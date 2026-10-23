@@ -10,8 +10,14 @@
 #SBATCH --time=01:00:00
 #SBATCH --output=outputs/slurm/%x-%j.out
 source scripts/common.sh
-CFG=$1; CKPT=$2; TASK=$3; TAG=$4; SEED=${5:-0}; K=${6:-64}; GAMMA=${7:-56}
+CFG=$1; CKPT=$2; TASK=$3; TAG=$4; SEED=${5:-0}; K=${6:-64}; GAMMA=${7:-56}; SELECT_EVERY=${8:-0}
 set -x
+if [ "$SELECT_EVERY" != "0" ]; then  # pick the best SFT checkpoint by val accuracy (CFRL: Game24 peaks mid-training)
+  python -m hcfrl.rl.select_ckpt --config $CFG --dir $CKPT --prompts $TASK/val.jsonl --n 600 --K $K --gamma $GAMMA \
+      --every $SELECT_EVERY --out outputs/eval/${TAG}_select
+  CKPT=$(cat outputs/eval/${TAG}_select/best_ckpt)
+fi
+echo "CKPT=$CKPT" > outputs/eval/${TAG}_ckpt.txt
 python -m hcfrl.rl.collect --config $CFG --ckpt $CKPT --prompts $TASK/test.jsonl --n 100000 --K $K --gamma $GAMMA \
     --batch 256 --out outputs/eval/${TAG}_sft_test --no_states
 python -m hcfrl.rl.collect --config $CFG --ckpt $CKPT --prompts $TASK/train_prompts.jsonl --n 2000 --repeat 4 \

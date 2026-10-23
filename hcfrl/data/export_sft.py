@@ -24,7 +24,7 @@ def dump(rows, path: Path):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("task", choices=["game24", "countdown"])
+    ap.add_argument("task", choices=["game24", "countdown", "kk"])
     ap.add_argument("out", type=Path)
     ap.add_argument("--n_train", type=int, default=500_000)
     ap.add_argument("--n_heldout", type=int, default=2_000)
@@ -38,6 +38,14 @@ def main():
         rng = random.Random(a.seed)
         rng.shuffle(train)
         held = [{"input": e.prompt, "nums": e.nums, "target": 24} for e in t.holdout()]
+    elif a.task == "kk":
+        from hcfrl.tasks.kk import KKTask
+        t = KKTask()
+        train = [{"input": e.prompt, "output": e.response, "task": "kk"} for e in t.generate(a.n_train, a.seed)]
+        held = [{"input": e.prompt, "task": "kk"} for e in t.generate(a.n_heldout, a.seed + 1)]
+        pool = [{"input": e.prompt, "task": "kk"} for e in t.generate(a.n_pool, a.seed + 2)]
+        dump(pool, a.out / "pool.jsonl")
+        dump([{"input": r["input"], "task": "kk"} for r in train], a.out / "train_prompts.jsonl")
     else:
         t = CountdownTask()
         # disjoint seeds for train / heldout / unlabelled pool

@@ -18,8 +18,9 @@ from hcfrl.tasks import arith
 @dataclass
 class Prompt:
     text: str
-    nums: list[int]
-    target: int
+    nums: list[int] | None = None
+    target: int | None = None
+    task: str = "arith"          # "arith" (Countdown/Game24 chain verifier) or "kk"
 
 
 def load_prompts(path: str) -> list[Prompt]:
@@ -27,8 +28,19 @@ def load_prompts(path: str) -> list[Prompt]:
     for line in open(path):
         if line.strip():
             r = json.loads(line)
-            out.append(Prompt(r["input"], [int(x) for x in r["nums"]], int(r["target"])))
+            if r.get("task") == "kk":
+                out.append(Prompt(r["input"], task="kk"))
+            else:
+                out.append(Prompt(r["input"], [int(x) for x in r["nums"]], int(r["target"])))
     return out
+
+
+def prompt_from_train_row(r: dict) -> Prompt:
+    """Train JSONL rows have {input, output[, task]}; derive the verifier fields from the prompt text."""
+    if r.get("task") == "kk":
+        return Prompt(r["input"], task="kk")
+    t, rest = r["input"].split(":")
+    return Prompt(r["input"], [int(x) for x in rest.split()], int(t))
 
 
 class TaskEnv:
@@ -61,4 +73,14 @@ class TaskEnv:
 
     @staticmethod
     def reward(prompts: list[Prompt], texts: list[str]) -> torch.Tensor:
-        return torch.tensor([float(arith.verify_chain(t, p.nums, p.target)) for p, t in zip(prompts, texts)])
+        out = []
+        for p, t in zip(prompts, texts):
+            if p.task == "kk":
+                from hcfrl.tasks.kk import KKTask
+                try:
+                    out.append(float(KKTask.verify(KKTask.parse_prompt(p.text), t)))
+                except ValueError:
+                    out.append(0.0)
+            else:
+                out.append(float(arith.verify_chain(t, p.nums, p.target)))
+        return torch.tensor(out)
