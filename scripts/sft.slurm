@@ -7,7 +7,7 @@
 #SBATCH --constraint="a100|a40|l40s"
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=48G
-#SBATCH --time=24:00:00
+#SBATCH --time=40:00:00
 #SBATCH --output=outputs/slurm/%x-%j.out
 source scripts/common.sh
 CFG=$1; shift
