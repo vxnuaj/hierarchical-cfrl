@@ -3,7 +3,8 @@
 #SBATCH --job-name=hcfrl-sft
 #SBATCH --account=irahbari_832
 #SBATCH --partition=gpu
-#SBATCH --gres=gpu:a100:1
+#SBATCH --gres=gpu:1
+#SBATCH --constraint="a100|a40|l40s"
 #SBATCH --cpus-per-task=8
 #SBATCH --mem=48G
 #SBATCH --time=24:00:00
