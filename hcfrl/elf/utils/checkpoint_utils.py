@@ -149,6 +149,11 @@ def load_weights_only(checkpoint_path: str, state, use_ema: bool = True):
         raise ValueError(f"init_from: could not load weights from {checkpoint_path}")
     inner_model = unwrap_model(state.model)
     src = ckpt.get("ema_params1", ckpt["params"]) if use_ema else ckpt["params"]
+    try:  # hcfrl H-ELF: widen a flat checkpoint to the cluster-augmented latent dim
+        from hcfrl.hier.surgery import maybe_widen
+        src = maybe_widen(src, inner_model)
+    except ImportError:
+        pass
     missing, unexpected = inner_model.load_state_dict(src, strict=False)
     if missing or unexpected:
         log_for_0(f"init_from: missing={list(missing)[:8]}{'...' if len(missing) > 8 else ''} "

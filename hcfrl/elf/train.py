@@ -12,6 +12,9 @@ import yaml
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
+_PROJ = os.path.dirname(REPO_ROOT)  # hcfrl: project root so `import hcfrl` works
+if _PROJ not in sys.path:
+    sys.path.insert(0, _PROJ)
 
 import numpy as np
 import torch
@@ -143,6 +146,12 @@ def run_training(config, *, force_cpu: bool = False):
     for p in encoder.parameters():
         p.requires_grad_(False)
     log_for_0(f"Encoder d_model: {encoder_config.d_model}")
+    latent_dim = encoder_config.d_model
+    if int(getattr(config, "n_clusters", 0) or 0) > 0:  # hcfrl H-ELF
+        from hcfrl.hier.encoder import wrap_encoder_if_hier
+        encoder = wrap_encoder_if_hier(encoder, config).to(device).eval()
+        latent_dim += config.n_clusters
+        log_for_0(f"H-ELF: {config.n_clusters} cluster channels from {config.cluster_map}; latent dim {latent_dim}")
 
     log_for_0(f"Creating {config.model} model...")
     # Use the full tokenizer length for CE heads; tokenizer.vocab_size can exclude
@@ -153,7 +162,7 @@ def run_training(config, *, force_cpu: bool = False):
         vocab_size = tokenizer.vocab_size
     log_for_0(f"Tokenizer vocab: CE head={vocab_size}")
     model = ELF_models[config.model](
-        text_encoder_dim=encoder_config.d_model, max_length=config.max_length,
+        text_encoder_dim=latent_dim, max_length=config.max_length,
         attn_drop=config.attn_dropout, proj_drop=config.proj_dropout,
         num_time_tokens=config.num_time_tokens,
         num_self_cond_cfg_tokens=config.num_self_cond_cfg_tokens,

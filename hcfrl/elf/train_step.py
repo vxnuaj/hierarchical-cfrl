@@ -241,7 +241,23 @@ def train_step(
         denoiser_z, denoiser_t, base_v_target=v_target, x_tokens=x0,
         shared_net_out_uncond=shared_net_out_uncond,
     )
-    l2_per_token = ((v_pred - v_final_target) ** 2).mean(dim=-1)
+    n_cl = int(getattr(config, "n_clusters", 0) or 0)
+    if n_cl > 0:  # hcfrl H-ELF: split the flow loss into token channels and cluster channels
+        D_tok = v_pred.shape[-1] - n_cl
+        diff2 = (v_pred - v_final_target) ** 2
+        l2_tok = diff2[..., :D_tok].mean(dim=-1)
+        l2_cl = diff2[..., D_tok:].mean(dim=-1)
+        l2_per_token = l2_tok + config.lambda2 * l2_cl
+        if config.lambda2_ce > 0:  # optional CE on the cluster x-prediction (H-FLM style)
+            _, x_pred_all = net_out_to_v_x(net_out, denoiser_z, denoiser_t, t_eps)
+            cl_logits = x_pred_all[..., D_tok:].to(torch.float32) / config.cluster_ce_temp
+            cl_targets = encoder.cluster_ids(input_ids) if hasattr(encoder, "cluster_ids") else None
+            if cl_targets is not None:
+                ce_cl = F.cross_entropy(cl_logits.reshape(-1, n_cl), cl_targets.reshape(-1), reduction="none").reshape(cl_logits.shape[:2])
+                l2_per_token = l2_per_token + config.lambda2_ce * ce_cl
+    else:
+        l2_per_token = ((v_pred - v_final_target) ** 2).mean(dim=-1)
+        l2_tok = l2_cl = None
 
     # Masks: each position is "alive" for exactly one branch.
     loss_mask_f = loss_mask.to(ce_per_token.dtype)
@@ -280,4 +296,7 @@ def train_step(
         "l2_loss": l2_loss_val,
         "ce_loss": ce_loss_val,
     }
+    if l2_cl is not None:
+        metrics["l2_tok"] = ((l2_tok * l2_mask).sum() / torch.clamp(l2_mask.sum(), min=1.0)).detach()
+        metrics["l2_cl"] = ((l2_cl * l2_mask).sum() / torch.clamp(l2_mask.sum(), min=1.0)).detach()
     return state, metrics

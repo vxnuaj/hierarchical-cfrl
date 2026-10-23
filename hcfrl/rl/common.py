@@ -33,7 +33,12 @@ def load_policy(config_path: str, ckpt: str, device, overrides: list[str] | None
     encoder = encoder.to(device).eval()
     for p in encoder.parameters():
         p.requires_grad_(False)
-    model = build_model(cfg, tok, enc_cfg.d_model, device)
+    latent_dim = enc_cfg.d_model
+    if int(getattr(cfg, "n_clusters", 0) or 0) > 0:  # H-ELF
+        from hcfrl.hier.encoder import wrap_encoder_if_hier
+        encoder = wrap_encoder_if_hier(encoder, cfg).to(device).eval()
+        latent_dim += cfg.n_clusters
+    model = build_model(cfg, tok, latent_dim, device)
     state = TrainState(model=model, optimizer=None, ema_params1={}, step=0, epoch=0)
     path = ckpt
     if not ckpt.startswith("embedded-language-flows/") and "checkpoint_" not in ckpt:

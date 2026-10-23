@@ -117,6 +117,14 @@ class Config:
     resume: str = None
     init_from: str = None  # hcfrl: load model+EMA weights only (fresh optimizer/step) from a checkpoint or HF repo id
 
+    # hcfrl H-ELF: coarse cluster stream appended to the latent (n extra channels), see hcfrl/hier/
+    n_clusters: int = 0            # 0 = flat ELF
+    cluster_map: str = None        # .pt with "gamma" (vocab -> cluster id)
+    cluster_scale: float = 2.0     # one-hot magnitude in latent units (noise std is denoiser_noise_scale)
+    lambda2: float = 1.0           # weight of the cluster-channel flow (L2) loss
+    lambda2_ce: float = 0.0        # weight of an extra cross-entropy on the cluster x-prediction (0 = off)
+    cluster_ce_temp: float = 1.0   # temperature dividing the cluster x-prediction before softmax
+
     # Wandb
     use_wandb: bool = False
     wandb_project: str = "ELF"
