@@ -59,7 +59,7 @@ def main():
     ap.add_argument("--Bp", type=int, default=64); ap.add_argument("--NB", type=int, default=16384)
     ap.add_argument("--mc", type=int, default=2); ap.add_argument("--mc_extra", type=int, default=8)
     ap.add_argument("--nq", type=int, default=10); ap.add_argument("--Nq", type=int, default=256)
-    ap.add_argument("--a0", type=float, default=0.9)
+    ap.add_argument("--a0", type=float, default=0.9, help="AUC threshold for extra critic steps (0 disables)")
     ap.add_argument("--lr_actor", type=float, default=1e-6); ap.add_argument("--lr_actor_min", type=float, default=1e-7)
     ap.add_argument("--lr_critic", type=float, default=1e-4)
     ap.add_argument("--window", default=None, help="k_lo,k_hi (default K/8, 5K/8)")
@@ -108,7 +108,7 @@ def main():
     t_hi = S.alpha * S.t_grid(k_hi) if k_hi < a.K - 1 else S.t_grid(k_hi)
 
     def critic_steps(n):
-        if len(buf_r) < a.Bp: return None
+        if n <= 0 or len(buf_r) < a.Bp: return None
         tot = 0.0
         for _ in range(n):
             idx = random.sample(range(len(buf_r)), a.Bp)
@@ -154,6 +154,7 @@ def main():
         # ---- eval / checkpoint ----
         if it % a.eval_every == 0:
             model.eval()
+            geval.manual_seed(12345)   # same noise stream at every eval -> paired comparisons across iters
             with ac:
                 val = evaluate(model, S, env, val_prompts, a.eval_bs, geval, dev)
                 test = evaluate(model, S, env, test_prompts, a.eval_bs, geval, dev) if test_prompts else None
