@@ -24,6 +24,8 @@ def main():
     ap.add_argument("--K", type=int, default=64); ap.add_argument("--gamma", type=float, default=56.0)
     ap.add_argument("--every", type=int, default=1, help="evaluate every k-th checkpoint (sorted by step)")
     ap.add_argument("--bs", type=int, default=300); ap.add_argument("--out", required=True)
+    ap.add_argument("--target", type=float, default=None,
+                    help="pick the checkpoint whose val acc is closest to this instead of the max (CFRL K&K: early ckpt ~0.7, leaves RL headroom)")
     a = ap.parse_args()
     dev = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     ckpts = sorted(glob.glob(os.path.join(a.dir, "checkpoint_*")), key=lambda p: int(p.rsplit("_", 1)[1]))
@@ -40,9 +42,9 @@ def main():
         res[c] = acc
         print(f"{c}: val acc {acc:.4f} ({time.time() - t0:.0f}s)", flush=True)
         del model
-    best = max(res, key=res.get)
+    best = max(res, key=res.get) if a.target is None else min(res, key=lambda c: abs(res[c] - a.target))
     os.makedirs(a.out, exist_ok=True)
-    json.dump({"acc": res, "best": best, "best_acc": res[best]}, open(os.path.join(a.out, "select.json"), "w"), indent=1)
+    json.dump({"acc": res, "best": best, "best_acc": res[best], "target": a.target}, open(os.path.join(a.out, "select.json"), "w"), indent=1)
     with open(os.path.join(a.out, "best_ckpt"), "w") as f:
         f.write(best + "\n")
     print(f"BEST {best} {res[best]:.4f}")
