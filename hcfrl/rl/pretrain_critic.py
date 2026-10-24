@@ -19,7 +19,7 @@ from collections import defaultdict
 import torch
 
 from hcfrl.rl.common import load_policy
-from hcfrl.rl.critic import Critic, rank_metrics
+from hcfrl.rl.critic import Critic, rank_metrics, group_rank_loss
 from hcfrl.rl.sampler import DenoiserInput
 from hcfrl.rl.env import TaskEnv, Prompt
 
@@ -33,6 +33,20 @@ class StateDataset:
 
     def __len__(self):
         return len(self.items)
+
+    def group_batches(self, bs: int, gen: torch.Generator) -> list[list[int]]:
+        """Batches made of whole (shard, k, prompt) groups so within-prompt ranking terms have pairs."""
+        by = defaultdict(list)
+        for j, (si, k, i) in enumerate(self.items):
+            by[(si, k, int(self.shards[si]["prompt_idx"][i]))].append(j)
+        keys = list(by); order = torch.randperm(len(keys), generator=gen).tolist()
+        batches, cur = [], []
+        for o in order:
+            cur.extend(by[keys[o]])
+            if len(cur) >= bs:
+                batches.append(cur); cur = []
+        if cur: batches.append(cur)
+        return batches
 
     def batch(self, idx: list[int], device):
         """Groups by (shard, k) are not required: we gather tensors row-wise."""
@@ -105,6 +119,8 @@ def main():
     ap.add_argument("--bs", type=int, default=64); ap.add_argument("--lr_trunk", type=float, default=1e-5)
     ap.add_argument("--lr_head", type=float, default=1e-4); ap.add_argument("--holdout_frac", type=float, default=0.1)
     ap.add_argument("--freeze_trunk", action="store_true"); ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--rank_w", type=float, default=0.0,
+                    help="weight of the within-prompt pairwise ranking loss (batches are then whole prompt groups)")
     ap.add_argument("--max_shards", type=int, default=0); ap.add_argument("--blind_clusters", action="store_true")
     a = ap.parse_args()
     torch.manual_seed(a.seed)
@@ -129,13 +145,19 @@ def main():
     log = []
     best = (-1.0, None)
     for ep in range(1, a.epochs + 1):
-        perm = torch.randperm(len(train_ds)).tolist(); t0 = time.time(); tot = 0.0; n = 0
-        for b0 in range(0, len(perm), a.bs):
-            idx = perm[b0 : b0 + a.bs]
+        t0 = time.time(); tot = 0.0; n = 0
+        if a.rank_w > 0:
+            batches = train_ds.group_batches(a.bs, torch.Generator().manual_seed(a.seed * 1000 + ep))
+        else:
+            perm = torch.randperm(len(train_ds)).tolist(); batches = [perm[b0 : b0 + a.bs] for b0 in range(0, len(perm), a.bs)]
+        for idx in batches:
             zb, xb, tb, rb, pb, kb, clb = train_ds.batch(idx, dev)
             with ac:
                 outs, gen_mask = forward_batch(critic, cfg, None, zb, xb, tb, clb, dev)
             loss = sum(critic.loss(o, rb[sel], gen_mask[sel]) * len(sel) for sel, o in outs) / len(idx)
+            if a.rank_w > 0:
+                # groups are (prompt, k): rows with the same t share a forward call, so rank within each call
+                loss = loss + a.rank_w * sum(group_rank_loss(o.logit, rb[sel], pb[sel.cpu()].to(dev)) * len(sel) for sel, o in outs) / len(idx)
             opt.zero_grad(set_to_none=True); loss.backward()
             torch.nn.utils.clip_grad_norm_(critic.parameters(), 1.0); opt.step()
             tot += loss.item() * len(idx); n += len(idx)
@@ -143,7 +165,7 @@ def main():
         rec = {"epoch": ep, "train_loss": tot / n, "time": time.time() - t0, **{f"k{k}": v for k, v in ev.items() if k != "field_score"}, "field_score": ev["field_score"]}
         log.append(rec); print(json.dumps(rec), flush=True)
         torch.save({"head": critic.head.state_dict(), "trunk": None if a.freeze_trunk else critic.trunk.state_dict(),
-                    "mode": a.mode, "epoch": ep, "eval": ev, "blind_clusters": a.blind_clusters}, os.path.join(a.out, f"critic_ep{ep}.pt"))
+                    "mode": a.mode, "epoch": ep, "eval": ev, "blind_clusters": a.blind_clusters, "rank_w": a.rank_w}, os.path.join(a.out, f"critic_ep{ep}.pt"))
         if ev["field_score"] > best[0]:
             best = (ev["field_score"], ep)
         json.dump({"log": log, "best_epoch": best[1], "best_field_score": best[0], "epochs_done": ep},

@@ -24,7 +24,7 @@ from collections import deque
 import torch
 
 from hcfrl.rl.common import load_policy
-from hcfrl.rl.critic import Critic, rank_metrics
+from hcfrl.rl.critic import Critic, rank_metrics, group_rank_loss
 from hcfrl.rl.env import TaskEnv, Prompt, load_prompts
 from hcfrl.rl.sampler import ChurnSampler, DenoiserInput
 
@@ -66,6 +66,8 @@ def main():
     ap.add_argument("--eval_every", type=int, default=250); ap.add_argument("--eval_bs", type=int, default=128)
     ap.add_argument("--n_val", type=int, default=0, help="cap val prompts (0 = all)")
     ap.add_argument("--objective", default="logit", choices=["logit", "prob"])
+    ap.add_argument("--G", type=int, default=1, help="rollouts per prompt in the replay buffer (B/G prompts x G)")
+    ap.add_argument("--rank_w", type=float, default=0.0, help="within-prompt ranking weight in the critic refit (needs G>1)")
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--bf16", type=int, default=1)
     ap.add_argument("--resume", action="store_true", help="resume from <out>/state.pt if present")
     ap.add_argument("--save_every", type=int, default=50, help="save full resumable state every N iters")
@@ -104,20 +106,27 @@ def main():
     ac = torch.amp.autocast("cuda", dtype=torch.bfloat16, enabled=bool(a.bf16) and dev.type == "cuda")
 
     # replay buffer of cached critic features at k_hi: (h fp16 (L,H), gen_mask (L,), reward)
-    buf_h, buf_m, buf_r = deque(maxlen=a.NB), deque(maxlen=a.NB), deque(maxlen=a.NB)
+    buf_h, buf_m, buf_r, buf_p = deque(maxlen=a.NB), deque(maxlen=a.NB), deque(maxlen=a.NB), deque(maxlen=a.NB)
+    prompt_counter = [0]
     t_hi = S.alpha * S.t_grid(k_hi) if k_hi < a.K - 1 else S.t_grid(k_hi)
 
     def critic_steps(n):
         if n <= 0 or len(buf_r) < a.Bp: return None
         tot = 0.0
         for _ in range(n):
-            idx = random.sample(range(len(buf_r)), a.Bp)
+            if a.G > 1:   # sample whole prompt groups (entries of a group are contiguous in the buffer)
+                starts = random.sample(range(0, len(buf_r) - a.G + 1, a.G), a.Bp // a.G)
+                idx = [s_ + j for s_ in starts for j in range(a.G)]
+            else:
+                idx = random.sample(range(len(buf_r)), a.Bp)
             h = torch.stack([buf_h[i] for i in idx]).to(dev).float()
             m = torch.stack([buf_m[i] for i in idx]).to(dev)
             r = torch.tensor([buf_r[i] for i in idx], device=dev)
             inp = DenoiserInput(k_hi, h, t_hi, None)  # z unused when h is given
             out = critic(inp, None, None, m, h=h)
             loss = critic.loss(out, r, m)
+            if a.rank_w > 0 and a.G > 1:
+                loss = loss + a.rank_w * group_rank_loss(out.logit, r, torch.tensor([buf_p[i] for i in idx], device=dev))
             opt_c.zero_grad(set_to_none=True); loss.backward(); opt_c.step(); tot += loss.item()
         return tot / n
 
@@ -129,23 +138,28 @@ def main():
         m = torch.stack([buf_m[-i] for i in range(1, n + 1)]).to(dev)
         r = torch.tensor([buf_r[-i] for i in range(1, n + 1)])
         out = critic(DenoiserInput(k_hi, h, t_hi, None), None, None, m, h=h)
-        return rank_metrics(out.value.cpu(), r).get("auc")
+        gp = torch.tensor([buf_p[-i] for i in range(1, n + 1)]) if a.G > 1 else None
+        mets = rank_metrics(out.value.cpu(), r, groups=gp)
+        last_wauc[0] = mets.get("wauc")
+        return mets.get("auc")
 
     best_val, t_start, start_it = -1.0, time.time(), 0
+    last_wauc = [None]
     state_path = os.path.join(a.out, "state.pt")
     if a.resume and os.path.exists(state_path):
         st = torch.load(state_path, map_location="cpu")
         model.load_state_dict(st["model"]); opt_a.load_state_dict(st["opt_a"])
         critic.head.load_state_dict(st["critic_head"]); opt_c.load_state_dict(st["opt_c"])
-        for h_, m_, r_ in zip(st["buf_h"], st["buf_m"], st["buf_r"]):
-            buf_h.append(h_); buf_m.append(m_); buf_r.append(r_)
+        for h_, m_, r_, p_ in zip(st["buf_h"], st["buf_m"], st["buf_r"], st.get("buf_p", [0] * len(st["buf_r"]))):
+            buf_h.append(h_); buf_m.append(m_); buf_r.append(r_); buf_p.append(p_)
+        prompt_counter[0] = (max(buf_p) + 1) if len(buf_p) else 0
         start_it, best_val = st["iter"] + 1, st["best_val"]
         g.set_state(st["g"]); geval.set_state(st["geval"]); random.setstate(st["py_random"]); torch.set_rng_state(st["torch_rng"])
         print(f"resumed from iter {st['iter']} (buffer {len(buf_r)})", flush=True)
 
     def save_state(it):
         torch.save({"model": model.state_dict(), "opt_a": opt_a.state_dict(), "critic_head": critic.head.state_dict(),
-                    "opt_c": opt_c.state_dict(), "buf_h": list(buf_h), "buf_m": list(buf_m), "buf_r": list(buf_r),
+                    "opt_c": opt_c.state_dict(), "buf_h": list(buf_h), "buf_m": list(buf_m), "buf_r": list(buf_r), "buf_p": list(buf_p),
                     "iter": it, "best_val": best_val, "g": g.get_state(), "geval": geval.get_state(),
                     "py_random": random.getstate(), "torch_rng": torch.get_rng_state()}, state_path + ".tmp")
         os.replace(state_path + ".tmp", state_path)
@@ -192,15 +206,17 @@ def main():
         opt_a.step()
 
         # ---- buffer rollouts (fresh prompts, full trajectory, features cached at k_hi) ----
-        pb2 = random.sample(train_prompts, a.B)
+        pb2 = random.sample(train_prompts, a.B // a.G)
+        pid2 = [prompt_counter[0] + j for j in range(len(pb2)) for _ in range(a.G)]; prompt_counter[0] += len(pb2)
+        pb2 = [p_ for p_ in pb2 for _ in range(a.G)]
         cond_seq2, cond_mask2, gen_mask2, cl2 = env.encode(pb2)
-        z0 = (torch.randn((a.B, env.L, model.text_encoder_dim), generator=g) * cfg.denoiser_noise_scale).to(dev)
+        z0 = (torch.randn((len(pb2), env.L, model.text_encoder_dim), generator=g) * cfg.denoiser_noise_scale).to(dev)
         with torch.no_grad(), ac:
             ro2 = S.rollout(model, cond_seq2, cond_mask2, z0, record={k_hi}, generator=g)
             r2 = env.reward(pb2, env.decode_text(S.decode(model, ro2.z_final), cl2))
             h2 = critic.features(ro2.inputs[k_hi], cond_seq2, cond_mask2).half().cpu()
-        for i in range(a.B):
-            buf_h.append(h2[i]); buf_m.append(gen_mask2[i].cpu()); buf_r.append(float(r2[i]))
+        for i in range(len(pb2)):
+            buf_h.append(h2[i]); buf_m.append(gen_mask2[i].cpu()); buf_r.append(float(r2[i])); buf_p.append(pid2[i])
 
         # ---- critic refit ----
         closs = critic_steps(a.mc)
@@ -211,7 +227,7 @@ def main():
                 critic_steps(a.mc_extra)
 
         rec = {"iter": it, "obj": obj.item(), "grad_norm": gn, "lr": lr_at(it), "buf_succ": float(r2.mean()),
-               "buf_succ_all": sum(buf_r) / max(len(buf_r), 1), "critic_loss": closs, "critic_auc": auc,
+               "buf_succ_all": sum(buf_r) / max(len(buf_r), 1), "critic_loss": closs, "critic_auc": auc, "critic_wauc": last_wauc[0] if auc is not None else None,
                "ks": sorted(set(ks)), "elapsed": time.time() - t_start}
         logf.write(json.dumps(rec) + "\n"); logf.flush()
         if it % 10 == 0:

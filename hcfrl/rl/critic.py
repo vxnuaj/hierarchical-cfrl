@@ -134,4 +134,26 @@ def rank_metrics(values: torch.Tensor, rewards: torch.Tensor, groups: torch.Tens
         if n:
             out["pick_at_v"] = hits / n
             out["n_mixed_groups"] = n
+        # within-prompt AUC: pooled over all (success, failure) pairs of the same prompt
+        num = den = 0.0
+        for gid in g.unique():
+            idx = (g == gid).nonzero().squeeze(1)
+            vp, vn = v[idx][r[idx] > 0.5], v[idx][r[idx] <= 0.5]
+            if len(vp) and len(vn):
+                num += float((vp[:, None] > vn[None, :]).float().sum() + 0.5 * (vp[:, None] == vn[None, :]).float().sum())
+                den += len(vp) * len(vn)
+        if den:
+            out["wauc"] = num / den
     return out
+
+
+def group_rank_loss(logit: torch.Tensor, reward: torch.Tensor, groups: torch.Tensor) -> torch.Tensor:
+    """Within-prompt pairwise ranking: mean over (success, failure) pairs of the same prompt of
+    softplus(logit_fail - logit_succ). Zero when no mixed group is present."""
+    tot, n = logit.new_zeros(()), 0
+    for gid in groups.unique():
+        idx = (groups == gid).nonzero().squeeze(1)
+        lp, ln = logit[idx][reward[idx] > 0.5], logit[idx][reward[idx] <= 0.5]
+        if len(lp) and len(ln):
+            tot = tot + F.softplus(ln[None, :] - lp[:, None]).sum(); n += len(lp) * len(ln)
+    return tot / n if n else tot
