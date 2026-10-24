@@ -74,3 +74,18 @@ Final (iter 1500): flat val 5.9 / test 5.9; hier val 8.9 / test 8.4 (from 11.6 /
 Reading: on our symbolic K&K the policy commits to its answer almost immediately (the answer is a function of the prompt, no search), so the value at k=8 of 64 already predicts the outcome; CFRL's natural-language K&K critic rises more slowly (pick@V 0.58 → 0.74 → 0.84 → 0.95 → 0.99). There is no room for a coarse stream to make the critic informative *earlier* here, and the hierarchical critic is, if anything, slightly behind at k=1–8 (within the noise of 31–45 mixed groups). Gate 1 on K&K: no shift. This makes K&K a control case ("early-commitment task: no hierarchy effect expected") rather than a test of the hypothesis; Game24-from-Countdown, where CFRL's curve rises slowly (0.44 → 0.98), remains the test. Note also that Pearson/AUC are dominated by between-prompt difficulty (AUC 0.87–0.92 at k=1 from the prompt alone); pick@V is the within-prompt metric that matters. A direct token-commitment analysis (hcfrl/analysis/commitment.py: fraction of positions already at their final token/cluster per step, token stream vs coarse stream) is queued for all four collected rollout sets.
 
 RL on these bases (SVG-2D 1000 iters, GRR 600 iters) running: outputs/rl/kk_{flat,hier}_{svg2d,grr}_s0.
+
+## 2026-10-23 — Token-commitment profiles: the detail stream is ~85% committed at the FIRST denoiser call; the coarse stream does not lead
+
+`hcfrl/analysis/commitment.py` on the stored critic rollouts (deployment sampler γ56@64). Fraction of generated positions whose decode of the clean estimate x_{k-1} already equals the decode at k=48 (`tok`); the same at cluster granularity Γ(token) (`tok_cl`); and for H-ELF the argmax of the dedicated cluster channels (`ch_cl`).
+
+| task / model | split | k=1 tok | k=1 tok_cl | k=1 ch_cl | k=8 tok | k=8 ch_cl |
+|---|---|---|---|---|---|---|
+| KK flat | all / fail | 0.84 / 0.65 | – | – | 0.96 / 0.89 | – |
+| KK hier | all / fail | 0.82 / 0.62 | 0.85 / 0.68 | 0.84 / 0.67 | 0.95 / 0.85 | 0.95 / 0.87 |
+| Game24 flat (OWT-init) | all / fail | 0.87 / 0.72 | – | – | 0.99 / 0.96 | – |
+| Game24 hier (OWT-init) | all / fail | 0.84 / 0.71 | 0.89 / 0.79 | 0.87 / 0.77 | 0.99 / 0.96 | 0.99 / 0.98 |
+
+Three facts. (1) With x-prediction + self-conditioning, the first call from pure noise already produces the model's answer for 84–87% of positions (CFRL reports 86% on Countdown); the trajectory is "guess, then refine the uncertain positions", not progressive sharpening. Failing trajectories are the less-committed ones (62–72% at k=1), which is what the critic reads. (2) The dedicated coarse channels are **not** committed earlier than the coarse class implied by the token stream itself (`ch_cl` ≤ `tok_cl` at every k, both models, both tasks). Jointly denoising a cluster stream at the same noise level gives no temporal hierarchy: the coarse channels are predicted with the same confidence profile as the tokens. (3) Since the state information under heavy churn (α = 0.125) is carried by x_{k-1} rather than z, a schedule shift on the cluster channels of z would change little.
+
+Implication for the hypothesis: the mechanism "coarse stream resolves earlier → critic informative earlier" is not present in the H-CDLM-style implementation. Gate 1 on Game24-from-Countdown (tomorrow) remains the direct test, but the prior is now negative. Candidate pivots recorded in RESEARCH_PLAN.md.

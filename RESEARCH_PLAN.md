@@ -93,3 +93,13 @@ Positioning: frame the contribution as an estimator result. MAGE (2004.14309) bo
 - `hcfrl/rl/`: sampler with gradient hooks, critic, CFRL-SVG loop, GRR baseline.
 - `notes/`: paper digests used for implementation.
 - `scripts/`: Slurm job files for CARC.
+
+## Day-1 evening checkpoint (2026-10-23): risk update and pivot candidates
+
+Evidence so far (notes/results.md): K&K critic is near-oracle from k=8 for flat and hier alike; token commitment is ~85% at the first denoiser call on both tasks; the coarse channels do not commit earlier than the token stream's own coarse class. The proposal's mechanism looks absent in the same-time jointly-denoised design. Decision rule: if Game24-from-Countdown critic curves (Gate 1) show no earlier rise for H-ELF (pick@V at k=8/16 within noise of flat), stop investing in the coarse-stream variant as the main contribution and pivot:
+
+1. **Within-prompt (group-relative) pathwise critic.** Observed: critic Pearson/AUC are dominated by prompt difficulty (AUC 0.87–0.92 at k=1 from the prompt alone), and on memorizing models that signal alone drives the policy downhill. Train the critic with a within-prompt contrastive/ranking term (G≥2 rollouts per prompt in the replay buffer) or subtract a prompt-level baseline V̄(c) before the actor step, so the pathwise gradient targets trajectory quality rather than prompt identity. Testable with the existing pipeline; compare SVG-2D vs SVG-2D+group critic on Game24-cd and K&K, 3 seeds.
+2. **Analysis contribution**: commitment profiles, critic information decomposition (between- vs within-prompt), exploitation dynamics with/without refit, failure in the memorization regime; the hierarchical stream becomes a tested negative (keep as a section).
+3. **Temporal hierarchy done properly** (coarse-first schedule / two-stage) only if (1) and (2) are not enough; it is costly (new SFT) and, under heavy churn, the information lives in x_{k-1}, not z.
+
+Keep K&K as the early-commitment control in any case.
