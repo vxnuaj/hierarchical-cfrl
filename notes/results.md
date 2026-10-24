@@ -57,3 +57,20 @@ H-ELF (Γ_kmeans, n=16), 8 epochs on 300k puzzles; val accuracy (600 held-out pu
 | hier val acc | 6.2 | 29.3 | 60.3 | 78.8 | 89.0 | 96.2 | 98.0 | 99.0 |
 
 Test accuracy at epoch 8: 99.3% (1,000 puzzles), and 98.9% on train prompts. Our symbolic K&K format (`A: C knave ; B: A same C`) is much easier than the natural-language K&K of CFRL (68% at epoch 4 of 8), so the final checkpoint leaves no headroom for RL and no failures for the critic to learn from. Following CFRL's own practice of taking an early checkpoint on K&K, the RL base is the checkpoint with val accuracy closest to 70%: epoch 4 (78.8%) for H-ELF; the flat model's sweep runs with the same rule (`select_ckpt --target 0.7`). The within-prompt outcome variance at 79% is what the critic-curve test needs. Flat model sweep: ep3 56.3, ep4 79.5, ep5 90.3, ep8 99.2 (val); test accuracy of the epoch-4 bases: flat 78.9%, hier 79.1% (1,000 puzzles), train-prompt success 78–79% for both → matched bases with within-prompt variance. K&K coarse stream check: T5 tokenizes "knight" as one piece (cluster 3) and "knave" as four (clusters 10,2,2,2), so Γ_kmeans does carry the answer skeleton here, unlike on arithmetic.
+
+Final (iter 1500): flat val 5.9 / test 5.9; hier val 8.9 / test 8.4 (from 11.6 / 11.7). Runs closed.
+
+## 2026-10-23 — Gate 1 on Knights-and-Knaves (epoch-4 bases, 79%): critic is near-oracle from k=8 for BOTH models
+
+2D critic pre-trained 6 epochs on 8,000 rollouts (2,000 train prompts × 4) with states at k ∈ {1,8,16,24,32,40,48}; held-out shards (≈800 states per step); best epoch by field score (flat 4, hier 2).
+
+| k | flat Pearson | flat AUC | flat pick@V (31 mixed groups) | hier Pearson | hier AUC | hier pick@V (45 mixed groups) |
+|---|---|---|---|---|---|---|
+| 1 | 0.67 | 0.92 | 0.87 | 0.59 | 0.87 | 0.67 |
+| 8 | 0.95 | 0.99 | 1.00 | 0.91 | 0.99 | 0.91 |
+| 16 | 0.98 | 1.00 | 1.00 | 0.96 | 1.00 | 1.00 |
+| 24–48 | ≥0.99 | 1.00 | 1.00 | 0.97–0.99 | 1.00 | 0.96–0.98 |
+
+Reading: on our symbolic K&K the policy commits to its answer almost immediately (the answer is a function of the prompt, no search), so the value at k=8 of 64 already predicts the outcome; CFRL's natural-language K&K critic rises more slowly (pick@V 0.58 → 0.74 → 0.84 → 0.95 → 0.99). There is no room for a coarse stream to make the critic informative *earlier* here, and the hierarchical critic is, if anything, slightly behind at k=1–8 (within the noise of 31–45 mixed groups). Gate 1 on K&K: no shift. This makes K&K a control case ("early-commitment task: no hierarchy effect expected") rather than a test of the hypothesis; Game24-from-Countdown, where CFRL's curve rises slowly (0.44 → 0.98), remains the test. Note also that Pearson/AUC are dominated by between-prompt difficulty (AUC 0.87–0.92 at k=1 from the prompt alone); pick@V is the within-prompt metric that matters. A direct token-commitment analysis (hcfrl/analysis/commitment.py: fraction of positions already at their final token/cluster per step, token stream vs coarse stream) is queued for all four collected rollout sets.
+
+RL on these bases (SVG-2D 1000 iters, GRR 600 iters) running: outputs/rl/kk_{flat,hier}_{svg2d,grr}_s0.
