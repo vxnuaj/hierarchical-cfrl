@@ -36,6 +36,15 @@ def load_train_prompts(path: str) -> list[Prompt]:
 
 
 @torch.no_grad()
+def split_channels(inp: DenoiserInput, n_cl: int, keep: str) -> DenoiserInput:
+    """Detach the gradient on the token channels (keep='clusters') or the cluster channels (keep='tokens')
+    of both state components, so the actor gradient flows only through the kept channels."""
+    def f(x):
+        tok, cl = x[..., :-n_cl], x[..., -n_cl:]
+        return torch.cat([tok, cl.detach()], -1) if keep == "tokens" else torch.cat([tok.detach(), cl], -1)
+    return DenoiserInput(inp.k, f(inp.z), inp.t, f(inp.x_prev))
+
+
 def evaluate(model, S, env, prompts, bs, g, device):
     correct = 0
     for b0 in range(0, len(prompts), bs):
@@ -68,6 +77,8 @@ def main():
     ap.add_argument("--objective", default="logit", choices=["logit", "prob"])
     ap.add_argument("--actor_mode", default="critic", choices=["critic", "random", "none"],
                     help="diagnostic: 'random' replaces the actor gradient by Gaussian noise of the same clipped norm; 'none' skips the actor step")
+    ap.add_argument("--actor_channels", default="all", choices=["all", "tokens", "clusters"],
+                    help="H-ELF ablation: let the actor gradient flow only through the token channels or only the cluster channels of (z_k, x_{k-1})")
     ap.add_argument("--G", type=int, default=1, help="rollouts per prompt in the replay buffer (B/G prompts x G)")
     ap.add_argument("--rank_w", type=float, default=0.0, help="within-prompt ranking weight in the critic refit (needs G>1)")
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--bf16", type=int, default=1)
@@ -81,6 +92,8 @@ def main():
     env = TaskEnv(tok, encoder, cfg, dev)
     S = ChurnSampler(cfg, K=a.K, gamma=a.gamma, cfg_scale=a.cfg_scale)
     k_lo, k_hi = (int(x) for x in a.window.split(",")) if a.window else (a.K // 8, 5 * a.K // 8)
+    n_cl = int(getattr(cfg, "n_clusters", 0) or 0)
+    assert a.actor_channels == "all" or n_cl > 0, "--actor_channels needs an H-ELF config"
     assert 1 <= k_lo <= k_hi <= a.K - 1
 
     # critic: frozen trunk (pretrained copy), trainable head
@@ -200,6 +213,8 @@ def main():
                 prev = ro.inputs[k - 1]
                 sub = DenoiserInput(k - 1, prev.z[sel], prev.t, prev.x_prev[sel])
                 nxt = S.grad_step(model, sub, cond_seq[sel], cond_mask[sel], generator=g)
+                if a.actor_channels != "all":
+                    nxt = split_channels(nxt, n_cl, a.actor_channels)
                 out = critic(nxt, cond_seq[sel], cond_mask[sel], gen_mask[sel])
                 logits.append(out.logit if a.objective == "logit" else out.value)
             obj = torch.cat(logits).mean()
