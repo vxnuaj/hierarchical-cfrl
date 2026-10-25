@@ -182,3 +182,5 @@ Game24 final (iter 600): **+4.6 (flat) / +4.1 (hier)**, still rising at the end;
 Final GRR lr 3e-7 (2026-10-26): Game24-cd flat 63.9→68.5, hier 64.9→69.0; Countdown flat 17.6→17.3, hier 18.7→18.6. Score-function RL is model-agnostic here (same gain on both), which is exactly what makes the pathwise split (flat −11.7 / hier +4.8) the finding: the coarse stream changes what the *critic gradient* does to the policy, not what RL in general can do to it.
 
 Channel ablations (fixed `split_channels`, hier Game24-cd, seed 0) at iter 250: tokens-only gradient 67.8 test, clusters-only gradient 68.9 (full hier at 250: 66.1; final 69.9). Grad norms now non-zero (60–330 pre-clip). Too early to read; both still climbing.
+
+Queued 2026-10-26: paper-budget critic for Game24-cd (16k rollouts = CRIT_N 4000×4, vs our 8k), flat and hier, then SVG seed 0 (tags `game24cd_{flat,hier}_bigcrit`; jobs 13448949→50, 13448951→52). Closes the last recipe gap on Game24 that could explain the flat collapse (sampler and optimizer gaps already covered by the c16 and A chains).
