@@ -35,7 +35,6 @@ def load_train_prompts(path: str) -> list[Prompt]:
     return [prompt_from_train_row(json.loads(l)) for l in open(path) if l.strip()]
 
 
-@torch.no_grad()
 def split_channels(inp: DenoiserInput, n_cl: int, keep: str) -> DenoiserInput:
     """Detach the gradient on the token channels (keep='clusters') or the cluster channels (keep='tokens')
     of both state components, so the actor gradient flows only through the kept channels."""
@@ -45,6 +44,7 @@ def split_channels(inp: DenoiserInput, n_cl: int, keep: str) -> DenoiserInput:
     return DenoiserInput(inp.k, f(inp.z), inp.t, f(inp.x_prev))
 
 
+@torch.no_grad()
 def evaluate(model, S, env, prompts, bs, g, device):
     correct = 0
     for b0 in range(0, len(prompts), bs):

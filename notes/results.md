@@ -151,3 +151,7 @@ On Game24 the hier gradient is more consistent across prompts; on K&K it is less
 **Channel ablation runs were void:** grad_norm = 0 throughout both (`--actor_channels tokens` and `clusters`), i.e. `split_channels` cut the whole gradient. Debug job queued; rerun after the fix.
 
 Queued 2026-10-26: GRR at lr 3e-7 (Game24-cd, Countdown; flat/hier); K&K failure modes (classifier fixed); H-ELF-R control (balanced random cluster map over the task vocabulary, `data/clusters_random_n16.pt`): Countdown SFT → Game24 SFT → critic → SVG ×3 seeds (~2 days).
+
+**K&K failure modes (500 val prompts, seed 0, iters 0→1000):** no format errors at all in either model (every output parses); the only failure class is a wrong assignment. Flat 79.4→72.0: regressed 12.6% / newly solved 5.2%; hier 77.6→72.0: regressed 11.2% / newly solved 5.6%. Output diversity is ~0.21 for both (few distinct answer strings, as expected for 4–6 knight/knave labels). K&K degradation is a plain re-labelling drift, not a structural one; nothing for a coarse stream to protect.
+
+Bug found 2026-10-26: `split_channels` had been inserted under `evaluate`'s `@torch.no_grad()` decorator, so it ran in no-grad mode (both ablation runs had grad_norm 0 and never moved). Fixed, ablations resubmitted; seeds 1–2 queued for K&K and Countdown SVG (flat/hier) to test the ordering claim.
