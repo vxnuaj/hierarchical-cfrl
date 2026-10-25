@@ -163,3 +163,16 @@ Bug found 2026-10-26: `split_channels` had been inserted under `evaluate`'s `@to
 3. **One-step test** (CFRL App. "One step along each gradient"): at the SFT base, one AdamW-normalised step of length η along the mean pathwise gradient of 1,024 rollouts raises their Game24 accuracy by +4.2 at η=Λ/4 (Λ = parameter distance of a full RL run); the raw step destroys the policy; a random step does nothing. Implemented as `hcfrl/analysis/one_step.py` (Λ from our own runs' policy_it0 → policy_it750); running for Game24-cd and K&K, flat vs hier (jobs 13446659/60). This isolates the *direction* of the critic gradient at iteration 0 from the joint-training dynamics: if flat's step is ≤0 and hier's is positive, the difference is in the critic's slope on each policy's states.
 
 Also from the re-read, matching our Game24 hier run: CFRL's own failure-mode table (cut appendix) says no sample ever misses the target, RL lowers the rate of arithmetically false equations (47.8 → 31.5% on Game24) and slightly raises number-use violations (7.2 → 10.4%). Our hier run does exactly this (arith 19.6 → 13.4%, operand 2.0 → 2.6%); our flat run does the opposite (structural errors rise). Their critic-pretraining budgets are larger than ours (Game24 16k rollouts vs our 8k; K&K 32k vs 8k), and their frozen-critic probe matches ours (value climbs to >80 logits while true success → 0).
+
+## 2026-10-26 — GRR at lr 3e-7: the score-function baseline works, and the flat model is RL-trainable
+
+CFRL-GRR (critic-free, group-relative REINFORCE), 10× below the paper's lr, test accuracy by iteration (seed 0):
+
+| task | model | 0 | 100 | 200 | 300 | 400 | 500 | 600 |
+|---|---|---|---|---|---|---|---|---|
+| Game24-cd | flat | 63.9 | 64.9 | 65.1 | 66.1 | 66.7 | 68.2 | (running) |
+| Game24-cd | hier | 64.9 | 65.7 | 65.8 | 65.6 | 67.6 | 68.9 | (running) |
+| Countdown | flat | 17.6 | 17.5 | 16.4 | 17.0 | 17.6 | 18.2 | 17.3 |
+| Countdown | hier | 18.7 | 19.2 | 18.2 | 19.2 | 18.8 | 17.3 | 18.6 |
+
+Game24: **+4.3 (flat) / +4.0 (hier)** at iteration 500, still rising; Countdown neutral (CFRL: −0.2). This reproduces CFRL's GRR behaviour (Game24 +3.4, Countdown −0.2) once the lr is lowered, and it settles a question: the flat model *is* improvable by RL on Game24. What collapses it is specifically the pathwise (SVG-2D) update at the paper's recipe, and the hierarchical model is what makes that update usable (SVG-2D hier +4.8 ≈ GRR gain so far, flat −11.7). Baseline table for the paper: SFT 64 → GRR ~68 (both) → SVG-2D flat 52 / hier 70.
