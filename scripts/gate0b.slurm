@@ -1,6 +1,6 @@
 #!/bin/bash
 # Gate 0, part B: CFRL-SVG RL from the pretrained critic (long; any A100/A40/L40S).
-#   sbatch scripts/gate0b.slurm <config> <sft_ckpt_dir> <task_dir> <tag> [seed] [K] [gamma] [iters]
+#   sbatch scripts/gate0b.slurm <config> <sft_ckpt_dir> <task_dir> <tag> [seed] [K] [gamma] [iters] [out_tag] [train_svg extra args...]
 #SBATCH --job-name=hcfrl-gate0b
 #SBATCH --account=irahbari_832
 #SBATCH --partition=gpu
@@ -12,6 +12,7 @@
 #SBATCH --output=outputs/slurm/%x-%j.out
 source scripts/common.sh
 CFG=$1; CKPT=$2; TASK=$3; TAG=$4; SEED=${5:-0}; K=${6:-64}; GAMMA=${7:-56}; ITERS=${8:-1500}
+OUT_TAG=${9:-${TAG}_svg2d_s${SEED}}; EXTRA="${@:10}"   # 9th arg: output dir name; further args passed to train_svg
 set -x
 # best epoch from log.json if present, else from the per-epoch checkpoints' stored eval (field score)
 # use the checkpoint gate0a selected, if any
@@ -29,5 +30,5 @@ PY
 echo "using critic epoch $BEST"
 python -m hcfrl.rl.train_svg --config $CFG --ckpt $CKPT --critic outputs/critic/${TAG}_2d/critic_ep${BEST}.pt \
     --train_prompts $TASK/train.jsonl --val_prompts $TASK/val.jsonl --test_prompts $TASK/test.jsonl \
-    --out outputs/rl/${TAG}_svg2d_s${SEED} --K $K --gamma $GAMMA --iters $ITERS --seed $SEED
+    --out outputs/rl/${OUT_TAG} --K $K --gamma $GAMMA --iters $ITERS --seed $SEED $EXTRA
 echo GATE0B_DONE

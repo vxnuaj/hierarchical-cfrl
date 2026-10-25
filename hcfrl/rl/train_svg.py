@@ -66,6 +66,8 @@ def main():
     ap.add_argument("--eval_every", type=int, default=250); ap.add_argument("--eval_bs", type=int, default=128)
     ap.add_argument("--n_val", type=int, default=0, help="cap val prompts (0 = all)")
     ap.add_argument("--objective", default="logit", choices=["logit", "prob"])
+    ap.add_argument("--actor_mode", default="critic", choices=["critic", "random", "none"],
+                    help="diagnostic: 'random' replaces the actor gradient by Gaussian noise of the same clipped norm; 'none' skips the actor step")
     ap.add_argument("--G", type=int, default=1, help="rollouts per prompt in the replay buffer (B/G prompts x G)")
     ap.add_argument("--rank_w", type=float, default=0.0, help="within-prompt ranking weight in the critic refit (needs G>1)")
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--bf16", type=int, default=1)
@@ -203,7 +205,14 @@ def main():
             obj = torch.cat(logits).mean()
         opt_a.zero_grad(set_to_none=True); (-obj).backward()
         gn = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0).item()
-        opt_a.step()
+        if a.actor_mode == "random":   # same clipped norm (1.0), random direction
+            with torch.no_grad():
+                ps = [p for p in model.parameters() if p.grad is not None]
+                for p in ps: p.grad.normal_()
+                tot = torch.sqrt(sum((p.grad ** 2).sum() for p in ps))
+                for p in ps: p.grad.mul_(1.0 / tot)
+        if a.actor_mode != "none":
+            opt_a.step()
 
         # ---- buffer rollouts (fresh prompts, full trajectory, features cached at k_hi) ----
         pb2 = random.sample(train_prompts, a.B // a.G)

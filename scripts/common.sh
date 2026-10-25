@@ -5,3 +5,4 @@ source .venv/bin/activate
 export HF_HOME=/scratch1/verajuan/hf_cache HF_HUB_OFFLINE=1 TOKENIZERS_PARALLELISM=false
 export PYTHONPATH=/scratch1/verajuan/hcfrl:$PYTHONPATH
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || true
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True

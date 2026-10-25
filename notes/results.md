@@ -89,3 +89,31 @@ RL on these bases (SVG-2D 1000 iters, GRR 600 iters) running: outputs/rl/kk_{fla
 Three facts. (1) With x-prediction + self-conditioning, the first call from pure noise already produces the model's answer for 84–87% of positions (CFRL reports 86% on Countdown); the trajectory is "guess, then refine the uncertain positions", not progressive sharpening. Failing trajectories are the less-committed ones (62–72% at k=1), which is what the critic reads. (2) The dedicated coarse channels are **not** committed earlier than the coarse class implied by the token stream itself (`ch_cl` ≤ `tok_cl` at every k, both models, both tasks). Jointly denoising a cluster stream at the same noise level gives no temporal hierarchy: the coarse channels are predicted with the same confidence profile as the tokens. (3) Since the state information under heavy churn (α = 0.125) is carried by x_{k-1} rather than z, a schedule shift on the cluster channels of z would change little.
 
 Implication for the hypothesis: the mechanism "coarse stream resolves earlier → critic informative earlier" is not present in the H-CDLM-style implementation. Gate 1 on Game24-from-Countdown (tomorrow) remains the direct test, but the prior is now negative. Candidate pivots recorded in RESEARCH_PLAN.md.
+
+## 2026-10-24/25 — Game24-from-Countdown: strong SFT base (64%), and the first RL split between the models
+
+Countdown SFT (60 epochs, 58,560 steps) then Game24 fine-tune from it; selected checkpoints by val acc (flat step 2450, hier 2800). Test accuracy (2,238 held-out puzzles, γ56@64): **flat 64.1%, hier 64.9%** (CFRL's SFT: 44.0%; our base is stronger, so less headroom).
+
+Gate 1 (2D critic, held-out shards, Game24-cd): no clean shift. k=1: flat AUC 0.73 / pick@V 0.75 (16 mixed groups), hier AUC 0.87 / pick@V 0.52 (23 groups); from k=16 both AUC ≥0.97. Same picture as K&K: the critic is good early for both, and pick@V differences at k=1 are within the noise of 16–23 groups.
+
+SVG-2D RL, paper hyper-parameters, seed 0, val / test per 250 iters:
+
+| iter | flat val | flat test | hier val | hier test |
+|---|---|---|---|---|
+| 0 | 64.3 | 64.2 | 63.9 | 64.7 |
+| 250 | 53.6 | 53.3 | 63.7 | 66.1 |
+| 500 | 44.9 | 45.9 | 67.7 | 70.8 |
+| 750 | 58.0 | 59.7 | 68.7 | 70.3 |
+| 1000 | 56.7 | 58.6 | 68.7 | 70.8 |
+| 1250 | 56.7 | 57.9 | 68.7 | 68.9 |
+| 1500 | 53.6 | 55.0 | 68.1 | 69.9 |
+
+Hier: **+5.2 test (64.7 → 69.9; peak 70.8)**, buffer success stays 0.75–0.94. Flat: **−9.2 test (64.2 → 55.0)**, buffer success collapses to 0.53 by iter 400 and only partly recovers; the actor objective falls from ≈800 to ≈1.5 by iter 500 (critic refit keeps up with the drift and ends up scoring everything low). n = 1 seed each; seeds 1 and 2 and an actor-lr 3e-7 check submitted (see below).
+
+K&K (epoch-4 bases, 79%), SVG-2D 1000 iters: flat 79.2 → 71.9 test, hier 79.7 → 74.5. Both degrade.
+
+**Diagnostic (K&K hier, 500 iters): `--actor_mode random` (same step size, random direction) stays at 78.7 → 78.8 test; `--actor_mode none` (no actor step) 79.7 → 78.5.** So the degradation is caused by the *direction* of the critic gradient, not by the step size or by the Muon-trained weights; the Muon/AdamW mismatch hypothesis is dropped. The critic's gradient on these models points towards higher critic logit but lower true success at the paper's lr, except on Game24-cd hier.
+
+GRR baseline: all four runs died with CUDA OOM (128 rollouts × 8 transition graphs in one backward). Fixed by chunking the backward (`--chunk 16`, grads accumulate); resubmitted for Game24-cd and K&K, flat and hier.
+
+Submitted 2026-10-25: gate0c (GRR) ×4; gate0b Game24-cd seeds 1,2 × {flat,hier}; gate0b Game24-cd lr 3e-7→3e-8 × {flat,hier} (out tags `game24cd_*_svg2d_lr3e-7_s0`).

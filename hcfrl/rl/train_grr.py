@@ -37,6 +37,7 @@ def main():
     ap.add_argument("--iters", type=int, default=600); ap.add_argument("--P", type=int, default=16)
     ap.add_argument("--G", type=int, default=8); ap.add_argument("--n_trans", type=int, default=8)
     ap.add_argument("--lr", type=float, default=3e-6); ap.add_argument("--eval_every", type=int, default=100)
+    ap.add_argument("--chunk", type=int, default=16, help="rollouts per backward chunk (memory)")
     ap.add_argument("--eval_bs", type=int, default=128); ap.add_argument("--n_val", type=int, default=0)
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--bf16", type=int, default=1)
     a = ap.parse_args()
@@ -89,27 +90,34 @@ def main():
         gm = gen_mask  # (B, L)
 
         # ---- score-function surrogate on n_trans random stochastic transitions + decoder term ----
+        # Backward in chunks of `--chunk` rollouts (grads accumulate) so the P*G*n_trans denoiser graphs never coexist.
         ks = random.sample(range(Ks), min(a.n_trans, Ks))
-        with ac:
-            logp_sum = torch.zeros(B, device=dev)
-            for k in ks:
-                inp, nxt = ro.inputs[k], ro.inputs[k + 1]
-                x_k = S.denoise(model, DenoiserInput(k, inp.z.detach(), inp.t, inp.x_prev.detach()), cond_seq, cond_mask)
-                t_next = S.t_grid(k + 1); D = max(1.0 - inp.t, S.t_eps)
-                mu = S.alpha * (inp.z + (t_next - inp.t) * (x_k - inp.z) / D)
-                sq = ((nxt.z.detach().float() - mu.float()) ** 2).sum(-1)          # (B, L)
-                logp_sum = logp_sum + (-(sq * gm).sum(1) / (2 * sigma2))
-            logp_sum = logp_sum * (Ks / len(ks))
-            # decoder term: (1/L) log pi(w | z_K)
-            zK = ro.z_final.detach()
-            t1 = torch.ones((B,), dtype=zK.dtype, device=dev)
-            sc = torch.full((B,), 1.0, dtype=zK.dtype, device=dev) if cfg.num_self_cond_cfg_tokens > 0 else None
-            z_in = torch.cat([zK, torch.zeros_like(zK)], -1) if cfg.self_cond_prob > 0 else zK
-            _, logits = model(z_in, t1, deterministic=True, self_cond_cfg_scale=sc, decoder_step_active=True)
-            lp = F.log_softmax(logits.float(), -1).gather(-1, toks.unsqueeze(-1)).squeeze(-1)   # (B, L)
-            dec_term = (lp * gm).sum(1) / gm.sum(1).clamp_min(1.0)
-            J = (A * (logp_sum + dec_term)).mean()
-        opt.zero_grad(set_to_none=True); (-J).backward()
+        opt.zero_grad(set_to_none=True); J_tot = 0.0
+        for c0 in range(0, B, a.chunk):
+            sl = slice(c0, min(B, c0 + a.chunk)); nb = sl.stop - sl.start
+            cs, cm, gmc, Ac = cond_seq[sl], cond_mask[sl], gm[sl], A[sl]
+            with ac:
+                logp_sum = torch.zeros(nb, device=dev)
+                for k in ks:
+                    inp, nxt = ro.inputs[k], ro.inputs[k + 1]
+                    x_k = S.denoise(model, DenoiserInput(k, inp.z[sl].detach(), inp.t, inp.x_prev[sl].detach()), cs, cm)
+                    t_next = S.t_grid(k + 1); D = max(1.0 - inp.t, S.t_eps)
+                    mu = S.alpha * (inp.z[sl] + (t_next - inp.t) * (x_k - inp.z[sl]) / D)
+                    sq = ((nxt.z[sl].detach().float() - mu.float()) ** 2).sum(-1)          # (nb, L)
+                    logp_sum = logp_sum + (-(sq * gmc).sum(1) / (2 * sigma2))
+                logp_sum = logp_sum * (Ks / len(ks))
+                # decoder term: (1/L) log pi(w | z_K)
+                zK = ro.z_final[sl].detach()
+                t1 = torch.ones((nb,), dtype=zK.dtype, device=dev)
+                sc = torch.full((nb,), 1.0, dtype=zK.dtype, device=dev) if cfg.num_self_cond_cfg_tokens > 0 else None
+                z_in = torch.cat([zK, torch.zeros_like(zK)], -1) if cfg.self_cond_prob > 0 else zK
+                _, logits = model(z_in, t1, deterministic=True, self_cond_cfg_scale=sc, decoder_step_active=True)
+                lp = F.log_softmax(logits.float(), -1).gather(-1, toks[sl].unsqueeze(-1)).squeeze(-1)   # (nb, L)
+                dec_term = (lp * gmc).sum(1) / gmc.sum(1).clamp_min(1.0)
+                Jc = (Ac * (logp_sum + dec_term)).sum() / B
+            (-Jc).backward(); J_tot += Jc.item()
+            del logp_sum, logits, lp, Jc
+        J = torch.tensor(J_tot)
         gn = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0).item(); opt.step()
 
         rec = {"iter": it, "J": J.item(), "grad_norm": gn, "roll_succ": r.mean().item(),
