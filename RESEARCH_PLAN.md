@@ -103,3 +103,15 @@ Evidence so far (notes/results.md): K&K critic is near-oracle from k=8 for flat 
 3. **Temporal hierarchy done properly** (coarse-first schedule / two-stage) only if (1) and (2) are not enough; it is costly (new SFT) and, under heavy churn, the information lives in x_{k-1}, not z.
 
 Keep K&K as the early-commitment control in any case.
+
+## 2026-10-25 — Goal for the day (set with the user)
+
+Game24-from-Countdown seed 0: hier +5.2 test, flat −9.2 under the same SVG-2D recipe. Goal by end of day: know which of three readings holds, and have the mechanism analysis and a third task running.
+
+1. Three seeds flat vs hier on Game24-cd (seeds 1, 2 queued).
+2. Flat at actor lr 3e-7 (queued): is the baseline tunable? If yes, the paper compares best-tuned flat vs best-tuned hier.
+3. GRR (critic-free) on flat and hier (queued): is the flat model RL-trainable at all?
+4. Failure-mode profile of every saved policy (hcfrl/analysis/failure_modes.py): what does the flat policy turn into when the buffer collapses?
+5. Countdown RL chain for both models (queued): third task.
+
+Readings: (a) pathwise RL is unstable on flat ELF and the coarse stream stabilizes it → paper = "hierarchy makes pathwise RL work", needs mechanism; (b) flat is tunable and the gap shrinks → "hierarchy is more robust", weaker; (c) seeds disagree → back to reproduction.
