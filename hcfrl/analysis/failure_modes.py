@@ -20,7 +20,13 @@ from hcfrl.tasks.arith import _STEP, _apply
 CATS = ["ok", "n_steps", "parse", "operand", "arith", "target"]
 
 
-def classify(text: str, nums, target) -> str:
+def classify(text: str, nums, target, prompt_text: str | None = None) -> str:
+    if nums is None:   # Knights-and-Knaves: ok / parse (unparseable answer) / wrong
+        from hcfrl.tasks.kk import KKTask
+        try:
+            return "ok" if KKTask.verify(KKTask.parse_prompt(prompt_text), text) else "target"
+        except ValueError:
+            return "parse"
     avail = sorted(int(n) for n in nums)
     steps = text.split(",")
     if len(steps) != len(avail) - 1:
@@ -62,8 +68,8 @@ def generate(model, S, env, prompts, bs, seed, dev):
 
 def stats(prompts, texts, ids, eos):
     n = len(prompts)
-    cats = collections.Counter(classify(t, p.nums, p.target) for p, t in zip(prompts, texts))
-    ok = [classify(t, p.nums, p.target) == "ok" for p, t in zip(prompts, texts)]
+    cats = collections.Counter(classify(t, p.nums, p.target, p.text) for p, t in zip(prompts, texts))
+    ok = [classify(t, p.nums, p.target, p.text) == "ok" for p, t in zip(prompts, texts)]
     lens = [len(t) for t in texts]
     # token repetition: fraction of generated (non-eos) positions equal to the previous position
     rep, tot = 0, 0
@@ -110,7 +116,7 @@ def main():
         st["regressed_vs_first"] = sum(1 for x, y in zip(ok0, ok) if x and not y) / len(ok)
         st["fixed_vs_first"] = sum(1 for x, y in zip(ok0, ok) if (not x) and y) / len(ok)
         st["same_text_as_first"] = sum(1 for x, y in zip(texts0, texts) if x == y) / len(ok)
-        st["samples"] = [{"prompt": p.text, "out": t, "cat": classify(t, p.nums, p.target)} for p, t in list(zip(prompts, texts))[:12]]
+        st["samples"] = [{"prompt": p.text, "out": t, "cat": classify(t, p.nums, p.target, p.text)} for p, t in list(zip(prompts, texts))[:12]]
         res[str(name)] = st
         c = st["cats"]
         print(f"{str(name):>5} acc {st['acc']:.3f} | n_steps {c['n_steps']:.3f} parse {c['parse']:.3f} operand {c['operand']:.3f} "

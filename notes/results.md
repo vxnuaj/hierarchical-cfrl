@@ -117,3 +117,37 @@ K&K (epoch-4 bases, 79%), SVG-2D 1000 iters: flat 79.2 → 71.9 test, hier 79.7 
 GRR baseline: all four runs died with CUDA OOM (128 rollouts × 8 transition graphs in one backward). Fixed by chunking the backward (`--chunk 16`, grads accumulate); resubmitted for Game24-cd and K&K, flat and hier.
 
 Submitted 2026-10-25: gate0c (GRR) ×4; gate0b Game24-cd seeds 1,2 × {flat,hier}; gate0b Game24-cd lr 3e-7→3e-8 × {flat,hier} (out tags `game24cd_*_svg2d_lr3e-7_s0`).
+
+## 2026-10-26 — Three seeds on Game24-from-Countdown: the split is systematic
+
+SVG-2D, paper recipe, test accuracy at iter 1500 (2,238 puzzles; bases 64.1 flat / 64.9 hier):
+
+| seed | flat | hier |
+|---|---|---|
+| 0 | 55.0 | 69.9 |
+| 1 | 50.2 | 68.8 |
+| 2 | 52.1 | 70.3 |
+| **mean** | **52.4 (−11.7)** | **69.7 (+4.8)** |
+
+Learning-rate check (seed 0): flat at 3e-7→3e-8 still degrades (49.5); hier at 3e-7 gains less (67.4), at 3e-6 collapses (55.8). The flat failure is not a step-size problem; the recipe has a narrow lr window for hier too.
+
+**Countdown (third task, same recipe):** SFT bases are weak (flat 17.2 / hier 19.1 test; CFRL reports 42.8 — our self-generated Countdown distribution is evidently harder or our SFT weaker). SVG-2D first improves BOTH models (flat 17.6→26.1, hier 18.7→24.6 at iter 250) and then both collapse (flat 10.5, hier 14.3 at 1500). So the "early gain then collapse" pattern is the general behaviour of this recipe on our models; hier is protective on Game24 (3 seeds) but not on Countdown or K&K.
+
+**GRR (score-function baseline) at the paper's lr 3e-6 collapses everywhere** (Game24-cd 64→11.6 / 6.0; K&K 79→65.5 / 46.0; Countdown 17.6→26 at iter 400 then 17.1 / 2.7). Pre-clip grad norms reach 1e5. Rerunning at lr 3e-7.
+
+**Failure modes (Game24-cd, 500 val prompts, seed 0):** hier reduces arithmetic-error outputs (19.6% → 13.4%) while keeping step structure (n_steps/operand errors ≤2.6%); flat keeps its arithmetic errors (~21%) and drifts into structural errors (wrong step count 0→5%, unavailable operand 2→6%), regressing 18% of previously-solved prompts vs 3.6% newly solved. Output diversity and token repetition are unchanged in both: no mode collapse, a drift of the chain structure.
+
+**Gradient quality at the SFT policy (256 prompts, per-prompt gradients):**
+
+| task / model | k | SNR | cos(half,half) N=256 | mean per-prompt ‖g‖ |
+|---|---|---|---|---|
+| Game24-cd flat | 8 / 24 / 40 | 0.10 / 0.15 / 0.12 | 0.49 / 0.66 / 0.60 | 3783 / 2868 / 3247 |
+| Game24-cd hier | 8 / 24 / 40 | 0.15 / 0.13 / 0.18 | 0.72 / 0.68 / 0.75 | 1990 / 2638 / 2541 |
+| K&K flat | 8 / 24 / 40 | 0.15 / 0.16 / 0.21 | 0.67 / 0.76 / 0.87 | 3699 / 3079 / 2525 |
+| K&K hier | 8 / 24 / 40 | 0.08 / 0.08 / 0.13 | 0.23 / 0.34 / 0.68 | 1840 / 1966 / 1285 |
+
+On Game24 the hier gradient is more consistent across prompts; on K&K it is less consistent, yet K&K flat (the most consistent gradient of all) degrades the most. Gradient agreement across prompts therefore does not predict whether RL helps: a consistently-pointed gradient can consistently point at critic exploitation. The critic's input-gradient puts only 2–3% of its norm on the 16 cluster channels, so the critic barely reads the coarse stream directly; whatever hier does on Game24 is through the policy's parameterization, not through the critic reading clusters.
+
+**Channel ablation runs were void:** grad_norm = 0 throughout both (`--actor_channels tokens` and `clusters`), i.e. `split_channels` cut the whole gradient. Debug job queued; rerun after the fix.
+
+Queued 2026-10-26: GRR at lr 3e-7 (Game24-cd, Countdown; flat/hier); K&K failure modes (classifier fixed); H-ELF-R control (balanced random cluster map over the task vocabulary, `data/clusters_random_n16.pt`): Countdown SFT → Game24 SFT → critic → SVG ×3 seeds (~2 days).
