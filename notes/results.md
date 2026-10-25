@@ -170,11 +170,15 @@ CFRL-GRR (critic-free, group-relative REINFORCE), 10× below the paper's lr, tes
 
 | task | model | 0 | 100 | 200 | 300 | 400 | 500 | 600 |
 |---|---|---|---|---|---|---|---|---|
-| Game24-cd | flat | 63.9 | 64.9 | 65.1 | 66.1 | 66.7 | 68.2 | (running) |
-| Game24-cd | hier | 64.9 | 65.7 | 65.8 | 65.6 | 67.6 | 68.9 | (running) |
+| Game24-cd | flat | 63.9 | 64.9 | 65.1 | 66.1 | 66.7 | 68.2 | **68.5** |
+| Game24-cd | hier | 64.9 | 65.7 | 65.8 | 65.6 | 67.6 | 68.9 | **69.0** |
 | Countdown | flat | 17.6 | 17.5 | 16.4 | 17.0 | 17.6 | 18.2 | 17.3 |
 | Countdown | hier | 18.7 | 19.2 | 18.2 | 19.2 | 18.8 | 17.3 | 18.6 |
 
-Game24: **+4.3 (flat) / +4.0 (hier)** at iteration 500, still rising; Countdown neutral (CFRL: −0.2). This reproduces CFRL's GRR behaviour (Game24 +3.4, Countdown −0.2) once the lr is lowered, and it settles a question: the flat model *is* improvable by RL on Game24. What collapses it is specifically the pathwise (SVG-2D) update at the paper's recipe, and the hierarchical model is what makes that update usable (SVG-2D hier +4.8 ≈ GRR gain so far, flat −11.7). Baseline table for the paper: SFT 64 → GRR ~68 (both) → SVG-2D flat 52 / hier 70.
+Game24 final (iter 600): **+4.6 (flat) / +4.1 (hier)**, still rising at the end; Countdown neutral (CFRL: −0.2). This reproduces CFRL's GRR behaviour (Game24 +3.4, Countdown −0.2) once the lr is lowered, and it settles a question: the flat model *is* improvable by RL on Game24. What collapses it is specifically the pathwise (SVG-2D) update at the paper's recipe, and the hierarchical model is what makes that update usable (SVG-2D hier +4.8 ≈ GRR gain so far, flat −11.7). Baseline table for the paper: SFT 64 → GRR ~68 (both) → SVG-2D flat 52 / hier 70.
 
 **Audit of the GRR and sampler code against CFRL App. B (2026-10-26):** the transition kernel (λ, η, ψ with ψ=1−α, variance ψ²c_σ², denoiser queried at the lowered time t̃), the exact-Gaussian log-density of 8 random stochastic transitions out of K_roll−1 scaled by (K_roll−1)/8, the group advantage (r−mean)/(std+ε), the (1/L)-scaled decoder term and the γ4@16 rollouts all match. The GRR blow-up at lr 3e-6 is therefore not an estimator error; at 3e-7 it reproduces the paper's gains. The pathwise section says the decoder is frozen during SVG: in our implementation the actor objective reaches no decoder parameter (`proj_kernel/bias`, `unembed_kernel/bias`, 16.9M of 104.6M, have no gradient), so with weight decay 0 they never move — equivalent. GRR at the paper's lr 3e-6 is additionally queued on the AdamW-recipe models (game24cdA_*_grr_s0) to test whether the blow-up is a property of the Muon-trained weights.
+
+Final GRR lr 3e-7 (2026-10-26): Game24-cd flat 63.9→68.5, hier 64.9→69.0; Countdown flat 17.6→17.3, hier 18.7→18.6. Score-function RL is model-agnostic here (same gain on both), which is exactly what makes the pathwise split (flat −11.7 / hier +4.8) the finding: the coarse stream changes what the *critic gradient* does to the policy, not what RL in general can do to it.
+
+Channel ablations (fixed `split_channels`, hier Game24-cd, seed 0) at iter 250: tokens-only gradient 67.8 test, clusters-only gradient 68.9 (full hier at 250: 66.1; final 69.9). Grad norms now non-zero (60–330 pre-clip). Too early to read; both still climbing.
