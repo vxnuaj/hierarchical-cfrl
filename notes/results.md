@@ -324,3 +324,20 @@ Queued/submitted:
 - Cancelled to make room under the cap: Countdown-AdamW critic+SVG for both models (13455280/81, 13466277/78; Countdown is the null task) and GRR at the paper's lr on the AdamW models (13455279, 13466276).
 
 Trace job 13465767 is at 26 of 35 checkpoints with 9 min left on its limit; results are read from the printed lines, the missing checkpoints will be rerun.
+
+## 2026-10-26 15:10 — consistency trace: the run that collapsed is the one that lost code–token consistency
+
+`cons_trace` (256 val prompts, deployment sampler; values at k = 24 / 40 / 63, i.e. clean estimate x_{k−1}; 3rd column = token-channel norm per position, base ≈ 21.6):
+
+| hier run (Game24-cd, s0) | final acc | consistency it0 → it1500 | margin it0 → it1500 | token norm it0 → it1500 |
+|---|---|---|---|---|
+| full critic (held: +5.2) | 69.9 | 0.996 → 0.985 | 1.03 → 0.83 | 21.7 → 25.9 (+19%) |
+| tokens-only gradient (held: +3.4) | 68.3 | 0.990 → 0.974 | 1.01 → 0.90 | 21.6 → 26.8 (+24%) |
+| coarse-blind critic (gave back: −0.1) | 64.8 | 0.991 → 0.979 (it1250) | 1.02 → 0.88 (it1250) | 21.6 → 27.7 (+28%, it1250) |
+| **clusters-only gradient (collapsed: −1.7 after +6.4 peak)** | 63.2 | **0.990 → 0.978 (it500) → 0.725 (it750) → 0.58** | **1.02 → 0.82 (it500) → 0.31 → −0.03** | **21.6 → 23.2 (it500) → 30.9 → 36.5 (+69%)** |
+
+(16k-critic hier run and the blind run's it1500 were cut by the 1 h limit; flat token-norm traces not yet run.)
+
+Reading: every run inflates its token latents under the pathwise update (the policy does move along the pull), by 19–28% in the runs that hold their gain. The one run that collapsed is the one whose coarse channels stopped agreeing with its tokens: consistency falls from 0.98 at the +6.4 peak (it500) to 0.58, the margin goes to zero and below (the coarse channels no longer point at the decoded token's class at all), and the token norm inflates 69%. The order of events matters: at it500 the clusters-only run is at its peak accuracy with consistency already slipping (0.978, margin 0.82 — lowest of the four at that iteration), and the accuracy collapse follows over the next 250–500 iterations. Among the three runs that hold, the one that gave its gain back at the very end (blind critic) has the largest norm inflation and the lowest margin at it1250. So: **coarse–token consistency is a leading indicator of health under the pathwise update, and the policy whose coarse channels are driven directly by the critic loses it.** This is the mechanism statement the paper can make from data: the coarse stream protects as long as it stays coupled to the tokens; drive it on its own and the coupling breaks and the collapse follows. Combined with the probe (the critic itself is indifferent to consistency), the coupling must be enforced by the policy's own denoiser (trained with the joint loss), not by the critic.
+
+Next: Jacobian-step test (13467280, queued) for the per-step displacement; second trace job for the flat runs' token norms (a flat run that collapses with an even larger inflation would complete the picture) and the two cut checkpoints.
