@@ -16,4 +16,5 @@ from transformers import AutoTokenizer, T5EncoderModel
 AutoTokenizer.from_pretrained("t5-small"); T5EncoderModel.from_pretrained("t5-small"); print("t5-small cached")
 PY
 for s in train val; do uv run --no-sync python -m hcfrl.data.to_hf data/game24/$s.jsonl data/game24/${s}_hf; done
+touch $UV_PROJECT_ENVIRONMENT/READY
 echo SETUP_DONE
