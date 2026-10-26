@@ -63,9 +63,12 @@ def gather(full=False):
             if "val_acc" in r:
                 acc = r.get("test_acc") if r.get("test_acc") is not None else r.get("val_acc")
                 evals.append([r["iter"], acc, r.get("val_acc")])
-            elif "obj" in r:
-                last = {k: r.get(k) for k in ("iter", "obj", "grad_norm", "lr", "buf_succ", "critic_auc", "critic_loss")}
-                if full: train.append([r.get("iter"), r.get("obj"), r.get("grad_norm"), r.get("buf_succ"),
+            elif "obj" in r or "J" in r:   # SVG actor record, or GRR record (J, roll_succ)
+                obj = r.get("obj") if "obj" in r else r.get("J")
+                succ = r.get("buf_succ") if "buf_succ" in r else r.get("roll_succ")
+                last = {"iter": r.get("iter"), "obj": obj, "grad_norm": r.get("grad_norm"), "lr": r.get("lr"),
+                        "buf_succ": succ, "critic_auc": r.get("critic_auc"), "critic_loss": r.get("critic_loss")}
+                if full: train.append([r.get("iter"), obj, r.get("grad_norm"), succ,
                                        r.get("critic_auc"), r.get("critic_loss"), r.get("lr")])
         rec = {"name": name, "evals": evals, "last": last, "age": _age(log)}
         if full: rec["train"] = _downsample(train)
