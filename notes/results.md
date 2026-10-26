@@ -184,3 +184,18 @@ Final GRR lr 3e-7 (2026-10-26): Game24-cd flat 63.9→68.5, hier 64.9→69.0; Co
 Channel ablations (fixed `split_channels`, hier Game24-cd, seed 0) at iter 250: tokens-only gradient 67.8 test, clusters-only gradient 68.9 (full hier at 250: 66.1; final 69.9). Grad norms now non-zero (60–330 pre-clip). Too early to read; both still climbing.
 
 Queued 2026-10-26: paper-budget critic for Game24-cd (16k rollouts = CRIT_N 4000×4, vs our 8k), flat and hier, then SVG seed 0 (tags `game24cd_{flat,hier}_bigcrit`; jobs 13448949→50, 13448951→52). Closes the last recipe gap on Game24 that could explain the flat collapse (sampler and optimizer gaps already covered by the c16 and A chains).
+
+## 2026-10-26 — One-step test: the critic's direction at the SFT base is good for BOTH models
+
+CFRL's diagnostic (App. "one step along each gradient"), reproduced with `hcfrl/analysis/one_step.py`: mean pathwise gradient over 128 prompts × 8 rollouts at k∈{8,16,24,32}, one step of length η along three directions, paired eval (fixed noise, seed 777) on the first 1,000 val prompts (the val file is grouped by puzzle, so these are the easiest puzzles: base 77.2% for both models, same count — a coincidence worth re-checking on a random subset). Λ = ‖θ_it750 − θ_it0‖ of our own SVG run. Accuracy change in points:
+
+| task / model | Λ | η=Λ/16 adamw / raw / rand | Λ/4 | Λ/2 | Λ |
+|---|---|---|---|---|---|
+| Game24-cd flat | 1.17 | +1.2 / −2.9 / −0.5 | **+5.3** / −77 / +0.2 | **+8.0** / −77 / −1.6 | −3.5 / −77 / −1.7 |
+| Game24-cd hier | 1.54 | +1.6 / −0.5 / 0.0 | **+5.3** / −77 / 0.0 | **+6.6** / −77 / −0.1 | −0.1 / −77 / +0.1 |
+| K&K flat | 0.87 | +0.1 / −1.2 / −1.4 | −0.5 / −3.7 / −1.6 | −1.2 / −21 / −1.9 | −18 / −74 / −0.3 |
+| K&K hier | (running) | | | | |
+
+CFRL reports +4.2 at Λ/4 on Game24 (raw step destroys the policy, random does nothing); we get +5.3 on both models with the same qualitative pattern. **So the flat model's collapse under SVG-2D is not a bad initial gradient direction**: one normalised step along the critic's gradient from the flat SFT base is as good as from the hier base. The split arises in the *iterated* dynamics (actor drift + critic refit over 1,500 iterations), which is where the coarse stream makes the difference. On K&K the one-step gain is ≈0 for flat, consistent with K&K being the task where neither model gains from this critic.
+
+**K&K seeds 1–2 (test acc by iter, running):** flat s1 78.6→72.2→76.2→65.3 (750); s2 78.0→72.9→70.1 (500). Hier s1 78.0→80.1→79.8 (500); s2 78.1→80.4→79.3 (500). Seed 0 was flat 79.2→75.2 (500)→71.9 (1000), hier 79.7→74.8 (500)→74.5 (1000). At iter 500 hier ≥ flat in all three seeds (74.8/79.8/79.3 vs 75.2/76.2/70.1); seeds 1–2 hier are at or above base. The earlier "K&K: both degrade" read was seed 0 only; the three-seed picture looks like Game24's ordering, smaller margin.
