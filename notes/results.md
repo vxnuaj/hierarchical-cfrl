@@ -289,3 +289,27 @@ AdamW SFTs: elfA step 16.1k ce 0.053 (steady); **helfA step 24.7k ce 0.104, drif
 Reading across every SVG-2D run on Game24-cd so far (final − base): hier runs {full critic +5.2/+3.9/+5.4; blind −0.1/+2.7/+2.7; 16k +0.2} — min −0.1, none below base. Flat runs {8k −9.2/−14.5/−13.0; 16k −4.5/−3.6/−8.9} — max −3.6, none at or above base. The cleanest statement of the finding is therefore about the *floor*: the hierarchical policy never ends below its base under the pathwise update (7/7 runs), the flat policy always does (6/6), and the size of the hier gain depends on the critic (full critic +4.8, blind +1.8, 16k +0.2 n=1). AdamW SFTs: elfA 17.0k ce 0.058, helfA 25.6k ce 0.095 (eased from 0.104).
 
 Queued 2026-10-26 13:55: coarse-rail conjecture tests (`hcfrl/analysis/consistency.py`, `scripts/consistency.slurm`; jobs 13465766 probe / 13465767 trace). Probe: at the base policy and critic (flat, hier, hier-blind), displace the clean estimate x_k at k∈{24,40} and measure the change in the pooled critic logit and the fraction of decodes that change — coarse channels re-set / set to a wrong class / zeroed; token channels moved by ε∈{0.02,0.05,0.1,0.2} of their norm in a random direction or along the critic pull P_tok G; the full pull G. Trace: coarse–token consistency (argmax coarse == Γ(decoded token)), margin and token-norm at k∈{24,40,63} for every policy_it checkpoint of the hier s0 runs: full, clusters-only (collapsed), tokens-only, blind, 16k.
+
+## 2026-10-26 14:30 — critic probe refutes the "critic rejects inconsistency" half of the rail conjecture; hier AdamW SFT diverged again and was restarted at 1e-3
+
+**Critic probe (`cons_probe_*.json`, base policies/critics, 256 val prompts, k = 24 / 40; Δ pooled logit, mean over sequences; base logits flat 796 / 796, hier 569 / 516, hier-blind 540 / 481):**
+
+| displacement of the clean estimate x_k | flat critic | hier critic | hier-blind critic | decoded tokens changed |
+|---|---|---|---|---|
+| coarse channels → wrong class | – | −6.3 / −4.1 | 0 / 0 | 0.1% |
+| coarse channels → 0 | – | −5.4 / −3.6 | 0 / 0 | 0 |
+| coarse channels → re-set to Γ(decode) | – | +0.5 / +0.3 | 0 / 0 | 0 |
+| token channels, random dir, 5% of norm | −0.3 / +0.1 | +0.9 / 0.0 | +0.6 / +0.7 | 0 |
+| token channels along critic pull, 2% | **+138 / +131** | **+124 / +131** | +144 / +156 | 0.1% |
+| token channels along pull, 5% | +212 / +207 | +215 / +231 | +237 / +260 | 0.1–0.2% |
+| token channels along pull, 10% | +208 / +221 | +261 / +275 | +280 / +308 | 0.3–0.5% |
+| token channels along pull, 20% | −232 / −166 | −95 / +18 | −147 / −38 | 0.7–0.9% |
+| full pull (all channels), 2–10% | – | ≈ token pull (±2) | ≈ token pull | same |
+
+Coarse share of the pull ρ_cl = 0.028 / 0.030 (hier), 0 (blind).
+
+Reading: (1) **both critics have a decode-preserving ascent direction of the same size** — a 2% displacement of the token channels along the pull raises the pooled logit by 17–25% while changing 0.1% of decoded tokens, for flat and hier alike. (2) **The hier critic is nearly indifferent to code–token consistency**: a wrong class on every position costs ~1% of the logit, twenty times less than a 2% token nudge gains. (3) Full pull ≈ token pull. So the conjecture's "critic rejects inconsistent states" half is false, and the critics are equally exploitable in state space. Whatever protects the hier policy is in its parameter-to-state map ∂d_θ/∂θ (how much of this state-space ascent a parameter step can realise and what else it drags along), not in the critic. Consistent with the base-gradient norms (hier ≈ half of flat at k=8) and with the hier runs rising more slowly. Revised, testable statement: per normalised actor step, the hier policy realises a smaller displacement along the pull direction than the flat policy.
+
+**Consistency trace (partial, full-critic hier s0):** consistency ≥ 0.98 at every checkpoint; margin decays 1.03 → 0.85; **token-channel norm inflates 21.7 → 25.5 (+17%) over 1250 iters** (the signature of moving along the pull). Collapsed-run comparison (clusters-only, blind, 16k) and flat token-norm trace pending (trace script extended to flat runs).
+
+**AdamW hier SFT (sft-cd-helfA 13455282) diverged at absolute lr 2e-3:** CE 0.09 (25.9k) → 0.17 (29.1k) → 0.84 (29.9k) → 0.68 (30.6k); the flat twin is fine (CE 0.065 at 22k). The hier CE head cannot take the CFRL lr under AdamW (second time). Action: checkpoint_29280 set aside (`diverging_checkpoint_29280`), chain 13455282–89 cancelled, `configs/helfA_b_countdown.yml` blr 0.0005 (absolute 1e-3) and `helfA_b_game24_cd.yml` blr 0.001 (absolute 1e-3), trainer patched so a resumed run takes the configured lr (`hcfrl/elf/train.py`: the checkpoint otherwise restores the old lr through the optimizer state and LambdaLR base_lrs), resumed from checkpoint_19520 (CE 0.067). New helfA chain 13466271–78. The flat chain (published lr) is untouched: it is the one that answers "does the published recipe collapse"; the hier AdamW model is a comparison partner trained at the largest lr its head tolerates.

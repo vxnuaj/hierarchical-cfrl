@@ -53,9 +53,12 @@ def batches(xs, bs):
 def coarse_stats(x, dec_ids, gen_mask, eos, gamma, n_cl, beta):
     """x: (B,L,D) clean estimate; dec_ids: (B,L) decoded ids of x. Returns dict of sums and the count."""
     D = x.shape[-1] - n_cl
+    m = gen_mask.bool() & (dec_ids != eos)
+    if n_cl == 0:                                               # flat run: token-norm only
+        tok_nrm = x[..., :D].float().norm(dim=-1) * m
+        return {"cons": float("nan"), "margin": float("nan"), "tok_nrm": tok_nrm.sum().item()}, m.sum().item()
     cl = x[..., D:].float()                                     # (B,L,n)
     g = gamma.to(x.device)[dec_ids]                             # (B,L) class of decoded token
-    m = gen_mask.bool() & (dec_ids != eos)
     cons = (cl.argmax(-1) == g) & m
     at = cl.gather(-1, g[..., None]).squeeze(-1)
     other = cl.scatter(-1, g[..., None], float("-inf")).max(-1).values
@@ -66,8 +69,9 @@ def coarse_stats(x, dec_ids, gen_mask, eos, gamma, n_cl, beta):
 
 def mode_trace(a, cfg, tok, encoder, model, dev):
     env = TaskEnv(tok, encoder, cfg, dev); S = ChurnSampler(cfg, K=a.K, gamma=a.gamma)
-    n_cl = int(getattr(cfg, "n_clusters", 0) or 0); assert n_cl > 0, "trace mode needs an H-ELF config"
-    gamma = torch.load(cfg.cluster_map, map_location="cpu")["gamma"].long(); beta = float(cfg.cluster_scale)
+    n_cl = int(getattr(cfg, "n_clusters", 0) or 0)
+    gamma = torch.load(cfg.cluster_map, map_location="cpu")["gamma"].long() if n_cl else None
+    beta = float(getattr(cfg, "cluster_scale", 1.0) or 1.0)
     eos = tok.eos_token_id
     prompts = load_prompts(a.prompts)[: a.n]
     ks = [int(x) for x in a.ks.split(",")]

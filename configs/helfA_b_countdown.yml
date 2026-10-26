@@ -37,7 +37,7 @@ self_cond_prob: 0.5
 # Training (optimizer + schedule)
 epochs: 60
 global_batch_size: 512
-blr: 0.001   # absolute lr 2e-3 at batch 512 (trainer scales blr by batch/256); 0.002 diverged the CE head
+blr: 0.0005  # absolute lr 1e-3 at batch 512 (trainer scales blr by batch/256). 0.002 diverged the CE head at step 13k; 0.001 (the CFRL value) diverged it at step 29.5k; resumed from checkpoint_29280 at 1e-3 (2026-10-26)
 weight_decay: 0.0
 warmup_steps: 5000
 optimizer: adamw

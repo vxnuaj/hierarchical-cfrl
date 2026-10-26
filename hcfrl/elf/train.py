@@ -258,6 +258,19 @@ def run_training(config, *, force_cpu: bool = False):
             resume_epoch_fractional = float(state.epoch)
             start_epoch = int(state.epoch)
             log_for_0(f"Resumed from step {resume_step} (epoch {resume_epoch_fractional:.2f})")
+            # hcfrl: the checkpoint restores the optimizer's lr and the LambdaLR base_lrs, so a changed
+            # config lr would otherwise be ignored on resume. Apply the configured lr explicitly.
+            pg0 = state.optimizer.param_groups[0]
+            restored_lr = float(pg0.get("initial_lr", pg0["lr"]))
+            if abs(restored_lr - float(config.lr)) > 1e-12:
+                mult = 1.0
+                if state.lr_scheduler is not None:
+                    mult = float(state.lr_scheduler.lr_lambdas[0](state.lr_scheduler.last_epoch))
+                    state.lr_scheduler.base_lrs = [float(config.lr)] * len(state.optimizer.param_groups)
+                for pg in state.optimizer.param_groups:
+                    pg["initial_lr"] = float(config.lr)
+                    pg["lr"] = float(config.lr) * mult
+                log_for_0(f"Resume: lr overridden {restored_lr:.2e} -> {config.lr:.2e} (schedule x{mult:.3f})")
         except Exception as e:
             log_for_0(f"Error loading checkpoint: {e}")
             log_for_0("Continuing training from scratch")
