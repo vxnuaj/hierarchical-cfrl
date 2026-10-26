@@ -1,10 +1,10 @@
 #!/bin/bash
-# Copy the checkpoints the paper's tables depend on from scratch (purged) to the group's persistent project space.
+# Copy the checkpoints the paper's tables depend on from scratch (purged) to the user's home directory (backed up, 100 GB quota).
 # Runs ON the cluster:  nohup bash scripts/backup_checkpoints.sh > outputs/backup.log 2>&1 &
 # Lean set (~15 GB): selected SFT bases, best critic epoch per critic, final + best policy of every Game24-cd / K&K / Countdown run.
 set -u
 SRC=/scratch1/verajuan/hcfrl/outputs
-DST=/project2/irahbari_832/hcfrl_backup
+DST=$HOME/hcfrl_backup   # own home quota (backed up, not purged); never the group project space
 mkdir -p $DST/sft $DST/critic $DST/rl
 cp_sft() { d=$1; [ -d "$SRC/$d" ] || return; mkdir -p $DST/sft/$d; rsync -a $SRC/$d/config.yml $DST/sft/$d/ 2>/dev/null; rsync -a "$SRC/$d/$2" $DST/sft/$d/; }
 # selected bases (gate0a wrote the chosen checkpoint into outputs/eval/<tag>_ckpt.txt)
