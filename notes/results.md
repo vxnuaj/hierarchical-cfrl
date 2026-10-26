@@ -201,3 +201,18 @@ CFRL reports +4.2 at Λ/4 on Game24 (raw step destroys the policy, random does n
 **K&K seeds 1–2 (test acc by iter, running):** flat s1 78.6→72.2→76.2→65.3 (750); s2 78.0→72.9→70.1 (500). Hier s1 78.0→80.1→79.8 (500); s2 78.1→80.4→79.3 (500). Seed 0 was flat 79.2→75.2 (500)→71.9 (1000), hier 79.7→74.8 (500)→74.5 (1000). At iter 500 hier ≥ flat in all three seeds (74.8/79.8/79.3 vs 75.2/76.2/70.1); seeds 1–2 hier are at or above base. The earlier "K&K: both degrade" read was seed 0 only; the three-seed picture looks like Game24's ordering, smaller margin.
 
 Tooling 2026-10-26: `python scripts/status.py [--watch 600] [--filter kk]` renders a terminal dashboard of the cluster state (queue, every RL run with base/last/Δ/sparkline/live state, SFT checkpoints, critics, analysis files, slurm logs with errors). The same file runs on the login node with `--remote` and returns JSON.
+
+## 2026-10-26 — K&K three seeds: hier is protective there too
+
+SVG-2D on K&K (1000 iters, test acc, bases ~78–80):
+
+| seed | flat | hier |
+|---|---|---|
+| 0 | 79.2 → 71.9 (−7.3) | 79.7 → 74.5 (−5.2) |
+| 1 | 78.6 → 71.0 (−7.6) | 78.0 → 78.0 (0.0) |
+| 2 | 78.0 → 66.9 (−11.1) | 78.1 → 78.9 (+0.8) |
+| **mean** | **−8.7** | **−1.5** |
+
+Hier ≥ flat in 3/3 seeds; seeds 1–2 hier peak at +2 (iter 250) and hold; flat drifts down in all three. Same ordering as Game24-cd with a smaller margin and no net gain. The earlier "K&K: both degrade equally" was a seed-0 artefact.
+
+**Channel ablations (hier Game24-cd, seed 0, test acc by iter):** tokens-only gradient 64.9 → 67.8 / 69.1 / 70.3 / 70.4 / 69.8 (iter 1250, running) — tracks the full hier run. Clusters-only gradient 64.9 → 68.9 / **71.3** / 69.7 / 66.1 / 65.1 — fastest early gain, then decays back to base. Read: the cluster channels alone carry a usable, even stronger, early signal but cannot sustain it; the token channels alone give the stable gain. Final numbers at 1500 pending.
