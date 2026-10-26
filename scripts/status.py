@@ -26,8 +26,27 @@ def _tail(path, n=60):
             return f.read().decode("utf8", "replace").splitlines()[-n:]
     except OSError: return []
 
-def gather():
-    out = {"ts": time.time(), "queue": [], "rl": [], "sft": [], "critic": [], "analysis": [], "failed": []}
+def _downsample(seq, n=240):
+    if len(seq) <= n: return seq
+    step = len(seq) / float(n)
+    return [seq[int(i * step)] for i in range(n)] + [seq[-1]]
+
+SFT_STEP = re.compile(r"engine - Step (\d+): loss=([\d.e+-]+), l2=([\d.e+-]+), ce=([\d.e+-]+), lr=([\d.e+-]+)")
+
+def _sft_info(slurm_out):
+    """(output_dir, epochs, steps_per_epoch, [(step, loss, ce, lr), ...]) from a SFT job's log"""
+    try: txt = open(slurm_out, "rb").read().decode("utf8", "replace")
+    except OSError: return None
+    m = re.search(r"Output dir: outputs/(\S+)", txt)
+    if not m: return None
+    ep = re.search(r"Number of epochs: (\d+)", txt); spe = re.search(r"Epoch \d+:.*?/(\d+) \[", txt)
+    pts = {}
+    for st, loss, l2, ce, lr in SFT_STEP.findall(txt):
+        pts[int(st)] = [int(st), float(loss), float(ce), float(lr)]
+    return m.group(1), int(ep.group(1)) if ep else None, int(spe.group(1)) if spe else None, [pts[k] for k in sorted(pts)]
+
+def gather(full=False):
+    out = {"ts": time.time(), "queue": [], "rl": [], "sft": [], "critic": [], "analysis": [], "failed": [], "full": full}
     try:
         q = subprocess.check_output(["squeue", "-u", "verajuan", "-h", "-o", "%i|%j|%t|%M|%R|%l"]).decode()
         for line in q.splitlines():
@@ -37,14 +56,20 @@ def gather():
         out["queue_error"] = str(e)
     for log in sorted(glob.glob("outputs/rl/*/log.jsonl")):
         name = os.path.basename(os.path.dirname(log)); evals = []; last = {}
+        train = []
         for line in open(log):
             try: r = json.loads(line)
             except ValueError: continue
             if "val_acc" in r:
                 acc = r.get("test_acc") if r.get("test_acc") is not None else r.get("val_acc")
                 evals.append([r["iter"], acc, r.get("val_acc")])
-            elif "obj" in r: last = {k: r.get(k) for k in ("iter", "obj", "grad_norm", "lr", "buf_succ", "critic_auc")}
-        out["rl"].append({"name": name, "evals": evals, "last": last, "age": _age(log)})
+            elif "obj" in r:
+                last = {k: r.get(k) for k in ("iter", "obj", "grad_norm", "lr", "buf_succ", "critic_auc", "critic_loss")}
+                if full: train.append([r.get("iter"), r.get("obj"), r.get("grad_norm"), r.get("buf_succ"),
+                                       r.get("critic_auc"), r.get("critic_loss"), r.get("lr")])
+        rec = {"name": name, "evals": evals, "last": last, "age": _age(log)}
+        if full: rec["train"] = _downsample(train)
+        out["rl"].append(rec)
     for d in sorted(glob.glob("outputs/*_b-*")):
         cks = [int(p.rsplit("_", 1)[1]) for p in glob.glob(d + "/checkpoint_*") if p.rsplit("_", 1)[1].isdigit()]
         total = None
@@ -55,15 +80,42 @@ def gather():
         except OSError: pass
         out["sft"].append({"name": os.path.basename(d), "step": max(cks) if cks else 0, "total": total,
                            "age": _age(max(glob.glob(d + "/checkpoint_*"), key=os.path.getmtime)) if cks else _age(d)})
+    if full:   # SFT loss curves + planned length, from the slurm logs of sft-* jobs (mapped via "Output dir:")
+        info = {}
+        for f in sorted(glob.glob("outputs/slurm/sft-*.out"), key=os.path.getmtime):
+            r = _sft_info(f)
+            if not r: continue
+            d_, ep, spe, pts = r
+            cur = info.setdefault(d_, {"pts": {}, "epochs": ep, "spe": spe})
+            cur["pts"].update({p[0]: p for p in pts}); cur["epochs"] = ep or cur["epochs"]; cur["spe"] = spe or cur["spe"]
+        for s_ in out["sft"]:
+            i = info.get(s_["name"])
+            if not i: s_["loss"] = []; continue
+            s_["loss"] = _downsample([i["pts"][k] for k in sorted(i["pts"])], 400)
+            if i["pts"]: s_["step"] = max(s_["step"], max(i["pts"]))   # log is ahead of the last checkpoint
+            if i["epochs"] and i["spe"]: s_["total"] = s_["total"] or i["epochs"] * i["spe"]
     for d in sorted(glob.glob("outputs/critic/*_2d")):
         eps = sorted(glob.glob(d + "/critic_ep*.pt")); best = None
         if os.path.exists(d + "/log.json"):
             try: best = json.load(open(d + "/log.json")).get("best_epoch")
             except ValueError: pass
-        out["critic"].append({"name": os.path.basename(d)[:-3], "epochs": len(eps), "best": best,
-                              "done": os.path.exists(d + "/log.json"), "age": _age(d)})
+        rec = {"name": os.path.basename(d)[:-3], "epochs": len(eps), "best": best,
+               "done": os.path.exists(d + "/log.json"), "age": _age(d)}
+        if full and os.path.exists(d + "/log.json"):
+            try:
+                lg = json.load(open(d + "/log.json")).get("log", [])
+                rec["log"] = [{"epoch": e.get("epoch"), "train_loss": e.get("train_loss"),
+                               "ks": {k: {"auc": v.get("auc"), "pearson": v.get("pearson"), "pick": v.get("pick_at_v")}
+                                      for k, v in e.items() if k.startswith("k") and isinstance(v, dict)}} for e in lg]
+            except ValueError: pass
+        out["critic"].append(rec)
     for f in sorted(glob.glob("outputs/analysis/*.json"), key=os.path.getmtime):
         out["analysis"].append({"name": os.path.basename(f), "age": _age(f)})
+    if full:   # log tails for the jobs in the queue (by job id)
+        out["tails"] = {}
+        for j in out["queue"]:
+            fs = glob.glob("outputs/slurm/*-%s.out" % j["id"])
+            if fs: out["tails"][j["id"]] = [l[:220] for l in _tail(fs[0], 25)]
     for f in sorted(glob.glob("outputs/slurm/*.out"), key=os.path.getmtime)[-60:]:
         tail = _tail(f)
         bad = [l for l in tail if re.search(r"Traceback|Error|CANCELLED|DUE TO TIME LIMIT|out of memory|Killed", l)]
@@ -168,9 +220,10 @@ def main():
     ap.add_argument("--remote", action="store_true"); ap.add_argument("--watch", type=int, default=0)
     ap.add_argument("--filter", default=None); ap.add_argument("--json", action="store_true")
     ap.add_argument("--all", action="store_true", help="also show smoke/probe runs")
+    ap.add_argument("--full", action="store_true", help="(with --remote) include training curves, SFT losses, critic logs, log tails")
     a = ap.parse_args()
     if a.remote:
-        json.dump(gather(), sys.stdout); return
+        json.dump(gather(a.full), sys.stdout); return
     while True:
         try:
             d = fetch()

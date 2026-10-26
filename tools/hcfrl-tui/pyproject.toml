@@ -1,0 +1,16 @@
+[project]
+name = "hcfrl-tui"
+version = "0.1.0"
+description = "Terminal dashboard for the hierarchical-cfrl experiments on CARC"
+requires-python = ">=3.10"
+dependencies = ["textual>=3.0", "plotext>=5.3", "textual-plotext>=1.0"]
+
+[project.scripts]
+hcfrl = "hcfrl_tui.app:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hcfrl_tui"]
