@@ -28,7 +28,7 @@ def main():
     ap.add_argument("--n_prompts", type=int, default=128); ap.add_argument("--repeat", type=int, default=8)
     ap.add_argument("--ks", default="8,16,24,32"); ap.add_argument("--K", type=int, default=64); ap.add_argument("--gamma", type=float, default=56.0)
     ap.add_argument("--bs", type=int, default=32); ap.add_argument("--n_val", type=int, default=1000); ap.add_argument("--eval_bs", type=int, default=250)
-    ap.add_argument("--fracs", default="0.0625,0.25,0.5,1"); ap.add_argument("--seed", type=int, default=0); ap.add_argument("--out", required=True)
+    ap.add_argument("--fracs", default="0.0625,0.25,0.5,1"); ap.add_argument("--val_shuffle", action="store_true", help="random (seeded) val subset instead of the first n_val"); ap.add_argument("--seed", type=int, default=0); ap.add_argument("--out", required=True)
     a = ap.parse_args()
     torch.manual_seed(a.seed); random.seed(a.seed)
     dev = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -89,7 +89,9 @@ def main():
     del gmean
 
     # ---- paired evaluation ----
-    val = load_prompts(a.val_prompts)[: a.n_val]
+    val = load_prompts(a.val_prompts)
+    if a.val_shuffle: random.Random(777).shuffle(val)
+    val = val[: a.n_val]
     def ev():
         geval = torch.Generator(device="cpu").manual_seed(777)
         with ac: return evaluate(model, S, env, val, a.eval_bs, geval, dev)

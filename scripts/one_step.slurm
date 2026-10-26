@@ -13,7 +13,7 @@
 source scripts/common.sh
 set -x
 while [ $# -ge 6 ]; do
-  python -m hcfrl.analysis.one_step --config $1 --ckpt $2 --critic $3 --run $4 --train_prompts $5/train_prompts.jsonl --val_prompts $5/val.jsonl --out $6
+  python -m hcfrl.analysis.one_step $ONESTEP_EXTRA --config $1 --ckpt $2 --critic $3 --run $4 --train_prompts $5/train_prompts.jsonl --val_prompts $5/val.jsonl --out $6
   shift 6
 done
 echo ONESTEP_DONE
