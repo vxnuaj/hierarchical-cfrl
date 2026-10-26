@@ -1,0 +1,14 @@
+{
+ "acc": {
+  "outputs/helf_b-kk/checkpoint_1171": 0.06166666666666667,
+  "outputs/helf_b-kk/checkpoint_2342": 0.29333333333333333,
+  "outputs/helf_b-kk/checkpoint_3513": 0.6033333333333334,
+  "outputs/helf_b-kk/checkpoint_4684": 0.7883333333333333,
+  "outputs/helf_b-kk/checkpoint_5855": 0.89,
+  "outputs/helf_b-kk/checkpoint_7026": 0.9616666666666667,
+  "outputs/helf_b-kk/checkpoint_8197": 0.98,
+  "outputs/helf_b-kk/checkpoint_9368": 0.99
+ },
+ "best": "outputs/helf_b-kk/checkpoint_9368",
+ "best_acc": 0.99
+}

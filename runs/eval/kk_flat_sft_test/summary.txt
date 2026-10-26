@@ -1,0 +1,1 @@
+0.7890	1000	K=64	gamma=56.0	cfg=2.0	ckpt=outputs/elf_b-kk/checkpoint_4684

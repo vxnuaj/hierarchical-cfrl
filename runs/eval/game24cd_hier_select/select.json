@@ -1,0 +1,15 @@
+{
+ "acc": {
+  "outputs/helf_b-game24-cd/checkpoint_350": 0.645,
+  "outputs/helf_b-game24-cd/checkpoint_700": 0.71,
+  "outputs/helf_b-game24-cd/checkpoint_1050": 0.7483333333333333,
+  "outputs/helf_b-game24-cd/checkpoint_1400": 0.77,
+  "outputs/helf_b-game24-cd/checkpoint_1750": 0.7616666666666667,
+  "outputs/helf_b-game24-cd/checkpoint_2100": 0.7766666666666666,
+  "outputs/helf_b-game24-cd/checkpoint_2450": 0.78,
+  "outputs/helf_b-game24-cd/checkpoint_2800": 0.7933333333333333
+ },
+ "best": "outputs/helf_b-game24-cd/checkpoint_2800",
+ "best_acc": 0.7933333333333333,
+ "target": null
+}

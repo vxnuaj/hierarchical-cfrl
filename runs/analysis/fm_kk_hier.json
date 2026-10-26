@@ -1,0 +1,497 @@
+{
+ "0": {
+  "acc": 0.776,
+  "cats": {
+   "ok": 0.776,
+   "n_steps": 0.0,
+   "parse": 0.0,
+   "operand": 0.0,
+   "arith": 0.0,
+   "target": 0.224
+  },
+  "mean_chars": 41.268,
+  "distinct_frac": 0.202,
+  "tok_repeat_frac": 0.009191543779722654,
+  "op_mix": {
+   "+": 0.0,
+   "-": 0.0,
+   "*": 0.0,
+   "/": 0.0
+  },
+  "top_outputs": [
+   [
+    "A knight B knight C knight D knave",
+    16
+   ],
+   [
+    "A knave B knight C knave D knight",
+    15
+   ],
+   [
+    "A knight B knave C knave D knight",
+    13
+   ]
+  ],
+  "regressed_vs_first": 0.0,
+  "fixed_vs_first": 0.0,
+  "same_text_as_first": 1.0,
+  "samples": [
+   {
+    "prompt": "A: C knight ; B: C knight ; C: B diff D ; D: A knave",
+    "out": "A knight B knight C knight D knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: D knave ; B: C knave ; C: D diff A ; D: A diff E ; E: A same C",
+    "out": "A knave B knave C knight D knight E knave",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: B knave ; B: F knave ; C: E knave ; D: F same C ; E: C diff A ; F: E diff B",
+    "out": "A knight B knave C knave D knave E knight F knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: D knight ; B: D knave ; C: B knight ; D: C same A ; E: B knave",
+    "out": "A knave B knight C knight D knave E knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: B knave ; B: C diff E ; C: B knight ; D: B diff E ; E: D knight",
+    "out": "A knight B knave C knave D knave E knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C same D ; B: C same D ; C: B knight ; D: C knave",
+    "out": "A knave B knave C knave D knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C knave ; B: A knave ; C: A same B ; D: B knight",
+    "out": "A knight B knave C knave D knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C diff D ; B: E diff A ; C: F knave ; D: B diff C ; E: A knight ; F: E knight",
+    "out": "A knight B knave C knave D knight E knight F knight",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: D knave ; B: D knave ; C: B knight ; D: C same B",
+    "out": "A knave B knave C knave D knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C same E ; B: A knave ; C: D diff B ; D: C knave ; E: A knave",
+    "out": "A knave B knight C knave D knight E knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: D knave ; B: A knight ; C: E knave ; D: E same A ; E: A knave ; F: E knight",
+    "out": "A knave B knave C knave D knight E knight F knight",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: D diff C ; B: C same A ; C: A knave ; D: A knight",
+    "out": "A knight B knave C knave D knight",
+    "cat": "ok"
+   }
+  ]
+ },
+ "250": {
+  "acc": 0.77,
+  "cats": {
+   "ok": 0.77,
+   "n_steps": 0.0,
+   "parse": 0.0,
+   "operand": 0.0,
+   "arith": 0.0,
+   "target": 0.23
+  },
+  "mean_chars": 41.08,
+  "distinct_frac": 0.2,
+  "tok_repeat_frac": 0.013972450918302723,
+  "op_mix": {
+   "+": 0.0,
+   "-": 0.0,
+   "*": 0.0,
+   "/": 0.0
+  },
+  "top_outputs": [
+   [
+    "A knight B knight C knight D knave",
+    16
+   ],
+   [
+    "A knave B knight C knave D knight",
+    14
+   ],
+   [
+    "A knave B knight C knight D knave E knave",
+    13
+   ]
+  ],
+  "regressed_vs_first": 0.086,
+  "fixed_vs_first": 0.08,
+  "same_text_as_first": 0.76,
+  "samples": [
+   {
+    "prompt": "A: C knight ; B: C knight ; C: B diff D ; D: A knave",
+    "out": "A knight B knight C knight D knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: D knave ; B: C knave ; C: D diff A ; D: A diff E ; E: A same C",
+    "out": "A knave B knave C knight D knight E knave",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: B knave ; B: F knave ; C: E knave ; D: F same C ; E: C diff A ; F: E diff B",
+    "out": "A knave B knight C knight D knave E knave F knave",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: D knight ; B: D knave ; C: B knight ; D: C same A ; E: B knave",
+    "out": "A knave B knight C knight D knave E knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: B knave ; B: C diff E ; C: B knight ; D: B diff E ; E: D knight",
+    "out": "A knight B knave C knave D knave E knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C same D ; B: C same D ; C: B knight ; D: C knave",
+    "out": "A knave B knave C knave D knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C knave ; B: A knave ; C: A same B ; D: B knight",
+    "out": "A knight B knave C knave D knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C diff D ; B: E diff A ; C: F knave ; D: B diff C ; E: A knight ; F: E knight",
+    "out": "A knight B knave C knave D knight E knight F knight",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: D knave ; B: D knave ; C: B knight ; D: C same B",
+    "out": "A knave B knave C knave D knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C same E ; B: A knave ; C: D diff B ; D: C knave ; E: A knave",
+    "out": "A knave B knight C knave D knight E knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: D knave ; B: A knight ; C: E knave ; D: E same A ; E: A knave ; F: E knight",
+    "out": "A knight B knight C knight D knave E knave F knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: D diff C ; B: C same A ; C: A knave ; D: A knight",
+    "out": "A knight B knave C knave D knight",
+    "cat": "ok"
+   }
+  ]
+ },
+ "500": {
+  "acc": 0.762,
+  "cats": {
+   "ok": 0.762,
+   "n_steps": 0.0,
+   "parse": 0.0,
+   "operand": 0.0,
+   "arith": 0.0,
+   "target": 0.238
+  },
+  "mean_chars": 41.036,
+  "distinct_frac": 0.2,
+  "tok_repeat_frac": 0.018074191002367797,
+  "op_mix": {
+   "+": 0.0,
+   "-": 0.0,
+   "*": 0.0,
+   "/": 0.0
+  },
+  "top_outputs": [
+   [
+    "A knight B knight C knight D knave",
+    16
+   ],
+   [
+    "A knave B knight C knave D knight",
+    16
+   ],
+   [
+    "A knave B knave C knight D knave",
+    13
+   ]
+  ],
+  "regressed_vs_first": 0.076,
+  "fixed_vs_first": 0.062,
+  "same_text_as_first": 0.784,
+  "samples": [
+   {
+    "prompt": "A: C knight ; B: C knight ; C: B diff D ; D: A knave",
+    "out": "A knight B knight C knight D knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: D knave ; B: C knave ; C: D diff A ; D: A diff E ; E: A same C",
+    "out": "A knave B knave C knight D knight E knave",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: B knave ; B: F knave ; C: E knave ; D: F same C ; E: C diff A ; F: E diff B",
+    "out": "A knave B knight C knave D knave E knight F knave",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: D knight ; B: D knave ; C: B knight ; D: C same A ; E: B knave",
+    "out": "A knight B knave C knight D knight E knight",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: B knave ; B: C diff E ; C: B knight ; D: B diff E ; E: D knight",
+    "out": "A knight B knave C knave D knave E knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C same D ; B: C same D ; C: B knight ; D: C knave",
+    "out": "A knave B knave C knave D knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C knave ; B: A knave ; C: A same B ; D: B knight",
+    "out": "A knight B knave C knave D knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C diff D ; B: E diff A ; C: F knave ; D: B diff C ; E: A knight ; F: E knight",
+    "out": "A knave B knight C knight D knave E knave F knave",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: D knave ; B: D knave ; C: B knight ; D: C same B",
+    "out": "A knave B knave C knave D knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C same E ; B: A knave ; C: D diff B ; D: C knave ; E: A knave",
+    "out": "A knave B knight C knave D knight E knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: D knave ; B: A knight ; C: E knave ; D: E same A ; E: A knave ; F: E knight",
+    "out": "A knight B knight C knight D knave E knave F knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: D diff C ; B: C same A ; C: A knave ; D: A knight",
+    "out": "A knight B knave C knave D knight",
+    "cat": "ok"
+   }
+  ]
+ },
+ "750": {
+  "acc": 0.744,
+  "cats": {
+   "ok": 0.744,
+   "n_steps": 0.0,
+   "parse": 0.0,
+   "operand": 0.0,
+   "arith": 0.0,
+   "target": 0.256
+  },
+  "mean_chars": 41.062,
+  "distinct_frac": 0.198,
+  "tok_repeat_frac": 0.01804255991156382,
+  "op_mix": {
+   "+": 0.0,
+   "-": 0.0,
+   "*": 0.0,
+   "/": 0.0
+  },
+  "top_outputs": [
+   [
+    "A knight B knight C knight D knave",
+    16
+   ],
+   [
+    "A knave B knight C knave D knight",
+    14
+   ],
+   [
+    "A knight B knave C knave D knight",
+    12
+   ]
+  ],
+  "regressed_vs_first": 0.086,
+  "fixed_vs_first": 0.054,
+  "same_text_as_first": 0.77,
+  "samples": [
+   {
+    "prompt": "A: C knight ; B: C knight ; C: B diff D ; D: A knave",
+    "out": "A knight B knight C knight D knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: D knave ; B: C knave ; C: D diff A ; D: A diff E ; E: A same C",
+    "out": "A knave B knave C knight D knight E knave",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: B knave ; B: F knave ; C: E knave ; D: F same C ; E: C diff A ; F: E diff B",
+    "out": "A knight B knave C knave D knave E knight F knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: D knight ; B: D knave ; C: B knight ; D: C same A ; E: B knave",
+    "out": "A knight B knave C knight D knight E knight",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: B knave ; B: C diff E ; C: B knight ; D: B diff E ; E: D knight",
+    "out": "A knight B knave C knave D knave E knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C same D ; B: C same D ; C: B knight ; D: C knave",
+    "out": "A knave B knave C knave D knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C knave ; B: A knave ; C: A same B ; D: B knight",
+    "out": "A knight B knave C knave D knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C diff D ; B: E diff A ; C: F knave ; D: B diff C ; E: A knight ; F: E knight",
+    "out": "A knight B knave C knave D knight E knight F knight",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: D knave ; B: D knave ; C: B knight ; D: C same B",
+    "out": "A knave B knave C knave D knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C same E ; B: A knave ; C: D diff B ; D: C knave ; E: A knave",
+    "out": "A knave B knight C knave D knight E knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: D knave ; B: A knight ; C: E knave ; D: E same A ; E: A knave ; F: E knight",
+    "out": "A knave B knave C knight D knight E knave F knave",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: D diff C ; B: C same A ; C: A knave ; D: A knight",
+    "out": "A knight B knave C knave D knight",
+    "cat": "ok"
+   }
+  ]
+ },
+ "1000": {
+  "acc": 0.72,
+  "cats": {
+   "ok": 0.72,
+   "n_steps": 0.0,
+   "parse": 0.0,
+   "operand": 0.0,
+   "arith": 0.0,
+   "target": 0.28
+  },
+  "mean_chars": 41.308,
+  "distinct_frac": 0.214,
+  "tok_repeat_frac": 0.016823608210866398,
+  "op_mix": {
+   "+": 0.0,
+   "-": 0.0,
+   "*": 0.0,
+   "/": 0.0
+  },
+  "top_outputs": [
+   [
+    "A knight B knight C knight D knave",
+    15
+   ],
+   [
+    "A knave B knight C knave D knight",
+    15
+   ],
+   [
+    "A knight B knave C knave D knight",
+    12
+   ]
+  ],
+  "regressed_vs_first": 0.112,
+  "fixed_vs_first": 0.056,
+  "same_text_as_first": 0.756,
+  "samples": [
+   {
+    "prompt": "A: C knight ; B: C knight ; C: B diff D ; D: A knave",
+    "out": "A knight B knight C knight D knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: D knave ; B: C knave ; C: D diff A ; D: A diff E ; E: A same C",
+    "out": "A knave B knave C knight D knight E knave",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: B knave ; B: F knave ; C: E knave ; D: F same C ; E: C diff A ; F: E diff B",
+    "out": "A knave B knight C knight D knave E knave F knave",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: D knight ; B: D knave ; C: B knight ; D: C same A ; E: B knave",
+    "out": "A knight B knave C knight D knight E knight",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: B knave ; B: C diff E ; C: B knight ; D: B diff E ; E: D knight",
+    "out": "A knight B knave C knave D knave E knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C same D ; B: C same D ; C: B knight ; D: C knave",
+    "out": "A knave B knave C knave D knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C knave ; B: A knave ; C: A same B ; D: B knight",
+    "out": "A knight B knave C knave D knave",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C diff D ; B: E diff A ; C: F knave ; D: B diff C ; E: A knight ; F: E knight",
+    "out": "A knight B knave C knave D knight E knight F knight",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: D knave ; B: D knave ; C: B knight ; D: C same B",
+    "out": "A knave B knave C knave D knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: C same E ; B: A knave ; C: D diff B ; D: C knave ; E: A knave",
+    "out": "A knave B knight C knave D knight E knight",
+    "cat": "ok"
+   },
+   {
+    "prompt": "A: D knave ; B: A knight ; C: E knave ; D: E same A ; E: A knave ; F: E knight",
+    "out": "A knave B knave C knight D knight E knave F knave",
+    "cat": "target"
+   },
+   {
+    "prompt": "A: D diff C ; B: C same A ; C: A knave ; D: A knight",
+    "out": "A knight B knave C knave D knight",
+    "cat": "ok"
+   }
+  ]
+ }
+}

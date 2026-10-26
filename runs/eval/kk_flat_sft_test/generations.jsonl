@@ -1,0 +1,1000 @@
+{"prompt": "A: E knight ; B: A diff D ; C: D diff E ; D: A knave ; E: A same D", "gen": "A knave B knight C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: B same E ; B: C knight ; C: D diff E ; D: E knight ; E: C knight ; F: B diff E", "gen": "A knight B knave C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: E knight ; C: F same B ; D: E diff C ; E: C diff A ; F: D same A", "gen": "A knave B knight C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: E same B ; B: C same A ; C: D knight ; D: A knight ; E: C same D", "gen": "A knight B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: E knight ; B: F same E ; C: A knave ; D: A knight ; E: B knave ; F: E knave", "gen": "A knight B knave C knave D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: A diff F ; C: B knave ; D: B diff A ; E: B diff F ; F: A knave", "gen": "A knight B knight C knave D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: E knave ; C: E diff B ; D: E same B ; E: B diff A ; F: E diff D", "gen": "A knight B knave C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: E knight ; B: E knave ; C: B same A ; D: C knight ; E: D same C ; F: D knave", "gen": "A knight B knave C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: D same C ; B: D same A ; C: D diff B ; D: B knave", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: F knave ; B: F diff C ; C: E same B ; D: B knave ; E: C diff F ; F: B diff A", "gen": "A knave B knave C knight D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: D knave ; B: C knight ; C: B diff D ; D: C knight", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: C diff D ; B: A same C ; C: D knave ; D: A knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: D diff F ; C: B same F ; D: F knight ; E: C knave ; F: E diff A", "gen": "A knave B knave C knave D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: B diff D ; B: A same C ; C: B knave ; D: C same E ; E: D diff A", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: A same E ; C: A same D ; D: A knight ; E: B knave", "gen": "A knave B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: E diff A ; C: E diff A ; D: E same A ; E: C knave", "gen": "A knave B knight C knight D knave E knave", "reward": 0.0}
+{"prompt": "A: D diff B ; B: A knight ; C: D diff A ; D: C knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: C knave ; C: D diff A ; D: F same C ; E: D same B ; F: A diff C", "gen": "A knight B knave C knight D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: B same D ; B: D knight ; C: B same D ; D: C same A", "gen": "A knight B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: D diff C ; C: E knave ; D: E diff C ; E: D knight", "gen": "A knave B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: C same F ; B: D knight ; C: E knight ; D: B diff E ; E: F knight ; F: D knave", "gen": "A knave B knight C knave D knight E knave F knave", "reward": 0.0}
+{"prompt": "A: C diff F ; B: F same E ; C: F diff B ; D: E diff B ; E: C diff F ; F: C knave", "gen": "A knight B knave C knight D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: C diff B ; B: C knight ; C: A knight ; D: E diff B ; E: B knave", "gen": "A knave B knave C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: C knight ; C: D knight ; D: B same C", "gen": "A knight B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: E same F ; C: E same A ; D: B knave ; E: D knight ; F: D knight", "gen": "A knight B knight C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: E knave ; C: B same A ; D: A same B ; E: D knight", "gen": "A knave B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: B diff D ; B: C same D ; C: D knight ; D: C same E ; E: A knave", "gen": "A knave B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: F same E ; B: D diff A ; C: A diff F ; D: F diff C ; E: A same D ; F: E knave", "gen": "A knave B knight C knight D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: D diff B ; B: C diff D ; C: D diff E ; D: E knave ; E: A diff C", "gen": "A knight B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: A knight ; C: A knight ; D: F knight ; E: C same A ; F: E knight", "gen": "A knight B knight C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: C diff A ; C: D knight ; D: A same C ; E: D knight", "gen": "A knight B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: C knave ; C: A same D ; D: A knave", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: C same B ; B: C knight ; C: D diff B ; D: B knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: C diff D ; B: A same D ; C: D same B ; D: C knave ; E: D knight", "gen": "A knight B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: E knight ; C: E knight ; D: C knave ; E: C same B", "gen": "A knight B knave C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: C knight ; B: A same C ; C: D diff B ; D: B knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: F diff E ; C: F knave ; D: E diff C ; E: A diff F ; F: E knave", "gen": "A knight B knight C knight D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: D diff C ; C: F same E ; D: F diff E ; E: B diff C ; F: A knight", "gen": "A knight B knight C knave D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: B diff E ; B: E knave ; C: D knight ; D: B diff C ; E: A same D", "gen": "A knight B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: A knight ; C: A knight ; D: C same F ; E: F knight ; F: E diff C", "gen": "A knave B knave C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: F diff E ; B: F knight ; C: E knave ; D: F diff A ; E: A knave ; F: C knave", "gen": "A knight B knight C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: C knight ; B: D knight ; C: D diff A ; D: A knave ; E: A knave", "gen": "A knight B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: B diff C ; B: C knight ; C: D diff E ; D: C knight ; E: C knight", "gen": "A knave B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knight ; C: E diff A ; D: C knight ; E: D knight", "gen": "A knave B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: A diff D ; C: A diff B ; D: A diff C ; E: A knight", "gen": "A knave B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: B diff D ; B: A knight ; C: A knight ; D: C knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: B same E ; B: A knight ; C: D knight ; D: F same C ; E: D diff A ; F: C knave", "gen": "A knave B knave C knight D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: D same C ; B: A knave ; C: D knave ; D: B knave", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: C same B ; B: A same D ; C: B knave ; D: A knave", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: B diff C ; B: E same A ; C: D knave ; D: E diff C ; E: A knave", "gen": "A knight B knave C knight D knave E knave", "reward": 0.0}
+{"prompt": "A: C same D ; B: F same D ; C: B knave ; D: A knight ; E: C knave ; F: C knave", "gen": "A knight B knave C knight D knight E knave F knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: A knave ; C: F same A ; D: C knight ; E: B same A ; F: B same E", "gen": "A knight B knave C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: C same E ; B: F diff C ; C: F knave ; D: E knight ; E: C diff B ; F: E diff D", "gen": "A knave B knight C knave D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: B knave ; B: D knave ; C: E same D ; D: E knave ; E: A diff B", "gen": "A knave B knight C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: C knave ; C: B same D ; D: B knight", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: E knight ; C: B knight ; D: E knave ; E: B diff C", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: D diff E ; C: E same A ; D: B diff C ; E: D knave", "gen": "A knight B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: A diff C ; C: E same B ; D: A same C ; E: B knight", "gen": "A knave B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: E same B ; B: D knight ; C: D diff E ; D: C knave ; E: B knave", "gen": "A knave B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: D diff F ; B: F diff A ; C: A knave ; D: F knave ; E: D diff A ; F: C knight", "gen": "A knight B knave C knave D knight E knave F knave", "reward": 0.0}
+{"prompt": "A: C diff D ; B: D diff A ; C: B diff D ; D: A knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: C knave ; C: E diff A ; D: B same F ; E: F same D ; F: B same A", "gen": "A knave B knight C knave D knight E knight F knight", "reward": 0.0}
+{"prompt": "A: C knave ; B: C knight ; C: F diff A ; D: F same C ; E: B same D ; F: A knight", "gen": "A knight B knave C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: B same D ; B: D knave ; C: A knave ; D: A diff C", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: B diff C ; B: E diff C ; C: B knave ; D: B diff C ; E: B knave", "gen": "A knight B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: E same C ; B: E diff D ; C: D diff A ; D: C knave ; E: A knave", "gen": "A knave B knight C knave D knight E knight", "reward": 0.0}
+{"prompt": "A: C diff B ; B: C diff D ; C: D diff A ; D: C knave", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: D diff C ; B: C knight ; C: D knight ; D: B same C", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: D diff E ; B: E same D ; C: B knight ; D: A knight ; E: C knave", "gen": "A knight B knave C knave D knight E knight", "reward": 0.0}
+{"prompt": "A: C knave ; B: C same F ; C: B diff D ; D: B same F ; E: F knight ; F: C diff D", "gen": "A knight B knave C knave D knight E knave F knave", "reward": 0.0}
+{"prompt": "A: C diff E ; B: E diff A ; C: D same E ; D: C knave ; E: A knight", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: B diff D ; B: A diff E ; C: B knave ; D: E diff B ; E: C knave", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: E same D ; C: D diff E ; D: B knight ; E: C knave", "gen": "A knight B knave C knight D knave E knave", "reward": 0.0}
+{"prompt": "A: C same B ; B: D knight ; C: B diff D ; D: C knight", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: B same E ; B: C diff F ; C: A same E ; D: E knight ; E: A diff D ; F: E knight", "gen": "A knave B knight C knight D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: A diff D ; C: B knave ; D: C knave", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: B same D ; B: D knight ; C: E knave ; D: E knight ; E: A knight", "gen": "A knight B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: C knight ; C: B same D ; D: B knave ; E: B knight", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: C same E ; C: B knight ; D: B diff E ; E: D knight", "gen": "A knight B knave C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: E knave ; C: B same E ; D: A diff B ; E: A knave ; F: D same A", "gen": "A knave B knave C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: E diff C ; B: E knave ; C: A knave ; D: C knave ; E: B same A", "gen": "A knave B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: D same B ; B: C same E ; C: B diff A ; D: E same A ; E: D knight", "gen": "A knight B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: E knight ; C: B knave ; D: C knight ; E: D diff B", "gen": "A knave B knight C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: E diff D ; C: A knave ; D: A knave ; E: C same A", "gen": "A knight B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: F same C ; B: A knight ; C: D diff E ; D: E diff A ; E: A same C ; F: A knave", "gen": "A knave B knave C knave D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: A knave ; C: E diff D ; D: F knight ; E: D diff A ; F: E knave", "gen": "A knight B knave C knight D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: C same B ; B: C knight ; C: D diff A ; D: B same C", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C same B ; B: A knave ; C: B diff D ; D: A diff B", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: D knave ; C: D knight ; D: A same C ; E: A same D ; F: B knight", "gen": "A knave B knight C knave D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: C knave ; B: E knight ; C: B same D ; D: C knave ; E: D knight", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: D same B ; B: C knave ; C: A knight ; D: B knave", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: E knight ; C: B same A ; D: C knave ; E: A knave", "gen": "A knave B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: D knight ; C: B diff A ; D: C knave", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: D same A ; C: B knight ; D: B knight ; E: D knave", "gen": "A knight B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: A same F ; C: F knave ; D: E knight ; E: F knight ; F: B knight", "gen": "A knight B knight C knave D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: D knave ; C: B same D ; D: C knave", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: F knight ; B: C knave ; C: E same F ; D: F same C ; E: D same F ; F: D knight", "gen": "A knight B knave C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: D knave ; C: A knave ; D: C knave", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: E diff A ; C: E knave ; D: B diff A ; E: B knave", "gen": "A knight B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: C same D ; C: D diff A ; D: C knight", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: E knight ; B: F knave ; C: D diff E ; D: E knave ; E: B same C ; F: C knight", "gen": "A knave B knave C knight D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: D knight ; C: D knave ; D: C diff A", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: C same B ; B: A knight ; C: A diff E ; D: C same A ; E: D same A ; F: E knave", "gen": "A knave B knave C knight D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: C same D ; B: A knave ; C: B knave ; D: A knave", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: D diff C ; B: E diff C ; C: A diff B ; D: A same E ; E: D knave", "gen": "A knight B knave C knight D knave E knight", "reward": 0.0}
+{"prompt": "A: D same C ; B: C same D ; C: A knave ; D: C knave ; E: B knight", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: B diff C ; B: A knave ; C: D knight ; D: A knight", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: C same B ; B: A knight ; C: B knave ; D: C knave", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: D knave ; C: E same D ; D: A same B ; E: A knave", "gen": "A knight B knight C knave D knave E knave", "reward": 0.0}
+{"prompt": "A: C knave ; B: C same F ; C: F diff A ; D: F knight ; E: F same A ; F: A knave", "gen": "A knave B knight C knight D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: E knight ; C: A diff F ; D: E same C ; E: A diff D ; F: D same A", "gen": "A knave B knight C knight D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: C same D ; B: D knight ; C: B diff D ; D: B diff E ; E: B knight", "gen": "A knight B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C diff F ; B: D diff F ; C: F same E ; D: C knight ; E: C knight ; F: B knight", "gen": "A knave B knight C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: D knight ; B: E knight ; C: B knave ; D: C knave ; E: C diff D", "gen": "A knight B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: E same C ; C: B same D ; D: A knave ; E: B knave", "gen": "A knight B knave C knave D knave E knight", "reward": 0.0}
+{"prompt": "A: E knight ; B: A same D ; C: A diff B ; D: A knight ; E: B knave", "gen": "A knave B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: D knight ; C: D knave ; D: E same B ; E: C knave", "gen": "A knight B knave C knight D knave E knave", "reward": 0.0}
+{"prompt": "A: B knave ; B: A diff D ; C: E diff F ; D: E knave ; E: D same A ; F: D diff A", "gen": "A knave B knight C knight D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: D knight ; C: B knave ; D: B same C", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: D diff C ; B: A knight ; C: B knight ; D: C knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: C same E ; B: D same E ; C: B knave ; D: C knave ; E: A knight", "gen": "A knave B knight C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: B knave ; B: D knight ; C: A same B ; D: C knight", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: C diff A ; C: B knight ; D: E knight ; E: B same C ; F: D diff E", "gen": "A knight B knight C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: B knave ; B: C knight ; C: A diff E ; D: C same B ; E: B knight", "gen": "A knave B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: B same D ; B: A knight ; C: A knave ; D: C knave", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: E diff C ; C: F knight ; D: F knave ; E: B knave ; F: B diff D", "gen": "A knave B knight C knight D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: D diff C ; C: D knave ; D: B knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: E same C ; B: A same C ; C: A knave ; D: A knight ; E: D knave", "gen": "A knight B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: D diff E ; C: A knave ; D: C knight ; E: B knight", "gen": "A knave B knave C knight D knight E knave", "reward": 0.0}
+{"prompt": "A: C knave ; B: D knave ; C: B knight ; D: A same C", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: C knave ; C: D diff A ; D: B diff C", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: D diff C ; C: B diff A ; D: A same C", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: D diff B ; B: F diff A ; C: B same D ; D: B knight ; E: D diff B ; F: E diff A", "gen": "A knave B knave C knight D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: D same B ; B: C diff D ; C: B knight ; D: B knave", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: F knave ; C: B diff F ; D: A diff C ; E: A diff D ; F: E knight", "gen": "A knave B knave C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: D same A ; C: D knight ; D: A same C", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: F knave ; B: C knave ; C: F knave ; D: A diff C ; E: B diff F ; F: D knight", "gen": "A knave B knight C knave D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: B knave ; B: D knight ; C: D diff A ; D: C knave", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: D same C ; B: A knight ; C: D knave ; D: A knave ; E: D same A ; F: B knight", "gen": "A knave B knave C knave D knight E knave F knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: D knight ; C: B knight ; D: E knight ; E: F knave ; F: A same C", "gen": "A knave B knave C knave D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: F same B ; B: A knave ; C: E knight ; D: F knight ; E: C same B ; F: B diff E", "gen": "A knave B knight C knave D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: F knight ; B: D knight ; C: F knave ; D: F knight ; E: D knave ; F: D diff A", "gen": "A knave B knave C knight D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: D knave ; C: A knight ; D: A same C", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: D diff B ; B: D knight ; C: B same E ; D: E diff B ; E: A diff C", "gen": "A knave B knight C knight D knight E knave", "reward": 0.0}
+{"prompt": "A: D knight ; B: A knight ; C: D same A ; D: C knight", "gen": "A knight B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: A same E ; C: B knight ; D: C diff B ; E: C knight", "gen": "A knight B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: B diff C ; B: C knave ; C: A knave ; D: A same C", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: C diff E ; C: A knight ; D: C knave ; E: F diff D ; F: D knight", "gen": "A knight B knave C knight D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: B diff D ; B: D knight ; C: D knave ; D: A knight", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: F same D ; B: E diff F ; C: A same E ; D: E knight ; E: C knight ; F: B knave", "gen": "A knight B knave C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: C diff E ; B: C diff A ; C: A knave ; D: E diff A ; E: A knave", "gen": "A knave B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: C same B ; B: A knight ; C: D knave ; D: B knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: C diff D ; C: A same D ; D: A knight", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: B diff D ; B: D knight ; C: D diff B ; D: C knave", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: B same E ; B: F diff D ; C: A diff F ; D: F same E ; E: F diff A ; F: B same E", "gen": "A knave B knave C knight D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: E knight ; B: E diff D ; C: A diff B ; D: A knave ; E: F knave ; F: B knight", "gen": "A knave B knight C knight D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: C diff D ; B: A knave ; C: A same B ; D: B same A", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: E diff D ; B: E same C ; C: E same D ; D: B same C ; E: A knave", "gen": "A knight B knave C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: F diff C ; B: A knight ; C: D same B ; D: E same C ; E: C knave ; F: B knave", "gen": "A knave B knave C knave D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: E diff F ; B: D same F ; C: E diff F ; D: C same E ; E: C knave ; F: E knave", "gen": "A knight B knight C knight D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: D same B ; B: A knave ; C: D same A ; D: B knight", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: F knave ; B: C diff A ; C: F knave ; D: C knight ; E: A same C ; F: C same A", "gen": "A knave B knave C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: D same A ; C: D knave ; D: C same A", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: C same E ; C: E same D ; D: C knight ; E: A diff C", "gen": "A knight B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: A knight ; C: A diff D ; D: A knave", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: D knight ; C: B same D ; D: A same C", "gen": "A knight B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: F same E ; B: E same C ; C: F same B ; D: B knave ; E: A knave ; F: B same E", "gen": "A knave B knave C knave D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: B knave ; B: C diff A ; C: D knave ; D: B same C", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: C diff E ; B: C knave ; C: B same D ; D: E diff A ; E: C same B ; F: C knight", "gen": "A knave B knight C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: C diff E ; C: E knight ; D: B knave ; E: D knave", "gen": "A knight B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knave ; C: D same B ; D: C knave", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: A diff E ; C: E knight ; D: A knave ; E: A knave", "gen": "A knave B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: C knight ; C: D knave ; D: A diff B", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: E same B ; B: C knave ; C: A diff D ; D: B same E ; E: C knight", "gen": "A knave B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: A knave ; C: E diff D ; D: C same F ; E: B diff F ; F: C same E", "gen": "A knave B knight C knave D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: A same D ; C: D same E ; D: B knight ; E: D same F ; F: E diff A", "gen": "A knave B knight C knave D knight E knight F knight", "reward": 0.0}
+{"prompt": "A: B same D ; B: A knight ; C: E knave ; D: B diff E ; E: C diff A", "gen": "A knight B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: C knave ; C: D diff A ; D: C knight", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: D diff C ; B: D knight ; C: D same B ; D: F knight ; E: B same A ; F: E same C", "gen": "A knight B knave C knight D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: E knight ; C: D knave ; D: F diff B ; E: F diff B ; F: D knight", "gen": "A knave B knave C knight D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: E diff D ; B: A diff D ; C: D diff B ; D: E knave ; E: B same D", "gen": "A knight B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knight ; C: A same B ; D: A diff C", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: A knave ; C: A knave ; D: E knave ; E: A diff C", "gen": "A knight B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: F knight ; C: A knave ; D: F knight ; E: C knave ; F: B same A", "gen": "A knight B knave C knave D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: D diff F ; B: D diff A ; C: B same D ; D: A knight ; E: B knave ; F: E diff A", "gen": "A knight B knave C knave D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: D same B ; B: D knight ; C: E knave ; D: C same E ; E: B knight", "gen": "A knight B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: C knight ; C: D knight ; D: C same B", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: E knight ; B: C diff A ; C: E knave ; D: C knave ; E: D diff C", "gen": "A knight B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: E same D ; B: D knave ; C: D knave ; D: A diff C ; E: D diff C", "gen": "A knave B knight C knight D knave E knight", "reward": 0.0}
+{"prompt": "A: B diff D ; B: C knight ; C: A knight ; D: B knight ; E: D diff B", "gen": "A knave B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: F same B ; B: A knight ; C: B same A ; D: B diff C ; E: F diff C ; F: D knight", "gen": "A knave B knave C knight D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: C same B ; B: C knave ; C: A knave ; D: C knave", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: D diff B ; B: D knave ; C: F same E ; D: C knight ; E: F knight ; F: D same A", "gen": "A knight B knave C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: A diff C ; C: B knight ; D: B diff C", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: B diff D ; B: A knave ; C: A diff B ; D: A diff E ; E: D same C ; F: E diff C", "gen": "A knave B knight C knight D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: D diff C ; B: E same D ; C: B same E ; D: C diff B ; E: B same A", "gen": "A knave B knave C knight D knight E knave", "reward": 0.0}
+{"prompt": "A: B same D ; B: C same A ; C: A same D ; D: A knight", "gen": "A knight B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: C diff E ; C: E knave ; D: A knight ; E: D diff A ; F: A same B", "gen": "A knight B knight C knight D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: C diff D ; B: A diff C ; C: B diff D ; D: C knave", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: D knave ; C: B knight ; D: C same B", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: C diff A ; C: B knave ; D: B knave", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: C diff D ; C: B knave ; D: B diff A", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: D same E ; B: D knave ; C: D knight ; D: C diff A ; E: A knight", "gen": "A knave B knight C knave D knave E knave", "reward": 0.0}
+{"prompt": "A: E knave ; B: C same A ; C: B knave ; D: C knave ; E: A diff C", "gen": "A knave B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: D knight ; C: E diff A ; D: B same C ; E: A same D", "gen": "A knave B knight C knight D knight E knave", "reward": 0.0}
+{"prompt": "A: D knave ; B: C same A ; C: A diff D ; D: B same E ; E: A diff C", "gen": "A knave B knave C knight D knave E knight", "reward": 0.0}
+{"prompt": "A: C knave ; B: D diff C ; C: B knave ; D: C knight", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: E knight ; B: C knave ; C: B diff E ; D: C knave ; E: B diff F ; F: A knave", "gen": "A knight B knight C knave D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: D diff A ; C: D knight ; D: B knight ; E: A same C", "gen": "A knave B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: A diff C ; C: D same A ; D: C knight", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: E diff F ; B: E same F ; C: E knight ; D: C diff B ; E: F same C ; F: D diff C", "gen": "A knight B knave C knave D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: D diff B ; B: A knave ; C: A same D ; D: A knight", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: E diff C ; B: D knave ; C: B diff A ; D: B same E ; E: C knave", "gen": "A knight B knight C knave D knighte D knight E knight", "reward": 0.0}
+{"prompt": "A: B diff C ; B: A knave ; C: B knave ; D: A same C", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: C knight ; C: A diff B ; D: B knight ; E: C same D", "gen": "A knave B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: D diff A ; C: E knight ; D: E same A ; E: B same C", "gen": "A knight B knave C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: D knight ; B: E same A ; C: F diff D ; D: E knave ; E: A same D ; F: A diff B", "gen": "A knave B knave C knave D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: B diff C ; B: D same A ; C: D same E ; D: C same B ; E: D knave", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: A knave ; C: B diff F ; D: E same C ; E: A diff F ; F: A diff D", "gen": "A knight B knave C knight D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: D same B ; B: A knight ; C: A knight ; D: E knave ; E: D diff C", "gen": "A knight B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A diff C ; C: B knight ; D: C knave ; E: B diff D", "gen": "A knave B knave C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: E knight ; B: C knave ; C: A diff D ; D: A knave ; E: C knave ; F: E diff D", "gen": "A knave B knave C knight D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: A same E ; C: E knight ; D: E knave ; E: A same D", "gen": "A knave B knight C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: D diff C ; C: F knight ; D: F same A ; E: C same B ; F: A knight", "gen": "A knave B knight C knave D knight E knave F knave", "reward": 1.0}
+{"prompt": "A: B same E ; B: C knight ; C: A knight ; D: E knight ; E: A knight", "gen": "A knight B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: E knave ; C: E diff B ; D: A same B ; E: C knave", "gen": "A knight B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: A same D ; C: A diff D ; D: B diff C", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knight ; C: D knave ; D: A diff C", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: D knight ; C: B knight ; D: C diff B", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: D same A ; C: D diff A ; D: E same B ; E: D knave", "gen": "A knave B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: E knight ; C: D knight ; D: C diff B ; E: B diff C", "gen": "A knave B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: D diff C ; B: C knave ; C: B same A ; D: A knight", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: F knight ; B: E knight ; C: A diff E ; D: E diff B ; E: D knave ; F: D knave", "gen": "A knight B knight C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: E same C ; C: A same F ; D: F knight ; E: B knave ; F: E knight", "gen": "A knave B knight C knight D knave E knave F knave", "reward": 0.0}
+{"prompt": "A: D same B ; B: C knave ; C: F diff E ; D: E knave ; E: B knave ; F: B knave", "gen": "A knave B knave C knight D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: D diff B ; B: D knave ; C: B knave ; D: E knave ; E: C same D", "gen": "A knave B knight C knave D knave E knight", "reward": 0.0}
+{"prompt": "A: E diff C ; B: A diff E ; C: A diff D ; D: B knave ; E: D diff B", "gen": "A knight B knave C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: E diff A ; C: A knave ; D: B diff E ; E: C knight", "gen": "A knight B knight C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: B diff C ; B: D knave ; C: D diff B ; D: C knight", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: C diff D ; B: A same D ; C: B same D ; D: B knight", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: F same D ; C: A knight ; D: E same F ; E: F knight ; F: D diff A", "gen": "A knave B knave C knave D knight E knight F knight", "reward": 0.0}
+{"prompt": "A: D same B ; B: A knight ; C: D diff B ; D: B knight", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: F diff D ; B: D knight ; C: E knave ; D: C knight ; E: A knight ; F: C knave", "gen": "A knight B knave C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: D same E ; B: D same E ; C: F same B ; D: A knave ; E: B diff F ; F: E knave", "gen": "A knave B knave C knave D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: D diff B ; B: C same F ; C: A diff B ; D: F same E ; E: F knight ; F: D knight", "gen": "A knave B knight C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: E diff A ; C: B knight ; D: B knave ; E: D knight ; F: B knave", "gen": "A knight B knight C knight D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: C same E ; B: C knight ; C: D diff A ; D: A knave ; E: B diff C ; F: C same A", "gen": "A knight B knave C knave D knave E knave F knave", "reward": 0.0}
+{"prompt": "A: C knave ; B: C knight ; C: B same A ; D: B diff A", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: D diff A ; C: A knight ; D: A knave ; E: B knave ; F: E same C", "gen": "A knave B knight C knave D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: E same D ; B: C diff E ; C: D knight ; D: B knight ; E: D knave", "gen": "A knight B knave C knave D knave E knight", "reward": 0.0}
+{"prompt": "A: E same B ; B: C diff E ; C: A diff B ; D: C same A ; E: B knight", "gen": "A knight B knight C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: F knight ; B: D knight ; C: E knave ; D: C diff A ; E: C diff A ; F: A same E", "gen": "A knight B knight C knave D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: E knight ; B: D knave ; C: B knave ; D: A diff E ; E: D knave", "gen": "A knight B knight C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: A knight ; C: A knight ; D: C diff A", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: A same C ; C: F knight ; D: E diff F ; E: D knight ; F: E knight", "gen": "A knight B knave C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A same C ; C: B knave ; D: A knight ; E: D knave", "gen": "A knave B knight C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: F same B ; B: E knight ; C: F diff E ; D: E same A ; E: A same B ; F: C knight", "gen": "A knight B knave C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: C diff D ; B: E diff D ; C: E same A ; D: C knight ; E: B knight", "gen": "A knave B knight C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: F diff A ; C: D same E ; D: F same B ; E: B diff A ; F: C knave", "gen": "A knight B knave C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: E knight ; B: E knave ; C: B diff A ; D: A knight ; E: A same B", "gen": "A knave B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: E same F ; B: D knight ; C: B knave ; D: F knight ; E: A knight ; F: A knave", "gen": "A knave B knight C knave D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: C diff B ; B: A knave ; C: D knave ; D: B knight", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: B diff E ; B: D same C ; C: B knight ; D: B knight ; E: B diff D", "gen": "A knight B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: D knave ; C: A knight ; D: A same B", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: E diff F ; C: F knave ; D: E diff F ; E: C diff A ; F: B same A", "gen": "A knave B knight C knight D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: A knave ; C: D knight ; D: E same B ; E: D same C", "gen": "A knave B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D same B ; B: A knave ; C: A knave ; D: B knight", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: C knave ; C: F same B ; D: E knave ; E: A diff D ; F: B knight", "gen": "A knight B knave C knight D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: F knight ; B: F knight ; C: A diff D ; D: E knave ; E: C knave ; F: E knight", "gen": "A knight B knight C knave D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: D knave ; B: D same E ; C: F same B ; D: E knight ; E: F knight ; F: E diff C", "gen": "A knight B knight C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: A diff C ; C: A knave ; D: C knight", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: A same C ; C: D same A ; D: E knight ; E: D same B", "gen": "A knight B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D diff C ; B: D same E ; C: E same A ; D: A same B ; E: A same D ; F: E knave", "gen": "A knight B knave C knight D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: C knave ; B: D knight ; C: B same D ; D: B same E ; E: C diff D", "gen": "A knight B knave C knave D knave E knight", "reward": 0.0}
+{"prompt": "A: B same E ; B: E knight ; C: B same A ; D: A knight ; E: D same A", "gen": "A knight B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D same C ; B: A same F ; C: A knight ; D: E knave ; E: F knight ; F: D same C", "gen": "A knave B knight C knave D knight E knave F knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knave ; C: A same B ; D: B knave", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: F diff B ; B: D knave ; C: F diff B ; D: F knight ; E: F diff D ; F: C knave", "gen": "A knight B knave C knave D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: C diff E ; B: D same A ; C: D knave ; D: C same F ; E: F diff A ; F: B knave", "gen": "A knave B knave C knave D knight E knight F knight", "reward": 0.0}
+{"prompt": "A: B diff C ; B: A same D ; C: D diff A ; D: A knave", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: A knight ; C: B knight ; D: B knave ; E: C diff D ; F: B same A", "gen": "A knave B knave C knave D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: A knight ; C: F diff E ; D: B diff F ; E: F knight ; F: C knight", "gen": "A knight B knight C knave D knight E knave F knave", "reward": 1.0}
+{"prompt": "A: B diff C ; B: D knight ; C: A knave ; D: B same C", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: D knave ; C: A diff D ; D: E diff A ; E: D diff B", "gen": "A knave B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: D diff E ; C: A diff B ; D: A knave ; E: A same C", "gen": "A knave B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: D knight ; C: B same D ; D: C knave", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: C diff B ; B: D diff A ; C: D same B ; D: B knave", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: F same A ; C: D knight ; D: A knave ; E: A diff C ; F: E same A", "gen": "A knave B knave C knight D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: E knight ; B: C knight ; C: D knave ; D: A diff E ; E: D diff B", "gen": "A knight B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: D same B ; B: A knight ; C: A knave ; D: B knight ; E: B diff D", "gen": "A knight B knight C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: B same E ; B: E diff D ; C: F same E ; D: B knave ; E: D knight ; F: B diff A", "gen": "A knave B knave C knight D knight E knight F knight", "reward": 0.0}
+{"prompt": "A: B same D ; B: A diff C ; C: A knight ; D: C diff A", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: E diff D ; C: B diff E ; D: A knight ; E: F diff C ; F: D knight", "gen": "A knave B knave C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: D diff B ; B: A knight ; C: A knight ; D: A knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: D diff B ; B: C knave ; C: E knave ; D: E diff B ; E: B diff F ; F: A same D", "gen": "A knave B knave C knight D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: D same E ; B: A knave ; C: D knave ; D: B knight ; E: A knight", "gen": "A knave B knight C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: B diff D ; B: D knave ; C: F knight ; D: E diff B ; E: F same B ; F: B diff D", "gen": "A knight B knight C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: A knight ; C: D knave ; D: A same C ; E: C diff A", "gen": "A knave B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: E knight ; C: E knave ; D: C knave ; E: C same B", "gen": "A knight B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: A diff E ; C: B diff E ; D: B knight ; E: B knave", "gen": "A knight B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: B same D ; B: A knight ; C: B diff A ; D: B knave", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knight ; C: D diff B ; D: B knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: F same B ; B: D same C ; C: D same F ; D: B same F ; E: D knight ; F: E knave", "gen": "A knave B knight C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: E knight ; B: A knight ; C: E knight ; D: F diff C ; E: F same A ; F: E knight", "gen": "A knight B knight C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: D same C ; B: E same C ; C: B knave ; D: C knave ; E: D same A", "gen": "A knave B knight C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: C diff B ; B: A knight ; C: B knight ; D: B knave", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: A same D ; C: A knave ; D: F knight ; E: B knave ; F: A knight", "gen": "A knight B knight C knave D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: D diff A ; C: D diff A ; D: C knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: C diff D ; B: D same C ; C: B knave ; D: B knight", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: C same D ; C: A diff D ; D: C knight", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: A knave ; C: B knave ; D: A knave", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: C knave ; C: A knight ; D: B knave", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: E knight ; C: D knight ; D: C diff B ; E: D diff B", "gen": "A knight B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C diff E ; B: E knave ; C: A same F ; D: C diff A ; E: A knave ; F: E diff B", "gen": "A knave B knave C knight D knight E knight F knight", "reward": 0.0}
+{"prompt": "A: C same B ; B: E knight ; C: D knave ; D: A knight ; E: A knight", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: C knave ; C: F same B ; D: E knight ; E: C diff F ; F: A knight", "gen": "A knave B knight C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: C knight ; C: D diff A ; D: B knave", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: E knave ; C: F knight ; D: C knight ; E: A knight ; F: C diff E", "gen": "A knave B knave C knight D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: C knave ; B: A knave ; C: B same A ; D: C same B ; E: C same D", "gen": "A knight B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: C diff D ; C: D same A ; D: C knight", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: D same C ; B: A knight ; C: B knave ; D: B knave", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: E diff B ; B: D knave ; C: B knight ; D: E knave ; E: B diff C", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: D knave ; C: A knight ; D: C knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: D knight ; C: B diff E ; D: E same B ; E: D knave ; F: D same E", "gen": "A knave B knave C knight D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: C knave ; C: E knight ; D: A same C ; E: B same D", "gen": "A knight B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: D diff A ; C: A knight ; D: B knight", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: C diff F ; B: E knight ; C: F knave ; D: B knight ; E: A knave ; F: A knave", "gen": "A knight B knave C knight D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: E diff C ; B: A diff E ; C: A diff B ; D: A diff B ; E: A knight", "gen": "A knave B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C same B ; B: C knight ; C: A diff D ; D: C diff B", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: E same F ; C: B same A ; D: C diff F ; E: C knave ; F: C same E", "gen": "A knave B knave C knight D knight E knave F knave", "reward": 0.0}
+{"prompt": "A: D knave ; B: C knave ; C: E same B ; D: B same A ; E: A knight", "gen": "A knave B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: F knave ; B: A diff E ; C: E knave ; D: E diff A ; E: F knight ; F: C same A", "gen": "A knight B knight C knight D knave E knave F knave", "reward": 0.0}
+{"prompt": "A: B knight ; B: D diff C ; C: D knave ; D: A knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D diff F ; B: F same E ; C: E diff A ; D: A same C ; E: F diff D ; F: C diff E", "gen": "A knave B knight C knave D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: C knight ; B: A diff D ; C: D knave ; D: A diff C", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: A knave ; C: B knight ; D: C same A ; E: C same A", "gen": "A knave B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: D knave ; C: A same B ; D: A same B", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: D diff C ; B: C knight ; C: A diff E ; D: B diff C ; E: C knight", "gen": "A knave B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: D knight ; C: D same B ; D: C diff A ; E: D diff B", "gen": "A knight B knave C knight D knave E knight", "reward": 0.0}
+{"prompt": "A: D knave ; B: A same D ; C: A diff B ; D: C same A ; E: A diff B", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: B diff D ; B: A knave ; C: E knight ; D: A knight ; E: D diff B", "gen": "A knight B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D diff C ; B: C knave ; C: A knight ; D: C knight", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: B diff E ; B: D knave ; C: D same A ; D: C knight ; E: A knight", "gen": "A knight B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: E knight ; C: E same A ; D: B knave ; E: B same D", "gen": "A knight B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: C diff A ; C: D knight ; D: B same C ; E: A same B", "gen": "A knave B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: F knight ; B: D knight ; C: B same D ; D: E knight ; E: C knave ; F: E knave", "gen": "A knight B knave C knight D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: C same D ; B: C knight ; C: B diff D ; D: C knight", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: B diff C ; B: C diff D ; C: D knight ; D: C same A", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: C diff D ; B: D knight ; C: D knight ; D: A knave", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: C knight ; C: B same E ; D: E same B ; E: D knave", "gen": "A knave B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: C same D ; B: D diff A ; C: D diff B ; D: C knave", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: F diff B ; B: E knight ; C: B knave ; D: C same E ; E: A knave ; F: E same D", "gen": "A knight B knave C knight D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: E diff B ; B: D knight ; C: E knave ; D: C same E ; E: A diff C", "gen": "A knight B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: C diff D ; B: A knight ; C: B diff A ; D: A same B", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: C diff D ; B: D same E ; C: E same A ; D: C knight ; E: A same B", "gen": "A knave B knight C knave D knave E knave", "reward": 0.0}
+{"prompt": "A: D knight ; B: E knave ; C: A knight ; D: A same E ; E: A knave", "gen": "A knave B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: D diff B ; B: A knight ; C: A same B ; D: A same C ; E: A knight", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: C diff E ; B: C same A ; C: E knight ; D: C knight ; E: D same C ; F: B diff E", "gen": "A knave B knave C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: B diff D ; B: C knave ; C: A knight ; D: C knave", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: C same B ; B: C diff D ; C: B knave ; D: B knight", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: C same D ; B: D diff E ; C: B knave ; D: B same C ; E: D knight", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: E same C ; C: E knave ; D: A knave ; E: B knight", "gen": "A knave B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: B same D ; B: D same C ; C: E same A ; D: A same E ; E: A knave", "gen": "A knight B knight C knave D knave E knave", "reward": 0.0}
+{"prompt": "A: B diff D ; B: E knight ; C: B same F ; D: C knave ; E: C knight ; F: D same A", "gen": "A knight B knave C knave D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: D diff B ; B: C knight ; C: D knight ; D: A knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: C knave ; C: A knight ; D: C knight", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: A same C ; C: A knight ; D: C knight", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: C diff B ; B: A knight ; C: B knave ; D: C knight", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: C diff B ; B: F diff C ; C: A knave ; D: E knave ; E: C knave ; F: C same D", "gen": "A knight B knight C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: E knight ; C: D knave ; D: B knight ; E: A same D", "gen": "A knight B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: C knight ; C: D knave ; D: A same C", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: C diff D ; C: A knave ; D: E diff A ; E: A knave", "gen": "A knave B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: C knight ; C: D same B ; D: B same E ; E: D knave", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: F same D ; B: F diff E ; C: B same A ; D: E knight ; E: F knight ; F: C knight", "gen": "A knight B knave C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: B diff C ; B: C knave ; C: A knave ; D: A same C", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: F knight ; B: D same F ; C: B same D ; D: B knight ; E: B same F ; F: D knight", "gen": "A knight B knight C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: A same C ; C: A knave ; D: A diff B ; E: C knave", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: D same E ; C: D diff E ; D: C knight ; E: C diff A", "gen": "A knave B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: A knight ; C: A diff B ; D: C knave", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: A same D ; C: A diff D ; D: B knight", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: E knave ; C: A diff F ; D: B knave ; E: D diff A ; F: B knave", "gen": "A knave B knave C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knight ; C: B same A ; D: C knight ; E: D knave", "gen": "A knight B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: E knave ; C: B knight ; D: C knight ; E: C same D", "gen": "A knave B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: B diff F ; B: F knight ; C: B knave ; D: C same A ; E: A knave ; F: D diff B", "gen": "A knave B knight C knave D knight E knight F knight knight F knight", "reward": 0.0}
+{"prompt": "A: C diff F ; B: F knave ; C: B knave ; D: C knight ; E: B same C ; F: D same B", "gen": "A knave B knight C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: E same C ; B: D same F ; C: A same F ; D: E diff C ; E: B diff F ; F: C knave", "gen": "A knave B knave C knave D knight E knight F knight", "reward": 0.0}
+{"prompt": "A: B knave ; B: C knight ; C: D knight ; D: B same A", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: B same D ; B: C knight ; C: A knight ; D: A knight ; E: F knight ; F: A knave", "gen": "A knight B knight C knight D knight E knave F knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: A diff D ; C: B knight ; D: C diff B", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: E diff B ; B: C same D ; C: A knave ; D: B knight ; E: A diff C", "gen": "A knave B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: F same C ; B: D knight ; C: A knight ; D: C diff F ; E: A diff D ; F: C knave", "gen": "A knave B knight C knave D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: F knight ; B: F diff A ; C: B same F ; D: C knight ; E: A diff F ; F: B knight", "gen": "A knight B knave C knave D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: B diff D ; B: A knight ; C: D same E ; D: B knight ; E: A knave", "gen": "A knight B knight C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: D knave ; B: D knight ; C: A knave ; D: C diff A", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: F same B ; B: C diff E ; C: D diff A ; D: B same C ; E: A diff B ; F: B knight", "gen": "A knight B knave C knave D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: D knight ; B: F diff C ; C: F knave ; D: F diff C ; E: C knight ; F: B knight", "gen": "A knight B knight C knave D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: D diff A ; C: B same E ; D: A knave ; E: B knave ; F: B same A", "gen": "A knight B knave C knave D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: D same B ; B: D knight ; C: D knight ; D: B diff C", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: E diff D ; B: D same F ; C: D knight ; D: E knight ; E: A knight ; F: A knave", "gen": "A knave B knave C knave D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: D same C ; B: A knight ; C: D knight ; D: A same B", "gen": "A knight B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: E diff C ; C: B knight ; D: C diff E ; E: C same A", "gen": "A knight B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C diff F ; B: F diff D ; C: B knave ; D: E knave ; E: F knave ; F: E same D", "gen": "A knave B knight C knave D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: D same C ; B: C knave ; C: A knight ; D: B knave", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: C same D ; C: B knight ; D: B diff E ; E: D knave", "gen": "A knight B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: D knave ; C: B diff D ; D: C knave", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: E same C ; B: C knave ; C: A diff B ; D: A diff B ; E: C diff B", "gen": "A knight B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: C same D ; C: B diff A ; D: A diff C", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: C diff A ; C: E knight ; D: A diff E ; E: C diff A", "gen": "A knave B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: D diff C ; C: D knight ; D: A knave", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: D same B ; B: D knight ; C: D knave ; D: C diff E ; E: B knight", "gen": "A knight B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: D diff A ; C: B knight ; D: A knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: E same C ; C: E knight ; D: E knave ; E: D diff A", "gen": "A knight B knave C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: F diff E ; B: E knight ; C: E diff B ; D: A knight ; E: A same D ; F: D same A", "gen": "A knave B knight C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: F same A ; C: E knight ; D: C same E ; E: D knave ; F: A diff D", "gen": "A knight B knight C knave D knight E knave F knave", "reward": 0.0}
+{"prompt": "A: C same D ; B: D same A ; C: A same B ; D: C diff B", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A diff F ; C: F knave ; D: C same B ; E: D knight ; F: C diff D", "gen": "A knight B knight C knight D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: D same B ; B: E same A ; C: B same A ; D: C same E ; E: C diff A", "gen": "A knave B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: D knight ; C: D knight ; D: B diff A ; E: B knave", "gen": "A knave B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: E knight ; B: A knight ; C: D knight ; D: A knave ; E: B diff C", "gen": "A knave B knave C knight D knight E knave", "reward": 0.0}
+{"prompt": "A: D same B ; B: E diff D ; C: B diff E ; D: B knave ; E: B knave", "gen": "A knave B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: A knight ; C: B knave ; D: E same C ; E: D knave", "gen": "A knight B knight C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knave ; C: D knave ; D: A diff C", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: E diff D ; B: E knave ; C: E knave ; D: E knave ; E: B diff C", "gen": "A knight B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: A knight ; C: D knave ; D: B same E ; E: A same B", "gen": "A knave B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: E knight ; B: D knave ; C: A same D ; D: A knight ; E: B diff A ; F: C knave", "gen": "A knave B knight C knight D knave E knave F knave", "reward": 0.0}
+{"prompt": "A: C knave ; B: D knight ; C: D knave ; D: C same A", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: A knave ; C: A knight ; D: E knight ; E: A diff F ; F: A knave", "gen": "A knave B knight C knave D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: C diff B ; B: A knight ; C: B knave ; D: C knight ; E: D same B", "gen": "A knight B knight C knave D knave E knight", "reward": 0.0}
+{"prompt": "A: E same B ; B: C diff A ; C: B knight ; D: E diff A ; E: A knight", "gen": "A knave B knight C knight D knight E knave", "reward": 0.0}
+{"prompt": "A: B diff C ; B: C knave ; C: D same B ; D: C knight", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: F same D ; B: A knave ; C: B diff A ; D: E knave ; E: B same D ; F: A knave", "gen": "A knight B knave C knight D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: F knight ; B: F diff E ; C: B diff A ; D: B same A ; E: B knave ; F: D knave", "gen": "A knight B knave C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: C knight ; C: A diff B ; D: E knight ; E: C knight ; F: E diff C", "gen": "A knave B knight C knight D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: D same A ; C: A knight ; D: E diff C ; E: A knight", "gen": "A knave B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knight ; C: B same A ; D: A same B", "gen": "A knight B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: D knight ; C: B same A ; D: A knight ; E: B diff C", "gen": "A knight B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: D knave ; C: B knight ; D: E diff C ; E: B knight", "gen": "A knight B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: C diff E ; B: E knight ; C: B knave ; D: B same A ; E: C same D", "gen": "A knight B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: D knave ; C: B same D ; D: A diff B", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knight ; C: A diff E ; D: A knave ; E: B knave", "gen": "A knight B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: D diff E ; C: D knight ; D: B knave ; E: F knave ; F: C same E", "gen": "A knave B knave C knight D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: D diff B ; B: C same D ; C: A diff B ; D: A same C", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: D same C ; B: C knave ; C: A knave ; D: C knave ; E: D diff A", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: F diff D ; B: E diff D ; C: D diff F ; D: E same A ; E: A knave ; F: A same E", "gen": "A knave B knight C knight D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: B knight ; B: C knave ; C: A same D ; D: B diff E ; E: A diff C ; F: D same B", "gen": "A knight B knight C knave D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: D knight ; C: D knight ; D: B same A ; E: D knave", "gen": "A knight B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: F knight ; B: E knight ; C: A knave ; D: C diff E ; E: C diff A ; F: A diff D", "gen": "A knight B knight C knave D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: E knight ; B: A same D ; C: E knave ; D: E knight ; E: B knight", "gen": "A knight B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: A same E ; C: A diff E ; D: B knave ; E: C knave", "gen": "A knight B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: D same C ; C: D diff A ; D: B knave", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: B diff D ; B: A diff C ; C: E knight ; D: C diff E ; E: B knave ; F: B same A", "gen": "A knight B knave C knight D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: C diff B ; B: E knight ; C: E knave ; D: E same B ; E: A knave", "gen": "A knight B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: E same D ; C: B knave ; D: A same C ; E: D knight", "gen": "A knight B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: C same A ; C: D same E ; D: C knight ; E: B knight", "gen": "A knight B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: E knave ; C: D diff A ; D: A diff B ; E: A diff B", "gen": "A knight B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: D diff A ; C: A knave ; D: C diff A", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: A knave ; C: A knave ; D: F diff B ; E: B diff C ; F: B knight", "gen": "A knight B knave C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: D knave ; C: B knight ; D: A same C", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: C diff E ; C: D same B ; D: A diff E ; E: B knight", "gen": "A knight B knight C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: E knave ; C: D diff E ; D: F diff B ; E: B same A ; F: C same D", "gen": "A knave B knave C knave D knight E knight F knight", "reward": 0.0}
+{"prompt": "A: D diff B ; B: A knight ; C: A diff D ; D: A knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D diff B ; B: F knight ; C: E diff D ; D: F knight ; E: D knight ; F: E diff D", "gen": "A knave B knave C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: D diff E ; B: E knight ; C: D knight ; D: B same C ; E: C knight", "gen": "A knave B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: B same D ; B: A knave ; C: B diff D ; D: C knight", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: C same B ; B: A knave ; C: B knave ; D: B knave", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: F knight ; B: C knight ; C: F diff D ; D: C knave ; E: B knight ; F: C knave", "gen": "A knight B knave C knave D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: E same D ; B: A same C ; C: D diff E ; D: E same B ; E: C diff F ; F: C knave", "gen": "A knave B knave C knight D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: C knave ; C: E knave ; D: C knight ; E: B diff C", "gen": "A knave B knight C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: D diff E ; B: C diff A ; C: D diff E ; D: E knave ; E: C knave", "gen": "A knight B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: E same D ; B: F knave ; C: B knave ; D: C diff E ; E: C same F ; F: D same A", "gen": "A knave B knave C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: D same C ; B: E same F ; C: A knave ; D: B knave ; E: C same B ; F: A same E", "gen": "A knight B knight C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: D diff E ; C: A diff B ; D: A knight ; E: D knave", "gen": "A knave B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: D same C ; C: A diff D ; D: B knight", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: B same D ; B: D knave ; C: A diff B ; D: A knight", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: E same C ; B: A knave ; C: A knave ; D: A same B ; E: C diff D", "gen": "A knave B knight C knight D knave E knave", "reward": 0.0}
+{"prompt": "A: E same C ; B: C same F ; C: F knave ; D: A same C ; E: C diff F ; F: B knight", "gen": "A knave B knave C knight D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: B knight ; B: C knight ; C: B diff A ; D: C same B ; E: B knight", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: E knave ; C: A diff D ; D: B same A ; E: A same C", "gen": "A knave B knight C knave D knave E knave", "reward": 0.0}
+{"prompt": "A: C diff D ; B: C knight ; C: B diff D ; D: B knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: A knave ; C: D knave ; D: C diff B ; E: B knave", "gen": "A knave B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: D diff C ; B: C diff E ; C: D knave ; D: B diff A ; E: B knave", "gen": "A knight B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: A knight ; C: B diff A ; D: B same A", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: C diff B ; B: D same C ; C: B knight ; D: E knave ; E: B knave", "gen": "A knave B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: C diff D ; B: F knave ; C: F diff A ; D: A knight ; E: F diff A ; F: E knave", "gen": "A knight B knave C knave D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: F knight ; B: A diff C ; C: E knave ; D: A knave ; E: F knight ; F: E diff A", "gen": "A knight B knight C knave D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: D same C ; B: A same D ; C: B diff D ; D: A knave", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: F knave ; C: A knave ; D: C knight ; E: A knave ; F: B diff D", "gen": "A knight B knave C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: E same D ; B: A diff E ; C: A knave ; D: C same A ; E: D knight", "gen": "A knight B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: C diff F ; C: D same B ; D: F diff A ; E: F same D ; F: A knight", "gen": "A knight B knight C knave D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: D same C ; B: F knight ; C: B knight ; D: E knight ; E: F knight ; F: D same B", "gen": "A knight B knight C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: E same C ; B: A same D ; C: B diff F ; D: A knight ; E: F knave ; F: D knight", "gen": "A knave B knight C knave D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: D knight ; B: C same D ; C: D knave ; D: A diff C", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: D diff C ; C: B knave ; D: B knave", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: B diff D ; B: C diff A ; C: A knight ; D: B knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: E diff D ; C: A knave ; D: A same C ; E: B same A", "gen": "A knave B knight C knight D knave E knave", "reward": 0.0}
+{"prompt": "A: D diff B ; B: D same C ; C: A diff D ; D: C knight", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: A same D ; C: E diff B ; D: A diff C ; E: D same B", "gen": "A knight B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: B same E ; B: A knave ; C: A same B ; D: C same A ; E: B knight", "gen": "A knight B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: D same C ; B: A knave ; C: A knave ; D: A knight ; E: B same D", "gen": "A knave B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: B diff E ; B: D diff E ; C: B knave ; D: B diff C ; E: D knave", "gen": "A knave B knight C knave D knave E knight", "reward": 0.0}
+{"prompt": "A: B knave ; B: E diff C ; C: D knave ; D: E diff C ; E: C knave", "gen": "A knave B knight C knight D knave E knave", "reward": 0.0}
+{"prompt": "A: B diff C ; B: A same D ; C: A knave ; D: B knave", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: A knave ; C: D diff B ; D: C knight", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: C diff B ; B: D knave ; C: B knight ; D: A knight", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D same B ; B: E knave ; C: B knave ; D: A knight ; E: F knave ; F: D same E", "gen": "A knave B knight C knave D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: D diff C ; C: D knave ; D: C diff A", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: A diff C ; C: D knave ; D: B knave", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: E diff B ; B: A knight ; C: F knave ; D: B same C ; E: B knight ; F: E knave", "gen": "A knave B knave C knave D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: E diff D ; B: C knight ; C: E same A ; D: B diff A ; E: A knave", "gen": "A knight B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: E same D ; B: E same C ; C: B knave ; D: B same A ; E: C same A", "gen": "A knave B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: B same D ; B: A knight ; C: D knight ; D: B knave ; E: C same B ; F: B knight", "gen": "A knight B knight C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: C same E ; B: E knave ; C: D diff B ; D: A diff B ; E: B diff C", "gen": "A knight B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: C same E ; B: C same E ; C: A knave ; D: E same F ; E: D diff B ; F: D diff A", "gen": "A knight B knight C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: E knave ; B: A knight ; C: B same D ; D: A knave ; E: C knight", "gen": "A knight B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: C diff A ; C: A same E ; D: E diff C ; E: D same B", "gen": "A knave B knave C knight D knight E knave", "reward": 0.0}
+{"prompt": "A: B diff D ; B: C same D ; C: D same A ; D: B knave", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: D knight ; C: B knave ; D: B diff C", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: E diff A ; C: B same E ; D: B diff A ; E: B diff D", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: E same C ; C: E knave ; D: F diff C ; E: D knave ; F: A knight", "gen": "A knave B knave C knave D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: E same B ; B: C same A ; C: B diff F ; D: A knave ; E: D same A ; F: E knave", "gen": "A knave B knight C knave D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: E same B ; B: E knave ; C: E same A ; D: A knave ; E: D knight", "gen": "A knight B knight C knave D knave E knave", "reward": 0.0}
+{"prompt": "A: E knight ; B: D diff C ; C: E knight ; D: A knave ; E: C same A", "gen": "A knight B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: E diff C ; C: D knight ; D: B knave ; E: B knave ; F: E same D", "gen": "A knave B knave C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: D same A ; C: B same D ; D: B knight", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: B diff E ; B: E same D ; C: E same A ; D: B same A ; E: B knave", "gen": "A knight B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: F knight ; B: E knave ; C: B knight ; D: C same B ; E: F knave ; F: A diff E", "gen": "A knight B knight C knight D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: C diff D ; C: E diff D ; D: B same E ; E: D knave", "gen": "A knave B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: D diff F ; C: B knight ; D: F knave ; E: B knight ; F: E knight", "gen": "A knight B knave C knave D knight E knave F knave", "reward": 0.0}
+{"prompt": "A: C diff E ; B: E knave ; C: F same E ; D: E diff B ; E: F knight ; F: A diff B", "gen": "A knight B knave C knave D knight E knight F knight", "reward": 0.0}
+{"prompt": "A: E diff D ; B: C knight ; C: E same B ; D: E diff B ; E: A knave", "gen": "A knight B knave C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: B diff E ; B: E knave ; C: A knave ; D: A diff C ; E: D knave ; F: B knight", "gen": "A knight B knight C knave D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: F knight ; B: A diff C ; C: D same A ; D: E diff F ; E: A diff C ; F: B knight", "gen": "A knight B knight C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: F same C ; B: F diff E ; C: A diff E ; D: C knave ; E: A knave ; F: B knight", "gen": "A knave B knave C knight D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: C knight ; B: A knight ; C: F knave ; D: B same A ; E: A knave ; F: E same B", "gen": "A knave B knave C knave D knight E knight F knight", "reward": 0.0}
+{"prompt": "A: D knave ; B: A diff D ; C: B knight ; D: B knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: A same C ; C: F knave ; D: B knave ; E: C same A ; F: E same B", "gen": "A knave B knave C knight D knight E knave F knave", "reward": 0.0}
+{"prompt": "A: B same E ; B: A knight ; C: E knight ; D: C same A ; E: B knave", "gen": "A knave B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: A knave ; C: A knave ; D: C knight", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: C same B ; B: E knight ; C: A knave ; D: A knight ; E: B diff C", "gen": "A knave B knight C knight D knave E knight", "reward": 0.0}
+{"prompt": "A: B knight ; B: E diff A ; C: A diff B ; D: E diff A ; E: C diff D", "gen": "A knave B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: D diff A ; C: A diff F ; D: C diff B ; E: D same B ; F: A knave", "gen": "A knight B knight C knight D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: C same D ; B: E diff C ; C: B knave ; D: B same E ; E: C diff A", "gen": "A knave B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: D knave ; C: B knave ; D: C diff A", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: C knave ; C: B diff D ; D: B diff A", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: A diff D ; C: A same D ; D: A knight", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: A same D ; C: E diff F ; D: A knave ; E: D knight ; F: A knight", "gen": "A knave B knave C knight D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: E knight ; C: E same A ; D: B diff C ; E: D same B", "gen": "A knave B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: F diff C ; B: F same D ; C: B knight ; D: F knight ; E: B diff D ; F: C knave", "gen": "A knight B knave C knave D knight E knight F knight", "reward": 0.0}
+{"prompt": "A: D diff F ; B: E diff A ; C: E diff A ; D: B diff A ; E: F diff D ; F: E diff C", "gen": "A knave B knave C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: D diff E ; B: C knave ; C: E same D ; D: C knight ; E: A knight ; F: B same C", "gen": "A knave B knight C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: C same D ; B: A same D ; C: D knave ; D: C diff B", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: E knight ; C: D knight ; D: B knight ; E: D same B", "gen": "A knight B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: D diff A ; C: A diff B ; D: C diff A", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knave ; C: B diff D ; D: C knave", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: C knight ; C: B diff A ; D: C knave ; E: D knight", "gen": "A knave B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: A knight ; C: A knight ; D: C knight ; E: A same B", "gen": "A knight B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D diff B ; B: C knave ; C: E knight ; D: C knight ; E: A knave", "gen": "A knight B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: B diff E ; B: D diff C ; C: B knave ; D: E same A ; E: B diff C", "gen": "A knight B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: A knight ; C: A knave ; D: C diff B ; E: A knave", "gen": "A knight B knight C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: E knave ; C: A same D ; D: E knave ; E: B diff D", "gen": "A knave B knight C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: E diff F ; B: A diff E ; C: D knave ; D: E diff F ; E: C knight ; F: E knight", "gen": "A knave B knight C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: B diff C ; B: E knight ; C: A knave ; D: F diff C ; E: D same F ; F: A knight", "gen": "A knight B knight C knave D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: F knave ; B: A diff F ; C: A same E ; D: A same B ; E: B knight ; F: B knight", "gen": "A knave B knight C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: B same D ; B: E diff A ; C: D knight ; D: B knave ; E: A knight", "gen": "A knave B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: D same E ; B: E knight ; C: E knight ; D: A knight ; E: B same A", "gen": "A knight B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: C knave ; C: A knave ; D: A diff E ; E: A knight", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: D same C ; C: D diff A ; D: B knight", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: B diff D ; B: E knave ; C: E knight ; D: B knight ; E: A knave", "gen": "A knight B knight C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: C knave ; B: C diff D ; C: B knight ; D: B knave", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D diff E ; B: C same D ; C: D knave ; D: A knave ; E: C knight ; F: A knave", "gen": "A knight B knave C knight D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: D same C ; C: B knave ; D: C knight", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A same E ; C: E same A ; D: B diff C ; E: A same D", "gen": "A knave B knight C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: D same C ; B: C same A ; C: D same B ; D: B diff A", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: D knight ; C: D same A ; D: B same C", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: D same C ; B: A diff C ; C: A knight ; D: C knave", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C diff D ; B: E knave ; C: A same E ; D: B diff E ; E: A same B", "gen": "A knave B knight C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: E diff C ; B: F same C ; C: F diff E ; D: C same F ; E: B same F ; F: D knight", "gen": "A knight B knave C knight D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: F same C ; B: E knight ; C: B knave ; D: C knight ; E: D diff A ; F: C diff B", "gen": "A knave B knight C knave D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: C same E ; B: A knave ; C: E knave ; D: E diff A ; E: B diff A", "gen": "A knave B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: C same D ; C: D knight ; D: A knight ; E: F knave ; F: C knight", "gen": "A knight B knight C knight D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: A same D ; C: A diff D ; D: A knight", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: E diff D ; B: E knight ; C: A knave ; D: C diff A ; E: B same A", "gen": "A knave B knave C knight D knight E knave", "reward": 0.0}
+{"prompt": "A: C knave ; B: C knight ; C: A same B ; D: C diff B", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: C same A ; C: A diff D ; D: A diff B", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: D knave ; C: E knight ; D: B same C ; E: D knight", "gen": "A knight B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: D same A ; C: D diff B ; D: C knave", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D diff B ; B: C diff E ; C: E same A ; D: E diff A ; E: C knave", "gen": "A knave B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: D knight ; C: D knave ; D: B same C", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: E knave ; C: E diff B ; D: C knight ; E: A same B", "gen": "A knave B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knave ; C: A same E ; D: E diff A ; E: C knave ; F: D same A", "gen": "A knave B knight C knave D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: D same A ; C: D knight ; D: A diff C", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: D knave ; C: B knave ; D: B same C ; E: A same B ; F: C same B", "gen": "A knight B knight C knave D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: A diff C ; C: B knight ; D: C same B", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knave ; C: A same E ; D: E diff A ; E: D knave", "gen": "A knave B knight C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: B knave ; B: D knight ; C: A knight ; D: E diff A ; E: A knight", "gen": "A knight B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: A same C ; C: A knight ; D: C knave", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: A same C ; C: A diff D ; D: B diff A", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: C knight ; C: D diff A ; D: C knave ; E: A diff B", "gen": "A knight B knave C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: D diff A ; C: B knave ; D: C knave", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: D same B ; B: F knave ; C: B same E ; D: B knight ; E: D same B ; F: C diff B", "gen": "A knight B knight C knight D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: C knave ; C: F knave ; D: C knight ; E: C same A ; F: B same D", "gen": "A knave B knight C knave D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: C same B ; B: D same C ; C: D knight ; D: B knight ; E: D diff A ; F: D diff C", "gen": "A knight B knight C knight D knight E knave F knave", "reward": 1.0}
+{"prompt": "A: D same C ; B: A knight ; C: D knave ; D: E same C ; E: C same B", "gen": "A knave B knave C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: C knave ; B: F same C ; C: E knave ; D: B knight ; E: D knight ; F: C knight", "gen": "A knave B knight C knight D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: D diff B ; B: A knight ; C: D knight ; D: C diff A", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: A knave ; C: B same E ; D: B diff C ; E: B diff D ; F: A same C", "gen": "A knight B knave C knave D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: E diff C ; B: C same E ; C: B knight ; D: C knight ; E: C knight", "gen": "A knave B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: E diff B ; B: C knave ; C: E knave ; D: A diff C ; E: A knight", "gen": "A knave B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: D knight ; C: D same B ; D: C knight", "gen": "A knight B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: B diff C ; B: D diff C ; C: D diff A ; D: C knave", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: D same B ; B: C same A ; C: B same D ; D: B knight", "gen": "A knight B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: D knave ; C: D knight ; D: B same C", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: D diff E ; C: E same B ; D: B diff C ; E: B knave", "gen": "A knave B knight C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: D diff B ; B: D knave ; C: F diff E ; D: E diff C ; E: C same A ; F: E knight", "gen": "A knave B knight C knave D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: C same B ; B: D same A ; C: B knave ; D: B diff C", "gen": "A knave B knight C knave D knave", "reward": 0.0}
+{"prompt": "A: F knight ; B: C knight ; C: D same B ; D: C knave ; E: F diff C ; F: B knave", "gen": "A knight B knave C knave D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: E knight ; B: A diff D ; C: B knave ; D: C knight ; E: D knight ; F: C diff B", "gen": "A knight B knave C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: C knight ; C: A knight ; D: B same C", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: A same C ; C: B knight ; D: A knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: C knave ; C: D diff A ; D: C knight", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: A diff D ; C: A same D ; D: C knave", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: C knight ; C: D knight ; D: C same B", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: E diff C ; B: D diff E ; C: B diff E ; D: E same C ; E: D knight", "gen": "A knave B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: C knight ; C: D same F ; D: F diff E ; E: C same F ; F: A knave", "gen": "A knave B knave C knave D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: B knave ; B: D diff E ; C: B knight ; D: E knight ; E: C knave", "gen": "A knight B knave C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: E knave ; C: B knave ; D: A knave ; E: A diff B", "gen": "A knight B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: E diff D ; B: A knave ; C: B same A ; D: B same A ; E: C diff D", "gen": "A knave B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knight ; C: E diff A ; D: C same E ; E: C knave", "gen": "A knight B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: C same B ; B: C knight ; C: A same D ; D: C same B", "gen": "A knight B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: D diff E ; B: D knave ; C: B knave ; D: C diff E ; E: C knave", "gen": "A knight B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: B same F ; B: C knight ; C: B diff F ; D: B knight ; E: C same B ; F: E diff D", "gen": "A knight B knave C knave D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: B knight ; B: C knave ; C: F diff E ; D: B diff C ; E: A diff C ; F: E diff D", "gen": "A knight B knight C knave D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: D same B ; B: A diff C ; C: A same D ; D: C same B", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: E diff F ; B: F diff A ; C: F diff D ; D: A same F ; E: B same D ; F: D same B", "gen": "A knight B knave C knight D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: E knave ; B: C knave ; C: D diff A ; D: E knave ; E: A same D", "gen": "A knight B knave C knight D knight E knave", "reward": 0.0}
+{"prompt": "A: D knave ; B: C knight ; C: D knave ; D: B diff A", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D same E ; B: D knave ; C: B knight ; D: C diff B ; E: D same B", "gen": "A knave B knight C knight D knave E knave", "reward": 0.0}
+{"prompt": "A: B diff C ; B: A diff D ; C: A same D ; D: C diff E ; E: D knight", "gen": "A knight B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: E same D ; B: E knave ; C: D diff E ; D: B diff E ; E: C diff B", "gen": "A knave B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: E diff C ; B: C knight ; C: B same D ; D: A same C ; E: B knight", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: E same C ; B: C knight ; C: A knave ; D: B knave ; E: F knave ; F: C knight", "gen": "A knave B knight C knight D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: C same D ; C: A knight ; D: B knave", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: E same B ; B: A knight ; C: D knave ; D: B knave ; E: A knight", "gen": "A knight B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: E knight ; C: A same D ; D: F knave ; E: C knave ; F: A diff D", "gen": "A knight B knight C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: C diff B ; B: E knave ; C: E same B ; D: C knave ; E: C knave", "gen": "A knight B knave C knave D knight E knight", "reward": 0.0}
+{"prompt": "A: B knight ; B: D knave ; C: A same D ; D: E same B ; E: A knight", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: A same C ; C: B diff D ; D: B knight ; E: C knave", "gen": "A knight B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: C knight ; C: D knight ; D: A knave ; E: D diff A", "gen": "A knight B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: C diff E ; C: D diff E ; D: C knight ; E: D knave", "gen": "A knight B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: C diff B ; B: C knight ; C: A same D ; D: B diff C ; E: D knight", "gen": "A knave B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: F knight ; B: F diff E ; C: A same D ; D: C knave ; E: A knave ; F: C knight", "gen": "A knave B knave C knave D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: D knight ; B: D knave ; C: A knave ; D: E knave ; E: D same A", "gen": "A knave B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: F knight ; B: D knave ; C: F same A ; D: A knave ; E: C diff F ; F: D same B", "gen": "A knave B knave C knight D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: C knave ; C: B diff F ; D: E knave ; E: F diff B ; F: E knave", "gen": "A knave B knight C knave D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: B knight ; B: E knight ; C: E same A ; D: A knave ; E: C knight", "gen": "A knight B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: C same E ; B: C knight ; C: E diff D ; D: B knight ; E: D knight", "gen": "A knight B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C diff B ; B: D knave ; C: D knave ; D: B same C", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: D knave ; C: A diff B ; D: C diff B", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knight ; C: A diff D ; D: B knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: F diff E ; C: A knight ; D: B knight ; E: D diff B ; F: D same A", "gen": "A knave B knight C knave D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: E knave ; B: D diff A ; C: D knight ; D: B knave ; E: A same F ; F: A same C", "gen": "A knight B knight C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: C same D ; B: A knight ; C: B knight ; D: A same E ; E: D knave", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: C diff A ; C: D same A ; D: F same A ; E: F same A ; F: B knight", "gen": "A knave B knave C knave D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: E diff C ; B: C knave ; C: F knight ; D: F same B ; E: D knave ; F: D knave", "gen": "A knave B knight C knave D knight E knave F knave", "reward": 0.0}
+{"prompt": "A: C diff E ; B: C diff D ; C: B knight ; D: C knight ; E: B same D", "gen": "A knight B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: D diff E ; C: A same E ; D: E knight ; E: B knight", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: E same C ; C: D diff E ; D: C same B ; E: C knave", "gen": "A knight B knave C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: E same A ; C: E diff D ; D: A same E ; E: D diff B ; F: E knight", "gen": "A knight B knave C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: D knave ; C: B diff D ; D: C knave ; E: D knave", "gen": "A knight B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: E diff C ; B: D diff C ; C: F knight ; D: E same F ; E: A same B ; F: A knave", "gen": "A knight B knave C knave D knight E knave F knave", "reward": 0.0}
+{"prompt": "A: D knave ; B: C knave ; C: B same A ; D: C knave", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: E knave ; C: E knight ; D: E same B ; E: C same A ; F: E same A", "gen": "A knave B knight C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: E knave ; B: E same C ; C: E knight ; D: A same C ; E: D knave", "gen": "A knight B knave C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: B knight ; B: C knight ; C: D diff A ; D: A knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: E same A ; C: D knave ; D: C same E ; E: B knight", "gen": "A knave B knight C knight D knave E knight", "reward": 0.0}
+{"prompt": "A: E knave ; B: C same A ; C: D diff E ; D: A same E ; E: D diff B", "gen": "A knight B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: C knave ; C: E diff A ; D: E diff C ; E: C knave", "gen": "A knight B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: A same E ; C: F knight ; D: C knight ; E: A knight ; F: D diff E", "gen": "A knave B knave C knight D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: D diff C ; B: A knave ; C: A knave ; D: A knight", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: B diff C ; B: C same D ; C: B knight ; D: A diff B", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: D same C ; B: D same C ; C: B knave ; D: B knight ; E: C same B", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: C knight ; C: A knight ; D: B same A", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C same D ; B: D knight ; C: F same D ; D: A knight ; E: D diff F ; F: E knave", "gen": "A knight B knight C knight D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: C same D ; C: D knight ; D: C diff A", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: E diff D ; C: A diff B ; D: B knave ; E: B knight", "gen": "A knave B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: C same D ; C: B knave ; D: A diff B", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: E same A ; C: E knight ; D: C diff F ; E: F knave ; F: B diff C", "gen": "A knight B knight C knight D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: D knight ; C: B diff D ; D: A diff F ; E: B same A ; F: A same C", "gen": "A knave B knight C knave D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: E knight ; B: A same D ; C: B same A ; D: A same C ; E: B knight", "gen": "A knight B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: C same E ; C: A knight ; D: B same F ; E: F same A ; F: C knight", "gen": "A knight B knight C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: D same C ; B: C same D ; C: B knave ; D: A knight", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: E same C ; B: C same D ; C: B diff E ; D: B knave ; E: D diff A", "gen": "A knight B knave C knight D knave E knight", "reward": 0.0}
+{"prompt": "A: B same E ; B: D knave ; C: B knave ; D: B diff E ; E: B knave", "gen": "A knave B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knight ; C: B diff A ; D: B diff C", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: E same A ; C: B diff E ; D: A diff E ; E: D knave", "gen": "A knave B knight C knight D knight E knave", "reward": 0.0}
+{"prompt": "A: F knight ; B: D same C ; C: A knave ; D: E same C ; E: D knight ; F: B diff A", "gen": "A knave B knave C knight D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: F same D ; C: A diff E ; D: A knave ; E: B knave ; F: C diff D", "gen": "A knight B knave C knight D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: D knight ; B: A knave ; C: A knave ; D: A same B", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: B same E ; B: E knight ; C: B same E ; D: A knave ; E: A knight", "gen": "A knight B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: E knave ; C: D same A ; D: F same B ; E: C same B ; F: D knave", "gen": "A knave B knave C knave D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: E diff F ; B: F diff D ; C: E knight ; D: C same F ; E: B same D ; F: C same E", "gen": "A knave B knight C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: C diff B ; B: F knave ; C: A diff D ; D: C same B ; E: F knave ; F: D diff A", "gen": "A knight B knave C knight D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: B diff E ; B: A diff D ; C: E same B ; D: A diff C ; E: B knight", "gen": "A knave B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D diff B ; B: A same C ; C: D diff B ; D: B knight", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: D diff A ; C: B knave ; D: C knight", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: C knight ; C: B same E ; D: C same E ; E: D knight", "gen": "A knight B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: C diff B ; B: E knave ; C: A knight ; D: B diff E ; E: C knight", "gen": "A knight B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: B same E ; B: C same D ; C: B knight ; D: C diff E ; E: B same C", "gen": "A knight B knave C knave D knave E knight", "reward": 0.0}
+{"prompt": "A: D knight ; B: A knave ; C: D knave ; D: E knave ; E: C diff B", "gen": "A knave B knight C knight D knave E knight", "reward": 0.0}
+{"prompt": "A: F knave ; B: F knight ; C: F same B ; D: A same F ; E: A diff B ; F: D knave", "gen": "A knave B knight C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: E same D ; B: E same A ; C: B diff A ; D: A knave ; E: C same B", "gen": "A knight B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: B same D ; B: C same D ; C: D knave ; D: A diff C", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: C diff E ; C: A same D ; D: E same C ; E: B knight", "gen": "A knight B knave C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: B knight ; B: D knave ; C: A diff B ; D: A same B", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: C diff A ; C: A same D ; D: E same A ; E: B knight", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: D knight ; C: D knight ; D: A diff C ; E: C same A", "gen": "A knave B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: E diff B ; B: A knave ; C: E knave ; D: E same C ; E: B diff D", "gen": "A knave B knight C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: D same C ; B: A same C ; C: D same B ; D: C knight", "gen": "A knight B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: F diff E ; C: A knight ; D: E knave ; E: F diff D ; F: C knave", "gen": "A knight B knight C knight D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: D diff E ; B: C diff D ; C: E diff B ; D: B same E ; E: B knave", "gen": "A knight B knight C knight D knave E knave", "reward": 0.0}
+{"prompt": "A: C knave ; B: C knave ; C: A diff B ; D: A diff C", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: C knight ; C: E knave ; D: E knight ; E: B diff D", "gen": "A knave B knight C knight D knave E knave", "reward": 0.0}
+{"prompt": "A: E knight ; B: E knave ; C: E diff B ; D: A knight ; E: D same B", "gen": "A knave B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: E diff C ; B: C knight ; C: E diff D ; D: C knave ; E: D knight ; F: D same E", "gen": "A knight B knight C knight D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: C knave ; B: A same C ; C: B knight ; D: B knight", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: A same D ; C: A same D ; D: A knave ; E: C knight ; F: A knight", "gen": "A knight B knave C knave D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: A same D ; C: A same B ; D: E knight ; E: A same D", "gen": "A knight B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: E same C ; C: E same A ; D: F diff A ; E: F knight ; F: B diff E", "gen": "A knave B knight C knave D knight E knave F knave", "reward": 0.0}
+{"prompt": "A: B same E ; B: E knave ; C: B knave ; D: B knight ; E: A knight", "gen": "A knave B knight C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: D same E ; B: D knave ; C: E knave ; D: E diff B ; E: D knight ; F: E knight", "gen": "A knave B knight C knight D knave E knave F knave", "reward": 0.0}
+{"prompt": "A: B diff C ; B: D knight ; C: A knight ; D: C knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: A same D ; C: D diff B ; D: B knave", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: F diff A ; C: F same D ; D: C knave ; E: A knave ; F: B knave", "gen": "A knight B knight C knight D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: D diff A ; C: A knave ; D: A knight", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: D same E ; C: D knight ; D: B same A ; E: A diff D", "gen": "A knave B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: D same C ; B: A knight ; C: B knight ; D: C knave", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C same D ; B: A knave ; C: B same A ; D: C knave", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: C knave ; C: D knave ; D: E knight ; E: A diff B", "gen": "A knave B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: B diff E ; B: E knight ; C: D same E ; D: B diff E ; E: C same B ; F: C same A", "gen": "A knave B knave C knight D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: B same D ; B: C knight ; C: D diff B ; D: C knight ; E: A same B", "gen": "A knight B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: D diff A ; C: D same B ; D: B knave", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: E diff C ; B: C knight ; C: E knight ; D: E diff B ; E: D diff A", "gen": "A knave B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C same E ; B: E knave ; C: B same E ; D: A diff C ; E: F knave ; F: B diff E", "gen": "A knave B knight C knave D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: D diff B ; B: D knight ; C: E same B ; D: A diff C ; E: C knave", "gen": "A knave B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: F knave ; B: A diff D ; C: E knight ; D: B same E ; E: C diff F ; F: B knight", "gen": "A knave B knight C knight D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: B same C ; B: E diff C ; C: B knave ; D: E knave ; E: D same B", "gen": "A knave B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: A same D ; C: B diff A ; D: C same B", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: C same F ; B: A same D ; C: E knave ; D: C knight ; E: D diff B ; F: E knight", "gen": "A knave B knight C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: A diff C ; C: E knight ; D: F knave ; E: A same C ; F: C diff D", "gen": "A knight B knave C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: D same A ; C: A diff D ; D: A knight", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: A same D ; C: B knight ; D: E knave ; E: D diff A", "gen": "A knave B knight C knight D knight E knave", "reward": 0.0}
+{"prompt": "A: C knave ; B: C same A ; C: F same B ; D: A knight ; E: D knight ; F: A same D", "gen": "A knight B knave C knave D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: D knave ; C: F knave ; D: E same C ; E: D knight ; F: B same C", "gen": "A knight B knight C knave D knave E knave F knave", "reward": 0.0}
+{"prompt": "A: C knight ; B: E knave ; C: D same E ; D: F same E ; E: D knight ; F: C diff E", "gen": "A knight B knave C knight D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: D knave ; B: C knight ; C: A knight ; D: A diff B", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: D knight ; C: D same B ; D: B same A", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: E knave ; C: D knave ; D: E knight ; E: A diff B", "gen": "A knight B knave C knave D knight E knight", "reward": 0.0}
+{"prompt": "A: B same C ; B: A knave ; C: A diff E ; D: E same C ; E: B same D", "gen": "A knight B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: E diff D ; C: A diff D ; D: B diff C ; E: D knave", "gen": "A knight B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: E diff F ; B: C diff E ; C: B same D ; D: C same F ; E: A knave ; F: E knave", "gen": "A knight B knight C knight D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: E diff D ; B: C same D ; C: A same B ; D: C knave ; E: C diff B", "gen": "A knave B knave C knight D knave E knight", "reward": 0.0}
+{"prompt": "A: D knight ; B: E knight ; C: D knight ; D: B knight ; E: C diff B ; F: E knight", "gen": "A knave B knave C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: E diff B ; B: E knight ; C: A diff F ; D: F same C ; E: C knight ; F: A knave", "gen": "A knave B knight C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: F knave ; B: C diff D ; C: B same F ; D: B diff E ; E: A same D ; F: E knight", "gen": "A knave B knight C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: B same D ; B: A same C ; C: D diff A ; D: A knave", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: A knight ; C: A same D ; D: E knight ; E: B knave", "gen": "A knave B knave C knight D knight E knight", "reward": 0.0}
+{"prompt": "A: E same C ; B: E same D ; C: D knight ; D: B knave ; E: A knight", "gen": "A knave B knight C knave D knave E knave", "reward": 0.0}
+{"prompt": "A: E knight ; B: E same D ; C: D knave ; D: B knight ; E: C diff A", "gen": "A knight B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: F knight ; B: D diff C ; C: B same A ; D: C knave ; E: A knight ; F: D diff C", "gen": "A knight B knight C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: C diff E ; C: B same A ; D: B diff A ; E: A same C", "gen": "A knave B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: C same E ; B: C same F ; C: F diff A ; D: A knave ; E: F diff D ; F: B knave", "gen": "A knave B knave C knight D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: C same B ; B: A diff D ; C: D same B ; D: C same A", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: D diff E ; B: C diff E ; C: D knight ; D: A knight ; E: D knight", "gen": "A knave B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C same E ; B: D knave ; C: E same B ; D: F diff B ; E: D knave ; F: A same C", "gen": "A knight B knight C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: B diff D ; B: D knight ; C: B same A ; D: B diff C", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: C diff E ; C: A knave ; D: C knave ; E: B diff F ; F: A diff D", "gen": "A knave B knave C knight D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: C same B ; B: D knave ; C: E knave ; D: F diff B ; E: B same F ; F: A same C", "gen": "A knave B knave C knight D knight E knave F knave", "reward": 0.0}
+{"prompt": "A: B knight ; B: C diff A ; C: A knave ; D: C knight", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: C diff E ; B: E knave ; C: E same D ; D: C knave ; E: C knight", "gen": "A knave B knight C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: C knave ; C: D diff A ; D: C knave", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: D diff E ; B: D knave ; C: F same D ; D: F diff A ; E: D same B ; F: D knave", "gen": "A knight B knave C knave D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: D diff B ; B: D same C ; C: D knave ; D: C same A", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: D knave ; C: A diff E ; D: C knave ; E: A knave ; F: A diff C", "gen": "A knave B knight C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: F knight ; B: A diff C ; C: A same E ; D: C diff E ; E: C diff B ; F: C knight", "gen": "A knight B knave C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: C same D ; B: E same A ; C: A knave ; D: C knight ; E: D knight", "gen": "A knight B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: D knight ; C: D diff A ; D: B same E ; E: A knave", "gen": "A knave B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: D same E ; B: A knave ; C: A knight ; D: B knight ; E: C knave ; F: C same D", "gen": "A knight B knave C knight D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: D same E ; B: E knave ; C: B knight ; D: E knave ; E: B same C", "gen": "A knave B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: E knight ; B: D diff A ; C: E knight ; D: E same A ; E: B same A", "gen": "A knave B knight C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: E same F ; B: E knave ; C: D diff A ; D: E knight ; E: A diff B ; F: A knave", "gen": "A knight B knight C knave D knave E knave F knave", "reward": 0.0}
+{"prompt": "A: E knave ; B: D diff E ; C: D same E ; D: C knave ; E: D same A", "gen": "A knight B knave C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: D same B ; B: E diff D ; C: D diff E ; D: B knight ; E: B knave", "gen": "A knight B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: C diff D ; B: D diff A ; C: A knave ; D: B knight ; E: A knight", "gen": "A knave B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: C diff D ; B: C diff D ; C: A diff B ; D: C knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: D same C ; B: A knave ; C: B knave ; D: F knave ; E: D same B ; F: C knight", "gen": "A knight B knave C knight D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: B knight ; B: A same C ; C: D knave ; D: B knight", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: D diff C ; B: C same D ; C: A knight ; D: A knave", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: E knight ; C: B diff D ; D: C knight ; E: C knave", "gen": "A knave B knight C knave D knave E knight", "reward": 0.0}
+{"prompt": "A: D diff B ; B: C knave ; C: D knight ; D: B diff F ; E: C same A ; F: B knight", "gen": "A knight B knight C knave D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: D diff A ; C: D knave ; D: F diff C ; E: C knight ; F: A knight", "gen": "A knave B knight C knight D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: F knave ; B: C knave ; C: B same F ; D: C knave ; E: A diff C ; F: D knave", "gen": "A knight B knave C knave D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: D same E ; B: D knave ; C: B diff E ; D: A same C ; E: B same D ; F: E diff C", "gen": "A knave B knight C knight D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: C same D ; B: A knave ; C: B same A ; D: E diff B ; E: D knave", "gen": "A knave B knight C knave D knave E knight", "reward": 0.0}
+{"prompt": "A: C same E ; B: F same A ; C: F knave ; D: B same C ; E: C same F ; F: E knave", "gen": "A knight B knave C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: C diff B ; B: D knave ; C: A knight ; D: A knave", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: E diff A ; C: E same A ; D: B same C ; E: C knight ; F: E knight", "gen": "A knight B knave C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: C same B ; B: C knight ; C: D diff B ; D: B diff A", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: E knave ; C: D diff E ; D: B diff E ; E: C diff B", "gen": "A knave B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: D same A ; C: E knight ; D: A knave ; E: D knight", "gen": "A knight B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C diff B ; B: D same C ; C: B knight ; D: C knight", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: E diff D ; B: D knight ; C: A knave ; D: A diff B ; E: C knave", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: D knight ; C: D knight ; D: B same A ; E: B knight ; F: D knave", "gen": "A knight B knave C knave D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: B diff C ; B: C knight ; C: D knave ; D: A knight", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: A same D ; C: A diff D ; D: A knight", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: A diff C ; C: D knave ; D: A diff C ; E: C knight", "gen": "A knight B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: E diff C ; B: A knight ; C: D diff A ; D: B knave ; E: D diff A", "gen": "A knave B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: B diff D ; B: C same E ; C: E same A ; D: B same E ; E: D knight", "gen": "A knight B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: D diff C ; B: D knave ; C: F same B ; D: E knight ; E: A knight ; F: D same A", "gen": "A knave B knight C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: D diff B ; B: C knight ; C: A knave ; D: C knight", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: E knight ; B: C knight ; C: D knight ; D: E knave ; E: C diff A", "gen": "A knight B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: A knave ; C: E diff D ; D: A knight ; E: A knight", "gen": "A knight B knave C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: F diff D ; C: F knight ; D: F knave ; E: D knave ; F: D diff E", "gen": "A knave B knight C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: B diff E ; B: A knight ; C: B knave ; D: A knight ; E: A knight ; F: D knave", "gen": "A knave B knave C knight D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: A knave ; C: D diff E ; D: A diff E ; E: A knight ; F: C knave", "gen": "A knight B knave C knight D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: D diff C ; C: D knave ; D: B knight", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: E knight ; C: A same F ; D: A same F ; E: B diff F ; F: D knave", "gen": "A knave B knave C knight D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: B knave ; B: C knave ; C: B same D ; D: E knave ; E: A knave", "gen": "A knave B knight C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: C diff D ; B: A knave ; C: A knave ; D: C knight", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: A knave ; C: B same D ; D: B knave ; E: D knave", "gen": "A knight B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: C diff D ; B: E knave ; C: B knave ; D: E diff C ; E: A diff C", "gen": "A knave B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: D diff F ; B: D same E ; C: F same E ; D: B knave ; E: C knave ; F: D knight", "gen": "A knight B knight C knave D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: B diff C ; B: D diff A ; C: D diff B ; D: B knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: D diff C ; B: A knave ; C: B knight ; D: B knave", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C same B ; B: E same D ; C: A knight ; D: C knave ; E: A same C", "gen": "A knave B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: D knave ; C: E diff A ; D: A same C ; E: A same D", "gen": "A knave B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: D same B ; B: C same A ; C: A diff E ; D: C diff A ; E: D diff B", "gen": "A knave B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: C same B ; B: A knight ; C: A knave ; D: B knight", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: C knave ; C: A knight ; D: B knight", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: C same A ; C: B knight ; D: E same A ; E: B knave", "gen": "A knight B knave C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: E same D ; C: D diff A ; D: E knight ; E: A knight", "gen": "A knight B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: B same D ; B: D knight ; C: B knave ; D: B diff C", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: A same C ; C: B knight ; D: A knight", "gen": "A knight B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: C diff D ; B: C same D ; C: B same A ; D: A same B", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: A diff E ; C: A knave ; D: E knave ; E: C diff A", "gen": "A knight B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: E diff C ; B: E knight ; C: D knight ; D: C diff A ; E: D same B", "gen": "A knave B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: F knave ; C: D knight ; D: A same C ; E: D same A ; F: D same A", "gen": "A knight B knave C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: B same D ; B: A diff E ; C: B knight ; D: B knight ; E: D same C", "gen": "A knight B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: D diff C ; C: B same A ; D: B same A", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: C diff D ; C: E knight ; D: C knight ; E: A diff D", "gen": "A knave B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: D same C ; B: C diff D ; C: A knight ; D: B knave", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: C knave ; C: D same A ; D: A knight", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: D same B ; B: A knave ; C: A same D ; D: B knave", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: E diff C ; B: A knight ; C: A same B ; D: B same C ; E: F same A ; F: B knave", "gen": "A knave B knave C knight D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: B same C ; B: C knave ; C: A knave ; D: A diff C", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: D same B ; B: E diff C ; C: A diff D ; D: E diff B ; E: D knave", "gen": "A knave B knave C knight D knave E knight", "reward": 0.0}
+{"prompt": "A: C same D ; B: F knight ; C: B knave ; D: B diff E ; E: B diff A ; F: B diff A", "gen": "A knave B knave C knight D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: A same D ; C: D knave ; D: E diff C ; E: D knight", "gen": "A knight B knave C knight D knave E knave", "reward": 0.0}
+{"prompt": "A: C diff D ; B: E knave ; C: E diff F ; D: B diff A ; E: D knave ; F: E knave", "gen": "A knight B knight C knight D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: C knight ; B: D same A ; C: A same D ; D: A knight", "gen": "A knight B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: E same C ; B: A same D ; C: D knight ; D: B same E ; E: C knight", "gen": "A knight B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: A diff C ; C: B knave ; D: B knave", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: D same A ; C: D diff A ; D: C knave", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: D knight ; C: D knight ; D: B diff C", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: D knight ; C: D knight ; D: A knight", "gen": "A knight B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: B same D ; B: F knight ; C: A knave ; D: C knave ; E: A knight ; F: D diff B", "gen": "A knave B knight C knight D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: E same D ; C: B diff A ; D: C knight ; E: C same A ; F: A knave", "gen": "A knave B knave C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: E diff B ; B: A same C ; C: A knight ; D: C knave ; E: C diff F ; F: C knave", "gen": "A knight B knight C knight D knave E knave F knave", "reward": 0.0}
+{"prompt": "A: C knave ; B: D knight ; C: F diff B ; D: E knight ; E: A knight ; F: C knave", "gen": "A knight B knight C knave D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: F knave ; B: E same D ; C: D diff F ; D: E knave ; E: A knight ; F: A same D", "gen": "A knave B knave C knight D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: E same C ; B: D same E ; C: B diff A ; D: B knight ; E: B diff C ; F: D diff C", "gen": "A knight B knave C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: A diff E ; C: D diff B ; D: A same C ; E: F same A ; F: C diff B", "gen": "A knave B knight C knight D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: E diff B ; B: A knight ; C: E same D ; D: A same B ; E: B knave", "gen": "A knave B knave C knight D knight E knight", "reward": 0.0}
+{"prompt": "A: B same D ; B: A diff E ; C: D knave ; D: C same B ; E: B knave", "gen": "A knight B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: A knight ; C: A knave ; D: A knave ; E: C same D", "gen": "A knight B knight C knave D knave E knave", "reward": 0.0}
+{"prompt": "A: D knight ; B: E knave ; C: D knight ; D: F same C ; E: C diff F ; F: D knave", "gen": "A knave B knight C knave D knave E knave F knight", "reward": 0.0}
+{"prompt": "A: D same B ; B: C same E ; C: B knight ; D: C knave ; E: D knight", "gen": "A knave B knight C knight D knave E knave", "reward": 0.0}
+{"prompt": "A: C diff B ; B: C same D ; C: A same D ; D: C knight", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: D diff B ; B: D knight ; C: D diff A ; D: A knave", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: C diff D ; B: A same C ; C: D diff B ; D: C knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: E same C ; B: E diff C ; C: E knave ; D: C same E ; E: B knight", "gen": "A knave B knight C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: B same F ; B: A knight ; C: B knave ; D: B knight ; E: C diff D ; F: E diff B", "gen": "A knight B knight C knave D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: D knave ; B: F same D ; C: E diff D ; D: A diff F ; E: F knave ; F: C knave", "gen": "A knight B knave C knight D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: C knave ; B: A knight ; C: E diff A ; D: E knave ; E: B knight", "gen": "A knight B knight C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: D same A ; C: E knight ; D: B knight ; E: D same A", "gen": "A knight B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: B same D ; B: C knight ; C: E knave ; D: B knave ; E: A knave", "gen": "A knave B knave C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: E same D ; C: B knave ; D: B knave ; E: A knight", "gen": "A knave B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: C same D ; B: A knave ; C: B knight ; D: A knight", "gen": "A knave B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: E diff A ; C: A knight ; D: B knave ; E: B knave", "gen": "A knight B knave C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: C diff B ; B: D same C ; C: A knight ; D: B knight", "gen": "A knight B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: D diff E ; B: F knight ; C: E knight ; D: A knave ; E: A same F ; F: B diff A", "gen": "A knight B knave C knave D knight E knave F knave", "reward": 0.0}
+{"prompt": "A: D same C ; B: D knave ; C: D diff B ; D: E diff F ; E: C knave ; F: E knave", "gen": "A knave B knight C knave D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: B diff D ; B: A knight ; C: B diff D ; D: A knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: E same D ; B: D knight ; C: B same F ; D: C knight ; E: F same A ; F: E knight", "gen": "A knight B knight C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: C same D ; B: A knight ; C: B knave ; D: A knave", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: C same D ; B: C knight ; C: E knight ; D: E knight ; E: C same D", "gen": "A knight B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: A same C ; C: A knave ; D: A knave", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: B diff C ; B: E diff A ; C: D knave ; D: F knave ; E: B knight ; F: A knight", "gen": "A knave B knave C knave D knight E knave F knave", "reward": 1.0}
+{"prompt": "A: C same E ; B: D diff A ; C: A knave ; D: B knight ; E: C diff D", "gen": "A knave B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: C knave ; C: D knave ; D: A diff B", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: D same B ; B: A same C ; C: B diff D ; D: B knave", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: B same D ; B: F knight ; C: B diff F ; D: E knave ; E: D diff A ; F: B same E", "gen": "A knight B knight C knave D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: B knave ; B: D same C ; C: D knave ; D: E knight ; E: D same F ; F: C diff B", "gen": "A knight B knave C knave D knight E knight F knight", "reward": 0.0}
+{"prompt": "A: B same C ; B: E same C ; C: D knave ; D: A knight ; E: B knight", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: F knight ; C: F diff D ; D: C knave ; E: F diff A ; F: A knight", "gen": "A knight B knight C knave D knight E knave F knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: D diff C ; C: B knight ; D: A knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D diff C ; B: A knave ; C: A knave ; D: B knave ; E: B knight", "gen": "A knight B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: B same D ; B: E same F ; C: A knight ; D: A knave ; E: D same F ; F: A knave", "gen": "A knight B knave C knight D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: E same D ; C: B knight ; D: C same B ; E: B diff A", "gen": "A knave B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: D diff A ; C: D same A ; D: C knight", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: D diff C ; B: D same E ; C: D knight ; D: A knave ; E: D diff C", "gen": "A knave B knight C knight D knight E knave", "reward": 0.0}
+{"prompt": "A: E knight ; B: E diff C ; C: B knave ; D: E diff A ; E: D diff C", "gen": "A knight B knave C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: C same B ; B: A knave ; C: D diff B ; D: C knave", "gen": "A knave B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: F knave ; B: F diff A ; C: D same A ; D: A knight ; E: A same F ; F: B same C", "gen": "A knave B knight C knave D knave E knight F knight", "reward": 0.0}
+{"prompt": "A: F knight ; B: E knave ; C: D same E ; D: A knight ; E: F knight ; F: E same A", "gen": "A knight B knave C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: A knave ; C: E knave ; D: C knave ; E: D diff B", "gen": "A knight B knave C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: C diff B ; B: E same C ; C: A same E ; D: E diff A ; E: C knight", "gen": "A knight B knight C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: C same A ; C: A knight ; D: C diff A", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: D same C ; B: C knave ; C: B same D ; D: A knight", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: F same C ; B: A diff C ; C: B knight ; D: F knight ; E: C diff A ; F: A knight", "gen": "A knave B knight C knight D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: C knight ; C: E diff D ; D: B knight ; E: A knight", "gen": "A knave B knave C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: C knight ; C: B same D ; D: C knave ; E: B diff D", "gen": "A knight B knave C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: B knave ; B: C diff F ; C: B knight ; D: F knave ; E: D knight ; F: C knave", "gen": "A knave B knight C knight D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: C same E ; B: C same E ; C: A knave ; D: E knight ; E: A diff D", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: D diff C ; B: A knight ; C: E diff B ; D: B knight ; E: B same D ; F: E knight", "gen": "A knight B knight C knave D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: D diff E ; C: F knave ; D: F knave ; E: B knave ; F: A same D", "gen": "A knave B knight C knight D knight E knave F knave", "reward": 0.0}
+{"prompt": "A: D knight ; B: E knave ; C: A same E ; D: F knight ; E: C knave ; F: D same E", "gen": "A knave B knave C knave D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: D same C ; B: D knight ; C: A knave ; D: B same C", "gen": "A knave B knave C knight D knave", "reward": 1.0}
+{"prompt": "A: C diff D ; B: C same A ; C: A knave ; D: C same B ; E: B knave", "gen": "A knight B knave C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: D diff C ; B: A knight ; C: A knight ; D: B knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: A knight ; C: D same B ; D: B same A", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: A knight ; C: A knight ; D: A diff B ; E: B diff A", "gen": "A knight B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: D diff E ; C: B same E ; D: B knight ; E: B knight", "gen": "A knave B knave C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: F knight ; B: F same C ; C: A diff F ; D: A diff E ; E: F knight ; F: D same C", "gen": "A knight B knave C knave D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: D same C ; B: F diff C ; C: F knave ; D: B knight ; E: B knight ; F: E knave", "gen": "A knight B knight C knight D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: E diff C ; B: E same C ; C: E diff D ; D: B same C ; E: C knight", "gen": "A knave B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: A diff C ; C: B knight ; D: C knight", "gen": "A knave B knight C knight D knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: C knave ; C: A knave ; D: A diff E ; E: A knave ; F: C diff E", "gen": "A knave B knave C knight D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: D same C ; B: C diff A ; C: A knight ; D: B same A", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: A diff C ; C: B knave ; D: B knave", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: C knave ; C: B diff A ; D: C same A", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: D same E ; B: E same D ; C: B knight ; D: C same B ; E: D knave", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: C knight ; C: D knave ; D: E diff B ; E: D knave", "gen": "A knight B knight C knight D knave E knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: E knave ; C: F same D ; D: C knave ; E: A same B ; F: D diff A", "gen": "A knave B knave C knave D knight E knight F knight", "reward": 0.0}
+{"prompt": "A: E same B ; B: E knight ; C: E same B ; D: E same A ; E: A knight ; F: C same A", "gen": "A knight B knight C knight D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: C diff D ; B: C diff A ; C: A knave ; D: C knave", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: B knight ; B: A same D ; C: E same A ; D: A diff C ; E: A knight", "gen": "A knave B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: C knave ; C: D diff B ; D: E diff C ; E: D knave", "gen": "A knave B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: A knight ; C: A same D ; D: C knight", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: E knave ; B: A same C ; C: B diff D ; D: E same C ; E: A same B", "gen": "A knight B knave C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: C same B ; B: A knight ; C: A knave ; D: C knight", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: B same C ; B: D knave ; C: A knave ; D: B diff C", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: E diff C ; C: D knight ; D: A knave ; E: A knight", "gen": "A knave B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: F diff C ; B: E knave ; C: D same B ; D: F same E ; E: C knight ; F: A knight", "gen": "A knave B knight C knave D knight E knave F knave", "reward": 0.0}
+{"prompt": "A: D same B ; B: C knave ; C: D knight ; D: B diff E ; E: C knight ; F: E knave", "gen": "A knave B knave C knight D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A diff D ; C: D diff A ; D: A knave", "gen": "A knight B knight C knight D knave", "reward": 1.0}
+{"prompt": "A: B same C ; B: C knight ; C: A knave ; D: A same C", "gen": "A knight B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knight ; C: B diff A ; D: A knave", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: D diff C ; B: F same D ; C: B same E ; D: F knight ; E: B diff D ; F: E same C", "gen": "A knight B knight C knave D knave E knight F knave", "reward": 0.0}
+{"prompt": "A: B knight ; B: D same A ; C: B same A ; D: A diff C", "gen": "A knave B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: B diff E ; B: C knight ; C: B diff E ; D: A same B ; E: C knight", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: E knight ; B: C same D ; C: A same B ; D: B knave ; E: D same B", "gen": "A knave B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: B knave ; B: E knave ; C: B knight ; D: A same C ; E: A diff C", "gen": "A knight B knave C knave D knave E knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: A knight ; C: D diff E ; D: E knave ; E: C knave", "gen": "A knave B knave C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: A knave ; C: D knave ; D: A same C ; E: D same C", "gen": "A knave B knight C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: C diff D ; B: D knight ; C: D knave ; D: F diff E ; E: D knave ; F: E knight", "gen": "A knight B knave C knight D knave E knight F knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: D knave ; C: A diff B ; D: C knight", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: A knave ; C: B knight ; D: B diff A", "gen": "A knight B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: D diff E ; B: C knave ; C: D knave ; D: C diff A ; E: C same D", "gen": "A knave B knight C knave D knight E knave", "reward": 0.0}
+{"prompt": "A: C knight ; B: D same F ; C: B same A ; D: C diff A ; E: F diff A ; F: C knight", "gen": "A knave B knight C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: F same D ; B: F knave ; C: F same D ; D: F same E ; E: D knight ; F: A same B", "gen": "A knave B knave C knave D knave E knave F knight", "reward": 1.0}
+{"prompt": "A: E knave ; B: A same F ; C: A knave ; D: F diff B ; E: B diff C ; F: E diff C", "gen": "A knight B knave C knave D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: B diff D ; B: A knight ; C: D diff A ; D: A knight", "gen": "A knave B knave C knave D knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: E diff A ; C: E knight ; D: E knave ; E: B knight ; F: E knave", "gen": "A knave B knight C knight D knave E knight F knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: E same C ; C: B knight ; D: E knight ; E: C knight", "gen": "A knave B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: C diff E ; B: A diff C ; C: D knight ; D: E same B ; E: C knight", "gen": "A knave B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: D knave ; B: A diff C ; C: B knave ; D: A diff B", "gen": "A knight B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: C diff A ; C: A diff D ; D: C knave", "gen": "A knight B knight C knave D knight", "reward": 1.0}
+{"prompt": "A: D same B ; B: C knave ; C: A knave ; D: E diff C ; E: D knave", "gen": "A knave B knave C knight D knave E knight", "reward": 0.0}
+{"prompt": "A: E knight ; B: E diff C ; C: D same A ; D: E knave ; E: B diff A", "gen": "A knave B knave C knave D knight E knave", "reward": 1.0}
+{"prompt": "A: D same E ; B: A knave ; C: E knave ; D: A knave ; E: D knave", "gen": "A knave B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: C knave ; B: A knave ; C: B diff E ; D: B same A ; E: B knave", "gen": "A knave B knight C knight D knave E knave", "reward": 1.0}
+{"prompt": "A: F knave ; B: C same F ; C: D knave ; D: A diff E ; E: B same A ; F: B knave", "gen": "A knave B knight C knave D knight E knight F knave", "reward": 0.0}
+{"prompt": "A: E diff D ; B: D same A ; C: D knave ; D: C same A ; E: A knave ; F: D knight", "gen": "A knave B knave C knave D knight E knight F knight", "reward": 1.0}
+{"prompt": "A: B knave ; B: C diff A ; C: A knight ; D: C knight", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: E same D ; B: A knight ; C: D diff E ; D: E knight ; E: A knight", "gen": "A knight B knight C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: F same C ; C: B knave ; D: C knave ; E: B diff A ; F: B knave", "gen": "A knight B knight C knave D knight E knave F knave", "reward": 1.0}
+{"prompt": "A: D knave ; B: D knave ; C: B knight ; D: A same B", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C diff E ; B: E knight ; C: A knave ; D: E diff A ; E: B diff A", "gen": "A knave B knight C knight D knight E knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: E knight ; C: D diff F ; D: F knight ; E: C same D ; F: A knight", "gen": "A knight B knave C knight D knight E knave F knight", "reward": 0.0}
+{"prompt": "A: C same B ; B: D knave ; C: A knight ; D: C same B", "gen": "A knave B knight C knave D knave", "reward": 1.0}
+{"prompt": "A: B knight ; B: E diff A ; C: A knight ; D: A diff E ; E: D knave", "gen": "A knight B knight C knight D knight E knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: A diff C ; C: B knave ; D: B diff A", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: D knight ; B: A knave ; C: E knight ; D: F knave ; E: A same C ; F: D diff E", "gen": "A knight B knave C knight D knight E knight F knave", "reward": 1.0}
+{"prompt": "A: C knight ; B: D same C ; C: B knight ; D: B knave", "gen": "A knave B knave C knave D knight", "reward": 1.0}
+{"prompt": "A: C diff D ; B: C knave ; C: A knight ; D: B knight", "gen": "A knave B knight C knave D knight", "reward": 0.0}
+{"prompt": "A: D diff B ; B: D same C ; C: D diff A ; D: B knave ; E: C same B", "gen": "A knight B knave C knave D knight E knight", "reward": 1.0}
+{"prompt": "A: C knight ; B: A knave ; C: D same A ; D: B knave", "gen": "A knight B knave C knight D knight", "reward": 1.0}
+{"prompt": "A: C knave ; B: D diff A ; C: A same F ; D: A knight ; E: C same A ; F: D diff E", "gen": "A knave B knave C knight D knave E knave F knave", "reward": 1.0}
+{"prompt": "A: D knight ; B: E same A ; C: D diff E ; D: C knight ; E: C knight", "gen": "A knave B knight C knave D knave E knave", "reward": 1.0}
+{"prompt": "A: E diff C ; B: A knight ; C: A same D ; D: B knight ; E: B diff D", "gen": "A knight B knight C knight D knight E knave", "reward": 1.0}

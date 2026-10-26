@@ -1,0 +1,240 @@
+{
+ "game24cd_flat_svg2d_s0/0": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 21.62177491406591
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 21.412887723263054
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 21.21576485023482
+  }
+ },
+ "game24cd_flat_svg2d_s0/250": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 21.546906930069003
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 21.489375926710444
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 21.464431782083864
+  }
+ },
+ "game24cd_flat_svg2d_s0/500": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 30.467563751352813
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 29.977259349967525
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 29.388452888257575
+  }
+ },
+ "game24cd_flat_svg2d_s0/750": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 25.47481967224281
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 25.37663583801243
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 25.102800713974275
+  }
+ },
+ "game24cd_flat_svg2d_s0/1000": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 25.271197525701698
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 25.117489420041366
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 25.005971286083877
+  }
+ },
+ "game24cd_flat_svg2d_s0/1250": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 26.76200874660326
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 26.4737871182895
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 26.27090383099587
+  }
+ },
+ "game24cd_flat_svg2d_s0/1500": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 27.42401811770428
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 27.070324316659462
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 26.93091353693489
+  }
+ },
+ "game24cd_flat_bigcrit_svg2d_s0/0": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 21.554892688807758
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 21.45808486472864
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 21.220219526482126
+  }
+ },
+ "game24cd_flat_bigcrit_svg2d_s0/250": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 22.77197425507531
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 22.553483839850568
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 22.192161816704893
+  }
+ },
+ "game24cd_flat_bigcrit_svg2d_s0/500": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 23.159382186823592
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 22.954473686878245
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 22.698576996865544
+  }
+ },
+ "game24cd_flat_bigcrit_svg2d_s0/750": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 24.50464251324847
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 24.303107879279327
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 24.093845804038587
+  }
+ },
+ "game24cd_flat_bigcrit_svg2d_s0/1000": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 27.467720356499672
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 27.09259861680328
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 26.676023097974447
+  }
+ },
+ "game24cd_flat_bigcrit_svg2d_s0/1250": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 28.383813753269397
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 28.078666776926013
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 27.727814120496724
+  }
+ },
+ "game24cd_flat_bigcrit_svg2d_s0/1500": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 28.716881385216347
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 28.477341785772847
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 28.12483603289904
+  }
+ }
+}
