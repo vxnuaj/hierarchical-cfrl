@@ -240,3 +240,5 @@ Queued 21:50: cluster-blind critic hier seeds 1–2 (`game24cd_hier_blind_svg2d_
 **Big-critic flat final (Game24-cd, seed 0, 16k-rollout critic): 63.9 → 59.5 (−4.5)**, trajectory 64.1 / 63.8 / 65.8 / 60.1 / 60.2 / 59.5. The 8k-critic flat runs were −9.2 / −14.5 / −13.0. A critic trained on twice the data delays and roughly halves the flat collapse but does not remove it; hier with the 8k critic is +4.8 (3 seeds). Seeds 1–2 queued (13455981/83). Hier with the 16k critic queued (13448952).
 
 Dashboard: progress bars and time-left estimates added for live RL runs (from the log's elapsed/iter), SFT (steps/sec from the log), critics (time per epoch) and queue jobs (time to limit; Slurm's estimated start for pending jobs).
+
+**04:35 2026-10-26.** Hier 16k-rollout critic pretrain (13448951) finished: best epoch 2, field score 0.821 (flat 16k critic: best epoch 5). SVG with it (13448952) has a Slurm start estimate of ~13:20. Random-cluster SFT at step 55.0k / 58.6k (loss 0.0655, ce 0.0086); gate0a 13445211 follows. AdamW chains still estimated to start ~18:00.
