@@ -101,8 +101,8 @@ def run_state(r) -> tuple[str, str]:
     ev = [e for e in r["evals"] if e[1] is not None]
     it = ev[-1][0] if ev else 0
     age = r.get("age")
-    if age is not None and age < 1200: return "LIVE", "bold green"
     if it >= target_iters(r["name"]): return "DONE", "blue"
+    if age is not None and age < 1200: return "LIVE", "bold green"
     if age is not None and age > 6 * 3600: return "ENDED", "dim"
     return "STALL", "yellow"
 

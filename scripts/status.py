@@ -188,8 +188,8 @@ def render(d, filt=None, show_all=False):
             P("  %-36s %s" % (r["name"], C("no eval yet", "90"))); continue
         base = ev[0][1]; it, last = ev[-1][0], ev[-1][1]
         tgt = target_iters(r["name"]); live = r["age"] is not None and r["age"] < 1200
-        if live: state = C("LIVE", "32")
-        elif it >= tgt: state = C("DONE", "34")
+        if it >= tgt: state = C("DONE", "34"); live = False
+        elif live: state = C("LIVE", "32")
         elif r["age"] is not None and r["age"] > 6 * 3600: state = C("ENDED", "90")   # short/old run, no job attached
         else: state = C("STALL", "33")
         delta = (last - base) * 100
