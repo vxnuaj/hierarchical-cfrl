@@ -242,3 +242,23 @@ Queued 21:50: cluster-blind critic hier seeds 1–2 (`game24cd_hier_blind_svg2d_
 Dashboard: progress bars and time-left estimates added for live RL runs (from the log's elapsed/iter), SFT (steps/sec from the log), critics (time per epoch) and queue jobs (time to limit; Slurm's estimated start for pending jobs).
 
 **04:35 2026-10-26.** Hier 16k-rollout critic pretrain (13448951) finished: best epoch 2, field score 0.821 (flat 16k critic: best epoch 5). SVG with it (13448952) has a Slurm start estimate of ~13:20. Random-cluster SFT at step 55.0k / 58.6k (loss 0.0655, ce 0.0086); gate0a 13445211 follows. AdamW chains still estimated to start ~18:00.
+
+## 2026-10-26 11:00 — seed repeats at iter 750; AdamW SFTs healthy at halved lr
+
+Random-cluster SFT (helfR, Countdown) finished 05:26 (final loss 0.0655, ce 0.0086); its critic pretrain 13445211 and the three rand SVG seeds are still queued.
+
+Seed repeats, Game24-cd test acc at iters 0 / 250 / 500 / 750 (all running, finish tonight):
+
+| run | 0 | 250 | 500 | 750 |
+|---|---|---|---|---|
+| hier, 16k critic, s0 | 64.9 | 65.4 | 68.8 | 67.0 |
+| flat, 16k critic, s1 | 64.7 | 68.1 | 51.0 | 58.5 |
+| flat, 16k critic, s2 | 65.1 | 64.0 | 50.4 | 63.9 |
+| hier, cluster-blind critic, s1 | 64.3 | 68.7 | 69.7 | 68.8 |
+| hier, cluster-blind critic, s2 | (64.9) | 67.7 | 66.9 | 67.3 |
+
+Reading so far: with the 16k critic the flat model still drops ~14 points by iter 500 on both new seeds (seed 0 only dipped at 1000+), so the bigger critic does not remove the flat collapse; the iter-750 rebound is the usual noisy flat trajectory. Both cluster-blind hier seeds sit at +3 to +5 through 750, like the full-critic hier runs; whether they hold to 1500 (seed 0 gave it back) is the open question.
+
+AdamW chains at blr 0.001 (absolute lr 2e-3): sft-cd-elfA and sft-cd-helfA, 4.5 h in, ce 0.05 / 0.067 and falling — no divergence (the blr 0.002 runs had ce 1.25+ by step 14k). Steps/sec 1.15; full 58.6k-step SFT ≈ 14 h, so the Game24 SFTs and RL chains behind them run tomorrow.
+
+Ops note: /scratch1 reads from the start of large files stalled for ~15 min around 10:50 (tail/seek reads fine); `status.py --remote` should be run with a timeout.
