@@ -222,3 +222,13 @@ Hier ≥ flat in 3/3 seeds; seeds 1–2 hier peak at +2 (iter 250) and hold; fla
 **One-step test on a random val subset (seed 777, 1,000 prompts; bases flat 62.8 / hier 64.0, matching test):** adamw step at η=Λ/16, Λ/4, Λ/2, Λ: flat +2.7 / **+6.3** / +7.3 / −4.5; hier +1.1 / **+5.7** / +3.9 / −1.8; random ≈ 0; raw step destroys both. Same conclusion as the easiest-1,000 version: the critic's initial direction is as good for flat as for hier.
 
 Progress: cluster-blind critic hier run at iter 250: 67.8 (full hier: 66.1). Countdown c16-critic flat at iter 250: 25.0 (old critic: 26.1). Paper-budget (16k) critic for flat: best epoch 5, held-out AUC by k no better than the 8k critic (0.93 @k8, 0.96 @k24, 0.98 @k40 vs 0.92/0.98/0.97) — the critic budget was not what limited flat.
+
+## 2026-10-26 evening — Countdown with the paper's critic sampler holds; big-critic flat run is not collapsing (so far)
+
+**Countdown, critic pretrained on γ4@16 states (CFRL recipe), SVG seed 0, test acc:** flat 17.6 → 25.0 / 23.4 / 23.5 (iters 250/500/750, running) vs the old γ56@64-critic run 26.1 / 18.1 / 15.3 → 10.5. Hier 18.7 → 25.2 / 21.9 (500) vs old 24.6 / 12.5 → 14.3. The critic-sampler fix removes most of the Countdown collapse for *both* models. If it holds to 1500, Countdown becomes a task where the plain model gains under pathwise RL and the hier advantage is small or nil — to be reported as such.
+
+**Paper-budget critic (16k rollouts), flat Game24-cd, SVG seed 0:** 63.9 → 64.1 / 63.8 at iters 250/500, where the 8k-critic flat run (seed 0) was at 53.3 / 45.9. Held-out AUC of the two critics is indistinguishable, so if this run stays flat-or-up to 1500 the flat collapse is sensitive to the particular critic (epoch 5 of the 16k set vs epoch 6 of the 8k set), not just to the model. This would weaken "flat collapses" to "flat is fragile" (3/3 seeds collapsed with the 8k critic; GRR and one-step both fine). Must wait for 1500 and then run the 16k critic over seeds 1–2 before claiming anything either way.
+
+**Cluster-blind critic (hier, Game24-cd):** 64.9 → 67.8 / 68.5 / 68.9 (750) — tracks the full hier run (66.1 / 70.8 / 70.3). The critic does not need to see the cluster channels; consistent with the 2–3% input-gradient share measured earlier.
+
+**AdamW SFT chains are diverging:** with `blr 0.002` the trainer scales to an absolute lr of 4e-3 at batch 512 (lr = blr × batch/256); CE rises from 0.014 (step 1k) to 1.36 (step 13k) in both elfA and helfA while the latent L2 term stays flat — the token head blows up at peak lr. CFRL's "AdamW lr 2e-3" is an absolute lr. Cancelling and resubmitting with `blr 0.001` (absolute 2e-3 at batch 512).
