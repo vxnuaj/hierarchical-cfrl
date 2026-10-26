@@ -1,0 +1,48 @@
+[project]
+name = "hcfrl"
+version = "0.1.0"
+description = "Hierarchical continuous flow language models for pathwise RL (CFRL on ELF / H-ELF)"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+  # pinned to the versions the reported runs used (cluster env, 2026-10-26)
+  "torch==2.14.1",
+  "numpy==2.4.6",
+  "PyYAML==6.0.3",
+  "tqdm==4.70.1",
+  "einops==0.8.2",
+  "transformers==4.44.2",
+  "tokenizers==0.19.1",
+  "safetensors==0.8.0",
+  "datasets==5.0.1",
+  "huggingface-hub>=0.36.2",
+  "scikit-learn==1.9.1",
+  "scipy==1.17.1",
+  "sacrebleu==2.6.0",
+  "rouge-score>=0.1.2",
+  "wandb==0.31.0",
+  "muon-optimizer==0.1.0",
+]
+
+[project.optional-dependencies]
+tui = ["hcfrl-tui"]
+
+[tool.uv]
+# CUDA 12.6 wheels on Linux (the cluster); PyPI wheels elsewhere (laptop: analysis/tooling only)
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cu126", marker = "sys_platform == 'linux'" }]
+hcfrl-tui = { workspace = true }
+
+[tool.uv.workspace]
+members = ["tools/hcfrl-tui"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hcfrl"]
