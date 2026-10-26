@@ -4,7 +4,7 @@
 #SBATCH --job-name=jac
 #SBATCH --account=irahbari_832
 #SBATCH --partition=debug
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:a40:1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=48G
 #SBATCH --time=01:00:00
@@ -21,8 +21,8 @@ EOF
 }
 python -m hcfrl.analysis.jacobian_step --config configs/elf_b_game24_cd.yml --ckpt $FLAT --critic $(best outputs/critic/game24cd_flat_2d) \
     --run outputs/rl/game24cd_flat_svg2d_s0 --train_prompts data/game24/train_prompts.jsonl --val_prompts data/game24/val.jsonl \
-    --out outputs/analysis/jac_game24cd_flat.json
+    --bs 16 --out outputs/analysis/jac_game24cd_flat.json
 python -m hcfrl.analysis.jacobian_step --config configs/helf_b_game24_cd.yml --ckpt $HIER --critic $(best outputs/critic/game24cd_hier_2d) \
     --run outputs/rl/game24cd_hier_svg2d_s0 --train_prompts data/game24/train_prompts.jsonl --val_prompts data/game24/val.jsonl \
-    --out outputs/analysis/jac_game24cd_hier.json
+    --bs 16 --out outputs/analysis/jac_game24cd_hier.json
 echo JAC_DONE
