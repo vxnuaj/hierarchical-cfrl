@@ -196,9 +196,80 @@ def mode_probe(a, cfg, tok, encoder, model, dev):
     return results
 
 
+def mode_survive(a, cfg, tok, encoder, model, dev):
+    """Rollout-level survival of a critic-pleasing displacement. At step k displace the clean estimate x_k along the
+    critic pull (token channels, eps of the per-position norm) or a random direction, then run the REMAINING steps
+    with the same noise as the undisplaced control; report accuracy (verifier), decoded-token change vs control,
+    and the critic logit gap vs control at k, k+8, k+16, k+32 (does the inflation survive or get healed?)."""
+    env = TaskEnv(tok, encoder, cfg, dev); S = ChurnSampler(cfg, K=a.K, gamma=a.gamma)
+    n_cl = int(getattr(cfg, "n_clusters", 0) or 0); D = model.text_encoder_dim - n_cl
+    gamma = torch.load(cfg.cluster_map, map_location="cpu")["gamma"].long().to(dev) if n_cl else None
+    eos = tok.eos_token_id
+    ck = torch.load(a.critic, map_location="cpu")
+    critic = Critic(model, cfg, mode=ck["mode"], blind_clusters=bool(ck.get("blind_clusters", False))).to(dev)
+    if ck.get("trunk") is not None: critic.trunk.load_state_dict(ck["trunk"])
+    critic.head.load_state_dict(ck["head"]); critic.eval(); model.eval()
+    for p in model.parameters(): p.requires_grad_(False)
+    prompts = load_prompts(a.prompts); random.Random(777).shuffle(prompts); prompts = prompts[: a.n]
+    ks = [int(x) for x in a.ks.split(",")]; epss = [float(x) for x in a.eps.split(",")]
+    ac = torch.amp.autocast("cuda", dtype=torch.bfloat16, enabled=dev.type == "cuda")
+    results = {}
+    for k in ks:
+        laters = [kk for kk in (k, k + 8, k + 16, k + 32) if kk < a.K]
+        agg = {}
+        def add(name, key, val, cnt=1):
+            r = agg.setdefault(name, {}); v = r.setdefault(key, [0.0, 0]); v[0] += val; v[1] += cnt
+        for bi, b0 in enumerate(range(0, len(prompts), a.B)):
+            pb = prompts[b0: b0 + a.B]; B = len(pb)
+            cond_seq, cond_mask, gen_mask, cl = env.encode(pb)
+            g1 = torch.Generator(device="cpu").manual_seed(a.seed * 1000 + bi)
+            z0 = (torch.randn((B, env.L, model.text_encoder_dim), generator=g1) * cfg.denoiser_noise_scale).to(dev)
+            with torch.no_grad(), ac:
+                ro = S.rollout(model, cond_seq, cond_mask, z0, record={k - 1}, stop_before=k, generator=g1)
+                prev = ro.inputs[k - 1]
+                x0 = S.denoise(model, prev, cond_seq, cond_mask).float()
+            eps_next = S.sample_eps(prev.z, g1)
+            x_var = x0.clone().requires_grad_(True)
+            with ac:
+                st = DenoiserInput(k, S.churn(S.advance(prev, x_var, cond_seq, cond_mask), k, eps_next, cond_seq, cond_mask)[0],
+                                   S.churn(S.advance(prev, x_var, cond_seq, cond_mask), k, eps_next, cond_seq, cond_mask)[1], x_var)
+                critic(st, cond_seq, cond_mask, gen_mask).logit.float().mean().backward()
+            G = x_var.grad.detach().float(); u = G[..., :D] / G[..., :D].norm(dim=-1, keepdim=True).clamp_min(1e-12)
+            tok_nrm = x0[..., :D].norm(dim=-1, keepdim=True)
+            nrand = torch.randn_like(x0[..., :D]); nrand = nrand / nrand.norm(dim=-1, keepdim=True).clamp_min(1e-12)
+            variants = [("control", x0)]
+            for eps in epss:
+                xp = x0.clone(); xp[..., :D] = x0[..., :D] + eps * tok_nrm * u; variants.append((f"pull@{eps}", xp))
+            xr = x0.clone(); xr[..., :D] = x0[..., :D] + epss[0] * tok_nrm * nrand; variants.append((f"rand@{epss[0]}", xr))
+            outs = {}
+            for name, xm in variants:
+                g2 = torch.Generator(device="cpu").manual_seed(a.seed * 7919 + bi)   # same continuation noise for every variant
+                with torch.no_grad(), ac:
+                    z_next = S.advance(prev, xm, cond_seq, cond_mask)
+                    ro2 = S.rollout(model, cond_seq, cond_mask, z_next, record=set(laters) | {a.K - 1}, generator=g2, x_prev=xm, start_k=k)
+                    logits = {kk: critic(ro2.inputs[kk], cond_seq, cond_mask, gen_mask).logit.float() for kk in laters}
+                    dec = S.decode(model, ro2.z_final)
+                    rew = env.reward(pb, env.decode_text(dec, cl)).float()
+                    cons = None
+                    if n_cl and (a.K - 1) in ro2.inputs:
+                        xl = ro2.inputs[a.K - 1].x_prev
+                        cons = ((xl[..., D:].argmax(-1) == gamma[dec]) & gen_mask.bool()).float().sum() / gen_mask.sum()
+                outs[name] = dict(logits=logits, dec=dec, rew=rew, cons=cons)
+            c = outs["control"]; m = gen_mask.bool() & (c["dec"] != eos)
+            for name, o in outs.items():
+                add(name, "acc", o["rew"].sum().item(), B)
+                add(name, "dec_changed", ((o["dec"] != c["dec"]) & m).sum().item(), m.sum().item())
+                for kk in laters: add(name, f"dlogit@{kk}", (o["logits"][kk] - c["logits"][kk]).sum().item(), B)
+                if o["cons"] is not None: add(name, "cons_final", o["cons"].item() * B, B)
+        res = {name: {key: v[0] / max(v[1], 1) for key, v in r.items()} for name, r in agg.items()}
+        results[str(k)] = res
+        print(json.dumps({"k": k, **{n: {kk: round(vv, 4) for kk, vv in r.items()} for n, r in res.items()}}), flush=True)
+    return results
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", choices=["trace", "probe"], required=True)
+    ap.add_argument("--mode", choices=["trace", "probe", "survive"], required=True)
     ap.add_argument("--config", required=True); ap.add_argument("--ckpt", required=True)
     ap.add_argument("--prompts", required=True); ap.add_argument("--n", type=int, default=256); ap.add_argument("--B", type=int, default=64)
     ap.add_argument("--runs", default=""); ap.add_argument("--critic", default=None)
@@ -209,7 +280,7 @@ def main():
     torch.manual_seed(a.seed); random.seed(a.seed)
     dev = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     cfg, tok, encoder, model = load_policy(a.config, a.ckpt, dev)
-    res = mode_trace(a, cfg, tok, encoder, model, dev) if a.mode == "trace" else mode_probe(a, cfg, tok, encoder, model, dev)
+    res = {"trace": mode_trace, "probe": mode_probe, "survive": mode_survive}[a.mode](a, cfg, tok, encoder, model, dev)
     os.makedirs(os.path.dirname(a.out) or ".", exist_ok=True)
     json.dump(res, open(a.out, "w"), indent=1)
 

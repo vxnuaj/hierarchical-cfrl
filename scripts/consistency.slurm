@@ -5,7 +5,7 @@
 #SBATCH --job-name=cons
 #SBATCH --account=irahbari_832
 #SBATCH --partition=debug
-#SBATCH --gres=gpu:1
+#SBATCH --gres=gpu:a40:1
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=48G
 #SBATCH --time=01:00:00
@@ -34,6 +34,13 @@ elif [ "$MODE" = "trace" ]; then
       --prompts data/game24/val.jsonl --n 256 --ks 24,40,63 \
       --runs outputs/rl/game24cd_hier_svg2d_s0,outputs/rl/game24cd_hier_svg2d_clgrad_s0,outputs/rl/game24cd_hier_svg2d_tokgrad_s0,outputs/rl/game24cd_hier_blind_svg2d_s0,outputs/rl/game24cd_hier_bigcrit_svg2d_s0 \
       --out outputs/analysis/cons_trace.json
+elif [ "$MODE" = "survive" ]; then
+  python -m hcfrl.analysis.consistency --mode survive --config configs/elf_b_game24_cd.yml --ckpt $FLAT \
+      --critic $(best outputs/critic/game24cd_flat_2d) --prompts data/game24/val.jsonl --n 256 --ks 24,40 --eps 0.05,0.1 \
+      --out outputs/analysis/cons_survive_flat.json
+  python -m hcfrl.analysis.consistency --mode survive --config configs/helf_b_game24_cd.yml --ckpt $HIER \
+      --critic $(best outputs/critic/game24cd_hier_2d) --prompts data/game24/val.jsonl --n 256 --ks 24,40 --eps 0.05,0.1 \
+      --out outputs/analysis/cons_survive_hier.json
 else  # trace2: flat runs (token norm only) + the hier runs cut by the limit
   python -m hcfrl.analysis.consistency --mode trace --config configs/elf_b_game24_cd.yml --ckpt $FLAT \
       --prompts data/game24/val.jsonl --n 256 --ks 24,40,63 \
