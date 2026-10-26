@@ -62,6 +62,40 @@ def target_iters(name):
 
 def task_of(name): return name.split("_")[0]
 
+def fmt_dur(sec):
+    if sec is None: return "?"
+    sec = int(max(0, sec))
+    if sec < 3600: return f"{sec // 60}m"
+    if sec < 86400: return f"{sec // 3600}h{(sec % 3600) // 60:02d}m"
+    return f"{sec // 86400}d{(sec % 86400) // 3600}h"
+
+def bar(frac, width=10):
+    frac = max(0.0, min(1.0, frac)); n = int(frac * width)
+    return "█" * n + "░" * (width - n) + f" {frac * 100:3.0f}%"
+
+def run_eta(r):
+    """(fraction done, seconds left) from the last train record's iter/elapsed; None if unknown"""
+    l = r.get("last") or {}
+    it, el = l.get("iter"), l.get("elapsed"); tgt = target_iters(r["name"])
+    if not it or not el: return None, None
+    return min(1.0, (it + 1) / tgt), max(0.0, (tgt - it - 1) * el / (it + 1))
+
+def sft_eta(s):
+    tot, sps = s.get("total"), s.get("sps")
+    if not tot: return None, None
+    frac = min(1.0, s["step"] / tot)
+    return frac, ((tot - s["step"]) / sps if sps else None)
+
+def parse_slurm_time(t):
+    """'1-16:00:00' / '2:51:08' / '26:52' -> seconds"""
+    try:
+        d = 0
+        if "-" in t: d, t = t.split("-"); d = int(d)
+        parts = [int(x) for x in t.split(":")]
+        while len(parts) < 3: parts.insert(0, 0)
+        return d * 86400 + parts[0] * 3600 + parts[1] * 60 + parts[2]
+    except ValueError: return None
+
 def run_state(r) -> tuple[str, str]:
     """(label, rich style)"""
     ev = [e for e in r["evals"] if e[1] is not None]
@@ -121,7 +155,9 @@ class RunDetail(Screen):
         tr = r.get("train") or []
         aucs = [p[4] for p in tr if p[4] is not None]
         if aucs: l["critic_auc"] = aucs[-1]
-        yield Static(Text.assemble((f" {r['name']}  ", "bold"), (f"{st}  ", "cyan"),
+        frac, left = run_eta(r)
+        prog = f"  {bar(frac)}  ~{fmt_dur(left)} left" if (st == "LIVE" and frac is not None) else ""
+        yield Static(Text.assemble((f" {r['name']}  ", "bold"), (f"{st}  ", "cyan"), (prog, "green"),
                                    f"test {base:.1f} → {last:.1f}  (Δ {last - base:+.1f})  iter {l.get('iter', '?')}  "
                                    f"buf succ {l.get('buf_succ') or 0:.2f}  grad {l.get('grad_norm') or 0:.0f}  "
                                    f"critic auc {l.get('critic_auc') or 0:.2f}  last write {fmt_age(r.get('age'))} ago"),
@@ -185,7 +221,9 @@ class SftDetail(Screen):
 
     def compose(self) -> ComposeResult:
         s = self.s; tot = f"/{s['total']}" if s.get("total") else ""
-        yield Static(Text(f" {s['name']}   step {s['step']}{tot}   last write {fmt_age(s.get('age'))} ago", style="bold"), id="dtitle")
+        frac, left = sft_eta(s); live = s.get("age") is not None and s["age"] < 1200
+        prog = f"   {bar(frac, 20)}" + (f"   ~{fmt_dur(left)} left" if (live and left is not None and frac < 0.999) else "") if frac is not None else ""
+        yield Static(Text(f" {s['name']}   step {s['step']}{tot}{prog}   last write {fmt_age(s.get('age'))} ago", style="bold"), id="dtitle")
         with Vertical():
             yield PlotextPlot(id="s_loss"); yield PlotextPlot(id="s_lr")
         yield Footer()
@@ -279,10 +317,10 @@ class HcfrlApp(App):
         yield Footer()
 
     def on_mount(self):
-        self.query_one("#t_runs", DataTable).add_columns("", "run", "base", "last", "iter", "Δ", "trajectory", "state", "buf", "grad", "write")
-        self.query_one("#t_sft", DataTable).add_columns("model", "step", "progress", "loss", "ce", "lr", "write", "state")
-        self.query_one("#t_critics", DataTable).add_columns("critic", "epochs", "best", "auc@k8", "auc@k24", "auc@k40", "state", "write")
-        self.query_one("#t_queue", DataTable).add_columns("job", "name", "st", "time", "limit", "node / reason")
+        self.query_one("#t_runs", DataTable).add_columns("", "run", "base", "last", "iter", "Δ", "trajectory", "state", "progress", "left", "buf", "grad", "write")
+        self.query_one("#t_sft", DataTable).add_columns("model", "step", "progress", "left", "loss", "ce", "lr", "write", "state")
+        self.query_one("#t_critics", DataTable).add_columns("critic", "epochs", "best", "auc@k8", "auc@k24", "auc@k40", "state", "left", "write")
+        self.query_one("#t_queue", DataTable).add_columns("job", "name", "st", "elapsed", "limit", "left / est. start", "node / reason")
         self.query_one("#t_analysis", DataTable).add_columns("file", "age")
         cached = load_cache()
         if cached: self.data = cached; self.render_all()
@@ -337,7 +375,9 @@ class HcfrlApp(App):
                 cells = (f"{base:.1f}", f"{last:.1f}", str(it), delta_text(last - base), spark([e[1] for e in ev]))
             else:
                 cells = ("", "", "", Text(""), "")
+            frac, left = run_eta(r); live = st == "LIVE"
             t.add_row("●" if r["name"] in self.marks else "", r["name"], *cells, Text(st, style=style),
+                      bar(frac) if (live and frac is not None) else "", fmt_dur(left) if (live and left is not None) else "",
                       f"{l.get('buf_succ'):.2f}" if l.get("buf_succ") is not None else "",
                       f"{l.get('grad_norm'):.0f}" if l.get("grad_norm") is not None else "", fmt_age(r.get("age")), key=r["name"])
         if t.row_count: t.move_cursor(row=min(cur, t.row_count - 1))
@@ -346,10 +386,10 @@ class HcfrlApp(App):
         for s in d["sft"]:
             if not self._keep(s["name"]): continue
             live = s.get("age") is not None and s["age"] < 1200
-            tot = s.get("total"); frac = (s["step"] / tot) if tot else None
-            bar = ("█" * int(frac * 20) + "░" * (20 - int(frac * 20)) + f" {frac * 100:3.0f}%") if frac is not None else ""
+            tot = s.get("total"); frac, left = sft_eta(s)
             lp = (s.get("loss") or [None])[-1]
-            t.add_row(s["name"], f"{s['step']}" + (f"/{tot}" if tot else ""), bar,
+            t.add_row(s["name"], f"{s['step']}" + (f"/{tot}" if tot else ""), bar(frac, 20) if frac is not None else "",
+                      fmt_dur(left) if (live and left is not None and frac < 0.999) else "",
                       f"{lp[1]:.4f}" if lp else "", f"{lp[2]:.4f}" if lp else "", f"{lp[3]:.1e}" if lp else "",
                       fmt_age(s.get("age")), Text("training", style="bold green") if live else Text("done" if frac and frac >= 0.999 else "idle", style="dim"), key=s["name"])
         if t.row_count: t.move_cursor(row=min(cur, t.row_count - 1))
@@ -359,15 +399,22 @@ class HcfrlApp(App):
             if not self._keep(c["name"]): continue
             best = next((e for e in (c.get("log") or []) if e["epoch"] == c.get("best")), None)
             def a(k): v = (best or {}).get("ks", {}).get(k); return f"{v['auc']:.2f}" if v and v.get("auc") is not None else ""
-            t.add_row(c["name"], str(c["epochs"]), str(c.get("best") or ""), a("k8"), a("k24"), a("k40"),
-                      Text("done", style="blue") if c["done"] else Text("training", style="bold green"), fmt_age(c.get("age")), key=c["name"])
+            left = (6 - c["epochs"]) * c["epoch_sec"] if (not c["done"] and c.get("epoch_sec")) else None
+            t.add_row(c["name"], f"{c['epochs']}/6", str(c.get("best") or ""), a("k8"), a("k24"), a("k40"),
+                      Text("done", style="blue") if c["done"] else Text("training", style="bold green"),
+                      fmt_dur(left) if left is not None else "", fmt_age(c.get("age")), key=c["name"])
         if t.row_count: t.move_cursor(row=min(cur, t.row_count - 1))
 
         t = self.query_one("#t_queue", DataTable); cur = t.cursor_row; t.clear()
         for j in sorted(d["queue"], key=lambda j: (j["state"] != "R", j["name"])):
             if not self._keep(j["name"]): continue
+            if j["state"] == "R":
+                used, lim = parse_slurm_time(j["time"]), parse_slurm_time(j["limit"])
+                eta = f"{fmt_dur(lim - used)} to limit" if used is not None and lim is not None else ""
+            else:
+                eta = ("starts ~" + j["start"].replace("T", " ")[5:16]) if j.get("start") else ""
             t.add_row(j["id"], j["name"], Text(j["state"], style="bold green" if j["state"] == "R" else "yellow"),
-                      j["time"], j["limit"], j["reason"], key=j["id"])
+                      j["time"], j["limit"], eta, j["reason"], key=j["id"])
         if t.row_count: t.move_cursor(row=min(cur, t.row_count - 1))
 
         t = self.query_one("#t_analysis", DataTable); cur = t.cursor_row; t.clear()

@@ -32,6 +32,7 @@ def _downsample(seq, n=240):
     return [seq[int(i * step)] for i in range(n)] + [seq[-1]]
 
 SFT_STEP = re.compile(r"engine - Step (\d+): loss=([\d.e+-]+), l2=([\d.e+-]+), ce=([\d.e+-]+), lr=([\d.e+-]+)")
+SFT_SPS = re.compile(r"steps/sec=([\d.]+)")
 
 def _sft_info(slurm_out):
     """(output_dir, epochs, steps_per_epoch, [(step, loss, ce, lr), ...]) from a SFT job's log"""
@@ -43,15 +44,18 @@ def _sft_info(slurm_out):
     pts = {}
     for st, loss, l2, ce, lr in SFT_STEP.findall(txt):
         pts[int(st)] = [int(st), float(loss), float(ce), float(lr)]
-    return m.group(1), int(ep.group(1)) if ep else None, int(spe.group(1)) if spe else None, [pts[k] for k in sorted(pts)]
+    sps = SFT_SPS.findall(txt[-20000:])
+    return m.group(1), int(ep.group(1)) if ep else None, int(spe.group(1)) if spe else None, [pts[k] for k in sorted(pts)], \
+        float(sps[-1]) if sps else None, _age(slurm_out)
 
 def gather(full=False):
     out = {"ts": time.time(), "queue": [], "rl": [], "sft": [], "critic": [], "analysis": [], "failed": [], "full": full}
     try:
-        q = subprocess.check_output(["squeue", "-u", "verajuan", "-h", "-o", "%i|%j|%t|%M|%R|%l"]).decode()
+        q = subprocess.check_output(["squeue", "-u", "verajuan", "-h", "-o", "%i|%j|%t|%M|%R|%l|%S"]).decode()
         for line in q.splitlines():
-            jid, name, st, t, reason, lim = line.split("|")
-            out["queue"].append({"id": jid, "name": name, "state": st, "time": t, "reason": reason, "limit": lim})
+            jid, name, st, t, reason, lim, start = line.split("|")
+            out["queue"].append({"id": jid, "name": name, "state": st, "time": t, "reason": reason, "limit": lim,
+                                 "start": start if start != "N/A" else None})
     except Exception as e:
         out["queue_error"] = str(e)
     for log in sorted(glob.glob("outputs/rl/*/log.jsonl")):
@@ -67,7 +71,8 @@ def gather(full=False):
                 obj = r.get("obj") if "obj" in r else r.get("J")
                 succ = r.get("buf_succ") if "buf_succ" in r else r.get("roll_succ")
                 last = {"iter": r.get("iter"), "obj": obj, "grad_norm": r.get("grad_norm"), "lr": r.get("lr"),
-                        "buf_succ": succ, "critic_auc": r.get("critic_auc"), "critic_loss": r.get("critic_loss")}
+                        "buf_succ": succ, "critic_auc": r.get("critic_auc"), "critic_loss": r.get("critic_loss"),
+                        "elapsed": r.get("elapsed")}
                 if full: train.append([r.get("iter"), obj, r.get("grad_norm"), succ,
                                        r.get("critic_auc"), r.get("critic_loss"), r.get("lr")])
         rec = {"name": name, "evals": evals, "last": last, "age": _age(log)}
@@ -88,22 +93,28 @@ def gather(full=False):
         for f in sorted(glob.glob("outputs/slurm/sft-*.out"), key=os.path.getmtime):
             r = _sft_info(f)
             if not r: continue
-            d_, ep, spe, pts = r
-            cur = info.setdefault(d_, {"pts": {}, "epochs": ep, "spe": spe})
+            d_, ep, spe, pts, sps, log_age = r
+            cur = info.setdefault(d_, {"pts": {}, "epochs": ep, "spe": spe, "sps": None, "log_age": None})
             cur["pts"].update({p[0]: p for p in pts}); cur["epochs"] = ep or cur["epochs"]; cur["spe"] = spe or cur["spe"]
+            cur["sps"] = sps or cur["sps"]
+            cur["log_age"] = log_age if cur["log_age"] is None else min(cur["log_age"], log_age)
         for s_ in out["sft"]:
             i = info.get(s_["name"])
             if not i: s_["loss"] = []; continue
             s_["loss"] = _downsample([i["pts"][k] for k in sorted(i["pts"])], 400)
             if i["pts"]: s_["step"] = max(s_["step"], max(i["pts"]))   # log is ahead of the last checkpoint
+            s_["sps"] = i["sps"]
+            if i["log_age"] is not None and (s_["age"] is None or i["log_age"] < s_["age"]): s_["age"] = i["log_age"]
             if i["epochs"] and i["spe"]: s_["total"] = s_["total"] or i["epochs"] * i["spe"]
     for d in sorted(glob.glob("outputs/critic/*_2d")):
         eps = sorted(glob.glob(d + "/critic_ep*.pt")); best = None
         if os.path.exists(d + "/log.json"):
             try: best = json.load(open(d + "/log.json")).get("best_epoch")
             except ValueError: pass
+        ep_times = sorted(os.path.getmtime(e) for e in eps)
         rec = {"name": os.path.basename(d)[:-3], "epochs": len(eps), "best": best,
-               "done": os.path.exists(d + "/log.json"), "age": _age(d)}
+               "done": os.path.exists(d + "/log.json"), "age": _age(d),
+               "epoch_sec": (ep_times[-1] - ep_times[0]) / (len(ep_times) - 1) if len(ep_times) > 1 else None}
         if full and os.path.exists(d + "/log.json"):
             try:
                 lg = json.load(open(d + "/log.json")).get("log", [])
@@ -121,7 +132,8 @@ def gather(full=False):
             if fs: out["tails"][j["id"]] = [l[:220] for l in _tail(fs[0], 25)]
     for f in sorted(glob.glob("outputs/slurm/*.out"), key=os.path.getmtime)[-60:]:
         tail = _tail(f)
-        bad = [l for l in tail if re.search(r"Traceback|Error|CANCELLED|DUE TO TIME LIMIT|out of memory|Killed", l)]
+        bad = [l for l in tail if re.search(r"Traceback|Error|DUE TO TIME LIMIT|out of memory|Killed", l)
+               or ("CANCELLED" in l and "TIME LIMIT" in l)]   # scancel'd jobs are deliberate, not errors
         if bad and not any(("_DONE" in l) for l in tail):
             out["failed"].append({"name": os.path.basename(f)[:-4], "age": _age(f), "msg": bad[-1].strip()[:110]})
     return out
@@ -187,6 +199,9 @@ def render(d, filt=None, show_all=False):
         if r["last"]:
             l = r["last"]
             extra = "bs %.2f  g %.0f  it %s" % (l.get("buf_succ") or 0, l.get("grad_norm") or 0, l.get("iter"))
+            if live and l.get("elapsed") and l.get("iter"):
+                rem = (tgt - l["iter"]) * l["elapsed"] / l["iter"]
+                extra += "  %d%%  ~%s left" % (100 * l["iter"] // tgt, fmt_age(rem))
         P("  %-36s %5.1f %6.1f (%4d) %s  %-10s %s  %s" % (r["name"], base * 100, last * 100, it, C("%+6.1f" % delta, dc),
                                                          traj, state, C(extra, "90")))
     # SFT + critics
