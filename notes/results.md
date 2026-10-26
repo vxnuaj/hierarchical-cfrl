@@ -262,3 +262,24 @@ Reading so far: with the 16k critic the flat model still drops ~14 points by ite
 AdamW chains at blr 0.001 (absolute lr 2e-3): sft-cd-elfA and sft-cd-helfA, 4.5 h in, ce 0.05 / 0.067 and falling — no divergence (the blr 0.002 runs had ce 1.25+ by step 14k). Steps/sec 1.15; full 58.6k-step SFT ≈ 14 h, so the Game24 SFTs and RL chains behind them run tomorrow.
 
 Ops note: /scratch1 reads from the start of large files stalled for ~15 min around 10:50 (tail/seek reads fine); `status.py --remote` should be run with a timeout.
+
+## 2026-10-26 12:40 — cluster-blind critic seeds and 16k-critic flat seed 1 final
+
+Game24-cd test acc, iters 250 / 500 / 750 / 1000 / 1250 / **1500** (bases in parentheses):
+
+| run | trajectory | final | Δ |
+|---|---|---|---|
+| hier, cluster-blind critic, s1 (64.3) | 68.7 / 69.7 / 68.8 / 68.4 / 66.4 / **67.0** | 67.0 | +2.7 |
+| hier, cluster-blind critic, s2 (64.9) | 67.7 / 66.9 / 67.3 / 68.7 / 67.7 / **67.6** | 67.6 | +2.7 |
+| hier, cluster-blind critic, s0 (64.9) | 67.8 / 68.5 / 68.9 / 67.5 / 67.1 / **64.8** | 64.8 | −0.1 |
+| flat, 16k critic, s1 (64.7) | 68.1 / 51.0 / 58.5 / 61.8 / 62.0 / **61.1** | 61.1 | −3.6 |
+| flat, 16k critic, s2 (65.1) | 64.0 / 50.4 / 63.9 / 58.0 / 54.7 / … | running | |
+| hier, 16k critic, s0 (64.9) | 65.4 / 68.8 / 67.0 / 61.9 / 64.4 / … | running | |
+
+**Cluster-blind critic, 3 seeds: mean +1.8 (−0.1 / +2.7 / +2.7)** vs +4.8 for the full-critic hier runs and −11.7 for flat. A critic that cannot see the coarse channels keeps the hier model from collapsing but roughly halves the gain; all three seeds peak at +4 to +5 by iter 500–1000 and drift down afterwards. So the critic reading the code is not necessary for protection, but it does help *hold* the gain. (The critic's input gradient puts 2–3% of its norm on the coarse channels — small, but evidently not nothing over 1500 iterations.)
+
+**16k critic, flat:** seed 0 −4.5, seed 1 −3.6, seed 2 at 54.7 and falling at iter 1250. The paper-budget critic roughly halves the flat collapse; it does not remove it, and every seed still shows the characteristic −14-point dip at iter 500.
+
+**16k critic, hier (s0):** dipped to 61.9 at iter 1000 then 64.4 at 1250 — the first hier run to go below base mid-run. Final pending; if it ends below base it will be one seed against three full-critic seeds at +4.8 and needs seeds before any reading.
+
+AdamW SFTs: elfA step 16.1k ce 0.053 (steady); **helfA step 24.7k ce 0.104, drifting up** (0.05 at 12k, 0.067 at 18k). Not a divergence yet (the blr-0.002 runs reached 1.3), but the hier CE head is climbing at peak lr. Watch next check; if CE passes ~0.3 the chain's Game24 SFT and RL will start from a worse token head and the AdamW comparison gets muddier.
