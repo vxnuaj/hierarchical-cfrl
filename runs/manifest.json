@@ -611,7 +611,7 @@
   },
   "game24cdA_flat_grr_lr3e-7_s0": {
    "tag": "game24cdA_flat_grr_lr3e-7_s0",
-   "n_evals": 3,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -627,12 +627,32 @@
      "iter": 200,
      "val_acc": 0.5786416443252904,
      "test_acc": 0.5969615728328865
+    },
+    {
+     "iter": 300,
+     "val_acc": 0.5822162645218946,
+     "test_acc": 0.6023235031277927
+    },
+    {
+     "iter": 400,
+     "val_acc": 0.5862377122430742,
+     "test_acc": 0.59562109025916
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.5938337801608579,
+     "test_acc": 0.5987488829311886
+    },
+    {
+     "iter": 600,
+     "val_acc": 0.5831099195710456,
+     "test_acc": 0.6063449508489723
     }
    ],
    "base_test_acc": 0.5987488829311886,
-   "final_test_acc": 0.5969615728328865,
-   "best_test_acc": 0.5987488829311886,
-   "last_iter": 265,
+   "final_test_acc": 0.6063449508489723,
+   "best_test_acc": 0.6063449508489723,
+   "last_iter": 599,
    "jobs": [
     {
      "job_id": "13478830",
@@ -648,6 +668,67 @@
     "K": "64",
     "gamma": "56",
     "lr": "3e-7"
+   }
+  },
+  "game24cdA_flat_svg2d_s0": {
+   "tag": "game24cdA_flat_svg2d_s0",
+   "n_evals": 7,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.5898123324396782,
+     "test_acc": 0.5987488829311886
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.5983020554066131,
+     "test_acc": 0.6179624664879356
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.6027703306523682,
+     "test_acc": 0.6161751563896336
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.6032171581769437,
+     "test_acc": 0.6175156389633601
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.6027703306523682,
+     "test_acc": 0.6188561215370867
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.6032171581769437,
+     "test_acc": 0.6166219839142091
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.6170688114387847,
+     "test_acc": 0.629579982126899
+    }
+   ],
+   "base_test_acc": 0.5987488829311886,
+   "final_test_acc": 0.629579982126899,
+   "best_test_acc": 0.629579982126899,
+   "last_iter": 1499,
+   "jobs": [
+    {
+     "job_id": "13482902",
+     "job_name": "gate0b-g24cdA-flat",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfA_b_game24_cd.yml --ckpt outputs/elfA_b-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdA_flat_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdA_flat_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0"
+    }
+   ],
+   "args": {
+    "config": "configs/elfA_b_game24_cd.yml",
+    "ckpt": "outputs/elfA_b-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cdA_flat_2d/critic_ep6.pt",
+    "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
    }
   },
   "game24cdA_flat_svg2d_s0_fp16nan": {
@@ -670,6 +751,118 @@
    "best_test_acc": 0.5987488829311886,
    "last_iter": 317,
    "jobs": []
+  },
+  "game24cdA_hier_grr_lr3e-7_s0": {
+   "tag": "game24cdA_hier_grr_lr3e-7_s0",
+   "n_evals": 7,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6805183199285076,
+     "test_acc": 0.6876675603217158
+    },
+    {
+     "iter": 100,
+     "val_acc": 0.6840929401251117,
+     "test_acc": 0.6957104557640751
+    },
+    {
+     "iter": 200,
+     "val_acc": 0.6890080428954424,
+     "test_acc": 0.6836461126005362
+    },
+    {
+     "iter": 300,
+     "val_acc": 0.6751563896336015,
+     "test_acc": 0.6831992850759607
+    },
+    {
+     "iter": 400,
+     "val_acc": 0.67828418230563,
+     "test_acc": 0.6845397676496873
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.6831992850759607,
+     "test_acc": 0.6943699731903485
+    },
+    {
+     "iter": 600,
+     "val_acc": 0.6805183199285076,
+     "test_acc": 0.6845397676496873
+    }
+   ],
+   "base_test_acc": 0.6876675603217158,
+   "final_test_acc": 0.6845397676496873,
+   "best_test_acc": 0.6957104557640751,
+   "last_iter": 599,
+   "jobs": [
+    {
+     "job_id": "13466275",
+     "job_name": "gate0c-g24cdA-hier",
+     "cmd": "python -m hcfrl.rl.train_grr --config configs/helfA_b_game24_cd.yml --ckpt outputs/helfA_b-game24-cd/checkpoint_2800 --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdA_hier_grr_lr3e-7_s0 --K 64 --gamma 56 --iters 600 --seed 0 --lr 3e-7"
+    }
+   ],
+   "args": {
+    "config": "configs/helfA_b_game24_cd.yml",
+    "ckpt": "outputs/helfA_b-game24-cd/checkpoint_2800",
+    "seed": "0",
+    "iters": "600",
+    "K": "64",
+    "gamma": "56",
+    "lr": "3e-7"
+   }
+  },
+  "game24cdA_hier_svg2d_s0": {
+   "tag": "game24cdA_hier_svg2d_s0",
+   "n_evals": 5,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6805183199285076,
+     "test_acc": 0.6876675603217158
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.693029490616622,
+     "test_acc": 0.696604110813226
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.6916890080428955,
+     "test_acc": 0.694816800714924
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.6979445933869526,
+     "test_acc": 0.7024128686327078
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.6939231456657731,
+     "test_acc": 0.7064343163538874
+    }
+   ],
+   "base_test_acc": 0.6876675603217158,
+   "final_test_acc": 0.7064343163538874,
+   "best_test_acc": 0.7064343163538874,
+   "last_iter": 1061,
+   "jobs": [
+    {
+     "job_id": "13466274",
+     "job_name": "gate0b-g24cdA-hier",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helfA_b_game24_cd.yml --ckpt outputs/helfA_b-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdA_hier_2d/critic_ep4.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdA_hier_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0"
+    }
+   ],
+   "args": {
+    "config": "configs/helfA_b_game24_cd.yml",
+    "ckpt": "outputs/helfA_b-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cdA_hier_2d/critic_ep4.pt",
+    "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
   },
   "game24cd_flat_bigcrit_svg2d_s0": {
    "tag": "game24cd_flat_bigcrit_svg2d_s0",
@@ -849,6 +1042,98 @@
     "ckpt": "outputs/elf_b-game24-cd/checkpoint_2450",
     "critic": "outputs/critic/game24cd_flat_bigcrit_2d/critic_ep5.pt",
     "seed": "2",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cd_flat_early_svg2d_s0": {
+   "tag": "game24cd_flat_early_svg2d_s0",
+   "n_evals": 4,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.4982126899016979,
+     "test_acc": 0.5053619302949062
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.41465594280607687,
+     "test_acc": 0.4204647006255585
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.4959785522788204,
+     "test_acc": 0.5026809651474531
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.5705987488829312,
+     "test_acc": 0.5795352993744415
+    }
+   ],
+   "base_test_acc": 0.5053619302949062,
+   "final_test_acc": 0.5795352993744415,
+   "best_test_acc": 0.5795352993744415,
+   "last_iter": 818,
+   "jobs": [
+    {
+     "job_id": "13482924",
+     "job_name": "gate0b-g24cd-flat-early-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_700 --critic outputs/critic/game24cd_flat_early_2d/critic_ep4.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flat_early_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_game24_cd.yml",
+    "ckpt": "outputs/elf_b-game24-cd/checkpoint_700",
+    "critic": "outputs/critic/game24cd_flat_early_2d/critic_ep4.pt",
+    "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cd_flat_ft43_svg2d_s0": {
+   "tag": "game24cd_flat_ft43_svg2d_s0",
+   "n_evals": 4,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6666666666666666,
+     "test_acc": 0.6885612153708669
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.5920464700625558,
+     "test_acc": 0.6054512957998213
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.5889186773905273,
+     "test_acc": 0.6023235031277927
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.5540661304736372,
+     "test_acc": 0.5621090259159964
+    }
+   ],
+   "base_test_acc": 0.6885612153708669,
+   "final_test_acc": 0.5621090259159964,
+   "best_test_acc": 0.6885612153708669,
+   "last_iter": 964,
+   "jobs": [
+    {
+     "job_id": "13482978",
+     "job_name": "gate0b-game24cd_flat_ft43-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd-s43/checkpoint_2800 --critic outputs/critic/game24cd_flat_ft43_2d/critic_ep2.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flat_ft43_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_game24_cd.yml",
+    "ckpt": "outputs/elf_b-game24-cd-s43/checkpoint_2800",
+    "critic": "outputs/critic/game24cd_flat_ft43_2d/critic_ep2.pt",
+    "seed": "0",
     "iters": "1500",
     "K": "64",
     "gamma": "56"
@@ -1045,6 +1330,103 @@
     "K": "64",
     "gamma": "56",
     "lr_actor": "3e-7"
+   }
+  },
+  "game24cd_flat_svg2d_np100_s0": {
+   "tag": "game24cd_flat_svg2d_np100_s0",
+   "n_evals": 4,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6322609472743521,
+     "test_acc": 0.6394101876675603
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.4544235924932976,
+     "test_acc": 0.4745308310991957
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.36863270777479895,
+     "test_acc": 0.37131367292225204
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.36907953529937443,
+     "test_acc": 0.36282394995531725
+    }
+   ],
+   "base_test_acc": 0.6394101876675603,
+   "final_test_acc": 0.36282394995531725,
+   "best_test_acc": 0.6394101876675603,
+   "last_iter": 999,
+   "jobs": [
+    {
+     "job_id": "13483550",
+     "job_name": "gate0b-g24cd-flat-np100",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flat_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flat_svg2d_np100_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --norm_pen 100"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_game24_cd.yml",
+    "ckpt": "outputs/elf_b-game24-cd/checkpoint_2450",
+    "critic": "outputs/critic/game24cd_flat_2d/critic_ep6.pt",
+    "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cd_flat_svg2d_np10_s0": {
+   "tag": "game24cd_flat_svg2d_np10_s0",
+   "n_evals": 5,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6322609472743521,
+     "test_acc": 0.6394101876675603
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.4571045576407507,
+     "test_acc": 0.4606791778373548
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.34763181411974975,
+     "test_acc": 0.34584450402144773
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.355674709562109,
+     "test_acc": 0.3516532618409294
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.41331546023235033,
+     "test_acc": 0.42001787310098304
+    }
+   ],
+   "base_test_acc": 0.6394101876675603,
+   "final_test_acc": 0.42001787310098304,
+   "best_test_acc": 0.6394101876675603,
+   "last_iter": 1025,
+   "jobs": [
+    {
+     "job_id": "13483549",
+     "job_name": "gate0b-g24cd-flat-np10",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flat_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flat_svg2d_np10_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --norm_pen 10"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_game24_cd.yml",
+    "ckpt": "outputs/elf_b-game24-cd/checkpoint_2450",
+    "critic": "outputs/critic/game24cd_flat_2d/critic_ep6.pt",
+    "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
    }
   },
   "game24cd_flat_svg2d_s0": {
@@ -1591,6 +1973,52 @@
     "ckpt": "outputs/helf_b-game24-cd/checkpoint_2800",
     "critic": "outputs/critic/game24cd_hier_blind_2d/critic_ep4.pt",
     "seed": "2",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cd_hier_ft43_svg2d_s0": {
+   "tag": "game24cd_hier_ft43_svg2d_s0",
+   "n_evals": 4,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6327077747989276,
+     "test_acc": 0.6470062555853441
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.6067917783735478,
+     "test_acc": 0.6309204647006256
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.6184092940125112,
+     "test_acc": 0.6336014298480787
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.6045576407506702,
+     "test_acc": 0.6255585344057194
+    }
+   ],
+   "base_test_acc": 0.6470062555853441,
+   "final_test_acc": 0.6255585344057194,
+   "best_test_acc": 0.6470062555853441,
+   "last_iter": 909,
+   "jobs": [
+    {
+     "job_id": "13482981",
+     "job_name": "gate0b-game24cd_hier_ft43-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helf_b_game24_cd.yml --ckpt outputs/helf_b-game24-cd-s43/checkpoint_2800 --critic outputs/critic/game24cd_hier_ft43_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_hier_ft43_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0"
+    }
+   ],
+   "args": {
+    "config": "configs/helf_b_game24_cd.yml",
+    "ckpt": "outputs/helf_b-game24-cd-s43/checkpoint_2800",
+    "critic": "outputs/critic/game24cd_hier_ft43_2d/critic_ep3.pt",
+    "seed": "0",
     "iters": "1500",
     "K": "64",
     "gamma": "56"

@@ -1,0 +1,11 @@
+{
+ "acc": {
+  "outputs/elf_b-game24-cd-s43/checkpoint_700": 0.6983333333333334,
+  "outputs/elf_b-game24-cd-s43/checkpoint_1400": 0.7833333333333333,
+  "outputs/elf_b-game24-cd-s43/checkpoint_2100": 0.805,
+  "outputs/elf_b-game24-cd-s43/checkpoint_2800": 0.815
+ },
+ "best": "outputs/elf_b-game24-cd-s43/checkpoint_2800",
+ "best_acc": 0.815,
+ "target": null
+}

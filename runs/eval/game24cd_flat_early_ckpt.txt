@@ -1,0 +1,1 @@
+CKPT=outputs/elf_b-game24-cd/checkpoint_700
