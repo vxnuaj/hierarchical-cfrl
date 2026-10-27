@@ -75,6 +75,10 @@ def main():
     ap.add_argument("--eval_every", type=int, default=250); ap.add_argument("--eval_bs", type=int, default=128)
     ap.add_argument("--n_val", type=int, default=0, help="cap val prompts (0 = all)")
     ap.add_argument("--objective", default="logit", choices=["logit", "prob"])
+    ap.add_argument("--norm_pen", type=float, default=0.0,
+                    help="latent-norm penalty: actor loss += norm_pen * |obj_0| * mean_gen_pos((|x_k,tok| / norm_0 - 1)^2), where norm_0 is the "
+                         "mean per-position token-latent norm of the clean estimate at the first actor step and obj_0 the first objective. "
+                         "Control for the flat model: is the collapse the latent inflation seen in the trace?")
     ap.add_argument("--actor_mode", default="critic", choices=["critic", "random", "none"],
                     help="diagnostic: 'random' replaces the actor gradient by Gaussian noise of the same clipped norm; 'none' skips the actor step")
     ap.add_argument("--actor_channels", default="all", choices=["all", "tokens", "clusters"],
@@ -126,6 +130,7 @@ def main():
     buf_dt = torch.bfloat16 if a.buf_dtype == "bf16" else torch.float16
     buf_h, buf_m, buf_r, buf_p = deque(maxlen=a.NB), deque(maxlen=a.NB), deque(maxlen=a.NB), deque(maxlen=a.NB)
     prompt_counter = [0]
+    ref = [None]   # (norm_0, |obj_0|) measured at the first actor step; used by --norm_pen and logged as tok_norm
     t_hi = S.alpha * S.t_grid(k_hi) if k_hi < a.K - 1 else S.t_grid(k_hi)
 
     def critic_steps(n):
@@ -171,7 +176,7 @@ def main():
         for h_, m_, r_, p_ in zip(st["buf_h"], st["buf_m"], st["buf_r"], st.get("buf_p", [0] * len(st["buf_r"]))):
             buf_h.append(h_); buf_m.append(m_); buf_r.append(r_); buf_p.append(p_)
         prompt_counter[0] = (max(buf_p) + 1) if len(buf_p) else 0
-        start_it, best_val = st["iter"] + 1, st["best_val"]
+        start_it, best_val = st["iter"] + 1, st["best_val"]; ref[0] = st.get("ref")
         g.set_state(st["g"]); geval.set_state(st["geval"]); random.setstate(st["py_random"]); torch.set_rng_state(st["torch_rng"])
         print(f"resumed from iter {st['iter']} (buffer {len(buf_r)})", flush=True)
 
@@ -179,7 +184,7 @@ def main():
         torch.save({"model": model.state_dict(), "opt_a": opt_a.state_dict(), "critic_head": critic.head.state_dict(),
                     "opt_c": opt_c.state_dict(), "buf_h": list(buf_h), "buf_m": list(buf_m), "buf_r": list(buf_r), "buf_p": list(buf_p),
                     "iter": it, "best_val": best_val, "g": g.get_state(), "geval": geval.get_state(),
-                    "py_random": random.getstate(), "torch_rng": torch.get_rng_state()}, state_path + ".tmp")
+                    "py_random": random.getstate(), "torch_rng": torch.get_rng_state(), "ref": ref[0]}, state_path + ".tmp")
         os.replace(state_path + ".tmp", state_path)
 
     for it in range(start_it, a.iters + 1):
@@ -210,7 +215,7 @@ def main():
         z0 = (torch.randn((a.B, env.L, model.text_encoder_dim), generator=g) * cfg.denoiser_noise_scale).to(dev)
         with ac:
             ro = S.rollout(model, cond_seq, cond_mask, z0, record={k - 1 for k in ks}, stop_before=max(ks), generator=g)
-            logits = []
+            logits, norms = [], []
             for k in sorted(set(ks)):
                 sel = torch.tensor([i for i, kk in enumerate(ks) if kk == k], device=dev)
                 prev = ro.inputs[k - 1]
@@ -220,8 +225,17 @@ def main():
                     nxt = split_channels(nxt, n_cl, a.actor_channels)
                 out = critic(nxt, cond_seq[sel], cond_mask[sel], gen_mask[sel])
                 logits.append(out.logit if a.objective == "logit" else out.value)
+                xk_tok = nxt.x_prev[..., : nxt.x_prev.shape[-1] - n_cl]          # clean estimate, token channels
+                gm = gen_mask[sel].to(xk_tok.dtype)
+                pos_norm = xk_tok.float().norm(dim=-1)                              # (b, L)
+                norms.append(((pos_norm * gm).sum(1) / gm.sum(1).clamp_min(1.0)))  # per-sequence mean over generated positions
             obj = torch.cat(logits).mean()
-        opt_a.zero_grad(set_to_none=True); (-obj).backward()
+            tok_norm_t = torch.cat(norms)                                            # (B,)
+            tok_norm = tok_norm_t.mean().item()
+            if ref[0] is None: ref[0] = (tok_norm, abs(obj.item()))                 # norm_0, |obj_0| from the first actor step
+            pen = ((tok_norm_t / ref[0][0] - 1.0) ** 2).mean()
+            loss_a = -obj + a.norm_pen * ref[0][1] * pen if a.norm_pen > 0 else -obj
+        opt_a.zero_grad(set_to_none=True); loss_a.backward()
         gn = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0).item()
         if not math.isfinite(gn):   # never step the actor on a non-finite gradient (it would poison the policy for good)
             raise RuntimeError(f"non-finite actor gradient at iter {it} (obj {obj.item()})")
@@ -257,7 +271,8 @@ def main():
             if auc is not None and auc < a.a0:
                 critic_steps(a.mc_extra)
 
-        rec = {"iter": it, "obj": obj.item(), "grad_norm": gn, "lr": lr_at(it), "buf_succ": float(r2.mean()),
+        rec = {"iter": it, "obj": obj.item(), "grad_norm": gn, "lr": lr_at(it), "buf_succ": float(r2.mean()), "tok_norm": tok_norm,
+               "norm_pen": (a.norm_pen * ref[0][1] * pen.item()) if a.norm_pen > 0 else None,
                "buf_succ_all": sum(buf_r) / max(len(buf_r), 1), "critic_loss": closs, "critic_auc": auc, "critic_wauc": last_wauc[0] if auc is not None else None,
                "ks": sorted(set(ks)), "elapsed": time.time() - t_start}
         logf.write(json.dumps(rec) + "\n"); logf.flush()
