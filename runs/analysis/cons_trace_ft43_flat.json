@@ -1,0 +1,121 @@
+{
+ "game24cd_flat_ft43_svg2d_s0/0": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 21.579846036751857
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 21.42137072001966
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 21.173934379779332
+  }
+ },
+ "game24cd_flat_ft43_svg2d_s0/250": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 22.017474185523447
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 21.91032842161248
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 21.777436309101333
+  }
+ },
+ "game24cd_flat_ft43_svg2d_s0/500": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 23.494291193492028
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 23.30463925887978
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 23.25063795540201
+  }
+ },
+ "game24cd_flat_ft43_svg2d_s0/750": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 27.421364117085155
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 27.22134450054585
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 26.95875678085374
+  }
+ },
+ "game24cd_flat_ft43_svg2d_s0/1000": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 29.12983042820541
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 29.077177191248637
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 28.80110357318271
+  }
+ },
+ "game24cd_flat_ft43_svg2d_s0/1250": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 30.193331327513054
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 30.051583950751798
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 29.661640897568688
+  }
+ },
+ "game24cd_flat_ft43_svg2d_s0/1500": {
+  "24": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 30.259700180863796
+  },
+  "40": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 30.215086881120783
+  },
+  "63": {
+   "cons": NaN,
+   "margin": NaN,
+   "tok_nrm": 29.89753344083388
+  }
+ }
+}
