@@ -609,6 +609,67 @@
     "gamma": "56"
    }
   },
+  "game24cdA_flat60_svg2d_s0": {
+   "tag": "game24cdA_flat60_svg2d_s0",
+   "n_evals": 7,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6228775692582663,
+     "test_acc": 0.6340482573726541
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.6371760500446828,
+     "test_acc": 0.6532618409294012
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.6340482573726541,
+     "test_acc": 0.6554959785522788
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.6438784629133154,
+     "test_acc": 0.6613047363717605
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.6411974977658623,
+     "test_acc": 0.6630920464700626
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.6532618409294012,
+     "test_acc": 0.6680071492403932
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.6528150134048257,
+     "test_acc": 0.6662198391420912
+    }
+   ],
+   "base_test_acc": 0.6340482573726541,
+   "final_test_acc": 0.6662198391420912,
+   "best_test_acc": 0.6680071492403932,
+   "last_iter": 1499,
+   "jobs": [
+    {
+     "job_id": "13483548",
+     "job_name": "gate0b-g24cdA-flat60",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfA_b_game24_cd.yml --ckpt outputs/elfA60_b-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdA_flat60_2d/critic_ep5.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdA_flat60_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0"
+    }
+   ],
+   "args": {
+    "config": "configs/elfA_b_game24_cd.yml",
+    "ckpt": "outputs/elfA60_b-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cdA_flat60_2d/critic_ep5.pt",
+    "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
   "game24cdA_flat_grr_lr3e-7_s0": {
    "tag": "game24cdA_flat_grr_lr3e-7_s0",
    "n_evals": 7,
@@ -1059,7 +1120,7 @@
   },
   "game24cd_flat_early_svg2d_s0": {
    "tag": "game24cd_flat_early_svg2d_s0",
-   "n_evals": 6,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -1090,12 +1151,17 @@
      "iter": 1250,
      "val_acc": 0.5723860589812333,
      "test_acc": 0.5781948168007149
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.5603217158176944,
+     "test_acc": 0.5737265415549598
     }
    ],
    "base_test_acc": 0.5053619302949062,
-   "final_test_acc": 0.5781948168007149,
+   "final_test_acc": 0.5737265415549598,
    "best_test_acc": 0.5795352993744415,
-   "last_iter": 1296,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13482924",
@@ -1115,7 +1181,7 @@
   },
   "game24cd_flat_ft43_svg2d_s0": {
    "tag": "game24cd_flat_ft43_svg2d_s0",
-   "n_evals": 6,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -1146,12 +1212,17 @@
      "iter": 1250,
      "val_acc": 0.5428954423592494,
      "test_acc": 0.5384271671134941
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.5308310991957105,
+     "test_acc": 0.5513851653261841
     }
    ],
    "base_test_acc": 0.6885612153708669,
-   "final_test_acc": 0.5384271671134941,
+   "final_test_acc": 0.5513851653261841,
    "best_test_acc": 0.6885612153708669,
-   "last_iter": 1421,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13482978",
@@ -1364,7 +1435,7 @@
   },
   "game24cd_flat_svg2d_np100_s0": {
    "tag": "game24cd_flat_svg2d_np100_s0",
-   "n_evals": 6,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -1395,10 +1466,15 @@
      "iter": 1250,
      "val_acc": 0.44414655942806075,
      "test_acc": 0.4401251117068811
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.45621090259159963,
+     "test_acc": 0.4624664879356568
     }
    ],
    "base_test_acc": 0.6394101876675603,
-   "final_test_acc": 0.4401251117068811,
+   "final_test_acc": 0.4624664879356568,
    "best_test_acc": 0.6394101876675603,
    "last_iter": 1499,
    "jobs": [
@@ -1420,7 +1496,7 @@
   },
   "game24cd_flat_svg2d_np10_s0": {
    "tag": "game24cd_flat_svg2d_np10_s0",
-   "n_evals": 6,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -1451,10 +1527,15 @@
      "iter": 1250,
      "val_acc": 0.4459338695263628,
      "test_acc": 0.467828418230563
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.47989276139410186,
+     "test_acc": 0.4964253798033959
     }
    ],
    "base_test_acc": 0.6394101876675603,
-   "final_test_acc": 0.467828418230563,
+   "final_test_acc": 0.4964253798033959,
    "best_test_acc": 0.6394101876675603,
    "last_iter": 1499,
    "jobs": [
@@ -2025,7 +2106,7 @@
   },
   "game24cd_hier_ft43_svg2d_s0": {
    "tag": "game24cd_hier_ft43_svg2d_s0",
-   "n_evals": 6,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -2056,12 +2137,17 @@
      "iter": 1250,
      "val_acc": 0.5638963360142984,
      "test_acc": 0.5933869526362824
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.5446827524575514,
+     "test_acc": 0.5603217158176944
     }
    ],
    "base_test_acc": 0.6470062555853441,
-   "final_test_acc": 0.5933869526362824,
+   "final_test_acc": 0.5603217158176944,
    "best_test_acc": 0.6470062555853441,
-   "last_iter": 1385,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13482981",

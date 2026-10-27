@@ -1,0 +1,1 @@
+0.6452	2238	K=64	gamma=56.0	cfg=2.0	ckpt=outputs/elf_b-game24-cd-s44/checkpoint_2800
