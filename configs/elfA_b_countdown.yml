@@ -37,7 +37,7 @@ self_cond_prob: 0.5
 # Training (optimizer + schedule)
 epochs: 60
 global_batch_size: 512
-blr: 0.001   # absolute lr 2e-3 at batch 512 (trainer scales blr by batch/256); 0.002 diverged the CE head
+blr: 0.0005  # absolute lr 1e-3 at batch 512. CFRL value 2e-3 (blr 0.001) diverged the CE head at step ~35k (CE 0.065 @22k → 0.10 @34k → 0.38 @37k); resumed from checkpoint_29280 at 1e-3 (2026-10-26), same as the hier AdamW model
 weight_decay: 0.0
 warmup_steps: 5000
 optimizer: adamw

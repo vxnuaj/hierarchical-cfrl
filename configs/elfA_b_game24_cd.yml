@@ -37,7 +37,7 @@ self_cond_prob: 0.5
 # Training (optimizer + schedule)
 epochs: 40
 global_batch_size: 256
-blr: 0.002
+blr: 0.001   # absolute lr 1e-3 at batch 256; matches the lowered Countdown lr (both AdamW models at 1e-3)
 weight_decay: 0.0
 warmup_steps: 280
 optimizer: adamw
