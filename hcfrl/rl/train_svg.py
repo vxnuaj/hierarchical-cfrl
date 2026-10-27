@@ -82,6 +82,8 @@ def main():
     ap.add_argument("--G", type=int, default=1, help="rollouts per prompt in the replay buffer (B/G prompts x G)")
     ap.add_argument("--rank_w", type=float, default=0.0, help="within-prompt ranking weight in the critic refit (needs G>1)")
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--bf16", type=int, default=1)
+    ap.add_argument("--buf_dtype", choices=["bf16", "fp16"], default="bf16",
+                    help="dtype of the cached critic features in the replay buffer. Runs before 2026-10-27 used fp16; the AdamW-trained ELF has trunk activations up to ~5e4 that overflow fp16 (inf -> NaN critic refit), so the default is now bf16")
     ap.add_argument("--resume", action="store_true", help="resume from <out>/state.pt if present")
     ap.add_argument("--save_every", type=int, default=50, help="save full resumable state every N iters")
     a = ap.parse_args()
@@ -120,7 +122,8 @@ def main():
     geval = torch.Generator(device="cpu").manual_seed(12345)
     ac = torch.amp.autocast("cuda", dtype=torch.bfloat16, enabled=bool(a.bf16) and dev.type == "cuda")
 
-    # replay buffer of cached critic features at k_hi: (h fp16 (L,H), gen_mask (L,), reward)
+    # replay buffer of cached critic features at k_hi: (h bf16/fp16 (L,H), gen_mask (L,), reward)
+    buf_dt = torch.bfloat16 if a.buf_dtype == "bf16" else torch.float16
     buf_h, buf_m, buf_r, buf_p = deque(maxlen=a.NB), deque(maxlen=a.NB), deque(maxlen=a.NB), deque(maxlen=a.NB)
     prompt_counter = [0]
     t_hi = S.alpha * S.t_grid(k_hi) if k_hi < a.K - 1 else S.t_grid(k_hi)
@@ -220,6 +223,8 @@ def main():
             obj = torch.cat(logits).mean()
         opt_a.zero_grad(set_to_none=True); (-obj).backward()
         gn = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0).item()
+        if not math.isfinite(gn):   # never step the actor on a non-finite gradient (it would poison the policy for good)
+            raise RuntimeError(f"non-finite actor gradient at iter {it} (obj {obj.item()})")
         if a.actor_mode == "random":   # same clipped norm (1.0), random direction
             with torch.no_grad():
                 ps = [p for p in model.parameters() if p.grad is not None]
@@ -238,7 +243,9 @@ def main():
         with torch.no_grad(), ac:
             ro2 = S.rollout(model, cond_seq2, cond_mask2, z0, record={k_hi}, generator=g)
             r2 = env.reward(pb2, env.decode_text(S.decode(model, ro2.z_final), cl2))
-            h2 = critic.features(ro2.inputs[k_hi], cond_seq2, cond_mask2).half().cpu()
+            h2 = critic.features(ro2.inputs[k_hi], cond_seq2, cond_mask2).to(buf_dt).cpu()
+            if not torch.isfinite(h2.float()).all():
+                raise RuntimeError(f"non-finite critic features at iter {it} (buffer dtype {a.buf_dtype})")
         for i in range(len(pb2)):
             buf_h.append(h2[i]); buf_m.append(gen_mask2[i].cpu()); buf_r.append(float(r2[i])); buf_p.append(pid2[i])
 

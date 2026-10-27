@@ -116,7 +116,7 @@ def delta_text(x):
 def _xy(points, xi, yi):
     xs, ys = [], []
     for p in points:
-        if p[xi] is not None and p[yi] is not None: xs.append(p[xi]); ys.append(p[yi])
+        if p[xi] is not None and p[yi] is not None and math.isfinite(p[yi]): xs.append(p[xi]); ys.append(p[yi])  # NaN/inf (diverged runs) crash plotext
     return xs, ys
 
 PALETTE = ["cyan+", "orange+", "green+", "magenta+", "yellow+", "blue+", "red+", "white"]
@@ -127,6 +127,8 @@ def plot_lines(widget: PlotextPlot, series, title, xlabel="", ylabel="", ylog=Fa
     plt.clear_figure(); plt.clear_data()
     any_data = False
     for i, (label, xs, ys) in enumerate(series):
+        pts = [(x, y) for x, y in zip(xs, ys) if y is not None and math.isfinite(y)]
+        xs, ys = [p[0] for p in pts], [p[1] for p in pts]
         if ylog:   # plotext 5.3 applies yscale("log") in place on every build (and the widget rebuilds on each
             # render/resize), which raises a math domain error the second time; so take log10 ourselves and
             # draw on a linear axis
