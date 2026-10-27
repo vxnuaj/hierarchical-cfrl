@@ -1,0 +1,11 @@
+{
+ "acc": {
+  "outputs/elfA_b-game24-cd/checkpoint_700": 0.535,
+  "outputs/elfA_b-game24-cd/checkpoint_1400": 0.6616666666666666,
+  "outputs/elfA_b-game24-cd/checkpoint_2100": 0.7216666666666667,
+  "outputs/elfA_b-game24-cd/checkpoint_2800": 0.7616666666666667
+ },
+ "best": "outputs/elfA_b-game24-cd/checkpoint_2800",
+ "best_acc": 0.7616666666666667,
+ "target": null
+}
