@@ -815,7 +815,7 @@
   },
   "game24cdA_hier_svg2d_s0": {
    "tag": "game24cdA_hier_svg2d_s0",
-   "n_evals": 5,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -841,12 +841,22 @@
      "iter": 1000,
      "val_acc": 0.6939231456657731,
      "test_acc": 0.7064343163538874
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.7100089365504915,
+     "test_acc": 0.7028596961572833
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.7024128686327078,
+     "test_acc": 0.7068811438784629
     }
    ],
    "base_test_acc": 0.6876675603217158,
-   "final_test_acc": 0.7064343163538874,
-   "best_test_acc": 0.7064343163538874,
-   "last_iter": 1061,
+   "final_test_acc": 0.7068811438784629,
+   "best_test_acc": 0.7068811438784629,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13466274",
@@ -1049,7 +1059,7 @@
   },
   "game24cd_flat_early_svg2d_s0": {
    "tag": "game24cd_flat_early_svg2d_s0",
-   "n_evals": 4,
+   "n_evals": 6,
    "evals": [
     {
      "iter": 0,
@@ -1070,12 +1080,22 @@
      "iter": 750,
      "val_acc": 0.5705987488829312,
      "test_acc": 0.5795352993744415
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.5764075067024129,
+     "test_acc": 0.5755138516532619
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.5723860589812333,
+     "test_acc": 0.5781948168007149
     }
    ],
    "base_test_acc": 0.5053619302949062,
-   "final_test_acc": 0.5795352993744415,
+   "final_test_acc": 0.5781948168007149,
    "best_test_acc": 0.5795352993744415,
-   "last_iter": 818,
+   "last_iter": 1296,
    "jobs": [
     {
      "job_id": "13482924",
@@ -1095,7 +1115,7 @@
   },
   "game24cd_flat_ft43_svg2d_s0": {
    "tag": "game24cd_flat_ft43_svg2d_s0",
-   "n_evals": 4,
+   "n_evals": 6,
    "evals": [
     {
      "iter": 0,
@@ -1116,12 +1136,22 @@
      "iter": 750,
      "val_acc": 0.5540661304736372,
      "test_acc": 0.5621090259159964
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.5375335120643432,
+     "test_acc": 0.5509383378016086
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.5428954423592494,
+     "test_acc": 0.5384271671134941
     }
    ],
    "base_test_acc": 0.6885612153708669,
-   "final_test_acc": 0.5621090259159964,
+   "final_test_acc": 0.5384271671134941,
    "best_test_acc": 0.6885612153708669,
-   "last_iter": 964,
+   "last_iter": 1421,
    "jobs": [
     {
      "job_id": "13482978",
@@ -1334,7 +1364,7 @@
   },
   "game24cd_flat_svg2d_np100_s0": {
    "tag": "game24cd_flat_svg2d_np100_s0",
-   "n_evals": 4,
+   "n_evals": 6,
    "evals": [
     {
      "iter": 0,
@@ -1355,12 +1385,22 @@
      "iter": 750,
      "val_acc": 0.36907953529937443,
      "test_acc": 0.36282394995531725
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.4075067024128686,
+     "test_acc": 0.4155495978552279
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.44414655942806075,
+     "test_acc": 0.4401251117068811
     }
    ],
    "base_test_acc": 0.6394101876675603,
-   "final_test_acc": 0.36282394995531725,
+   "final_test_acc": 0.4401251117068811,
    "best_test_acc": 0.6394101876675603,
-   "last_iter": 999,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13483550",
@@ -1380,7 +1420,7 @@
   },
   "game24cd_flat_svg2d_np10_s0": {
    "tag": "game24cd_flat_svg2d_np10_s0",
-   "n_evals": 5,
+   "n_evals": 6,
    "evals": [
     {
      "iter": 0,
@@ -1406,12 +1446,17 @@
      "iter": 1000,
      "val_acc": 0.41331546023235033,
      "test_acc": 0.42001787310098304
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.4459338695263628,
+     "test_acc": 0.467828418230563
     }
    ],
    "base_test_acc": 0.6394101876675603,
-   "final_test_acc": 0.42001787310098304,
+   "final_test_acc": 0.467828418230563,
    "best_test_acc": 0.6394101876675603,
-   "last_iter": 1025,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13483549",
@@ -1980,7 +2025,7 @@
   },
   "game24cd_hier_ft43_svg2d_s0": {
    "tag": "game24cd_hier_ft43_svg2d_s0",
-   "n_evals": 4,
+   "n_evals": 6,
    "evals": [
     {
      "iter": 0,
@@ -2001,12 +2046,22 @@
      "iter": 750,
      "val_acc": 0.6045576407506702,
      "test_acc": 0.6255585344057194
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.5714924039320822,
+     "test_acc": 0.5723860589812333
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.5638963360142984,
+     "test_acc": 0.5933869526362824
     }
    ],
    "base_test_acc": 0.6470062555853441,
-   "final_test_acc": 0.6255585344057194,
+   "final_test_acc": 0.5933869526362824,
    "best_test_acc": 0.6470062555853441,
-   "last_iter": 909,
+   "last_iter": 1385,
    "jobs": [
     {
      "job_id": "13482981",
