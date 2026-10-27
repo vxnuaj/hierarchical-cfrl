@@ -412,3 +412,24 @@ Other items from this check: (1) **random-cluster seeds started** (13445212–14
 Reading. The flat collapse has a sharp closed-loop signature: within the first 250–500 iterations the fresh-rollout success drops (0.82 → 0.59), the critic's AUC on the new states dips (0.93) and then recovers because the refit learns that the drifted states are bad, and the actor objective crashes from 82 to ≈4–8 and never recovers — the policy has been pulled into a region that the critic now scores low, and ascending a low, flat critic from there does not bring it back (train success recovers partly to 0.78, test accuracy does not). The hier full run never enters that regime: fresh-rollout success stays 0.85–0.89 and the actor objective stays 65–77 throughout, i.e. the policy keeps finding states that the critic scores high and that are also correct. The 16k-critic hier run (the one that dipped) shows a milder version of the flat signature at exactly its dip (AUC 0.93 in the 750–1000 window, objective 310 → 8, buffer success 0.78), and the clusters-only run is different again: train (buffer) success stays ≥ 0.87 while test accuracy decays — a generalisation loss that goes with its consistency collapse rather than a critic-exploitation crash. Takeaway for the mechanism section: on the flat model the loop passes through an exploitation phase (critic score up, success down) and ends in a low-score basin; the hier parameterisation keeps score and success coupled for the whole run; and the two hier failures are two different events (16k: a brief flat-like excursion; clusters-only: coupling loss without a train-success drop).
 
 **19:10 — first finals of the random-cluster control and the hier 16k seeds.** H-ELF-R (Γ_random) s0: 69.4 → **67.9 (−1.5)**, trajectory 69.6 / 69.0 / 64.0 / 69.2 / 69.3 / 67.9; s1: 69.9 → **65.6 (−4.3)**, 70.6 / 69.0 / 70.3 / 69.3 / 66.0 / 65.6; s2 at it1250: 70.7 (+0.2), final pending. Hier 16k-critic s1: 64.3 → **66.2 (+1.9)**, s2 at it1250 66.0 (+1.2), final pending. All SFTs healthy (flat AdamW at 1e-3: CE 0.023 @34.9k; hier AdamW CE 0.005 @33.2k; ELF-M both at 4.5k, CE 0.002; helfK 5k).
+
+## 2026-10-26 19:20 — random-cluster control final: no collapse, no gain. The coupling prevents the collapse; the task-informed code gives the gain.
+
+**H-ELF-R (Γ_random, same architecture/surgery/SFT/RL recipe), Game24-cd, SVG-2D, 3 seeds, test acc at it1500:**
+
+| seed | base | final | Δ |
+|---|---|---|---|
+| 0 | 69.4 | 67.9 | −1.5 |
+| 1 | 69.9 | 65.6 | −4.3 |
+| 2 | 70.5 | 69.9 | −0.6 |
+| **mean** | 69.9 | 67.8 | **−2.1** |
+
+Against: flat **−11.7** (3 seeds), Γ_task hier **+4.8** (3 seeds). Trajectories wander ±4 around base with single-eval dips that recover; no monotone collapse (flat is −11 to −18 by it500) and no sustained gain. Caveat: the random-code model's val-selected base (≈70) is 5 points above the flat / Γ_task bases (64–65), so its headroom differs; a base-matched repeat (earlier SFT checkpoint with val ≈ 64) is queued (tag `game24cd_randm`).
+
+**Hier with the 16k critic, 3 seeds:** +0.2 / +1.9 / −0.9, **mean +0.4** (flat with the same critic: −4.5 / −3.6 / −8.9, mean −5.7).
+
+**Pooled, every Game24-cd SVG-2D run (final − base):**
+- hierarchical, any code, any critic (12 runs): +5.2, +3.9, +5.4 (Γ_task, 8k) · −0.1, +2.7, +2.7 (blind critic) · +0.2, +1.9, −0.9 (16k critic) · −1.5, −4.3, −0.6 (Γ_random) → **mean +1.2, range −4.3 … +5.4**
+- flat (6 runs): −9.2, −14.5, −13.0 (8k) · −4.5, −3.6, −8.9 (16k) → **mean −9.0, range −14.5 … −3.6**
+
+The strict "no hier run below base" floor no longer holds (rand s1 −4.3, 16k s2 −0.9), but the separation does: the hier distribution is centred at +1 with a worst case of −4, the flat distribution at −9 with a best case of −4; one pair overlaps (rand s1 −4.3 vs flat-16k s1 −3.6). Statement for the paper: *a jointly denoised coarse stream, whatever its content, removes the collapse (random code: −2.1 vs −11.7); a task-informed code additionally turns the update into a gain (+4.8); and the size of that gain depends on the critic (full +4.8, blind +1.8, 16k +0.4).* The random control therefore supports the coupling reading of the trace (the two streams have to stay consistent, and any code gives a stream to stay consistent with) and separates "safe" from "useful": safety comes from the parameterisation, usefulness from the content of the code. Next on this axis: Γ_kmeans (queued: k-means over T5 embeddings) and the base-matched Γ_random repeat.
