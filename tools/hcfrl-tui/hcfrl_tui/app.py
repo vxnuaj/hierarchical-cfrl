@@ -8,6 +8,7 @@ Keys: ↑/↓ move · Enter open · Space mark · c compare marked runs · / fil
 """
 from __future__ import annotations
 
+import math
 import argparse, json, os, subprocess, sys, time
 from pathlib import Path
 
@@ -126,8 +127,10 @@ def plot_lines(widget: PlotextPlot, series, title, xlabel="", ylabel="", ylog=Fa
     plt.clear_figure(); plt.clear_data()
     any_data = False
     for i, (label, xs, ys) in enumerate(series):
-        if ylog:   # log axis cannot take zeros/negatives
-            pts = [(x, y) for x, y in zip(xs, ys) if y is not None and y > 0]
+        if ylog:   # plotext 5.3 applies yscale("log") in place on every build (and the widget rebuilds on each
+            # render/resize), which raises a math domain error the second time; so take log10 ourselves and
+            # draw on a linear axis
+            pts = [(x, math.log10(y)) for x, y in zip(xs, ys) if y is not None and y > 0]
             xs, ys = [p[0] for p in pts], [p[1] for p in pts]
         if xs:
             any_data = True; col = PALETTE[i % len(PALETTE)]
@@ -136,7 +139,7 @@ def plot_lines(widget: PlotextPlot, series, title, xlabel="", ylabel="", ylog=Fa
     plt.title(title)
     if xlabel: plt.xlabel(xlabel)
     if ylabel: plt.ylabel(ylabel)
-    if ylog and any_data: plt.yscale("log")
+    if ylog: plt.ylabel(("log10 " + ylabel).strip())
     if not any_data: plt.title(title + "  (no data)")
     widget.refresh()
 
