@@ -79,6 +79,12 @@ def main():
                     help="latent-norm penalty: actor loss += norm_pen * |obj_0| * mean_gen_pos((|x_k,tok| / norm_0 - 1)^2), where norm_0 is the "
                          "mean per-position token-latent norm of the clean estimate at the first actor step and obj_0 the first objective. "
                          "Control for the flat model: is the collapse the latent inflation seen in the trace?")
+    ap.add_argument("--rsa_rho", type=float, default=0.0,
+                    help="reward-sharpness-aware actor step (Kim & Sim, CVPR 2026, input-space variant): the critic is evaluated at the "
+                         "one-step worst-case displacement of its input, (z~_k, x_{k-1}) + delta with delta = -rho * |state| * grad / |grad| "
+                         "(norms over generated positions, per sequence, delta detached), so the actor maximises the flattened logit "
+                         "min_{|delta| <= rho |state|} l_phi. Every run logs rsa_gap = l(unperturbed) - l(perturbed) when rho > 0")
+    ap.add_argument("--rsa_apply", type=int, default=1, help="0: only measure rsa_gap at rsa_rho, optimise the unperturbed objective")
     ap.add_argument("--actor_mode", default="critic", choices=["critic", "random", "none"],
                     help="diagnostic: 'random' replaces the actor gradient by Gaussian noise of the same clipped norm; 'none' skips the actor step")
     ap.add_argument("--actor_channels", default="all", choices=["all", "tokens", "clusters"],
@@ -215,7 +221,7 @@ def main():
         z0 = (torch.randn((a.B, env.L, model.text_encoder_dim), generator=g) * cfg.denoiser_noise_scale).to(dev)
         with ac:
             ro = S.rollout(model, cond_seq, cond_mask, z0, record={k - 1 for k in ks}, stop_before=max(ks), generator=g)
-            logits, norms = [], []
+            logits, norms, gaps = [], [], []
             for k in sorted(set(ks)):
                 sel = torch.tensor([i for i, kk in enumerate(ks) if kk == k], device=dev)
                 prev = ro.inputs[k - 1]
@@ -223,6 +229,25 @@ def main():
                 nxt = S.grad_step(model, sub, cond_seq[sel], cond_mask[sel], generator=g)
                 if a.actor_channels != "all":
                     nxt = split_channels(nxt, n_cl, a.actor_channels)
+                if a.rsa_rho > 0:   # one-step worst-case displacement of the critic input (sharpness-aware step)
+                    zd = nxt.z.detach().requires_grad_(True); xd = nxt.x_prev.detach().requires_grad_(True)
+                    with torch.enable_grad():
+                        o0 = critic(DenoiserInput(nxt.k, zd, nxt.t, xd), cond_seq[sel], cond_mask[sel], gen_mask[sel])
+                        l0 = o0.logit if a.objective == "logit" else o0.value
+                        gz, gx = torch.autograd.grad(l0.sum(), [zd, xd])
+                    gm3 = gen_mask[sel].to(gz.dtype).unsqueeze(-1)
+                    gz, gx = gz * gm3, gx * gm3
+                    gnorm = torch.sqrt((gz.float() ** 2).sum((1, 2)) + (gx.float() ** 2).sum((1, 2))).clamp_min(1e-12)
+                    snorm = torch.sqrt(((nxt.z.detach().float() * gm3.float()) ** 2).sum((1, 2))
+                                       + ((nxt.x_prev.detach().float() * gm3.float()) ** 2).sum((1, 2)))
+                    scale = (a.rsa_rho * snorm / gnorm)[:, None, None]
+                    dz, dx = -(gz.float() * scale).to(nxt.z.dtype).detach(), -(gx.float() * scale).to(nxt.x_prev.dtype).detach()
+                    with torch.no_grad():
+                        op = critic(DenoiserInput(nxt.k, zd + dz, nxt.t, xd + dx), cond_seq[sel], cond_mask[sel], gen_mask[sel])
+                        lp = op.logit if a.objective == "logit" else op.value
+                        gaps.append((l0.detach() - lp).float())
+                    if a.rsa_apply:
+                        nxt = DenoiserInput(nxt.k, nxt.z + dz, nxt.t, nxt.x_prev + dx)
                 out = critic(nxt, cond_seq[sel], cond_mask[sel], gen_mask[sel])
                 logits.append(out.logit if a.objective == "logit" else out.value)
                 xk_tok = nxt.x_prev[..., : nxt.x_prev.shape[-1] - n_cl]          # clean estimate, token channels
@@ -271,7 +296,7 @@ def main():
             if auc is not None and auc < a.a0:
                 critic_steps(a.mc_extra)
 
-        rec = {"iter": it, "obj": obj.item(), "grad_norm": gn, "lr": lr_at(it), "buf_succ": float(r2.mean()), "tok_norm": tok_norm,
+        rec = {"iter": it, "obj": obj.item(), "grad_norm": gn, "lr": lr_at(it), "buf_succ": float(r2.mean()), "tok_norm": tok_norm, "rsa_gap": (torch.cat(gaps).mean().item() if gaps else None),
                "norm_pen": (a.norm_pen * ref[0][1] * pen.item()) if a.norm_pen > 0 else None,
                "buf_succ_all": sum(buf_r) / max(len(buf_r), 1), "critic_loss": closs, "critic_auc": auc, "critic_wauc": last_wauc[0] if auc is not None else None,
                "ks": sorted(set(ks)), "elapsed": time.time() - t_start}
