@@ -731,3 +731,17 @@ At it500 all four swapped runs are above their base (+1.0 to +3.5). Their native
 | AdamW hier s2 | 68.2 | 70.2 (+2.0) | 70.9 (it1000, +2.7) | |
 
 Swap summary, finals (best-val): seed-42 base RL s0 −0.9 (+4.7), s1 +1.9 (+1.9); seed-43 base +0.3 (+4.0); s2 pending (65.9 at it1000). Native: −9.2 / −14.5 / −13.8 with best-val = base. AdamW recipe, 3 seeds each: flat +3.1 / +2.1 / +2.8 (mean +2.7), hier +1.9 / −0.3 / +2.0 (mean +1.2); no AdamW run collapses. The seed-44 swap critic is training (13528031), with RL links 13528032 → 13529213 → 13529214. `runs/` archived (83 RL runs).
+
+**16:15 (10-28) — third swap seed final +2.1; swap table complete for two bases.** `game24cd_swapMA_svg2d_s2`: 65.1 → 55.2 / 66.7 / 66.7 / 66.0 / 68.4 / **67.2** (+2.1; best-val = final). The native seed 2 ended 52.1 (−13.0). Seed-44 swap critic: best field score 0.801. Its RL (13528032) is waiting for a GPU. The paused hier lr1e-7 run resumes alongside it (13531026).
+
+**Critic swap, all completed runs (Muon flat policy; Δ test vs base, final / best-val):**
+
+| base, RL seed | own (Muon) critic | AdamW-trunk critic |
+|---|---|---|
+| seed-42 base, s0 | −9.2 / 0 | −0.9 / +4.7 |
+| seed-42 base, s1 | −14.5 / 0 | +1.9 / +1.9 |
+| seed-42 base, s2 | −13.0 / 0 | +2.1 / +2.1 |
+| seed-43 base, s0 | −13.8 / 0 | +0.3 / +4.0 |
+| **mean** | **−12.6 / 0** | **+0.9 / +3.2** |
+
+Final-iterate improvement from the swap: +8.3, +16.4, +15.1, +14.1 (mean **+13.5**, all four positive). Min at it500 across the swapped runs: +1.1 vs native max −8.7. Seed-44 base pending.

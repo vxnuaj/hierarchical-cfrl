@@ -4193,7 +4193,7 @@
   },
   "game24cd_swapMA_svg2d_s2": {
    "tag": "game24cd_swapMA_svg2d_s2",
-   "n_evals": 6,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -4224,12 +4224,17 @@
      "iter": 1250,
      "val_acc": 0.6648793565683646,
      "test_acc": 0.6836461126005362
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.6684539767649688,
+     "test_acc": 0.6720285969615728
     }
    ],
    "base_test_acc": 0.6505808757819481,
-   "final_test_acc": 0.6836461126005362,
+   "final_test_acc": 0.6720285969615728,
    "best_test_acc": 0.6836461126005362,
-   "last_iter": 1424,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13525527",
