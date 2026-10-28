@@ -580,3 +580,15 @@ Flat Muon at `--lr_actor 1e-7` (`game24cd_flat_svg2d_lr1e-7_s0`): it250 **64.5**
 - `game24cd_hier_ft44_svg2d_s0` (seed-44 plain hier, base 63.1): 62.4 / **67.5** / **60.7** at it250/500/750. Up 4.4 at it500, then down 2.4 at it750, with token norm rising to 31.2. That is the same drift signature as hier seed 43 (norm 17.9 → 45, final −8.7), so the registered prediction that it loses is on track.
 - Debug chains: flat lr1e-7 link 4 (13513204) queued; hier ft44 link 4 goes in when the flat chain frees a slot.
 - Git: the last three pushes had not reached GitHub, because quiet pushes hit the command timeout. A background push is running now.
+
+**21:10 (10-27) — flat Muon at a 10× smaller step: final −1.0. Safe, but no gain.** `game24cd_flat_svg2d_lr1e-7_s0` (base 63.9): 64.5 / 65.1 / 63.6 / 63.4 / 63.8 / **62.9** at it250…1500. Token norm stayed at 17.7–17.9 throughout, and there was no dip. Flat Muon step-size sweep, final Δ:
+
+| actor lr | final Δ |
+|---|---|
+| 1e-6 (paper) | −9.2 / −14.5 / −13.0 (3 seeds) |
+| 3e-7 | −14.4 (collapse delayed to after it500) |
+| 1e-7 | **−1.0** (no collapse, no learning) |
+
+Hier Muon on the same base, at the paper step: +5.2 / +4.5 / … (9 runs, mean +2.4); at 3e-7 +2.5.
+**Verdict on the user's objection:** a small enough step does prevent the collapse, but no flat step size tried produces a gain. The step that is safe for flat is too small to learn anything in 1500 iterations. The step that learns collapses. Hier at the paper step gains. So on the seed-42 base the hierarchy is not replaceable by step tuning: it moves the cliff so that a step large enough to learn is still safe. Matched check queued: hier at 1e-7 (`game24cd_hier_svg2d_lr1e-7_s0`, chain 13514141 → 13514303). If hier also stalls there, the comparison is cleanly "same step: both safe, neither learns; paper step: hier learns, flat collapses". Caveats: one seed per lr below 1e-6; an intermediate lr (2e-7) might give flat a small gain.
+**Seed-44 plain hier** (`game24cd_hier_ft44_svg2d_s0`, base 63.1): 62.4 / 67.5 / 60.7 / **65.3** at it1000 (+2.2). It recovered after the it750 dip. Token norm is 32.5 and still rising. Final ≈22:30.
