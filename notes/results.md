@@ -672,3 +672,15 @@ Clean independence test queued: a fresh Muon flat Countdown SFT from the OWT ini
 **10:35 (10-28) — replication at it1000: +4.1. Seed-44 flat −16.0.** MA s1 (Muon flat policy + AdamW-trunk critic, RL seed 1): 62.2 / 65.7 / … / **68.7** at it1000 (+4.1). Native seed 1 was 48.1 at it1000. This matches seed 0 (68.5 at it1000, then 66.7 / 63.0), so the drift after it1000 is the thing to watch in the seed-1 final. Seed-44 flat: 61.3 / 56.2 / 55.3 / **48.4** at it1000 (−16.0). The MA43 critic is waiting for a GPU (debug 5/5); its RL link goes in as soon as the cap allows.
 
 **11:00 (10-28).** MA s1: 68.7 → **66.4** at it1250 (+1.8). It drifts back after it1000, just like seed 0 (68.5 → 66.7 → 63.0). The MA43 critic is training (13522191), and its RL is queued (13523491 → 13523492). Seed-44 flat link 4 is running toward the final.
+
+**11:40 (10-28) — finals: replication +1.9 (native −14.5); seed-44 flat −17.4.**
+- **MA s1 final** (`game24cd_swapMA_svg2d_s1`, Muon flat policy + AdamW-trunk critic, RL seed 1): 64.6 → 62.2 / 65.7 / … / 68.7 / 66.4 / **66.5** (**+1.9**). The native seed-1 pairing finished at 50.2 (−14.5).
+
+| RL seed | native critic (Muon trunk) final | AdamW-trunk critic final | peak with AdamW trunk |
+|---|---|---|---|
+| 0 | 55.0 (−9.2) | 63.0 (−0.9) | 68.5 at it1000 |
+| 1 | 50.2 (−14.5) | **66.5 (+1.9)** | 68.7 at it1000 |
+
+Mean final: native −11.9, swapped +0.5 (difference +12.4 points). Both swapped runs peak at about +4.5 around it1000, then drift down.
+- **Seed-44 flat final** (`game24cd_flat_ft44_svg2d_s0`, base 64.4): 61.3 / 56.2 / 55.3 / 48.4 / 48.7 / **47.0** (**−17.4**). The registered prediction (below base) holds. The paired seed-44 hier run ended −0.8, so the hierarchy is 16.6 points better on this base. Hier vs flat finals on the three Muon bases: seed 42 +2.4 vs −11.7 (means), seed 43 −8.7 vs −13.8, seed 44 −0.8 vs −17.4.
+- Seed-43 protective test: MA43 critic best field score 0.737 (native seed-43 critic 0.819, lower than the other swaps). RL started 11:32 (base 68.8).
