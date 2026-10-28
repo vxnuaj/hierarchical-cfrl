@@ -692,3 +692,14 @@ Mean final: native −11.9, swapped +0.5 (difference +12.4 points). Both swapped
 **12:50 (10-28) — seed-43 base protected through it500; third seed dips at it250.**
 - `game24cd_swapMA43_svg2d_s0` (seed-43 Muon flat policy + AdamW-trunk critic): 68.8 → 70.9 → **72.3** at it250/500 (**+3.5**). The native seed-43 pairing was 60.5 / 60.2 (−8.7) at the same points. Buffer success 0.88, token norm 22.6 at it550.
 - `game24cd_swapMA_svg2d_s2` (seed-42 base, AdamW-trunk critic, RL seed 2): 65.0 → **55.1** at it250 (−9.9), buffer success 0.72 at it290. Native seed 2 was 48.3 (−16.8) at it250. This dip is much deeper than seeds 0/1 (−4.2/−2.4). The protection is partial on this seed so far. Seeds 0/1 both recovered by it500, and it500 decides. Link 2 queued (13525527).
+
+**13:25 (10-28) — third seed recovers; seed-43 base still climbing.**
+
+| run (AdamW-trunk critic) | base | it250 | it500 | it750 | native at it500 |
+|---|---|---|---|---|---|
+| seed-42 base, RL seed 0 | 63.9 | 59.7 | 66.0 | 66.9 | 45.9 |
+| seed-42 base, RL seed 1 | 64.6 | 62.2 | 65.7 | 65.0 | 35.9 |
+| seed-42 base, RL seed 2 | 65.0 | 55.1 | **66.6** | | 36.2 |
+| seed-43 base, RL seed 0 | 68.8 | 70.9 | 72.3 | **72.8** | 60.2 |
+
+At it500 all four swapped runs are above their base (+1.0 to +3.5). Their native counterparts are 8.7 to 28.8 points below base. The third seed dipped deeper at it250 (−9.9) and recovered fully by it500. Seed-43 base: +4.0 at it750, buffer success 0.81. Third-seed link 3 queued (13526188).
