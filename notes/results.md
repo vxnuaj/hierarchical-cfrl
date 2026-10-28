@@ -719,3 +719,15 @@ At it500 all four swapped runs are above their base (+1.0 to +3.5). Their native
 - Seed-43 swap: 70.9 / 72.3 / 72.8 / 71.3 / **69.0** at it250…1250 (+0.2). Third seed: 55.1 / 66.6 / 66.6 / **65.9** at it1000 (+0.9). Both show the same late drift as seeds 0/1. Finals ≈15:30 / 16:30.
 - Swap on the seed-44 base started: critic `swap-critic-MA44` 13528031 (AdamW trunk on the seed-44 Muon flat policy's rollouts) → RL `game24cd_swapMA44_svg2d_s0` 13528032. Native seed-44 flat ended −17.4.
 - Interpretability backup: 13 GB copied to ~/hcfrl_backup/interp (re-run after the remaining swap finals).
+
+**15:35 (10-28) — finals: seed-43 swap, AdamW seed 2 (flat and hier).** Final iterate / best-validation checkpoint (Δ test vs base):
+
+| run | base | final | best-val (it) | native counterpart final / best-val |
+|---|---|---|---|---|
+| swap, seed-43 base (`game24cd_swapMA43_svg2d_s0`) | 68.9 | 69.2 (**+0.3**) | 72.9 (it750, **+4.0**) | 55.1 (−13.8) / 68.9 (it0, 0) |
+| AdamW flat s1 | 59.9 | 62.0 (+2.1) | 61.8 (it1000, +1.9) | |
+| AdamW flat s2 | 59.5 | 62.3 (+2.8) | 62.6 (it1000, +3.1) | |
+| AdamW hier s1 | 69.3 | 69.0 (−0.3) | 70.2 (it1000, +0.9) | |
+| AdamW hier s2 | 68.2 | 70.2 (+2.0) | 70.9 (it1000, +2.7) | |
+
+Swap summary, finals (best-val): seed-42 base RL s0 −0.9 (+4.7), s1 +1.9 (+1.9); seed-43 base +0.3 (+4.0); s2 pending (65.9 at it1000). Native: −9.2 / −14.5 / −13.8 with best-val = base. AdamW recipe, 3 seeds each: flat +3.1 / +2.1 / +2.8 (mean +2.7), hier +1.9 / −0.3 / +2.0 (mean +1.2); no AdamW run collapses. The seed-44 swap critic is training (13528031), with RL links 13528032 → 13529213 → 13529214. `runs/` archived (83 RL runs).
