@@ -8,7 +8,7 @@ R="carc:/scratch1/verajuan/hcfrl/outputs"
 SSH="ssh -o ControlPath=none -o ConnectTimeout=20"
 mkdir -p runs/rl runs/analysis runs/eval runs/critic runs/slurm
 rsync -az -e "$SSH" --include='*/' --include='log.jsonl' --exclude='*' "$R/rl/" runs/rl/
-rsync -az -e "$SSH" "$R/analysis/" runs/analysis/
+rsync -az -e "$SSH" --exclude "*.pt" --exclude "state.pt*" "$R/analysis/" runs/analysis/
 rsync -az -e "$SSH" --include='*/' --include='*.txt' --include='*.json' --include='*.jsonl' --exclude='*' "$R/eval/" runs/eval/
 rsync -az -e "$SSH" --include='*/' --include='log.json' --exclude='*' "$R/critic/" runs/critic/
 rsync -az -e "$SSH" "$R/slurm/" runs/slurm/
