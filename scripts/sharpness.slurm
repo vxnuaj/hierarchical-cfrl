@@ -1,7 +1,7 @@
 #!/bin/bash
 # Critic sharpness at the base, per model: rsa_gap = l_phi(state) - l_phi(state + delta) at the one-step worst-case
 # displacement with |delta| = rho |state| (train_svg --rsa_rho rho --rsa_apply 0), 5 actor iterations per base, no RL effect
-# (lr 0). Usage: sbatch scripts/sharpness.slurm <rho> <tag>[:<config>] ...   e.g. game24cd_flat:configs/elf_b_game24_cd.yml
+# (lr 0). Usage: sbatch scripts/sharpness.slurm <rho> <tag>:<config>[:<task_dir>] ...   e.g. game24cd_flat:configs/elf_b_game24_cd.yml
 #SBATCH --job-name=sharp
 #SBATCH --account=irahbari_832
 #SBATCH --partition=debug
@@ -14,7 +14,7 @@ source scripts/common.sh
 set -x
 RHO=$1; shift
 for spec in "$@"; do
-  TAG=${spec%%:*}; CFG=${spec#*:}
+  TAG=$(echo $spec | cut -d: -f1); CFG=$(echo $spec | cut -d: -f2); TASK=$(echo $spec | cut -d: -f3); TASK=${TASK:-data/game24}
   CKPT=$(sed 's/^CKPT=//' outputs/eval/${TAG}_ckpt.txt)
   BEST=$(python - <<PY
 import json, glob, os, torch
@@ -24,8 +24,9 @@ else: print(int(max(glob.glob(f"{d}/critic_ep*.pt"), key=lambda f: torch.load(f,
 PY
 )
   python -m hcfrl.rl.train_svg --config $CFG --ckpt $CKPT --critic outputs/critic/${TAG}_2d/critic_ep${BEST}.pt \
-      --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --n_val 8 --eval_every 1000 --save_every 0 \
+      --train_prompts $TASK/train.jsonl --val_prompts $TASK/val.jsonl --n_val 8 --eval_every 1000 --save_every 0 \
       --out outputs/analysis/sharp_${TAG}_rho${RHO} --K 64 --gamma 56 --iters 6 --B 32 --NB 256 --Nq 32 --nq 2 \
       --lr_actor 0 --lr_actor_min 0 --rsa_rho $RHO --rsa_apply 0 --seed 0
+  rm -f outputs/analysis/sharp_${TAG}_rho${RHO}/*.pt   # keep only the log (checkpoints are copies of the base)
 done
 echo SHARP_DONE
