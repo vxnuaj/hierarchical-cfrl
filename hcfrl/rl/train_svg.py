@@ -84,6 +84,10 @@ def main():
                          "one-step worst-case displacement of its input, (z~_k, x_{k-1}) + delta with delta = -rho * |state| * grad / |grad| "
                          "(norms over generated positions, per sequence, delta detached), so the actor maximises the flattened logit "
                          "min_{|delta| <= rho |state|} l_phi. Every run logs rsa_gap = l(unperturbed) - l(perturbed) when rho > 0")
+    ap.add_argument("--rel_step", type=int, default=0,
+                    help="1: layer-wise relative actor step (LARS-style): each weight matrix gets lr_actor * rms(W)/mean_rms(all matrices), "
+                         "so every matrix moves by the same fraction of its own size at the same average lr; vectors keep lr_actor. "
+                         "Multipliers fixed from the base weights.")
     ap.add_argument("--rsa_apply", type=int, default=1, help="0: only measure rsa_gap at rsa_rho, optimise the unperturbed objective")
     ap.add_argument("--actor_mode", default="critic", choices=["critic", "random", "none"],
                     help="diagnostic: 'random' replaces the actor gradient by Gaussian noise of the same clipped norm; 'none' skips the actor step")
@@ -119,7 +123,18 @@ def main():
     # actor
     model.train(False)
     for p in model.parameters(): p.requires_grad_(True)
-    opt_a = torch.optim.AdamW(model.parameters(), lr=a.lr_actor, weight_decay=0.0)
+    if a.rel_step:
+        mats = [(n, q) for n, q in model.named_parameters() if q.requires_grad and q.ndim >= 2]
+        rms = {n: q.detach().float().pow(2).mean().sqrt().item() for n, q in mats}
+        mean_rms = sum(rms.values()) / len(rms)
+        groups = [{"params": [q], "mult": rms[n] / mean_rms} for n, q in mats]
+        groups.append({"params": [q for q in model.parameters() if q.requires_grad and q.ndim < 2], "mult": 1.0})
+        opt_a = torch.optim.AdamW(groups, lr=a.lr_actor, weight_decay=0.0)
+        mults = sorted(g["mult"] for g in groups[:-1])
+        print(f"rel_step: {len(mats)} matrices, mean rms {mean_rms:.4g}, mult min {mults[0]:.3g} median {mults[len(mults)//2]:.3g} max {mults[-1]:.3g}", flush=True)
+    else:
+        opt_a = torch.optim.AdamW(model.parameters(), lr=a.lr_actor, weight_decay=0.0)
+        for gq in opt_a.param_groups: gq["mult"] = 1.0
     def lr_at(i):  # cosine from lr_actor to lr_actor_min
         return a.lr_actor_min + 0.5 * (a.lr_actor - a.lr_actor_min) * (1 + math.cos(math.pi * i / a.iters))
 
@@ -212,7 +227,7 @@ def main():
                            os.path.join(a.out, "policy_best.pt"))
             if it == a.iters: break
 
-        for gq in opt_a.param_groups: gq["lr"] = lr_at(it)
+        for gq in opt_a.param_groups: gq["lr"] = lr_at(it) * gq.get("mult", 1.0)
 
         # ---- actor step ----
         pb = random.sample(train_prompts, a.B)
