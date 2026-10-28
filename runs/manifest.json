@@ -1425,7 +1425,7 @@
   },
   "game24cd_flat_svg2d_lr1e-7_s0": {
    "tag": "game24cd_flat_svg2d_lr1e-7_s0",
-   "n_evals": 2,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -1436,12 +1436,37 @@
      "iter": 250,
      "val_acc": 0.6349419124218052,
      "test_acc": 0.6447721179624665
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.6496872207327972,
+     "test_acc": 0.6505808757819481
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.6340482573726541,
+     "test_acc": 0.6362823949955317
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.6376228775692583,
+     "test_acc": 0.6336014298480787
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.631367292225201,
+     "test_acc": 0.6376228775692583
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.6336014298480787,
+     "test_acc": 0.628686327077748
     }
    ],
    "base_test_acc": 0.6394101876675603,
-   "final_test_acc": 0.6447721179624665,
-   "best_test_acc": 0.6447721179624665,
-   "last_iter": 463,
+   "final_test_acc": 0.628686327077748,
+   "best_test_acc": 0.6505808757819481,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13508295",
@@ -2372,6 +2397,67 @@
     "actor_channels": "tokens"
    }
   },
+  "game24cd_hier_ft44_svg2d_s0": {
+   "tag": "game24cd_hier_ft44_svg2d_s0",
+   "n_evals": 5,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6309204647006256,
+     "test_acc": 0.631367292225201
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.6072386058981233,
+     "test_acc": 0.6237712243074174
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.6599642537980339,
+     "test_acc": 0.6751563896336015
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.6081322609472744,
+     "test_acc": 0.6072386058981233
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.6376228775692583,
+     "test_acc": 0.6528150134048257
+    }
+   ],
+   "base_test_acc": 0.631367292225201,
+   "final_test_acc": 0.6528150134048257,
+   "best_test_acc": 0.6751563896336015,
+   "last_iter": 1069,
+   "jobs": [
+    {
+     "job_id": "13511931",
+     "job_name": "dbg-hier-ft44-2",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helf_b_game24_cd.yml --ckpt outputs/helf_b-game24-cd-s44/checkpoint_2100 --critic outputs/critic/game24cd_hier_ft44_2d/critic_ep1.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_hier_ft44_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume"
+    },
+    {
+     "job_id": "13510858",
+     "job_name": "dbg-hier-ft44-1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helf_b_game24_cd.yml --ckpt outputs/helf_b-game24-cd-s44/checkpoint_2100 --critic outputs/critic/game24cd_hier_ft44_2d/critic_ep1.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_hier_ft44_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume"
+    },
+    {
+     "job_id": "13511932",
+     "job_name": "dbg-hier-ft44-3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helf_b_game24_cd.yml --ckpt outputs/helf_b-game24-cd-s44/checkpoint_2100 --critic outputs/critic/game24cd_hier_ft44_2d/critic_ep1.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_hier_ft44_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume"
+    }
+   ],
+   "args": {
+    "config": "configs/helf_b_game24_cd.yml",
+    "ckpt": "outputs/helf_b-game24-cd-s44/checkpoint_2100",
+    "critic": "outputs/critic/game24cd_hier_ft44_2d/critic_ep1.pt",
+    "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
   "game24cd_hier_ft44_svg2d_tokgrad_s0": {
    "tag": "game24cd_hier_ft44_svg2d_tokgrad_s0",
    "n_evals": 7,
@@ -2645,6 +2731,38 @@
     "K": "64",
     "gamma": "56",
     "actor_channels": "clusters"
+   }
+  },
+  "game24cd_hier_svg2d_lr1e-7_s0": {
+   "tag": "game24cd_hier_svg2d_lr1e-7_s0",
+   "n_evals": 1,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6353887399463807,
+     "test_acc": 0.6487935656836461
+    }
+   ],
+   "base_test_acc": 0.6487935656836461,
+   "final_test_acc": 0.6487935656836461,
+   "best_test_acc": 0.6487935656836461,
+   "last_iter": 56,
+   "jobs": [
+    {
+     "job_id": "13514141",
+     "job_name": "dbg-hier-lr1e-7-1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helf_b_game24_cd.yml --ckpt outputs/helf_b-game24-cd/checkpoint_2800 --critic outputs/critic/game24cd_hier_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_hier_svg2d_lr1e-7_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --lr_actor 1e-7 --lr_actor_min 1e-8"
+    }
+   ],
+   "args": {
+    "config": "configs/helf_b_game24_cd.yml",
+    "ckpt": "outputs/helf_b-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cd_hier_2d/critic_ep3.pt",
+    "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56",
+    "lr_actor": "1e-7"
    }
   },
   "game24cd_hier_svg2d_lr3e-6_s0": {
