@@ -545,3 +545,24 @@ Debug node now: AdamW flat 10×-step chain (13505262 → 13505263; at it240 obje
 
 **17:55 (10-27) — AdamW 10× step: 21.9 at it750.** `game24cdA_flat_svg2d_lr1e-5_s0`: 59.9 → 62.3 / 46.6 / **21.9** (−38.0), buffer success 0.34. Deeper than any Muon flat run at the standard step (worst −17.7 at it1500), so at a large enough step the AdamW model is not just exploitable but more so. Flat Muon at 10× smaller step (`game24cd_flat_svg2d_lr1e-7_s0`) started 17:43, healthy at it40 (buffer success 0.84, token norm 17.7); link 2 13509064 queued. The ρ=1e-3 sharpness-aware run ended at its first link (it250 52.2 on record). ELF-M pretraining is at epoch 32/60 (step counter counts micro-batches) and keeps running.
 Swapped the AdamW 10× chain's link 3 (13507099, cancelled; the run ends at ≈it860 with its −38.0 at it750 on record) for the base critic-sharpness measurement over all 12 Game24 bases (`scripts/sharpness.slurm 1e-3 …`, job 13509089, debug; outputs/analysis/sharp_<tag>_rho1e-3/). ELF-M pretraining time limit is 40 h (ends 09:17 Wed) at epoch 32/60 after 24.6 h → will be cut near epoch 51; resubmit then (auto-resume).
+
+**18:35 (10-27) — base critic sharpness predicts RL outcome (Spearman +0.76, 10 bases); flat Muon at 10× smaller step holds at it250.**
+Sharpness = mean rsa_gap over 6 actor iterations at lr 0 (`scripts/sharpness.slurm 1e-3`, job 13509089): critic-logit drop under the one-step worst-case displacement of the critic input with ‖δ‖ = 10⁻³‖state‖, measured on each base with its own pretrained critic. Logs in `runs/analysis/sharp/`.
+
+| base | gap | gap/|obj| | final Δ (SVG-2D, it1500) |
+|---|---|---|---|
+| AdamW flat (40 ep) | 102.6 | .119 | +3.1 |
+| AdamW flat (60 ep) | 78.0 | .070 | +3.2 |
+| Muon flat, early ckpt | 34.6 | .067 | +6.9 |
+| AdamW hier | 69.3 | .053 | +1.9 |
+| Muon hier, ft seed 43 | 34.0 | .041 | −8.7 |
+| Muon hier, seed 42 | 34.5 | .037 | +2.4 (mean of 9) |
+| Muon flat, seed 42 | 22.6 | .035 | −11.7 (mean of 3) |
+| Muon flat, ft seed 43 | 16.8 | .030 | −13.8 |
+| Muon hier, ft seed 44 | 20.7 | .029 | pending |
+| Muon flat, ft seed 44 | 27.2 | .029 | pending |
+| Γ_random, base-matched | 13.1 | .022 | −7.2 (mean of 3) |
+| Γ_random, mature | 16.9 | .021 | −2.1 (mean of 3) |
+
+Spearman(gap, Δ) = **+0.76** over the 10 bases with outcomes (gap/|obj| +0.70; |obj| alone +0.31). Within the 7 Muon bases ≈ +0.61. **Sign is the opposite of the image-diffusion intuition:** bases whose critic is *more* sensitive to its input fare *better*. Tentative reading: a critic with a steep, consistent input gradient gives the actor a real direction to follow, while a flat critic (small gap) has a gradient dominated by directions it was never trained on, which the actor then exploits. This also explains why RSA flattening (ρ=1e-3) did not help and would predict that it hurts at larger ρ. Caveats: n=10 with the 4 AdamW bases at the top (recipe confound); one ρ; gap measured at the base, not along RL. Seed-44 bases give two out-of-sample predictions: flat ft44 (27.2) and hier ft44 (20.7) both in the Muon low-gap band → predicted to lose; hier ft44 at the lowest Muon-hier gap → predicted worse than other hier bases (its tokgrad run did end −2.5).
+Flat Muon at `--lr_actor 1e-7` (`game24cd_flat_svg2d_lr1e-7_s0`): it250 **64.5** (+0.5; plain flat 53.3, lr3e-7 65.2 at the same point), buffer success 0.84, token norm 17.9 at it350. Too early to call: lr3e-7 was also up at it250 and fell from it500.
