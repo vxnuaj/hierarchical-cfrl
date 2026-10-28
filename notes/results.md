@@ -658,3 +658,5 @@ Clean independence test queued: a fresh Muon flat Countdown SFT from the OWT ini
 **05:40 (10-28) — waiting on the shared debug node.** AM (AdamW policy + Muon critic) at it1000: **59.6** (−0.3, stable). MA seed 0 stands at 66.9 at it750; its link 4 and the seed-1 replication are pending on priority behind other users' jobs. Seed-7 Game24 fine-tune queued behind the fresh Muon Countdown SFT.
 
 **07:05 (10-28) — replication started.** `game24cd_swapMA_svg2d_s1` (Muon flat policy + AdamW-trunk critic, RL seed 1) started 06:50. At it60: buffer success 0.69, token norm 18.1. The native flat seed-1 run fell to 45.8 at it250 and 35.9 at it500. Its it250 reading is due ≈07:25. The held MA s0 link 4 and AM link 4 were released.
+
+**07:35 (10-28) — replication: protective at it250 again.** `game24cd_swapMA_svg2d_s1` (Muon flat policy + AdamW-trunk critic, RL seed 1): 64.6 → **62.2** at it250 (−2.4). The native critic with the same seed went 64.7 → 45.8 (−18.9). Buffer success 0.72, token norm 20.1 at it310. Same shape as seed 0 (−4.2 at it250 then +2.1 at it500). Link 3 queued (13520096). The it500 check comes ≈08:10.
