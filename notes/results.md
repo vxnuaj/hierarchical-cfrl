@@ -860,3 +860,14 @@ Final **−3.8** (native flat s0 −9.2; AdamW-trunk-critic swap s0 −0.9). Bes
 - 11:58: refit8 it500 test: s1 54.6 (native 35.9), s2 52.7 (native 36.2). Still well below start (64.7/65.1) but far above native.
 - 12:49: refit8 test it750/1000: s1 60.4/59.6, s2 64.3/62.4 (starts 64.7/65.1). Recovering toward start; s2 link 4 queued.
 - 13:40: refit8 it1250 test: s1 57.0, s2 62.0. Safety link 5 queued per chain.
+
+**14:26 10-29 — refit8 control, all 3 seeds (flat Muon Game24, 4× critic refit `--mc 8 --mc_extra 16`, native Muon critic).**
+
+| seed | it0 | it250 | it500 | it750 | it1000 | it1250 | it1500 | final Δ | best val | native Δ | AdamW-critic swap Δ |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| 0 | 63.9 | 51.4 | 59.5 | 57.7 | 60.4 | 60.6 | 60.2 | −3.8 | it0 | −9.2 | −0.9 |
+| 1 | 64.7 | 51.6 | 54.6 | 60.4 | 59.6 | 57.0 | 57.9 | −6.8 | it0 | −14.5 | +1.9 |
+| 2 | 65.1 | 53.5 | 52.7 | 64.3 | 62.4 | 62.0 | 60.1 | −4.9 | it0 | −13.0 | +2.1 |
+| mean | | | | | | | | **−5.2** | | **−12.2** | **+1.0** |
+
+Reading: 4× critic refitting halves the damage (−5.2 vs −12.2) but every seed still crashes by it250 (51–54) and never beats its starting accuracy (best val is it0 in all 3). An independent AdamW critic at the native refit budget does better on every matched seed (swap Δ from the 5-run table: s0/s1/s2 base rows). So critic under-fitting is not the explanation: the exploitable direction persists however hard the critic is refit. (Swap mean here uses the 3 matched seed-42-base runs only.)
