@@ -813,3 +813,5 @@ At the smallest step both models are safe and neither learns. The hierarchy open
 - GPU partition: k-means hier RL seeds 0/1/2 (13518378–80) started ≈03:00; AdamW+wd and fresh-Muon Game24 SFTs running.
 
 **04:40 (10-29) — k-means hierarchy, first evaluations.** `game24cdK_hier_svg2d_s{0,1,2}` (H-ELF with the k-means coarse map Γ_kmeans, fixed before SFT; native critic; GPU partition since ≈03:00). Bases 63.0 / 62.9 / 62.1 (task-map hier 64.7 / 64.3 / 64.9). s0: 61.7 / **65.2** at it250/500 (+2.2). s1: 63.0 / 63.4 / **62.4** at it250/500/750 (−0.5; buffer success 0.63 at it750, watch). s2: 62.9 / **67.0** (+4.9). Task-map hier at it500: 70.8 / 67.1 / … Independent Muon K&K SFT at epoch 2. K&K RL seeds 0/1 on its critic queued (13549xxx, afterok critic 13549450).
+
+**05:20 (10-29).** Independent Muon K&K SFT (seed 7) reached epoch 5. The remaining training was cancelled (epoch 4 = checkpoint_4684 is the trunk, matching the policy's base epoch). Its swap critic `swap-critic-kkMM7` 13549450 is starting, then K&K RL seeds 0/1. k-means hier at it1000: s0 **64.7** (+1.7), s1 **62.4** (−0.5), s2 **67.3** (+5.2). Task-map hier at it1000: +6.1 / +4.7 / +5.9.
