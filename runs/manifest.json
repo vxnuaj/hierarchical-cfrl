@@ -1233,7 +1233,7 @@
   },
   "game24cdK_hier_svg2d_s0": {
    "tag": "game24cdK_hier_svg2d_s0",
-   "n_evals": 2,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -1244,12 +1244,37 @@
      "iter": 250,
      "val_acc": 0.6255585344057194,
      "test_acc": 0.6179624664879356
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.6501340482573726,
+     "test_acc": 0.6523681858802503
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.644325290437891,
+     "test_acc": 0.6510277033065237
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.6470062555853441,
+     "test_acc": 0.6474530831099196
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.6090259159964254,
+     "test_acc": 0.6336014298480787
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.6157283288650581,
+     "test_acc": 0.613047363717605
     }
    ],
    "base_test_acc": 0.6309204647006256,
-   "final_test_acc": 0.6179624664879356,
-   "best_test_acc": 0.6309204647006256,
-   "last_iter": 434,
+   "final_test_acc": 0.613047363717605,
+   "best_test_acc": 0.6523681858802503,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13518378",
@@ -1269,7 +1294,7 @@
   },
   "game24cdK_hier_svg2d_s1": {
    "tag": "game24cdK_hier_svg2d_s1",
-   "n_evals": 2,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -1280,12 +1305,37 @@
      "iter": 250,
      "val_acc": 0.6403038427167114,
      "test_acc": 0.6304736371760501
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.6411974977658623,
+     "test_acc": 0.6349419124218052
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.6215370866845398,
+     "test_acc": 0.6242180518319929
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.6170688114387847,
+     "test_acc": 0.6246648793565683
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.613047363717605,
+     "test_acc": 0.6126005361930295
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.5969615728328865,
+     "test_acc": 0.6067917783735478
     }
    ],
    "base_test_acc": 0.6291331546023236,
-   "final_test_acc": 0.6304736371760501,
-   "best_test_acc": 0.6304736371760501,
-   "last_iter": 446,
+   "final_test_acc": 0.6067917783735478,
+   "best_test_acc": 0.6349419124218052,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13518379",
@@ -1305,7 +1355,7 @@
   },
   "game24cdK_hier_svg2d_s2": {
    "tag": "game24cdK_hier_svg2d_s2",
-   "n_evals": 2,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -1316,12 +1366,37 @@
      "iter": 250,
      "val_acc": 0.6228775692582663,
      "test_acc": 0.6291331546023236
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.67828418230563,
+     "test_acc": 0.6702412868632708
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.6595174262734584,
+     "test_acc": 0.6630920464700626
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.6385165326184093,
+     "test_acc": 0.6733690795352993
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.6510277033065237,
+     "test_acc": 0.6496872207327972
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.6456657730116175,
+     "test_acc": 0.6572832886505808
     }
    ],
    "base_test_acc": 0.6215370866845398,
-   "final_test_acc": 0.6291331546023236,
-   "best_test_acc": 0.6291331546023236,
-   "last_iter": 395,
+   "final_test_acc": 0.6572832886505808,
+   "best_test_acc": 0.6733690795352993,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13518380",
@@ -5263,6 +5338,78 @@
     "config": "configs/elf_b_kk.yml",
     "ckpt": "outputs/elf_b-kk/checkpoint_4684",
     "critic": "outputs/critic/kk_swapMA_2d/critic_ep5.pt",
+    "seed": "1",
+    "iters": "1000",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "kk_swapMM7_svg2d_s0": {
+   "tag": "kk_swapMM7_svg2d_s0",
+   "n_evals": 2,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.776,
+     "test_acc": 0.792
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.779,
+     "test_acc": 0.761
+    }
+   ],
+   "base_test_acc": 0.792,
+   "final_test_acc": 0.761,
+   "best_test_acc": 0.792,
+   "last_iter": 323,
+   "jobs": [
+    {
+     "job_id": "13550111",
+     "job_name": "dbg-kkMM7-s0-1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_kk.yml --ckpt outputs/elf_b-kk/checkpoint_4684 --critic outputs/critic/kk_swapMM7_2d/critic_ep4.pt --train_prompts data/kk/train.jsonl --val_prompts data/kk/val.jsonl --test_prompts data/kk/test.jsonl --out outputs/rl/kk_swapMM7_svg2d_s0 --K 64 --gamma 56 --iters 1000 --seed 0 --resume"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_kk.yml",
+    "ckpt": "outputs/elf_b-kk/checkpoint_4684",
+    "critic": "outputs/critic/kk_swapMM7_2d/critic_ep4.pt",
+    "seed": "0",
+    "iters": "1000",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "kk_swapMM7_svg2d_s1": {
+   "tag": "kk_swapMM7_svg2d_s1",
+   "n_evals": 2,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.772,
+     "test_acc": 0.786
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.755,
+     "test_acc": 0.734
+    }
+   ],
+   "base_test_acc": 0.786,
+   "final_test_acc": 0.734,
+   "best_test_acc": 0.786,
+   "last_iter": 275,
+   "jobs": [
+    {
+     "job_id": "13550112",
+     "job_name": "dbg-kkMM7-s1-1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_kk.yml --ckpt outputs/elf_b-kk/checkpoint_4684 --critic outputs/critic/kk_swapMM7_2d/critic_ep4.pt --train_prompts data/kk/train.jsonl --val_prompts data/kk/val.jsonl --test_prompts data/kk/test.jsonl --out outputs/rl/kk_swapMM7_svg2d_s1 --K 64 --gamma 56 --iters 1000 --seed 1 --resume"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_kk.yml",
+    "ckpt": "outputs/elf_b-kk/checkpoint_4684",
+    "critic": "outputs/critic/kk_swapMM7_2d/critic_ep4.pt",
     "seed": "1",
     "iters": "1000",
     "K": "64",

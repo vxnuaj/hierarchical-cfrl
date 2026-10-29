@@ -817,3 +817,16 @@ At the smallest step both models are safe and neither learns. The hierarchy open
 **05:20 (10-29).** Independent Muon K&K SFT (seed 7) reached epoch 5. The remaining training was cancelled (epoch 4 = checkpoint_4684 is the trunk, matching the policy's base epoch). Its swap critic `swap-critic-kkMM7` 13549450 is starting, then K&K RL seeds 0/1. k-means hier at it1000: s0 **64.7** (+1.7), s1 **62.4** (−0.5), s2 **67.3** (+5.2). Task-map hier at it1000: +6.1 / +4.7 / +5.9.
 
 **05:55 (10-29) — quality-matched K&K critic on an independent Muon model.** `swap-critic-kkMM7` (trunk: Muon K&K flat model fine-tuned from the OWT init with seed 7, epoch 4; trained on the seed-42 Muon K&K policy's rollouts): field 0.927 / 0.946 / 0.942 / **0.952** / 0.939 / 0.943. Native 0.965. Matched. RL `kk_swapMM7_svg2d_s{0,1,2}` running/queued (s0 13550111 → 13552031, s1 13550112 → 13552032, s2 started). Native K&K flat −7.3 / −7.6 / −11.1 at it1000. This is also the cleanest relatedness test so far: the trunk is Muon-trained but not a relative of the policy (fresh SFT from OWT). k-means hier: s0 64.7 / **63.3** at it1000/1250, s1 62.4 / **61.2**, s2 **67.3** at it1000.
+
+**06:30 (10-29) — k-means hierarchy finals; K&K relatedness test, first readings.**
+
+| coarse map (H-ELF, Game24, seed-42 SFT recipe, native critic) | bases | finals Δ | mean | best-val Δ |
+|---|---|---|---|---|
+| task map Γ_task | 64.7 / 64.3 / 64.8 | +5.2 / +4.5 / +5.5 | **+5.1** | +6.1 / +6.2 / +7.3 |
+| k-means map Γ_kmeans (`game24cdK_hier_svg2d_s*`) | 63.1 / 62.9 / 62.2 | −1.8 / −2.2 / +3.5 | **−0.2** | +2.1 / +0.6 / +4.8 |
+| random map Γ_rand (base 69.9) | — | −1.5 / −4.3 / −0.6 | −2.1 | — |
+| flat (reference) | 64.2 / 64.7 / 65.1 | −9.2 / −14.5 / −13.0 | −12.2 | 0 |
+
+The k-means map protects nearly as much as the random one (no collapse; mean −0.2 vs flat −12.2) but gains much less than the task map: the k-means runs rise by it500 (+2.1 / +0.6 / +4.8) and then drift down. The coarse-stream result therefore splits cleanly into *protection* (any jointly denoised code: task, k-means, random) and *gain* (needs a task-informative code). Archived (94 RL runs).
+
+K&K relatedness test (critic on an independent Muon K&K model, field 0.952): s0 79.2 → **76.1** at it250 (−3.1; native s0 72.8, −6.4), s1 78.6 → **73.4** (−5.2; native s1 72.2, −6.4). The early dip is milder than native but present. The native K&K runs dip at it250 then wander (−7.3 / −7.6 / −11.1 at it1000), so it500–1000 decide. s2 is waiting for a GPU.
