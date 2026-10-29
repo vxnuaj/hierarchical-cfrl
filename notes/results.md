@@ -847,3 +847,11 @@ K&K relatedness test (critic on an independent Muon K&K model, field 0.952): s0 
 | mean | **−8.7** | **−8.9** |
 
 Best-val checkpoints: native = base on all three; independent-Muon critic = base on two, +... (it250 76.1 < base 79.2) on the third, so no gain anywhere. With critic quality matched (0.952 vs 0.965), replacing the policy's own trunk by an *unrelated Muon-trained* trunk changes nothing on K&K. Combined with Game24 (the sibling Muon critic was exploited, the AdamW critic protected 5/5), the evidence now favours **"Muon-trained critic trunks are exploitable by Muon policies"** over "relatedness to the policy". Caveats: different task from the Game24 swap (K&K's AdamW trunk could not make a matched critic, so the K&K AdamW cell is missing), and K&K's native drop is noisier. The Game24 fresh-Muon test (s7 Countdown SFT running on the GPU partition, ≈17:00) is the same-task check. Archived (95 RL runs).
+
+**10:30 10-29 — refit8 control (flat Muon s0, 4× critic refit: `--mc 8 --mc_extra 16`; `game24cd_flat_svg2d_refit8_s0`, job 13485886, finished 10-28 11:49, logged late).**
+
+| it | 0 | 250 | 500 | 750 | 1000 | 1250 | 1500 |
+|---|---|---|---|---|---|---|---|
+| test | 63.9 | 51.4 | 59.5 | 57.7 | 60.4 | 60.6 | 60.2 |
+
+Final **−3.8** (native flat s0 −9.2; AdamW-trunk-critic swap s0 −0.9). Best val is the it0 value (63.2), so it never improves. Critic AUC stays 0.97–0.98 and buffer success is around 0.80 at the end. Reading: 4× more critic refitting softens the collapse. It still shows the same early crash at it250 (51.4, vs native 53.3) and only partly recovers, with no gain. Refit budget is a sixth partial fix, not a cure. The independent AdamW critic does better at the native refit budget.
