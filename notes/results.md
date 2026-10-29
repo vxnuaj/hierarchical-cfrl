@@ -745,3 +745,5 @@ Swap summary, finals (best-val): seed-42 base RL s0 −0.9 (+4.7), s1 +1.9 (+1.9
 | **mean** | **−12.6 / 0** | **+0.9 / +3.2** |
 
 Final-iterate improvement from the swap: +8.3, +16.4, +15.1, +14.1 (mean **+13.5**, all four positive). Min at it500 across the swapped runs: +1.1 vs native max −8.7. Seed-44 base pending.
+
+**18:20 (10-28).** Seed-44 swap (`game24cd_swapMA44_svg2d_s0`): 64.4 → 61.5 at it250 (native 61.3); it470 buffer success 0.78; link 2 running. k-means hier gate0a (13518377) started on the GPU partition (critic pretraining → 3 RL seeds). hier lr1e-7 link 3 queued (13535785). Paper draft rewritten on request (paper/main.tex, critic-exploitation framing; old draft kept as main_2026-10-26.tex).
