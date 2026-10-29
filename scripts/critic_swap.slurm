@@ -16,8 +16,8 @@
 #SBATCH --output=outputs/slurm/%x-%j.out
 source scripts/common.sh
 set -x
-TCFG=$1; TTAG=$2; PTAG=$3; OUT=$4
+TCFG=$1; TTAG=$2; PTAG=$3; OUT=$4; EXTRA="${@:5}"   # further args go to pretrain_critic, e.g. --epochs 12 --lr_trunk 3e-5
 TCKPT=$(sed 's/^CKPT=//' outputs/eval/${TTAG}_ckpt.txt)
 python -m hcfrl.rl.pretrain_critic --config $TCFG --ckpt $TCKPT --data outputs/critic_data/${PTAG} \
-    --out outputs/critic/${OUT}_2d --mode 2d --epochs 6 --seed 0
+    --out outputs/critic/${OUT}_2d --mode 2d --epochs 6 --seed 0 $EXTRA
 echo SWAP_DONE
