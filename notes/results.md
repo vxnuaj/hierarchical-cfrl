@@ -859,3 +859,4 @@ Final **−3.8** (native flat s0 −9.2; AdamW-trunk-critic swap s0 −0.9). Bes
 - 11:17: refit8 it250 test: s1 64.7→51.6 (native s1 45.8), s2 65.1→53.5 (native s2 48.3). Same early crash, slightly shallower. s1 link 3 queued 13563988.
 - 11:58: refit8 it500 test: s1 54.6 (native 35.9), s2 52.7 (native 36.2). Still well below start (64.7/65.1) but far above native.
 - 12:49: refit8 test it750/1000: s1 60.4/59.6, s2 64.3/62.4 (starts 64.7/65.1). Recovering toward start; s2 link 4 queued.
+- 13:40: refit8 it1250 test: s1 57.0, s2 62.0. Safety link 5 queued per chain.
