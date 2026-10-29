@@ -856,3 +856,4 @@ Best-val checkpoints: native = base on all three; independent-Muon critic = base
 
 Final **−3.8** (native flat s0 −9.2; AdamW-trunk-critic swap s0 −0.9). Best val is the it0 value (63.2), so it never improves. Critic AUC stays 0.97–0.98 and buffer success is around 0.80 at the end. Reading: 4× more critic refitting softens the collapse. It still shows the same early crash at it250 (51.4, vs native 53.3) and only partly recovers, with no gain. Refit budget is a sixth partial fix, not a cure. The independent AdamW critic does better at the native refit budget.
 - 10:35: submitted refit8 seeds 1/2 as debug chains (13561568→13561569, 13561570→13561571; more links added as they run) for a 3-seed refit-budget control. Native flat s1/s2 finals −14.5/−13.0.
+- 11:17: refit8 it250 test: s1 64.7→51.6 (native s1 45.8), s2 65.1→53.5 (native s2 48.3). Same early crash, slightly shallower. s1 link 3 queued 13563988.
