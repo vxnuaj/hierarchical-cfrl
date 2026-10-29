@@ -1,0 +1,11 @@
+{
+ "acc": {
+  "outputs/helfK_b-game24-cd/checkpoint_700": 0.6633333333333333,
+  "outputs/helfK_b-game24-cd/checkpoint_1400": 0.735,
+  "outputs/helfK_b-game24-cd/checkpoint_2100": 0.7966666666666666,
+  "outputs/helfK_b-game24-cd/checkpoint_2800": 0.7983333333333333
+ },
+ "best": "outputs/helfK_b-game24-cd/checkpoint_2800",
+ "best_acc": 0.7983333333333333,
+ "target": null
+}

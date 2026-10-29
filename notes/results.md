@@ -758,3 +758,16 @@ Final-iterate improvement from the swap: +8.3, +16.4, +15.1, +14.1 (mean **+13.5
 **19:55 (10-28).** Seed-44 swap: 61.5 / 65.3 / 64.9 / **69.2** at it250…1000 (**+4.8**). The native run was 48.4 (−16.0) at it1000. hier lr1e-7: 65.7 / 66.0 / 64.9 at it250/500/750 (+0.1). It stays near base like flat lr1e-7 (63.6 at it750). The hierarchy-swap critic (13536932) is waiting for a GPU. hier lr1e-7 link 3 (13535785) is held so the critic goes first; release it once the critic starts.
 
 **20:55 (10-28).** Hierarchy-swap critic (AdamW-hier trunk on the Muon hier seed-42 rollouts): best field score **0.823**. Its RL (13537549 → 13538443) is waiting for a GPU. Seed-44 swap: … / 69.2 / **66.5** at it1000/1250 (+2.1; native 48.7). Final ≈21:15. hier lr1e-7: 65.7 / 66.0 / 64.9 / **65.3** at it250…1000 (+0.5). Link 4 queued.
+
+**21:20 (10-28) — seed-44 swap final; the swap table is complete on three bases.** `game24cd_swapMA44_svg2d_s0`: 64.4 → 61.6 / 65.3 / 65.0 / 69.2 / 66.5 / **63.8** (final −0.6; best-val it1000 **69.2, +4.8**). Native: 47.0 (−17.4), best-val = base.
+
+| base, RL seed | native final / best-val | AdamW-trunk final / best-val | swap gain (final) |
+|---|---|---|---|
+| seed-42, RL 0 | −9.2 / 0 | −0.9 / +4.7 | +8.3 |
+| seed-42, RL 1 | −14.5 / 0 | +1.9 / +1.9 | +16.4 |
+| seed-42, RL 2 | −13.0 / 0 | +2.1 / +2.1 | +15.1 |
+| seed-43, RL 0 | −13.8 / 0 | +0.3 / +4.0 | +14.1 |
+| seed-44, RL 0 | −17.4 / 0 | −0.6 / +4.8 | +16.8 |
+| **mean (5 runs, 3 bases)** | **−13.6 / 0** | **+0.6 / +3.5** | **+14.1** |
+
+All five swapped runs improve on their native counterpart (min +8.3), and all five have a best-validation checkpoint above base (+1.9 to +4.8). The hierarchy-swap RL (`game24cd_swapHMA_svg2d_s0`) started 21:04 (it0 64.8). hier lr1e-7: 65.3 / 65.5 at it1000/1250 (+0.7). Archived (85 RL runs).
