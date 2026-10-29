@@ -4025,7 +4025,7 @@
   },
   "game24cd_swapHMA_svg2d_s0": {
    "tag": "game24cd_swapHMA_svg2d_s0",
-   "n_evals": 2,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -4036,12 +4036,37 @@
      "iter": 250,
      "val_acc": 0.6188561215370867,
      "test_acc": 0.6380697050938338
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.6519213583556747,
+     "test_acc": 0.661751563896336
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.6246648793565683,
+     "test_acc": 0.6546023235031277
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.4647006255585344,
+     "test_acc": 0.5116175156389634
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.5335120643431636,
+     "test_acc": 0.5612153708668454
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.5460232350312779,
+     "test_acc": 0.5607685433422699
     }
    ],
    "base_test_acc": 0.6487935656836461,
-   "final_test_acc": 0.6380697050938338,
-   "best_test_acc": 0.6487935656836461,
-   "last_iter": 437,
+   "final_test_acc": 0.5607685433422699,
+   "best_test_acc": 0.661751563896336,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13537549",
@@ -4054,6 +4079,31 @@
     "ckpt": "outputs/helf_b-game24-cd/checkpoint_2800",
     "critic": "outputs/critic/game24cd_swapHMA_2d/critic_ep6.pt",
     "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cd_swapHMA_svg2d_s1": {
+   "tag": "game24cd_swapHMA_svg2d_s1",
+   "n_evals": 0,
+   "evals": [],
+   "base_test_acc": null,
+   "final_test_acc": null,
+   "best_test_acc": null,
+   "last_iter": null,
+   "jobs": [
+    {
+     "job_id": "13544738",
+     "job_name": "dbg-swapHMA-s1-1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helf_b_game24_cd.yml --ckpt outputs/helf_b-game24-cd/checkpoint_2800 --critic outputs/critic/game24cd_swapHMA_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_swapHMA_svg2d_s1 --K 64 --gamma 56 --iters 1500 --seed 1 --resume"
+    }
+   ],
+   "args": {
+    "config": "configs/helf_b_game24_cd.yml",
+    "ckpt": "outputs/helf_b-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cd_swapHMA_2d/critic_ep6.pt",
+    "seed": "1",
     "iters": "1500",
     "K": "64",
     "gamma": "56"
@@ -4963,6 +5013,68 @@
     "ckpt": "outputs/helf_b-kk/checkpoint_4684",
     "critic": "outputs/critic/kk_hier_2d/critic_ep2.pt",
     "seed": "2",
+    "iters": "1000",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "kk_swapMA_svg2d_s0": {
+   "tag": "kk_swapMA_svg2d_s0",
+   "n_evals": 1,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.776,
+     "test_acc": 0.792
+    }
+   ],
+   "base_test_acc": 0.792,
+   "final_test_acc": 0.792,
+   "best_test_acc": 0.792,
+   "last_iter": 134,
+   "jobs": [
+    {
+     "job_id": "13543131",
+     "job_name": "dbg-kkswap-s0-1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_kk.yml --ckpt outputs/elf_b-kk/checkpoint_4684 --critic outputs/critic/kk_swapMA_2d/critic_ep5.pt --train_prompts data/kk/train.jsonl --val_prompts data/kk/val.jsonl --test_prompts data/kk/test.jsonl --out outputs/rl/kk_swapMA_svg2d_s0 --K 64 --gamma 56 --iters 1000 --seed 0 --resume"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_kk.yml",
+    "ckpt": "outputs/elf_b-kk/checkpoint_4684",
+    "critic": "outputs/critic/kk_swapMA_2d/critic_ep5.pt",
+    "seed": "0",
+    "iters": "1000",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "kk_swapMA_svg2d_s1": {
+   "tag": "kk_swapMA_svg2d_s1",
+   "n_evals": 1,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.772,
+     "test_acc": 0.786
+    }
+   ],
+   "base_test_acc": 0.786,
+   "final_test_acc": 0.786,
+   "best_test_acc": 0.786,
+   "last_iter": 30,
+   "jobs": [
+    {
+     "job_id": "13543132",
+     "job_name": "dbg-kkswap-s1-1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_kk.yml --ckpt outputs/elf_b-kk/checkpoint_4684 --critic outputs/critic/kk_swapMA_2d/critic_ep5.pt --train_prompts data/kk/train.jsonl --val_prompts data/kk/val.jsonl --test_prompts data/kk/test.jsonl --out outputs/rl/kk_swapMA_svg2d_s1 --K 64 --gamma 56 --iters 1000 --seed 1 --resume"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_kk.yml",
+    "ckpt": "outputs/elf_b-kk/checkpoint_4684",
+    "critic": "outputs/critic/kk_swapMA_2d/critic_ep5.pt",
+    "seed": "1",
     "iters": "1000",
     "K": "64",
     "gamma": "56"
