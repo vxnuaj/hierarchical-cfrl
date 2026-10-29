@@ -5346,7 +5346,7 @@
   },
   "kk_swapMM7_svg2d_s0": {
    "tag": "kk_swapMM7_svg2d_s0",
-   "n_evals": 2,
+   "n_evals": 5,
    "evals": [
     {
      "iter": 0,
@@ -5357,16 +5357,41 @@
      "iter": 250,
      "val_acc": 0.779,
      "test_acc": 0.761
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.776,
+     "test_acc": 0.757
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.701,
+     "test_acc": 0.695
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.715,
+     "test_acc": 0.696
     }
    ],
    "base_test_acc": 0.792,
-   "final_test_acc": 0.761,
+   "final_test_acc": 0.696,
    "best_test_acc": 0.792,
-   "last_iter": 323,
+   "last_iter": 999,
    "jobs": [
     {
      "job_id": "13550111",
      "job_name": "dbg-kkMM7-s0-1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_kk.yml --ckpt outputs/elf_b-kk/checkpoint_4684 --critic outputs/critic/kk_swapMM7_2d/critic_ep4.pt --train_prompts data/kk/train.jsonl --val_prompts data/kk/val.jsonl --test_prompts data/kk/test.jsonl --out outputs/rl/kk_swapMM7_svg2d_s0 --K 64 --gamma 56 --iters 1000 --seed 0 --resume"
+    },
+    {
+     "job_id": "13552031",
+     "job_name": "dbg-kkMM7-s0-2",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_kk.yml --ckpt outputs/elf_b-kk/checkpoint_4684 --critic outputs/critic/kk_swapMM7_2d/critic_ep4.pt --train_prompts data/kk/train.jsonl --val_prompts data/kk/val.jsonl --test_prompts data/kk/test.jsonl --out outputs/rl/kk_swapMM7_svg2d_s0 --K 64 --gamma 56 --iters 1000 --seed 0 --resume"
+    },
+    {
+     "job_id": "13554777",
+     "job_name": "dbg-kkMM7-s0-3",
      "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_kk.yml --ckpt outputs/elf_b-kk/checkpoint_4684 --critic outputs/critic/kk_swapMM7_2d/critic_ep4.pt --train_prompts data/kk/train.jsonl --val_prompts data/kk/val.jsonl --test_prompts data/kk/test.jsonl --out outputs/rl/kk_swapMM7_svg2d_s0 --K 64 --gamma 56 --iters 1000 --seed 0 --resume"
     }
    ],
@@ -5382,7 +5407,7 @@
   },
   "kk_swapMM7_svg2d_s1": {
    "tag": "kk_swapMM7_svg2d_s1",
-   "n_evals": 2,
+   "n_evals": 5,
    "evals": [
     {
      "iter": 0,
@@ -5393,16 +5418,41 @@
      "iter": 250,
      "val_acc": 0.755,
      "test_acc": 0.734
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.768,
+     "test_acc": 0.78
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.765,
+     "test_acc": 0.778
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.771,
+     "test_acc": 0.759
     }
    ],
    "base_test_acc": 0.786,
-   "final_test_acc": 0.734,
+   "final_test_acc": 0.759,
    "best_test_acc": 0.786,
-   "last_iter": 275,
+   "last_iter": 999,
    "jobs": [
+    {
+     "job_id": "13554778",
+     "job_name": "dbg-kkMM7-s1-3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_kk.yml --ckpt outputs/elf_b-kk/checkpoint_4684 --critic outputs/critic/kk_swapMM7_2d/critic_ep4.pt --train_prompts data/kk/train.jsonl --val_prompts data/kk/val.jsonl --test_prompts data/kk/test.jsonl --out outputs/rl/kk_swapMM7_svg2d_s1 --K 64 --gamma 56 --iters 1000 --seed 1 --resume"
+    },
     {
      "job_id": "13550112",
      "job_name": "dbg-kkMM7-s1-1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_kk.yml --ckpt outputs/elf_b-kk/checkpoint_4684 --critic outputs/critic/kk_swapMM7_2d/critic_ep4.pt --train_prompts data/kk/train.jsonl --val_prompts data/kk/val.jsonl --test_prompts data/kk/test.jsonl --out outputs/rl/kk_swapMM7_svg2d_s1 --K 64 --gamma 56 --iters 1000 --seed 1 --resume"
+    },
+    {
+     "job_id": "13552032",
+     "job_name": "dbg-kkMM7-s1-2",
      "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_kk.yml --ckpt outputs/elf_b-kk/checkpoint_4684 --critic outputs/critic/kk_swapMM7_2d/critic_ep4.pt --train_prompts data/kk/train.jsonl --val_prompts data/kk/val.jsonl --test_prompts data/kk/test.jsonl --out outputs/rl/kk_swapMM7_svg2d_s1 --K 64 --gamma 56 --iters 1000 --seed 1 --resume"
     }
    ],
@@ -5411,6 +5461,67 @@
     "ckpt": "outputs/elf_b-kk/checkpoint_4684",
     "critic": "outputs/critic/kk_swapMM7_2d/critic_ep4.pt",
     "seed": "1",
+    "iters": "1000",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "kk_swapMM7_svg2d_s2": {
+   "tag": "kk_swapMM7_svg2d_s2",
+   "n_evals": 5,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.775,
+     "test_acc": 0.78
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.74,
+     "test_acc": 0.726
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.712,
+     "test_acc": 0.711
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.677,
+     "test_acc": 0.652
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.66,
+     "test_acc": 0.635
+    }
+   ],
+   "base_test_acc": 0.78,
+   "final_test_acc": 0.635,
+   "best_test_acc": 0.78,
+   "last_iter": 999,
+   "jobs": [
+    {
+     "job_id": "13557246",
+     "job_name": "dbg-kkMM7-s2-2",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_kk.yml --ckpt outputs/elf_b-kk/checkpoint_4684 --critic outputs/critic/kk_swapMM7_2d/critic_ep4.pt --train_prompts data/kk/train.jsonl --val_prompts data/kk/val.jsonl --test_prompts data/kk/test.jsonl --out outputs/rl/kk_swapMM7_svg2d_s2 --K 64 --gamma 56 --iters 1000 --seed 2 --resume"
+    },
+    {
+     "job_id": "13552034",
+     "job_name": "dbg-kkMM7-s2-1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_kk.yml --ckpt outputs/elf_b-kk/checkpoint_4684 --critic outputs/critic/kk_swapMM7_2d/critic_ep4.pt --train_prompts data/kk/train.jsonl --val_prompts data/kk/val.jsonl --test_prompts data/kk/test.jsonl --out outputs/rl/kk_swapMM7_svg2d_s2 --K 64 --gamma 56 --iters 1000 --seed 2 --resume"
+    },
+    {
+     "job_id": "13557247",
+     "job_name": "dbg-kkMM7-s2-3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_kk.yml --ckpt outputs/elf_b-kk/checkpoint_4684 --critic outputs/critic/kk_swapMM7_2d/critic_ep4.pt --train_prompts data/kk/train.jsonl --val_prompts data/kk/val.jsonl --test_prompts data/kk/test.jsonl --out outputs/rl/kk_swapMM7_svg2d_s2 --K 64 --gamma 56 --iters 1000 --seed 2 --resume"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_kk.yml",
+    "ckpt": "outputs/elf_b-kk/checkpoint_4684",
+    "critic": "outputs/critic/kk_swapMM7_2d/critic_ep4.pt",
+    "seed": "2",
     "iters": "1000",
     "K": "64",
     "gamma": "56"

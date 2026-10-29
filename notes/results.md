@@ -836,3 +836,14 @@ K&K relatedness test (critic on an independent Muon K&K model, field 0.952): s0 
 **07:55 (10-29) — K&K relatedness test: no protection so far.** Independent-Muon-trunk critic (field 0.952): s0 79.2 → 76.1 / 75.7 / **69.5** at it250/500/750 (−9.7; native s0 74.0 at it750, −5.2). s1 73.4 at it250 (link 2 running). s2 **72.6** at it250 (native s2 72.9). Unlike the AdamW-trunk critic on Game24, a critic on an unrelated *Muon* model does not prevent the K&K collapse, at least on seed 0 through it750. If this holds over three seeds, the operative property is how the critic's trunk was trained (Muon vs AdamW), not relatedness to the policy. The Game24 fresh-Muon test (s7 SFT, GPU partition, ≈17:00) is the same test on the main task. s2 links 2–3 queued.
 
 **08:40 (10-29) — K&K relatedness: mixed so far.** Independent-Muon-trunk critic: s0 final **69.6** (−9.6; native s0 −7.3), trajectory 76.1 / 75.7 / 69.5 / 69.6. s1 73.4 / … / **77.8** at it250/750 (−0.8; native s1 65.3 at it750). s2 72.6 / **71.1** at it250/500 (native 72.9 / 70.1). One seed worse than native, one much better, one similar. K&K's native drop is small and noisy (−7 to −11 with large swings), so three finals and best-val are needed before any K&K conclusion. s1/s2 finals ≈09:30–10:30.
+
+**09:30 (10-29) — K&K: a critic on an unrelated Muon model gives no protection.**
+
+| K&K, RL seed | native critic (policy's own Muon trunk) final Δ | critic on an independent Muon K&K model (field 0.952) final Δ |
+|---|---|---|
+| 0 | −7.3 | −9.6 |
+| 1 | −7.6 | −2.7 |
+| 2 | −11.1 | −14.5 |
+| mean | **−8.7** | **−8.9** |
+
+Best-val checkpoints: native = base on all three; independent-Muon critic = base on two, +... (it250 76.1 < base 79.2) on the third, so no gain anywhere. With critic quality matched (0.952 vs 0.965), replacing the policy's own trunk by an *unrelated Muon-trained* trunk changes nothing on K&K. Combined with Game24 (the sibling Muon critic was exploited, the AdamW critic protected 5/5), the evidence now favours **"Muon-trained critic trunks are exploitable by Muon policies"** over "relatedness to the policy". Caveats: different task from the Game24 swap (K&K's AdamW trunk could not make a matched critic, so the K&K AdamW cell is missing), and K&K's native drop is noisier. The Game24 fresh-Muon test (s7 Countdown SFT running on the GPU partition, ≈17:00) is the same-task check. Archived (95 RL runs).
