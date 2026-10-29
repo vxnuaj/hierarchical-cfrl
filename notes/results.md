@@ -830,3 +830,5 @@ At the smallest step both models are safe and neither learns. The hierarchy open
 The k-means map protects nearly as much as the random one (no collapse; mean −0.2 vs flat −12.2) but gains much less than the task map: the k-means runs rise by it500 (+2.1 / +0.6 / +4.8) and then drift down. The coarse-stream result therefore splits cleanly into *protection* (any jointly denoised code: task, k-means, random) and *gain* (needs a task-informative code). Archived (94 RL runs).
 
 K&K relatedness test (critic on an independent Muon K&K model, field 0.952): s0 79.2 → **76.1** at it250 (−3.1; native s0 72.8, −6.4), s1 78.6 → **73.4** (−5.2; native s1 72.2, −6.4). The early dip is milder than native but present. The native K&K runs dip at it250 then wander (−7.3 / −7.6 / −11.1 at it1000), so it500–1000 decide. s2 is waiting for a GPU.
+
+**07:10 (10-29).** K&K relatedness s0: 79.2 → 76.1 / **75.7** at it250/500 (−3.5; native s0 72.8 / 75.2, −4.0 at it500). So far the independent-Muon critic tracks the native K&K curve within noise. s1 waits for link 2 (73.4 at it250). s2 at it190. Link 3 queued for s0/s1.
