@@ -782,3 +782,5 @@ All five swapped runs improve on their native counterpart (min +8.3), and all fi
 | 3e-6 | — | −9.1 |
 
 At the smallest step both models are safe and neither learns. The hierarchy opens a window (3e-7 to 1e-6) where the flat model has none, and it also closes by 3e-6. Hierarchy-swap (`game24cd_swapHMA_svg2d_s0`): 64.8 → **63.8** at it250 (−1.0; native hier on this base 66.1 at it250), buffer success 0.84 at it430. Checkpoint backup re-run done.
+
+**22:20 (10-28) — K&K critic swap started (the second-task test; required for the paper).** New `configs/elfA_b_kk.yml` (AdamW, abs lr 1e-3 at batch 256, otherwise identical to the Muon K&K SFT). Chain: AdamW K&K SFT `sft-kk-elfA` 13539889 (GPU partition, ≈1.7 h) → critic `swap-critic-kkMA` 13539890 (AdamW K&K trunk, epoch-4 checkpoint_4684 like the Muon base, trained on the Muon K&K flat policy's rollouts) → RL seeds 0/1/2 `kk_swapMA_svg2d_s{0,1,2}` on debug chains, 1,000 iterations (args configs/elf_b_kk.yml outputs/elf_b-kk data/kk kk_swapMA <s> 64 56 1000). Native K&K flat finals at it1000: −7.3 / −7.6 / −11.1 (mean −8.7).
