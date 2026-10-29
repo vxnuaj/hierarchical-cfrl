@@ -771,3 +771,14 @@ Final-iterate improvement from the swap: +8.3, +16.4, +15.1, +14.1 (mean **+13.5
 | **mean (5 runs, 3 bases)** | **−13.6 / 0** | **+0.6 / +3.5** | **+14.1** |
 
 All five swapped runs improve on their native counterpart (min +8.3), and all five have a best-validation checkpoint above base (+1.9 to +4.8). The hierarchy-swap RL (`game24cd_swapHMA_svg2d_s0`) started 21:04 (it0 64.8). hier lr1e-7: 65.3 / 65.5 at it1000/1250 (+0.7). Archived (85 RL runs).
+
+**22:00 (10-28) — hier at 10× smaller step: final +0.6.** `game24cd_hier_svg2d_lr1e-7_s0` (base 64.8): 65.7 / 66.0 / 64.9 / 65.3 / 65.5 / **65.4** (+0.6). The matched flat run ended −1.0. Step-size table, seed-42 base, final Δ:
+
+| actor lr | flat | hier |
+|---|---|---|
+| 1e-7 | −1.0 | +0.6 |
+| 3e-7 | −14.4 | +2.5 |
+| 1e-6 (published) | −11.7 (3 seeds) | +4.8 (3 seeds) |
+| 3e-6 | — | −9.1 |
+
+At the smallest step both models are safe and neither learns. The hierarchy opens a window (3e-7 to 1e-6) where the flat model has none, and it also closes by 3e-6. Hierarchy-swap (`game24cd_swapHMA_svg2d_s0`): 64.8 → **63.8** at it250 (−1.0; native hier on this base 66.1 at it250), buffer success 0.84 at it430. Checkpoint backup re-run done.
