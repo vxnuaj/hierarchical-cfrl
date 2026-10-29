@@ -1,1 +1,1 @@
-CKPT=outputs/elfA_b-kk/checkpoint_4684
+CKPT=outputs/elfA_b-kk/checkpoint_9368
