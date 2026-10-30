@@ -890,3 +890,15 @@ Reading: 4× critic refitting halves the damage (−5.2 vs −12.2) but every se
 - ELF-M Countdown SFT finished (15h41m).
 - Fix: `scripts/gate0b_debug.slurm` now self-relays (`--signal=B:USR1@240`; the trap submits its own successor with `-d afterany`, retrying 12×15 s while the per-user cap is full), so chains continue without the local loop. Being verified with a dummy job. Relaunched swapMM7 s0/s1/s2 with the relaying script; AdamW+wd s1/s2 moved from the GPU partition to debug (go in as slots free; GPU jobs cancelled). Keep ≤4 concurrent relaying chains so two successors fit under the cap of 5.
 - 12:22: relay verified (dummy job 13614721 queued its successor at the USR1 signal, then timed out as expected; test cleaned up). swapMM7 s0/s1 running; s2 pending; AdamW+wd s1 chain started (relaying).
+
+**12:50 10-30 — swapMM7 (independent fresh Muon critic, seed-7 Countdown→Game24 trunk, field 0.850) on Game24: s0/s1 finished.**
+
+| Game24 flat Muon policy, test acc | critic | s0 | s1 | s2 |
+|---|---|---|---|---|
+| native (own trunk, field 0.838) | final Δ | −9.2 | −14.5 | −13.0 |
+| **independent Muon (MM7, field 0.850)** | it250 / it500 / final | 56.0 / 58.6 / **52.5 (−11.4)** | 58.1 / 58.0 / **53.4 (−11.3)** | 55.9 / 58.4 / running (56.0 at it750) |
+| sibling Muon (MM43, field 0.882) | it250 | 56.5 (stopped at it≈430, buffer success 0.31) | – | – |
+| AdamW trunk (field 0.821) | final Δ | −0.9 | +1.9 | +2.1 |
+
+Best val for both MM7 runs is it0 (63.2/63.0), so neither ever improved. Reading: on Game24, a critic on an independently trained Muon model (different seed, fresh Countdown pretraining, matched field score) is exploited as badly as the policy's own critic (−11.4/−11.3 vs native −9.2/−14.5). It delays the crash slightly (it500 ≈58 vs native 36–46) but ends in the same place. This replicates K&K (independent Muon critic mean −8.9 vs native −8.7) on the main task. Conclusion across both tasks: a Muon-trained critic trunk is exploitable by the Muon policy whether or not it is related to it; an AdamW-trained trunk is not.
+- Queue: swapMM7 s2 running (relaying); AdamW+wd s1 13615091 and s2 13615975 chains (relaying); ELF-M Game24 SFT moved from the GPU partition (pending on Priority ≈18 h) to debug 13615976 (auto-resumes from checkpoints every 700 steps; second link next tick). GPU 13521890 cancelled.
