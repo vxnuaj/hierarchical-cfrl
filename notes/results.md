@@ -878,3 +878,4 @@ Reading: 4× critic refitting halves the damage (−5.2 vs −12.2) but every se
 - 17:45: AdamW+wd RL s0 (native critic, field 0.685) test 70.3 → 72.4 at it250 (+2.1), buffer success 1.0. MM7 critic fit running (13587862). Queued dbg-swapMM7-s1-1.
 - 18:12: **MM7 critic** (independent fresh Muon s7 trunk, Game24 SFT checkpoint_2800, trained on the native flat policy's critic data) best epoch 3, **field score 0.850** (native 0.838): matched quality. RL: swapMM7 s0-1 13589350 running, s1-1 13590373, s2-1 / s0-2 queued.
 - 18:57: **swapMM7 s0 it250 test 63.9 → 56.0** (native s0 53.3; AdamW-trunk swap s0 59.7); buffer success 0.72 at it432 (native fell to 0.53 by it400). In between so far. AdamW+wd RL s0 test it500/750: 72.1/72.8 (start 70.3), buffer success ≈0.97. H-ELF-M Countdown SFT 13521889 finished; its Game24 SFT 13521891 pending on GPU priority.
+- 19:05: queued AdamW+wd RL seeds 1/2 on the GPU partition (gate0b 13592927/13592928) for a 3-seed AdamW+wd result.
