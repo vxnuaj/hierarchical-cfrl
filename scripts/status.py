@@ -78,7 +78,7 @@ def gather(full=False):
         rec = {"name": name, "evals": evals, "last": last, "age": _age(log)}
         if full: rec["train"] = _downsample(train)
         out["rl"].append(rec)
-    for d in sorted(glob.glob("outputs/*_b-*")):
+    for d in sorted(glob.glob("outputs/*_b-*") + glob.glob("outputs/*_m-*")):
         cks = [int(p.rsplit("_", 1)[1]) for p in glob.glob(d + "/checkpoint_*") if p.rsplit("_", 1)[1].isdigit()]
         total = None
         try:
