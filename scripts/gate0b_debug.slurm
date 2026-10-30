@@ -6,6 +6,9 @@
 # Self-relay: 4 min before the time limit Slurm sends USR1 to this script, which submits its own successor
 # (same name and arguments, -d afterany on this job), retrying while the per-user debug cap is full. A chain
 # therefore continues without anyone watching; it stops when the run finishes or the python process fails.
+# If the cap stays full, the relay leaves an orphan file in outputs/relay_orphans/ (job name + arguments);
+# every later debug job resubmits orphans when it starts and after its own relay, so a chain that lost the
+# race for a slot is picked up by the next one.
 #SBATCH --job-name=hcfrl-gate0b-dbg
 #SBATCH --account=irahbari_832
 #SBATCH --partition=debug
@@ -33,13 +36,25 @@ else:
 PY
 )
 echo "using critic epoch $BEST"
+adopt_orphans() {
+    for f in outputs/relay_orphans/*; do
+        [ -f "$f" ] || continue
+        mapfile -t O < "$f"
+        oid=${f##*_}; dep=""
+        squeue -h -j "$oid" 2>/dev/null | grep -q . && dep="-d afterany:$oid"   # the orphan's job may still be ending
+        nxt=$(sbatch --parsable -J "${O[0]}" $dep scripts/gate0b_debug.slurm "${O[@]:1}") && { echo "relay: adopted orphan ${O[0]} -> $nxt"; rm -f "$f"; }
+    done
+}
 relay() {
     for i in $(seq 1 12); do
-        nxt=$(sbatch --parsable -J "$SLURM_JOB_NAME" -d afterany:$SLURM_JOB_ID scripts/gate0b_debug.slurm "${ARGS[@]}") && { echo "relay: queued successor $nxt"; return; }
+        nxt=$(sbatch --parsable -J "$SLURM_JOB_NAME" -d afterany:$SLURM_JOB_ID scripts/gate0b_debug.slurm "${ARGS[@]}") && { echo "relay: queued successor $nxt"; adopt_orphans; return; }
         sleep 15
     done
-    echo "relay: FAILED to queue a successor"
+    mkdir -p outputs/relay_orphans
+    printf '%s\n' "$SLURM_JOB_NAME" "${ARGS[@]}" > outputs/relay_orphans/${SLURM_JOB_NAME}_$SLURM_JOB_ID
+    echo "relay: FAILED to queue a successor; left orphan outputs/relay_orphans/${SLURM_JOB_NAME}_$SLURM_JOB_ID"
 }
+adopt_orphans
 trap relay USR1
 python -m hcfrl.rl.train_svg --config $CFG --ckpt $CKPT --critic outputs/critic/${TAG}_2d/critic_ep${BEST}.pt \
     --train_prompts $TASK/train.jsonl --val_prompts $TASK/val.jsonl --test_prompts $TASK/test.jsonl \

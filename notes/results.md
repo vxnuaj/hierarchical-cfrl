@@ -906,3 +906,14 @@ Best val for both MM7 runs is it0 (63.2/63.0), so neither ever improved. Reading
 - 13:20 10-30 (user request): paper updated with all results through 10-30 and converted to the ICML 2026 template (paper/main.tex; previous draft kept as paper/main_2026-10-28.tex; style files from icml.cc copied into paper/). Retitled around the critic's optimizer. Corrected two numbers from the 10-28 draft: native hier seed-1 final is +4.5 (not +3.9) and the native flat mean is −12.2 (not −11.7); all Δ now relative to each run's own iteration-0 eval.
 - 13:31: swapMM7 s2 test it1000/1250: 46.9 / 55.8 (start 65.1); its relay successor 13616668 queued automatically. AdamW+wd s1/s2 started (13:28).
 - 14:17: AdamW+wd s1 69.9 → 72.2, s2 69.8 → 71.4 at it250 (no dip; Muon flat natives were 45.8–53.3). H-ELF-M Game24 SFT 13521891 finally started on the GPU partition (13:48). MM7 s2 relay link and ELF-M SFT pending on debug Resources.
+
+**14:50 10-30 — swapMM7 complete (3 seeds): an independent Muon critic is exploited on Game24.**
+
+| Game24 flat Muon policy, final Δ (test) | s0 | s1 | s2 | mean |
+|---|---|---|---|---|
+| native critic (own Muon trunk, field 0.838) | −9.2 | −14.5 | −13.0 | −12.2 |
+| independent Muon trunk (MM7, field 0.850) | −11.4 | −11.3 | −10.0 | **−10.9** |
+| AdamW trunk (field 0.821) | −0.9 | +1.9 | +2.1 | +1.0 |
+
+s2 trajectory 65.1 / 55.9 / 58.4 / 56.0 / 46.9 / 55.8 / 55.1. With K&K (independent Muon −8.9 vs native −8.7), an unrelated Muon-trained critic gives essentially no protection on either task.
+- Relay race: dbg-Awd-s1 and dbg-Awd-s2 hit the time limit 30 s apart; s1's successor took the last slot under the cap of 5 and s2's relay failed after 12 retries (logged "relay: FAILED"). Fix: `scripts/gate0b_debug.slurm` now writes an orphan file (outputs/relay_orphans/<name>_<jobid>) when a relay fails, and every debug job resubmits orphans at start and after its own relay (with afterany on the orphan's job if it is still ending). Awd s2 restarted (13618243, resumes from its state.pt at ≈it490). ELF-M Game24 SFT running on debug (epoch 10/40 at 14:46, ≈67 min total); link 2 queued (13618244).
