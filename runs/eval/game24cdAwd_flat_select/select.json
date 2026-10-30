@@ -1,0 +1,11 @@
+{
+ "acc": {
+  "outputs/elfAwd_b-game24-cd/checkpoint_700": 0.755,
+  "outputs/elfAwd_b-game24-cd/checkpoint_1400": 0.825,
+  "outputs/elfAwd_b-game24-cd/checkpoint_2100": 0.8366666666666667,
+  "outputs/elfAwd_b-game24-cd/checkpoint_2800": 0.8633333333333333
+ },
+ "best": "outputs/elfAwd_b-game24-cd/checkpoint_2800",
+ "best_acc": 0.8633333333333333,
+ "target": null
+}
