@@ -442,7 +442,7 @@ change failed.
 4. **Depth and attention.** All proofs are for linear layers (sections 3–4) or a free policy (section 5); the transfer to
    transformers rests on the measured spectra and gradient statistics, not on a theorem.
 5. **ELF test of the weight-decay remedy** is underpowered ($\mu\eta k\approx0.16$ vs the toy's 3–9). The weight-decayed critic
-   has not collapsed by it500 (64.2 / 63.2) but is confounded (weaker critic, less self-similar trunk).
+   held to it500 (64.2 / 63.2) and then collapsed (final −6.9), as expected for an underpowered decay.
 
 ---
 
@@ -502,6 +502,6 @@ stated, proved in its model, and checked. The items below need new data or new m
   wide-network (NTK / mean-field) extension of Theorems 3.1 and 4.1.
 
 **Depends on runs in progress**
-- [ ] **R1.** Refined-trunk critics to it1500 (`game24cd_flatAT_svg2d_s0`, `game24cd_flatATwd_svg2d_s0`): update §3 consequence (iii) and §10.5.
+- [x] **R1.** Refined-trunk critics to it1500: AdamW-refined −9.6, weight-decay-refined −6.9 (held to it500, then collapsed). Neither protects; consistent with Thm 3.4 given the underpowered decay (μηk ≈ 0.16). See T4.
 - [ ] **R2.** ELF-M (3×) replication of the fingerprint (spectra) and of the gradient-agreement / refit-churn measurements, once
   its critics exist (GPU partition queue).
