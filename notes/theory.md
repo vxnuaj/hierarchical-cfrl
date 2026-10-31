@@ -172,5 +172,12 @@ enough to erase low-variance components), because the refit loop needs a gradien
 rotate. Head-side remedies (more data, more refits, sharpness-aware objectives, invariance augmentation) do not fix a
 Muon trunk.
 
-**Open:** ELF test of trunk refinement (AdamW-refined trunk: 59.2 at it250, like the AdamW swap; weight-decayed
-refinement underpowered); the H-ELF frozen attack; a closed-form account of the self-similarity route.
+**Hierarchy.** The H-ELF critic built on the policy's own model is NOT exploited by 600 steps of frozen ascent
+(82.8 → 85.5; flat: 82 → 3): the jointly denoised coarse code blocks the self-similarity route. Its failure with a
+foreign AdamW-hier critic (late collapse 2/2) is therefore a refit-route or coupling effect, not self-similarity.
+
+**Open:** (a) the ELF trunk-refinement test: AdamW-refined (no wd) 59.2 / 57.4 at it250/500 — partial, as predicted;
+weight-decay-refined 64.2 / 63.2 — no collapse so far but confounded (weaker critic, trunk less self-similar, spectrum
+only 15% shrunk); needs it1500 and more seeds. (b) a closed-form account of the self-similarity route. (c) why the
+frozen independent-Muon critic is not exploited at all within 600 steps (its first-order step also helps least, +1.4).
+(d) ELF-M replication.
