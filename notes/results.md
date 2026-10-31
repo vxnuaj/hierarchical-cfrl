@@ -922,3 +922,4 @@ s2 trajectory 65.1 / 55.9 / 58.4 / 56.0 / 46.9 / 55.8 / 55.1. With K&K (independ
 - 15:49: AdamW+wd s1 test it750 72.5 (start 69.9); relays working. ELF-M flat SFT at checkpoint_2100 (link 2 running). All 15 GPU-partition jobs pending on Priority.
 - 16:08: ELF-M flat Game24 SFT done (checkpoint_2800, debug links). Submitted gate0a-g24cdM-flat 13621009 (GPU, 5 h) → RL seeds 0/1/2 13621010–12 (afterok, 40 h). AdamW+wd s2 test it500 71.7 (start 69.8); s1 it750 72.5.
 - 16:30: AdamW+wd test s1 it1000 72.9 (start 69.9), s2 it750 72.7 (start 69.8). Moved swapMA s3 and flat s3 from the GPU partition (pending) to debug relay chains (dbg-swapMA-s3, dbg-flat-s3); GPU copies 13618540/41 cancelled.
+- 17:15: AdamW+wd s1 test it1250 73.0 (start 69.9), s2 it750 72.7. swapMA s3 (5-seed extension) 64.3 → 58.4 at it250 (−5.9; earlier swapMA s2 dipped to 55.2 at it250 and ended +2.1). flat s3 running. 18 GPU jobs still pending on Priority.
