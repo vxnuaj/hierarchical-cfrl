@@ -34,6 +34,22 @@ The empirical least-squares solution W_ols has column i equal to W* e_i + O(s / 
   lam_i -> 0) the sensitivity |W(t) e_i| ~ t s sqrt(lam_i / N) -> 0. The network stays insensitive to directions
   the data barely varies along (spectral bias). AdamW behaves like GD in this respect (elementwise scaling does not
   equalise the singular values of the gradient). **[derived]**
+* **Proposition (polar flow fits every direction at unit speed).** Let L(W) = 1/2 tr((W - Wb) S (W - Wb)^T) with
+  S = diag(lam_1..lam_n) the (empirical) input covariance and Wb the least-squares solution, whose columns Wb e_i
+  are mutually orthogonal with norms c_i (d >= n). Then from W(0) = 0
+      gradient flow  dW/dt = -(W - Wb) S :      W(t) e_i = (1 - exp(-lam_i t)) Wb e_i
+      polar flow     dW/dt = -polar((W - Wb) S): W(t) e_i = min(t, c_i) Wb e_i / c_i
+  Proof: under both flows W - Wb = -Wb diag(a_i(t)) stays column-orthogonal; (W - Wb) S = -Wb diag(a_i lam_i), whose
+  polar factor is -Wb diag(1/c_i) on the columns with a_i > 0, so each column moves toward its target at unit speed
+  until it arrives (a_i = 1 - t/c_i), independently of lam_i; for GD da_i/dt = -lam_i a_i. **[derived]**
+  For a direction the targets do not depend on (W* e_i = 0), c_i = |noise_i| ~ s / sqrt(N lam_i): polar flow reaches
+  sensitivity min(t, s/sqrt(N lam_i)), which grows without bound as lam_i -> 0; GD reaches t s sqrt(lam_i/N) -> 0.
+  Discrete Muon with step eta for T steps is the case t = eta T (constant-norm steps).
+* **AdamW is not a whitening method in this sense.** Adam normalises each parameter coordinate, i.e. it equalises
+  rates only in the axis basis of the weights. Polar descent is rotation-equivariant (polar(R G Q) = R polar(G) Q)
+  and equalises rates in the data's own eigenbasis, whatever its orientation. The data manifold of a network's
+  inputs (T5 latents) is not axis-aligned, so AdamW keeps GD's spectral bias with respect to it, and Muon removes
+  it. In the numerical check below the manifold is a random rotation, and AdamW behaves like SGD. **[derived; checked]**
 * Muon / polar descent dW/dt = -polar(grad L) moves every singular direction of the gradient at unit rate, so the
   fit of column i is approached at a rate independent of lam_i: |W(t) e_i| ~ min(t, s / sqrt(N lam_i)). Off the
   manifold the sensitivity grows like lam_i^{-1/2} -- the network fits the label noise along low-variance

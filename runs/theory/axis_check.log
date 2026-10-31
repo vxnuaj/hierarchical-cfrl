@@ -1,0 +1,6 @@
+rotate=True sgd  : G_off/G_on 0.260  readout off-frac 0.317
+rotate=True adamw: G_off/G_on 0.321  readout off-frac 0.459
+rotate=True muon : G_off/G_on 1.665  readout off-frac 0.938
+rotate=False sgd  : G_off/G_on 0.271  readout off-frac 0.353
+rotate=False adamw: G_off/G_on 0.820  readout off-frac 0.823
+rotate=False muon : G_off/G_on 1.708  readout off-frac 0.955

@@ -21,9 +21,9 @@ import torch.nn as nn
 from hcfrl.theory.toy import Muon
 
 
-def make_data(n=64, m=8, d=32, N=1024, lam_on=1.0, lam_off=1e-3, noise=0.1, seed=0):
+def make_data(n=64, m=8, d=32, N=1024, lam_on=1.0, lam_off=1e-3, noise=0.1, seed=0, rotate=True):
     g = torch.Generator().manual_seed(seed)
-    Q, _ = torch.linalg.qr(torch.randn(n, n, generator=g))
+    Q = torch.linalg.qr(torch.randn(n, n, generator=g))[0] if rotate else torch.eye(n)
     T, Nn = Q[:, :m], Q[:, m:]
     def sample(k):
         return (torch.randn(k, m, generator=g) * math.sqrt(lam_on)) @ T.T + (torch.randn(k, n - m, generator=g) * math.sqrt(lam_off)) @ Nn.T
