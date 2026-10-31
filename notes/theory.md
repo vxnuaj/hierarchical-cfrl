@@ -82,3 +82,37 @@ and leave flatter weight spectra than the init (0.143 vs init 0.117 vs AdamW 0.0
 5. E (measured at RL start) orders the final outcomes of all policy x critic pairings.
 6. H-ELF: the coarse channels add tangent directions with large data variance (one-hot codes), which raises g_T and
    k_T, lowering E for the native hierarchical critic; a foreign (AdamW-hier) trunk breaks the code-token coupling. **[open]**
+
+## 4. What the ELF measurements say (2026-10-30 evening) — revised picture
+
+Measured (details and numbers in notes/results.md, 19:20–21:00 entries):
+
+* **Optimizer fingerprint in the weights.** Muon updates and weights have flat, high-rank spectra; AdamW's are
+  concentrated (stable rank/n 0.14 vs 0.03). Independent Muon models share the statistics. [measured]
+* **Critic gradient geometry.** Critics on AdamW trunks have nearly the same input gradient whatever data their
+  head saw (0.81–0.85 in input space, 0.94 in parameter space), along a direction that is steep (4–5× more logit per
+  unit displacement than any Muon critic) and answer-preserving. Critics on Muon trunks have idiosyncratic,
+  shallower gradients (0.09–0.38 agreement; the SAME Muon trunk with different head data 0.20). [measured]
+* **First-order usefulness is the opposite of the naive "Muon gradients are junk" story.** One actor step at Λ/4 along
+  a Muon critic raises accuracy by +4.7…+5.3 (3 of 4 critics), along an AdamW critic by −1.6…−0.8. [measured]
+* **Exploitation of a frozen critic needs self-similarity.** Ascending the frozen native critic (trunk = the
+  policy's own model) collapses accuracy 82 → 3% in 600 steps while the critic's AUC falls to 0.51; ascending the
+  frozen independent-Muon critic does not (80–86%). The exploit does not transfer to any other critic. [measured]
+* **Off-manifold drift is not the collapse.** The clean estimate's off-manifold energy does not rise in collapsing
+  runs. [measured — falsifies prediction 3 of §3]
+
+Revised mechanism (to be confirmed by the gradient-coherence and refit-churn runs):
+
+1. *Self-similarity route.* A critic whose trunk is a copy of the policy can be satisfied by the policy changing its
+   own computation: the actor moves the policy's denoiser, and the critic is the same denoiser one step later. The
+   frozen own-trunk critic is exploited to 3% accuracy; no other trunk is fooled by those states. This is the
+   original CFRL configuration (native critic).
+2. *Refit route (any Muon trunk).* A non-self Muon critic is not exploitable while frozen, but collapses in RL where
+   its head is refit on the policy's new states every iteration. Muon trunks give heads whose input gradients are
+   set by the idiosyncratic noise fit of the trunk (whitening: §2), so each refit can point the actor in a new
+   answer-changing direction (toy: Muon head-to-head gradient cosine 0.62–0.82 across refits vs 0.95–0.98).
+3. *Why AdamW trunks protect.* Their critics share one steep, answer-preserving direction set by the trunk's
+   dominant singular directions (spectral bias kept, §2). The actor's ascent is absorbed along it (large logit gains,
+   answers almost unchanged: MA run changes 33% of answers, balanced), and refits do not redirect it.
+4. *Policy side.* An AdamW-trained policy is safe even with a Muon critic: its output moves an order of magnitude
+   less per actor step (|J^T u|^2 35–41 vs 614–629) and preferentially on-manifold.
