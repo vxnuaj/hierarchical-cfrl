@@ -1,0 +1,10 @@
+Thm3.1 GD column norms  : [0.4947, 0.8715, 0.4951, 0.0786, 0.012, 0.002]
+        GD prediction   : [0.4947, 0.8715, 0.4951, 0.0786, 0.012, 0.002]
+        polar |W e_i - Wb e_i|: [0.0037, 0.0071, 0.0013, 0.0049, 0.0029, 1.0063]  bound max(c-K eta, eta): [0.01, 0.01, 0.01, 0.01, 0.01, 1.0063]
+Thm3.3 residual of initial component after GD  : [0.0, 0.0, 0.1352, 0.8187, 0.9802, 0.998]  predicted exp(-lam t): [0.0, 0.0, 0.1353, 0.8187, 0.9802, 0.998]
+       after GD + weight decay mu=0.5          : [0.0, 0.0, 6e-06, 3.6e-05, 4.3e-05, 4.4e-05]  predicted exp(-(lam+mu) t): [0.0, 0.0, 6e-06, 3.7e-05, 4.5e-05, 4.5e-05]
+Thm4.1 aN=  0.1: |mean err| 1.26e-03  cov rel err 0.027  stability pred 0.999 mc 0.999  off-share pred 0.000 mc 0.000  mu_N 0.10
+Thm4.1 aN=  1.0: |mean err| 2.02e-03  cov rel err 0.077  stability pred 0.993 mc 0.993  off-share pred 0.006 mc 0.006  mu_N 9.09
+Thm4.1 aN= 10.0: |mean err| 2.56e-02  cov rel err 0.070  stability pred 0.684 mc 0.682  off-share pred 0.315 mc 0.316  mu_N 90.91
+Prop6.1 flat: aligned 30.00  Haar mc 30.00  pred tr(B)^2/n 30.00  ratio n/PR 1.00
+Prop6.1 spiky: aligned 30000.22  Haar mc 3068.35  pred tr(B)^2/n 3048.80  ratio n/PR 9.84
