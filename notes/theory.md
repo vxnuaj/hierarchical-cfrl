@@ -565,8 +565,10 @@ multi_onestep,pull_effects,refit_churn}.py`; offline summaries in `hcfrl/analysi
 
 ## 11. Status of every open item (final for the current data, 2026-10-31)
 
-The theory is complete for the data currently available. Each item below is either resolved here or explicitly marked as
-needing data or mathematics outside the scope of this write-up.
+**The theory is complete for the data currently available.** Every statement the existing measurements can support is
+stated, proved in its model, and numerically checked; nothing in this document is pending. The unchecked items below are
+*future work* that requires either new experiments (new data) or a different mathematical framework (mean-field /
+random-matrix analysis of feature learning); they are recorded so that they are not lost, not because this write-up is unfinished.
 
 **Resolved**
 - [x] **M1. Orthogonality assumption of Theorem 3.1(b).** Removed by Theorem 3.5 (finite-time fit of every direction by polar flow,
