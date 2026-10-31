@@ -926,3 +926,22 @@ s2 trajectory 65.1 / 55.9 / 58.4 / 56.0 / 46.9 / 55.8 / 55.1. With K&K (independ
 - 18:01: flat s3 (5-seed ext.) 64.3 → 49.4 at it250 (collapse replicates on a 4th seed). AdamW+wd s2 it1000 72.6. All chains have a running/pending job; GPU partition still all Priority.
 - 18:47: **AdamW+wd s1 final 69.9 → 72.5 (+2.6)** (best val it1250). s2 it1250 73.1 (start 69.8). **swapMA s3 recovered: 64.3 → 58.4 → 67.9 at it250/500 (+3.6)**, as swapMA s2 did; flat s3 49.4 at it250. Moved swapMM7 s3 from the GPU partition to debug (dbg-swapMM7-s3; GPU 13618542 cancelled).
 - 19:00 10-30 (user decision): start the full mechanism analysis now, without waiting for remaining runs, and do not check back until done. Plan: (1) first-order exploit rule E = g⊥ᵀKg⊥ / g∥ᵀKg∥ with K = policy output kernel JJᵀ, g_C critic input gradient split into true-reward-aligned and spurious parts, measured at RL it0 for all policy×critic pairings and tested against final outcomes; (2) attack transfer matrix across critics; (3) weight-spectrum / effective-rank comparison Muon vs AdamW; (4) toy-model theory (spectral-norm descent vs GD) and an optimizer dose-response experiment; (5) mech interp (decode exploit, correctness probes, layer patching). Experiments continue in parallel.
+
+**19:20 10-30 — mechanism analysis, first results.**
+
+*Weight spectra* (`hcfrl/analysis/spectra.py`, CPU job 13624707 → outputs/analysis/spectra_g24.pt; median over the 58 weight matrices of ELF-B; stable rank sr = |W|_F²/σ₁², effective rank er = exp(entropy of σ/Σσ), both divided by min(dim); top-1 energy = σ₁²/|W|_F²):
+
+| | sr/n | er/n | top-1 energy |
+|---|---|---|---|
+| fine-tune update ΔW, Muon (Countdown from OWT; three Muon models) | 0.175 | 0.916 | 0.008 |
+| ΔW, AdamW (Countdown from OWT) | 0.032 | 0.713 | 0.042 |
+| ΔW, AdamW + wd 0.1 | 0.116 | 0.908 | 0.011 |
+| ΔW, Muon Game24 fine-tune (s42/s43/s7) | 0.235–0.239 | 0.897 | 0.006 |
+| ΔW, AdamW Game24 fine-tune / AdamW+wd | 0.034 / 0.068 | 0.644 / 0.690 | 0.040 / 0.021 |
+| full W: OWT init / Muon models / AdamW / AdamW+wd | 0.117 / 0.143 / 0.034 / 0.042 | 0.902 / 0.921 / 0.789 / 0.711 | 0.012 / 0.010 / 0.040 / 0.031 |
+| critic-trunk fine-tune ΔW (AdamW lr 1e-5; native / MM7 / MA) | 0.008 / 0.008 / 0.007 | 0.52 / 0.52 / 0.41 | 0.16 / 0.17 / 0.20 |
+| RL ΔW (actor AdamW; native it500 / MA it500) | 0.003 / 0.004 | 0.32 / 0.40 | 0.42 / 0.32 |
+
+Muon writes flat, high-rank updates (σ spread over hundreds of directions) and leaves every weight matrix with a flatter spectrum than the OWT init; AdamW concentrates both the update and the final weights in a few directions (4× lower stable rank) and grows them (|ΔW|/|W| ≈ 3 vs 0.7). Independently trained Muon models (s42, s43, s7) have identical spectral statistics although their weights differ (Muon s42 − Muon s7 is itself a high-rank matrix, sr/n 0.25). Weight decay moves AdamW's update partway toward flat (sr/n 0.116) but its final weights stay concentrated (0.042). This is an optimizer fingerprint shared by all Muon models, related or not, which is the property the swap results require.
+
+*Toy model* (`hcfrl/theory/toy.py`: conditional flow denoiser MLP, 2-mode task, verifier by tolerance, CFRL-style pathwise actor-critic; bases matched at 0.51 accuracy, Muon 8k steps / AdamW 20k steps). Pathwise RL never improves the toy (no lr helps), so the toy cannot show critic-side protection. It does reproduce the policy-side margin: at actor lr 1e-5 after 1,000 iterations, Muon-trained policies fall 0.51 → 0.09–0.10 (own, independent-Muon and AdamW critics alike), AdamW-trained policies 0.52 → 0.24–0.25 (own or Muon critic); at 3e-5 both collapse, at ≤3e-6 neither moves. The toy is parked; the theory will be built on the spectral mechanism instead.
