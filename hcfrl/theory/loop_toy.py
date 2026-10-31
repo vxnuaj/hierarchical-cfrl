@@ -20,9 +20,11 @@ from hcfrl.theory.whitening import make_data, train
 torch.set_num_threads(8)
 
 
-def run(kind, lr, refit, lam_off=1e-3, iters=300, eta=0.02, beta=2.0, n_pts=64, n_fit=256, seed=0, aug=0.0, aug_dirs="off"):
+def run(kind, lr, refit, lam_off=1e-3, iters=300, eta=0.02, beta=2.0, n_pts=64, n_fit=256, seed=0, aug=0.0, aug_dirs="off", refine=0, refine_lr=1e-3, refine_wd=0.0):
     X, Y, T, Nn, sample, target = make_data(lam_off=lam_off)
     m = train(X, Y, kind, 3000, lr, seed=seed)
+    if refine:   # continue training the trunk with AdamW (trunk-side fix)
+        m = train(X, Y, "adamw", refine, refine_lr, seed=seed, init=m, wd=refine_wd)
     def hid(x):
         h = torch.relu(m.inp(x)); return h + torch.relu(m.hid[0](h))
     s = lambda x: target(x).sum(1) / 4

@@ -119,6 +119,9 @@ def main():
     ap.add_argument("--bs", type=int, default=64); ap.add_argument("--lr_trunk", type=float, default=1e-5)
     ap.add_argument("--lr_head", type=float, default=1e-4); ap.add_argument("--holdout_frac", type=float, default=0.1)
     ap.add_argument("--freeze_trunk", action="store_true"); ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--wd_trunk", type=float, default=0.0,
+                    help="decoupled weight decay on the trunk (AdamW). Theory: erases the low-variance-direction sensitivity "
+                         "a Muon-trained trunk carries, which plain AdamW fine-tuning cannot remove (notes/theory.md)")
     ap.add_argument("--rank_w", type=float, default=0.0,
                     help="weight of the within-prompt pairwise ranking loss (batches are then whole prompt groups)")
     ap.add_argument("--max_shards", type=int, default=0); ap.add_argument("--blind_clusters", action="store_true")
@@ -139,7 +142,7 @@ def main():
     ac = torch.amp.autocast("cuda", dtype=torch.bfloat16, enabled=dev.type == "cuda")  # speed; head/loss stay fp32
     groups = [{"params": critic.head.parameters(), "lr": a.lr_head}]
     if not a.freeze_trunk:
-        groups.append({"params": critic.trunk.parameters(), "lr": a.lr_trunk})
+        groups.append({"params": critic.trunk.parameters(), "lr": a.lr_trunk, "weight_decay": a.wd_trunk})
     opt = torch.optim.AdamW(groups, weight_decay=0.0)
     os.makedirs(a.out, exist_ok=True)
     log = []

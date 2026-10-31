@@ -44,9 +44,9 @@ class MLP(nn.Module):
         return self.out(h)
 
 
-def train(X, Y, kind, steps, lr, width=256, depth=1, blend=1.0, seed=0, bs=128, wd=0.0):
+def train(X, Y, kind, steps, lr, width=256, depth=1, blend=1.0, seed=0, bs=128, wd=0.0, init=None):
     torch.manual_seed(seed)
-    model = MLP(X.shape[1], Y.shape[1], width, depth)
+    model = MLP(X.shape[1], Y.shape[1], width, depth) if init is None else init
     if kind == "muon":   # all matrices with Muon (the input layer is where off-manifold gain is written)
         mats = [p for p in model.parameters() if p.ndim == 2]; vecs = [p for p in model.parameters() if p.ndim < 2]
         opts = [Muon(mats, lr=lr, blend=blend, wd=wd), torch.optim.AdamW(vecs, lr=1e-3)]
