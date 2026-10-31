@@ -1,0 +1,184 @@
+{
+ "attacker": "native",
+ "critics": [
+  "native",
+  "hma",
+  "blind"
+ ],
+ "args": {
+  "config": "configs/helf_b_game24_cd.yml",
+  "ckpt": "outputs/helf_b-game24-cd/checkpoint_2800",
+  "policy": null,
+  "attacker": "native",
+  "critics": "native=outputs/critic/game24cd_hier_2d,hma=outputs/critic/game24cd_swapHMA_2d,blind=outputs/critic/game24cd_hier_blind_2d",
+  "train_prompts": "data/game24/train.jsonl",
+  "val_prompts": "data/game24/val.jsonl",
+  "iters": 600,
+  "every": 100,
+  "B": 32,
+  "lr": 1e-06,
+  "n_val": 256,
+  "k_rec": 40,
+  "K": 64,
+  "gamma": 56.0,
+  "bs": 64,
+  "seed": 0,
+  "out": "outputs/analysis/attack600_hier_native.json"
+ },
+ "hist": [
+  {
+   "iter": 0,
+   "acc": 0.828125,
+   "native": {
+    "logit": 545.1495361328125,
+    "logit_correct": 727.408447265625,
+    "logit_wrong": -333.0069580078125,
+    "auc": 0.9777551293373108
+   },
+   "hma": {
+    "logit": 1409.297607421875,
+    "logit_correct": 1719.62158203125,
+    "logit_wrong": -85.89936065673828,
+    "auc": 0.9623713493347168
+   },
+   "blind": {
+    "logit": 503.9831848144531,
+    "logit_correct": 691.8060913085938,
+    "logit_wrong": -400.9815673828125,
+    "auc": 0.968589186668396
+   }
+  },
+  {
+   "iter": 100,
+   "acc": 0.89453125,
+   "native": {
+    "logit": 697.3868408203125,
+    "logit_correct": 813.0457763671875,
+    "logit_wrong": -283.5724182128906,
+    "auc": 0.9530972242355347
+   },
+   "hma": {
+    "logit": 1544.4208984375,
+    "logit_correct": 1736.92919921875,
+    "logit_wrong": -88.33587646484375,
+    "auc": 0.9442018270492554
+   },
+   "blind": {
+    "logit": 660.478515625,
+    "logit_correct": 786.6689453125,
+    "logit_wrong": -409.8034362792969,
+    "auc": 0.9761442542076111
+   }
+  },
+  {
+   "iter": 200,
+   "acc": 0.859375,
+   "native": {
+    "logit": 722.2274780273438,
+    "logit_correct": 867.7756958007812,
+    "logit_wrong": -167.23455810546875,
+    "auc": 0.9640151262283325
+   },
+   "hma": {
+    "logit": 1500.16357421875,
+    "logit_correct": 1742.2801513671875,
+    "logit_wrong": 20.563140869140625,
+    "auc": 0.940025269985199
+   },
+   "blind": {
+    "logit": 699.0709838867188,
+    "logit_correct": 849.1495971679688,
+    "logit_wrong": -218.07611083984375,
+    "auc": 0.9554293155670166
+   }
+  },
+  {
+   "iter": 300,
+   "acc": 0.82421875,
+   "native": {
+    "logit": 782.4735717773438,
+    "logit_correct": 934.319091796875,
+    "logit_wrong": 70.48665618896484,
+    "auc": 0.8620326519012451
+   },
+   "hma": {
+    "logit": 1498.9935302734375,
+    "logit_correct": 1759.7449951171875,
+    "logit_wrong": 276.3587646484375,
+    "auc": 0.8434966206550598
+   },
+   "blind": {
+    "logit": 757.879638671875,
+    "logit_correct": 910.7114868164062,
+    "logit_wrong": 41.26863098144531,
+    "auc": 0.8620853424072266
+   }
+  },
+  {
+   "iter": 400,
+   "acc": 0.76953125,
+   "native": {
+    "logit": 809.9063110351562,
+    "logit_correct": 993.0484619140625,
+    "logit_wrong": 198.3972930908203,
+    "auc": 0.8348103165626526
+   },
+   "hma": {
+    "logit": 1421.193115234375,
+    "logit_correct": 1733.4708251953125,
+    "logit_wrong": 378.503173828125,
+    "auc": 0.8219909071922302
+   },
+   "blind": {
+    "logit": 778.2283935546875,
+    "logit_correct": 959.3958740234375,
+    "logit_wrong": 173.31344604492188,
+    "auc": 0.8168717622756958
+   }
+  },
+  {
+   "iter": 500,
+   "acc": 0.859375,
+   "native": {
+    "logit": 932.4363403320312,
+    "logit_correct": 1066.7252197265625,
+    "logit_wrong": 111.7822494506836,
+    "auc": 0.8429292440414429
+   },
+   "hma": {
+    "logit": 1530.56591796875,
+    "logit_correct": 1763.5362548828125,
+    "logit_wrong": 106.85922241210938,
+    "auc": 0.8856691718101501
+   },
+   "blind": {
+    "logit": 913.7871704101562,
+    "logit_correct": 1049.653076171875,
+    "logit_wrong": 83.49481964111328,
+    "auc": 0.8210858702659607
+   }
+  },
+  {
+   "iter": 600,
+   "acc": 0.85546875,
+   "native": {
+    "logit": 994.27783203125,
+    "logit_correct": 1120.962158203125,
+    "logit_wrong": 244.4434356689453,
+    "auc": 0.7563247680664062
+   },
+   "hma": {
+    "logit": 1534.2333984375,
+    "logit_correct": 1768.06298828125,
+    "logit_wrong": 150.21563720703125,
+    "auc": 0.8680735230445862
+   },
+   "blind": {
+    "logit": 983.279052734375,
+    "logit_correct": 1132.6488037109375,
+    "logit_wrong": 99.17232513427734,
+    "auc": 0.8029124736785889
+   }
+  }
+ ]
+}
