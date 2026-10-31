@@ -472,3 +472,36 @@ Prop 6.1; log `runs/theory/verify_theorems.log`), `whitening.py` (Cor 3.2 in an 
 (Prop 3.3), `readout_agreement.py`, `head_churn.py` (Thm 4.1 in an MLP), `loop_toy.py`, `loop_fix.py`,
 `loop_refine.py` (section 5, Thm 3.4). ELF measurements: `hcfrl/analysis/{spectra,cross_critic,offspan,attack_transfer,
 multi_onestep,pull_effects,refit_churn}.py`; offline summaries in `hcfrl/analysis/offline/`.
+
+---
+
+## 11. Remaining work (status 2026-10-31)
+
+The theory is complete for the data currently available: every result that the existing measurements can support is
+stated, proved in its model, and checked. The items below need new data or new mathematics.
+
+**Needs a new (cheap) experiment**
+- [ ] **T1. Self-consistency test of the self-similarity route (§6).** Regress the native critic's pooled logit on the
+  denoiser's own residual $\|\mathrm d_{\theta_0}(s_k)-\hat x_{k-1}\|$ on base-policy states and on states after the frozen
+  attack (it 0/200/400/600). Prediction: strong negative correlation that persists while accuracy collapses. ≈1 debug-GPU hour.
+- [ ] **T2. Measure the feedback term $\Gamma$ (Prop. 5.3).** Refit the head on states of policies displaced along a fixed
+  direction $v$ by increasing amounts $\epsilon$ and measure $\langle g_\epsilon - g_0, v\rangle/\epsilon$ for Muon vs AdamW trunks (sign and size
+  of $\Gamma$ along answer-changing directions). Extends `refit_churn.py`. ≈1–2 debug-GPU hours.
+- [ ] **T3. Frozen independent-Muon critic (§10.3).** Measure $\langle\beta,u\rangle$ and $\|P_Nu\|$ (Prop. 5.1) for each frozen critic
+  using the one-step and offspan tools, to test whether the alignment/off-share ratio orders the frozen exploitation
+  times (self < sibling ≈ AdamW < independent).
+- [ ] **T4. Powered test of Theorem 3.4 on ELF.** Weight-decayed critic trunk with $\mu\eta k\gtrsim3$ (e.g. wd 1.0 for ~10× more
+  steps, or wd 10 at lr 1e-4 with more critic data), then off-manifold gain (offspan) and RL, 3 seeds.
+
+**Needs new mathematics**
+- [ ] **M1. Remove the column-orthogonality assumption of Theorem 3.1(b)** (general $\bar W$): a lower bound on the polar
+  flow's progress along low-variance directions, e.g. via the nuclear-norm descent identity (Lemma 2.3).
+- [ ] **M2. Derive $\Gamma\succ0$ for whitened trunks** (state-dependent refit bias) from Theorem 4.1 with a state-dependent design $\hat\Sigma_t$.
+- [ ] **M3. Nonlinear self-similarity model** (critic = next denoiser call): a fixed-point/self-consistency argument.
+- [ ] **M4. Beyond linear layers:** random-matrix derivation of the off-manifold gain of deep Muon-trained networks, or a
+  wide-network (NTK / mean-field) extension of Theorems 3.1 and 4.1.
+
+**Depends on runs in progress**
+- [ ] **R1.** Refined-trunk critics to it1500 (`game24cd_flatAT_svg2d_s0`, `game24cd_flatATwd_svg2d_s0`): update §3 consequence (iii) and §10.5.
+- [ ] **R2.** ELF-M (3×) replication of the fingerprint (spectra) and of the gradient-agreement / refit-churn measurements, once
+  its critics exist (GPU partition queue).
