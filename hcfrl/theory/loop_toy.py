@@ -20,7 +20,7 @@ from hcfrl.theory.whitening import make_data, train
 torch.set_num_threads(8)
 
 
-def run(kind, lr, refit, lam_off=1e-3, iters=300, eta=0.02, beta=2.0, n_pts=64, n_fit=256, seed=0):
+def run(kind, lr, refit, lam_off=1e-3, iters=300, eta=0.02, beta=2.0, n_pts=64, n_fit=256, seed=0, aug=0.0, aug_dirs="off"):
     X, Y, T, Nn, sample, target = make_data(lam_off=lam_off)
     m = train(X, Y, kind, 3000, lr, seed=seed)
     def hid(x):
@@ -34,8 +34,14 @@ def run(kind, lr, refit, lam_off=1e-3, iters=300, eta=0.02, beta=2.0, n_pts=64, 
 
     def fit_head(center):
         xs = (center.repeat(n_fit // n_pts, 1) + sigma * torch.randn(n_fit, center.shape[1], generator=g))
-        with torch.no_grad(): H = hid(xs); y = reward(xs)
-        A = H.T @ H + 1e-2 * n_fit * torch.eye(H.shape[1])
+        with torch.no_grad():
+            y = reward(xs)
+            if aug > 0:   # invariance augmentation: copies perturbed along N (or random directions) keep the original label
+                B = Nn if aug_dirs == "off" else torch.eye(xs.shape[1])
+                xa = xs + aug * (torch.randn(len(xs), B.shape[1], generator=g) @ B.T) / B.shape[1] ** 0.5
+                xs, y = torch.cat([xs, xa]), torch.cat([y, y])
+            H = hid(xs)
+        A = H.T @ H + 1e-2 * len(xs) * torch.eye(H.shape[1])
         return torch.linalg.solve(A, H.T @ (y - y.mean()))
 
     w = fit_head(mu); hist = []; prev = None
