@@ -38,6 +38,10 @@ def main():
     ap.add_argument("--n_val", type=int, default=384); ap.add_argument("--k_rec", type=int, default=40)
     ap.add_argument("--K", type=int, default=64); ap.add_argument("--gamma", type=float, default=56.0)
     ap.add_argument("--bs", type=int, default=64); ap.add_argument("--seed", type=int, default=0); ap.add_argument("--out", required=True)
+    ap.add_argument("--self_consistency", type=int, default=0,
+                    help="1: at every probe also measure the base denoiser's self-consistency residual on the recorded states, "
+                         "|d_theta0(s_k) - x_{k-1}| / |x_{k-1}| over generated positions (theta0 = the starting policy), and its correlation "
+                         "with each critic's logit (theory item T1)")
     a = ap.parse_args()
     torch.manual_seed(a.seed); random.seed(a.seed)
     dev = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -55,12 +59,17 @@ def main():
         for p in c.parameters(): p.requires_grad_(False)
         critics[name] = c
     attacker = critics[a.attacker]
+    base_model = None
+    if a.self_consistency:
+        import copy
+        base_model = copy.deepcopy(model).eval()
+        for p in base_model.parameters(): p.requires_grad_(False)
     k_lo, k_hi = a.K // 8, 5 * a.K // 8
     train = load_train_prompts(a.train_prompts); val = load_prompts(a.val_prompts)[: a.n_val]
 
     def probe(it):
         model.eval(); g = torch.Generator(device="cpu").manual_seed(777)
-        R, L = [], {n: [] for n in critics}
+        R, L, RES = [], {n: [] for n in critics}, []
         for b0 in range(0, len(val), a.bs):
             pb = val[b0: b0 + a.bs]
             cond_seq, cond_mask, gen_mask, cl = env.encode(pb)
@@ -70,7 +79,17 @@ def main():
                 R.append(env.reward(pb, env.decode_text(S.decode(model, ro.z_final), cl)))
                 for n, c in critics.items():
                     L[n].append(c(ro.inputs[a.k_rec], cond_seq, cond_mask, gen_mask).logit.float().cpu())
+                if base_model is not None:
+                    inp = ro.inputs[a.k_rec]
+                    xb = S.denoise(base_model, inp, cond_seq, cond_mask).float()
+                    m3 = gen_mask[..., None].float()
+                    RES.append((((xb - inp.x_prev.float()) * m3).norm(dim=(1, 2)) / (inp.x_prev.float() * m3).norm(dim=(1, 2)).clamp_min(1e-12)).cpu())
         R = torch.cat(R); rec = {"iter": it, "acc": R.mean().item()}
+        if RES:
+            res = torch.cat(RES); rec["sc_residual"] = res.mean().item()
+            def corr(u, v): u, v = u - u.mean(), v - v.mean(); return float((u * v).sum() / (u.norm() * v.norm()).clamp_min(1e-12))
+            rec["sc_corr_reward"] = corr(-res, R.float())
+            rec["sc_corr_logit"] = {n: corr(-res, torch.cat(L[n])) for n in critics}
         for n in critics:
             v = torch.cat(L[n]); m = rank_metrics(torch.sigmoid(v), R)
             rec[n] = {"logit": v.mean().item(), "logit_correct": v[R > 0.5].mean().item() if (R > 0.5).any() else None,
