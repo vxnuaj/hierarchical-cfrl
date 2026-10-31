@@ -11,3 +11,5 @@ Prop6.1 spiky: aligned 30000.22  Haar mc 3068.35  pred tr(B)^2/n 3048.80  ratio 
 Thm3.5 L0 5.350  bound T 327.1  ran t=392.5: polar loss 1.72e-07, polar |W e_i|/|Wb e_i| [1.0, 1.0, 1.0, 1.0, 1.0, 1.0], GD [1.0, 1.0, 1.0, 0.98, 0.325, 0.038]
 Prop5.5 aN=0.3: measured slope <dg,v>/eps -0.018  predicted -gam*mu_N*lam_N -0.018
 Prop5.5 aN=3.0: measured slope <dg,v>/eps -0.935  predicted -gam*mu_N*lam_N -0.947
+Thm3.6 on-manifold: noise sensitivity fitted pred 1.1843 mc 1.1637 | GD(t=50) pred 0.0095 mc 0.0101
+Thm3.6 off-manifold: noise sensitivity fitted pred 10.1143 mc 9.6466 | GD(t=50) pred 0.0105 mc 0.0101

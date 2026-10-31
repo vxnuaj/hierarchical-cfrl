@@ -105,3 +105,28 @@ for aN in [0.3, 3.0]:
     slopes = [float((refit_grad(eps * v) - refit_grad(torch.zeros(n))) @ v / eps) for _ in range(20)]
     muN = aN**2 / (aN**2 * 0.01 + kappa)
     print(f"Prop5.5 aN={aN}: measured slope <dg,v>/eps {sum(slopes)/20:+.3f}  predicted -gam*mu_N*lam_N {-gam*muN*0.01:+.3f}")
+
+# --- Thm 3.6 (any fixed feature map): noise sensitivity along input direction u is the Mahalanobis norm of J_phi u
+torch.manual_seed(2)
+n_in, p, m, dout, s = 8, 40, 400, 5, 0.3
+Tdim = 3
+Fm = torch.randn(p, n_in) / math.sqrt(n_in)
+def phi(x): return torch.relu(x @ Fm.T)
+Xin = torch.cat([torch.randn(m, Tdim), 1e-2 * torch.randn(m, n_in - Tdim)], 1)      # data on a 3-dim manifold, tiny off-manifold variance
+Phi = phi(Xin); Sh = Phi.T @ Phi / m
+Wstar = torch.randn(dout, p) / math.sqrt(p)
+x0 = Xin[0]
+J = torch.autograd.functional.jacobian(phi, x0)                                   # p x n_in
+for name, u in [("on-manifold", torch.eye(n_in)[0]), ("off-manifold", torch.eye(n_in)[-1])]:
+    Ju = J @ u
+    pred_pol = dout * s**2 / m * Ju @ torch.linalg.solve(Sh, Ju)
+    t = 50.0
+    ev, V = torch.linalg.eigh(Sh); c = V.T @ Ju
+    pred_gd = dout * s**2 / m * ((1 - torch.exp(-ev * t))**2 / ev * c**2).sum()
+    mc_pol, mc_gd = [], []
+    for r in range(400):
+        Y = Phi @ Wstar.T + s * torch.randn(m, dout)
+        Wb = torch.linalg.solve(Sh, Phi.T @ Y / m).T                                 # least squares (polar flow limit)
+        Wgd = Wb @ (torch.eye(p) - V @ torch.diag(torch.exp(-ev * t)) @ V.T)          # GD flow at time t
+        mc_pol.append(((Wb - Wstar) @ Ju).pow(2).sum()); mc_gd.append(((Wgd - Wstar @ (torch.eye(p) - V @ torch.diag(torch.exp(-ev * t)) @ V.T)) @ Ju).pow(2).sum())
+    print(f"Thm3.6 {name}: noise sensitivity fitted pred {pred_pol:.4f} mc {torch.stack(mc_pol).mean():.4f} | GD(t=50) pred {pred_gd:.4f} mc {torch.stack(mc_gd).mean():.4f}")

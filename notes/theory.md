@@ -215,6 +215,30 @@ descent drives the loss to zero in a time governed by $\lambda_{\min}^{-1/2}$ an
 $\propto\lambda_i^{-1}$ per direction — in that time window Muon has fitted the label noise along every low-variance direction and GD
 has not.
 
+**Theorem 3.6 (any fixed feature map: the vulnerable input directions are those with large Mahalanobis feature norm).**
+Let $f(x) = W\varphi(x)$ with an arbitrary fixed, differentiable feature map $\varphi:\mathbb R^{n_{\rm in}}\to\mathbb R^p$ (random features, a frozen deep
+network, or the tangent features $\varphi(x) = \nabla_\theta f(x;\theta_0)$ of a network in the linearised / lazy regime [Jacot et al. 2018;
+Chizat et al. 2019]); $m\ge p$ training inputs with feature matrix $\Phi$ and $\hat\Sigma_\varphi = \Phi^\top\Phi/m\succ0$; targets $Y = \Phi W^{*\top} + E$,
+$E$ i.i.d. $\mathcal N(0,s^2)$; $W\in\mathbb R^{d\times p}$ trained from 0 on the squared loss. For an input direction $u$ at a point $x$, let
+$J_u := J_\varphi(x)\,u$ be the induced feature perturbation. The input sensitivity of the *noise-fitted part* of the trained model,
+$\Delta(t) := (W(t) - W_{\rm clean}(t))J_u$ with $W_{\rm clean}$ the run on noiseless targets, satisfies:
+$$\text{fully fitted (polar flow for } t\ge T_{\rm pol}\text{, Theorem 3.5):}\qquad \mathbb E\|\Delta\|^2 = \frac{d\,s^2}{m}\;J_u^\top\hat\Sigma_\varphi^{-1}J_u ,$$
+$$\text{gradient flow at time } t:\qquad \mathbb E\|\Delta(t)\|^2 = \frac{d\,s^2}{m}\;J_u^\top\big(I-e^{-\hat\Sigma_\varphi t}\big)\hat\Sigma_\varphi^{-1}\big(I-e^{-\hat\Sigma_\varphi t}\big)J_u \;\le\; \frac{d\,s^2}{m}\,t^2\;J_u^\top\hat\Sigma_\varphi J_u .$$
+So a fully fitted (Muon) model's noise sensitivity along $u$ is the *inverse*-covariance (Mahalanobis) norm of the feature perturbation,
+large exactly when moving the input along $u$ moves the features into directions the training features barely vary in; the GD
+model's is bounded by the *covariance* norm, small in exactly those directions.
+*Proof.* The least-squares solution is $\bar W = W^* + E^\top\Phi\hat\Sigma_\varphi^{-1}/m$ and gradient flow gives $W(t) = \bar W\big(I-e^{-\hat\Sigma_\varphi t}\big)$
+(Theorem 3.1(a) in the eigenbasis of $\hat\Sigma_\varphi$); the noise part along $J_u$ is $E^\top\Phi\hat\Sigma_\varphi^{-1}P_tJ_u/m$ with $P_t = I-e^{-\hat\Sigma_\varphi t}$ ($P_\infty = I$). Each of
+its $d$ coordinates is Gaussian with variance $\tfrac{s^2}{m^2}\|\Phi\hat\Sigma_\varphi^{-1}P_tJ_u\|^2 = \tfrac{s^2}{m}J_u^\top P_t\hat\Sigma_\varphi^{-1}P_tJ_u$. For the bound use
+$(1-e^{-\lambda t})^2/\lambda\le t^2\lambda$ on each eigenvalue. $\square$ **[proved; verified numerically with random ReLU features (3-dim input
+manifold, off-manifold input variance $10^{-4}$): fitted sensitivity 1.18 (on) vs 10.11 (off) predicted, 1.16 / 9.65 by Monte Carlo; GD at
+$t=50$: 0.0095 / 0.0105 predicted, 0.010 / 0.010 Monte Carlo]**
+
+This extends Theorems 3.1 and 3.5 from linear layers to every model that is linear in its trained parameters given fixed
+features — in particular to wide networks in the lazy regime, where training is linear in the tangent features — and identifies the
+general vulnerability measure: the Mahalanobis norm $J_u^\top\hat\Sigma_\varphi^{-1}J_u$ of a feature perturbation. Off-manifold input directions are
+dangerous for a fully fitted (Muon) model precisely to the extent that the features respond to them in low-variance directions.
+
 Consequences. (i) Plain AdamW or GD fine-tuning of a Muon-trained critic trunk cannot remove its off-manifold
 sensitivity (toy: off/on gain 1.67 before and after 3,000 AdamW steps). (ii) Weight decay can (toy: 1.67 → 1.55 /
 0.40 / 0.13 for $\mu\eta k\approx 0.3,\ 3,\ 9$; the pathwise loop recovers, section 5). (iii) On ELF the weight-decayed
@@ -473,6 +497,7 @@ change failed.
 |---|---|---|
 | Thm 3.1, Cor 3.2 (GD vs polar sensitivity) | closed forms exact (`verify_theorems`); MLP: off/on gain 0.72 / 1.67 / 3.97 Muon vs 0.21–0.32 SGD/AdamW | proved (linear) + verified |
 | Thm 3.5 (general targets, finite-time fit) | generic $\bar W$: polar fits all columns by $1.2\,T_{\rm pol}$; GD 3.8% of lowest-variance column | proved + verified |
+| Thm 3.6 (fixed features / lazy networks: Mahalanobis sensitivity) | random ReLU features: fitted 1.18 vs 10.11 predicted (MC 1.16 / 9.65); GD 0.01 | proved + verified |
 | Prop 3.3 (AdamW whitens only axis-aligned) | AdamW 0.32 → 0.82 when axis-aligned; SGD, Muon unchanged | proved + verified |
 | Thm 3.4 (persistence; weight decay) | residuals match $e^{-\lambda t}$, $e^{-(\lambda+\mu)t}$; toy: gain 1.67 unchanged by AdamW, 0.13 with weight decay | proved + verified |
 | Muon fingerprint on ELF | update stable rank/n 0.18–0.24 vs 0.03; weights 0.143 vs 0.034 | measured |
@@ -499,8 +524,8 @@ change failed.
    rewards, so the destabilising feedback needs a nonlinear-trunk or sharp-verifier model, which is not derived.
 3. **The ordering of frozen-critic exploitation** (self ≪ AdamW ≈ sibling ≪ independent Muon) is not reproduced by
    Proposition 5.1 with the available alignment and off-share proxies (§5).
-4. **Depth and attention.** All proofs are for linear layers (sections 3–4) or a free policy (section 5); Theorem 3.5 removes
-   the structural assumption on the targets but not linearity. The transfer to transformers rests on the measured spectra
+4. **Depth and attention.** All proofs are for linear layers (sections 3–4), fixed-feature / lazy networks (Theorem 3.6), or a free
+   policy (section 5); Theorem 3.5 removes the structural assumption on the targets. The feature-learning regime is not covered. The transfer to transformers rests on the measured spectra
    and gradient statistics, not on a theorem.
 5. **ELF test of the weight-decay remedy** is underpowered ($\mu\eta k\approx0.16$ vs the toy's 3–9). The weight-decayed critic
    held to it500 (64.2 / 63.2) and then collapsed (final −6.9), as expected for an underpowered decay.
@@ -517,6 +542,8 @@ change failed.
 - Fan, Schmidt & Thrampoulidis (2025). Implicit bias of spectral descent and Muon on multiclass separable data. NeurIPS (arXiv:2502.04664).
 - Gao, Schulman & Hilton (2023). Scaling laws for reward model overoptimization. ICML.
 - Ilyas, Santurkar, Tsipras, Engstrom, Tran & Madry (2019). Adversarial examples are not bugs, they are features. NeurIPS.
+- Chizat, Oyallon & Bach (2019). On lazy training in differentiable programming. NeurIPS.
+- Jacot, Gabriel & Hongler (2018). Neural tangent kernel: convergence and generalization in neural networks. NeurIPS.
 - Jordan et al. (2024). Muon: an optimizer for hidden layers in neural networks. Technical report.
 - Panickssery, Bowman & Feng (2024). LLM evaluators recognize and favor their own generations. NeurIPS.
 - Rahaman et al. (2019). On the spectral bias of neural networks. ICML.
@@ -552,7 +579,7 @@ needing data or mathematics outside the scope of this write-up.
 - [x] **R1. Refined-trunk critics to it1500.** AdamW-refined −9.6, weight-decay-refined −6.9 (held to it500, then collapsed);
   consistent with Theorem 3.4 given the underpowered decay ($\mu\eta k\approx0.16$).
 
-**Requires new data (not available; proposed experiments)**
+**Requires new data (outside the scope "given the data we have"; proposed experiments, optional)**
 - [ ] **T1. Self-consistency test of the self-similarity route (§6).** Regress the native critic's logit on the denoiser's own residual
   $\|\mathrm d_{\theta_0}(s_k)-\hat x_{k-1}\|$ along the frozen attack. ≈1 debug-GPU hour.
 - [ ] **T2. Measure $\Gamma$ on ELF** along answer-changing directions for Muon vs AdamW trunks (refit on displaced states; extends
@@ -563,5 +590,8 @@ needing data or mathematics outside the scope of this write-up.
 **Requires mathematics beyond this write-up**
 - [ ] **M3. Nonlinear self-similarity model** (critic = next denoiser call). Proposition 6.1 shows the linear model cannot produce it;
   a model needs the critic's dependence on the denoiser's self-consistency, which T1 would measure first.
-- [ ] **M4. Beyond linear layers:** random-matrix derivation of the off-manifold gain of deep Muon-trained networks, or a wide-network
-  (NTK / mean-field) extension of Theorems 3.1/3.5 and 4.1.
+- [x] **M4 (partly). Beyond linear layers.** Theorem 3.6 extends the sensitivity law to any model linear in its trained parameters
+  given fixed features (random features, frozen deep features, wide networks in the lazy/NTK regime), with the Mahalanobis
+  norm $J_u^\top\hat\Sigma_\varphi^{-1}J_u$ as the vulnerability measure (proved and verified).
+- [ ] **M4 (rest).** Feature-learning (non-lazy) regime and the polar dynamics of all layers jointly: needs a mean-field or
+  random-matrix analysis of Muon beyond this write-up.
