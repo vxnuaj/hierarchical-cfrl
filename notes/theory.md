@@ -116,3 +116,15 @@ Revised mechanism (to be confirmed by the gradient-coherence and refit-churn run
    answers almost unchanged: MA run changes 33% of answers, balanced), and refits do not redirect it.
 4. *Policy side.* An AdamW-trained policy is safe even with a Muon critic: its output moves an order of magnitude
    less per actor step (|J^T u|^2 35–41 vs 614–629) and preferentially on-manifold.
+
+## 5. Persistence and removal (toy, 2026-10-30)
+
+* **GD cannot unlearn what Muon wrote.** The GD/AdamW gradient along an input direction scales with its variance
+  lam_i, so the weight component Muon wrote along a low-variance direction decays at rate ~lam_i under any later
+  GD-type fine-tuning: AdamW refinement for 3,000 steps leaves the off/on gain at 1.67. [checked numerically]
+* **Weight decay removes it.** Decoupled decay shrinks all components at rate lr*wd; the loss gradient restores only
+  the components the data support. Off/on gain 1.67 -> 1.55 (wd 0.1) -> 0.40 (wd 1) -> 0.13 (wd 1, 3x lr), and the
+  pathwise loop with a refit head recovers (peak true reward +0.32 / +1.00 vs never improving). [checked numerically]
+* **Refit loop toy.** With refit heads a critic on a Muon trunk never improves a free policy, even though the head is
+  refit to the TRUE reward at every step; critics on SGD/AdamW trunks improve it, then over-optimise slowly; with
+  frozen heads every trunk is exploited. Head-side invariance augmentation does not help. [checked numerically]
