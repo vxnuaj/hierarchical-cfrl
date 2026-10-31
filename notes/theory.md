@@ -128,3 +128,49 @@ Revised mechanism (to be confirmed by the gradient-coherence and refit-churn run
 * **Refit loop toy.** With refit heads a critic on a Muon trunk never improves a free policy, even though the head is
   refit to the TRUE reward at every step; critics on SGD/AdamW trunks improve it, then over-optimise slowly; with
   frozen heads every trunk is exploited. Head-side invariance augmentation does not help. [checked numerically]
+
+## 6. Synthesis of the mechanism analysis (draft 2026-10-31 02:30; final numbers in notes/results.md 19:20 10-30 → )
+
+**What is established on ELF (Game24, flat model, seed-42 Muon policy):**
+
+1. *Optimizer fingerprint.* Muon writes flat, high-rank updates (stable rank/n 0.18–0.24 vs AdamW 0.03) and leaves
+   flat weight spectra (0.143 vs 0.034); every Muon model shares this, related or not.
+2. *Two routes to collapse.*
+   - **Self-similarity.** A critic whose trunk is the policy's own model is exploited even when frozen:
+     600 steps of pure ascent take accuracy 82 → 3% while the critic's AUC falls to 0.51. The exploit is specific:
+     no other critic (sibling, independent Muon, AdamW) is fooled by those states. Frozen exploitation is slower for a
+     sibling Muon or an AdamW critic (82 → 66 / 45 at 600 steps) and absent for an independent Muon critic (80–86).
+   - **The refit loop.** In RL the critic head is refit every iteration. For Muon trunks a refit rotates the
+     critic's input gradient (cos 0.59–0.60 with the original after 200 refit steps) about twice as far as for
+     AdamW trunks (0.84–0.85). With a frozen head the independent-Muon critic barely moves the policy (63.9 → 62.8 at
+     it250) whereas with refits it collapses (56.0 at it250, final −11.4). The refit loop is what turns a non-self
+     Muon critic into a collapse.
+3. *Why AdamW trunks protect in the loop.* Their critics share one steep direction (gradient agreement 0.81–0.85
+   across critics trained on different data; 0.94 in parameter space; logit gain 4–5× larger per unit move), which is
+   answer-preserving (a single displacement along it changes ~1% of tokens; a frozen attack along it inflates the
+   critic +5,900 with accuracy unchanged for 400 steps). Under refits the direction is kept, so the actor's
+   normalised steps are coherent (gcos 0.93–0.95 vs native 0.46 early) and are spent along it. First-order, an
+   AdamW critic step does NOT improve accuracy (−1.6/−0.8) while Muon critic steps do (+4.7…+5.3): protection is not
+   a better signal but a stable, benign sink for the actor's step plus slow genuine improvement (best-val +3.5).
+4. *Policy side.* An AdamW-trained policy moves its output ~15× less per actor step (|J^T u|^2 35–41 vs 614–629) and
+   is safe even with a Muon critic.
+5. *Negative results.* The collapsing policy does not drift off the data manifold (off-manifold energy flat);
+   critic AUC on shifted states drops alike for all critics; a radial (latent-scale) explanation is ruled out
+   (radial share ≤1%); no attack transfers between trunks.
+
+**Theory (toys, `hcfrl/theory/`):** Muon's polar step is a rotation-equivariant whitening: it learns every input
+direction at a rate independent of its variance, so it fits noise along low-variance directions (off/on gain
+∝ lam_off^-1/2; AdamW/SGD flat; AdamW whitens too when the manifold is axis-aligned). A head on a Muon trunk can
+fit the reward yet its input gradient is mostly off-manifold, weakly aligned with the true gradient (0.26–0.32 vs
+0.84) and unstable across refits (0.62–0.82 vs 0.95–0.98); in a pathwise loop with refit heads a Muon trunk never
+improves the policy while SGD/AdamW trunks do. GD-type fine-tuning cannot remove the Muon component (gain unchanged
+after 3,000 AdamW steps); decoupled weight decay can (1.67 → 0.13) and restores the loop.
+
+**Practical rule.** For pathwise RL, (i) never build the critic on the policy's own weights (self-similarity
+route); (ii) build it on a trunk whose optimizer kept the spectral bias (AdamW/SGD, or with weight decay strong
+enough to erase low-variance components), because the refit loop needs a gradient direction that refits do not
+rotate. Head-side remedies (more data, more refits, sharpness-aware objectives, invariance augmentation) do not fix a
+Muon trunk.
+
+**Open:** ELF test of trunk refinement (AdamW-refined trunk: 59.2 at it250, like the AdamW swap; weight-decayed
+refinement underpowered); the H-ELF frozen attack; a closed-form account of the self-similarity route.
