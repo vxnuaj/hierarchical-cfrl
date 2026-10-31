@@ -1,4 +1,4 @@
-"""Numerical verification of the closed forms stated in notes/theory.md (Theorems 3.1, 3.3, 4.1, Prop. 4.3, 6.1)."""
+"""Numerical verification of the closed forms stated in notes/theory.md (Thm 3.1, Thm 3.4, Thm 3.5, Thm 3.6, Thm 4.1 / Cor 4.3, Prop 5.5, Prop 6.1)."""
 import math
 import torch
 torch.manual_seed(0); torch.set_default_dtype(torch.float64)
@@ -28,8 +28,8 @@ Wg = W0.clone(); Ww = W0.clone()
 for k in range(2000):
     Wg = Wg - eta * (Wg - Wb2) @ S
     Ww = Ww - eta * ((Ww - Wb2) @ S + mu * Ww)
-print("Thm3.3 residual of initial component after GD  :", [round(x, 4) for x in (Wg.norm(dim=0) / c).tolist()], " predicted exp(-lam t):", [round(math.exp(-l * 2000 * eta), 4) for l in lam.tolist()])
-print("       after GD + weight decay mu=0.5          :", [round(x, 6) for x in (Ww.norm(dim=0) / c).tolist()], " predicted exp(-(lam+mu) t):", [round(math.exp(-(l + mu) * 2000 * eta), 6) for l in lam.tolist()])
+print("Thm3.4 residual of initial component after GD  :", [round(x, 4) for x in (Wg.norm(dim=0) / c).tolist()], " predicted (1-eta lam)^k:", [round((1 - eta * l) ** 2000, 4) for l in lam.tolist()])
+print("       after GD + weight decay mu=0.5          :", [round(x, 6) for x in (Ww.norm(dim=0) / c).tolist()], " predicted (1-eta(lam+mu))^k:", [round((1 - eta * (l + mu)) ** 2000, 6) for l in lam.tolist()])
 
 # --- Thm 4.1 / Prop 4.3: ridge head on linear trunk, Monte Carlo mean/cov of the input gradient
 nT, nN, p, m, s, kappa = 4, 20, 40, 200, 0.5, 0.1
@@ -56,7 +56,7 @@ for aN in [0.1, 1.0, 10.0]:
     stab_mc = (G[i] * G[j]).sum(1).mean() / (G ** 2).sum(1).mean()
     offshare_pred = (s**2 / m * nN * muN**2 * lamN) / (gbar.norm()**2 + torch.trace(C))
     offshare_mc = (G[:, nT:] ** 2).sum(1).mean() / (G ** 2).sum(1).mean()
-    print(f"Thm4.1 aN={aN:5.1f}: |mean err| {(G.mean(0) - gbar).norm():.2e}  cov rel err {((torch.cov(G.T) - C).norm() / C.norm()):.3f}  "
+    print(f"Thm4.1/Cor4.3 aN={aN:5.1f}: |mean err| {(G.mean(0) - gbar).norm():.2e}  cov rel err {((torch.cov(G.T) - C).norm() / C.norm()):.3f}  "
           f"stability pred {stab_pred:.3f} mc {stab_mc:.3f}  off-share pred {offshare_pred:.3f} mc {offshare_mc:.3f}  mu_N {muN:.2f}")
 
 # --- Prop 6.1: Haar average of tr(B K) for K a rotated copy, vs aligned

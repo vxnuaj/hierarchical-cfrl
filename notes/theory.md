@@ -41,6 +41,8 @@ solutions holding a fraction $1-\epsilon$ of their variance, $N = T^\perp$, and 
 **Lemma 1.1 (first-order effect of an actor step).** Let $u = \mathcal P(J_\theta^\top G)$ and $\delta\theta = \eta u$. Then the
 clean estimate, the critic and any differentiable reward functional $R(\hat x)$ change by
 $$\delta\hat x = \eta J_\theta u + O(\eta^2),\qquad \delta\ell = \eta \langle G, J_\theta u\rangle + O(\eta^2), \qquad \delta R = \eta\langle \nabla R, J_\theta u\rangle + O(\eta^2).$$
+*Assumptions.* $\mathrm d_\theta$, $\ell\circ\Phi$ and $R$ are $C^2$ (or have Lipschitz gradients) near the current point, and the input state
+$s_{k-1}$ is held fixed with respect to $\theta$ (stop-gradient: one differentiable denoiser call, as in CFRL).
 *Proof.* Taylor expansion of $\hat x(\theta+\eta u)$ and of $\ell\circ\Phi$ and $R$ around $\hat x$. $\square$ **[proved]**
 
 For gradient descent ($\mathcal P = \mathrm{id}$) define the *output kernel* $K = J_\theta J_\theta^\top$, a PSD operator on
@@ -59,6 +61,10 @@ $$\mathcal E = \frac{G_N^\top K_{NN} G_N}{G_T^\top K_{TT}G_T}.$$
 With $k_N^{\max} = \lambda_{\max}(K_{NN})$ and $k_T^{\min}$ the smallest eigenvalue of $K_{TT}$ restricted to $T$ (assumed $>0$),
 $$\mathcal E \;\le\; \frac{\|G_N\|^2}{\|G_T\|^2}\cdot\frac{k^{\max}_N}{k^{\min}_T}.$$
 *Proof.* Rayleigh-quotient bounds on numerator and denominator. $\square$ **[proved]**
+
+Caveats. Proposition 1.2 and Corollary 1.3 are statements for plain gradient steps ($\mathcal P=\mathrm{id}$); all our runs use AdamW,
+for which $\delta\ell = \eta\langle J^\top G,\mathcal P(J^\top G)\rangle$ has no kernel form, so the measured quantities below are proxies for the two
+factors, not instances of them. $\mathcal E$ requires $G_T\neq0$, and its denominator is the critic gain on $T$, not reward progress.
 
 The bound is a product of a *critic term* (the off-manifold share of the pull) and a *policy term* (how cheaply the
 policy moves off the manifold). The policy × critic interaction of the swap experiments — only a Muon policy with a
@@ -83,21 +89,25 @@ $G$, then $R$ and $Q$ are signed permutation matrices.
 $i$-th column of $R$ and $q_j^\top$ the $j$-th row of $Q$. Every entry of the rank-one matrix $r_iq_j^\top$ must then lie in
 $\{-1,0,1\}$. Since $\|r_i\| = \|q_j\| = 1$, the nonzero entries of $r_iq_j^\top$ have modulus $|r_{li}||q_{jm}|\le 1$ with equality
 only if both factors have modulus one, so $r_i$ and $q_j$ each have exactly one nonzero entry, of modulus one. As this
-holds for all $i,j$, $R$ and $Q$ are signed permutations. $\square$ **[proved]**
+holds for all $i,j$, $R$ and $Q$ are signed permutations. Conversely, signed permutations commute with the entrywise sign,
+so the characterisation is exact. $\square$ **[proved]**
 
 **Lemma 2.3 (descent rates).** Along the respective flows,
 $$\dot L = -\|\nabla L\|_F^2\ \ \text{(GD)},\qquad \dot L = -\textstyle\sum_{ij}|(\nabla L)_{ij}|\ \ \text{(sign flow)},\qquad \dot L = -\|\nabla L\|_*\ \ \text{(polar flow)} .$$
-*Proof.* $\dot L = \langle \nabla L,\dot W\rangle$; $\langle G,\mathrm{polar}(G)\rangle = \operatorname{tr}(V\Sigma U^\top UV^\top) = \sum_i\sigma_i = \|G\|_*$ and
-$\langle G,\mathrm{sign}(G)\rangle = \sum_{ij}|G_{ij}|$. $\square$ **[proved]**
+(the sign and polar flows understood in the Filippov sense, the identities holding for almost every $t$).
+*Proof.* Where the velocity is given by the formulas, $\dot L = \langle \nabla L,\dot W\rangle$, $\langle G,\mathrm{polar}(G)\rangle = \operatorname{tr}(V\Sigma U^\top UV^\top) = \sum_i\sigma_i = \|G\|_*$
+and $\langle G,\mathrm{sign}(G)\rangle = \sum_{ij}|G_{ij}|$. In general (rank-deficient $\nabla L$, or zero entries for sign flow) the right-hand
+sides are discontinuous. They are bounded and measurable, so Filippov solutions exist. Every element of the Filippov set
+of $W\mapsto-\mathrm{polar}(\nabla L(W))$ lies in $-\partial\|\cdot\|_*(\nabla L(W))$, because subdifferentials of a convex function are convex and
+outer-semicontinuous, and $\langle G,Y\rangle = \|G\|_*$ for every $Y\in\partial\|G\|_*$ (positive homogeneity). Since $L\circ W$ is absolutely continuous,
+$\dot L = -\|\nabla L\|_*$ for almost every $t$. The same argument with $\partial\|\cdot\|_1$ covers sign flow. $\square$ **[proved]**
 
 Interpretation. The polar step gives every singular direction of the gradient the same step length, *whatever its
 singular value*, in a basis that rotates with the data (Lemma 2.1). Sign descent does the same only in the fixed
 coordinate basis of the weights (Lemma 2.2). This is the sense in which Muon whitens: second-order optimisation of
-a linear model equals first-order optimisation on whitened data [Wadia et al. 2021], and polar gradient descent has
-been shown to act as an implicit, iterate-dependent whitening preconditioner [*A Quadratic Lens on Muon*, ICML 2026].
-The implicit bias of spectral descent and Muon on separable data is the spectral-norm max-margin solution
-[Fan, Schmidt & Thrampoulidis 2025]: again the (rotation-invariant) geometry, not the data covariance, decides which
-directions are used.
+a linear model equals first-order optimisation on whitened data [Wadia et al. 2021]. The implicit bias of spectral descent
+and Muon on separable data is the spectral-norm max-margin solution [Fan, Schmidt & Thrampoulidis 2025]: the norm defining
+the descent geometry, rather than the plain Euclidean geometry of GD, determines which max-margin solution is selected.
 
 ---
 
@@ -111,7 +121,7 @@ with $\bar W$ the least-squares solution. The *sensitivity of the trained layer 
 **Theorem 3.1 (gradient flow vs. polar descent).**
 (a) Gradient flow $\dot W = -\nabla L$ from $W(0)=0$ gives, for every $\bar W$,
 $$W(t)e_i = \big(1-e^{-\lambda_i t}\big)\,\bar We_i .$$
-Discrete GD with step $\eta<1/\lambda_{\max}$ gives $W_k e_i = \big(1-(1-\eta\lambda_i)^k\big)\bar We_i$.
+Discrete GD with any step $\eta$ gives $W_k e_i = \big(1-(1-\eta\lambda_i)^k\big)\bar We_i$ (convergent iff $\eta<2/\lambda_{\max}$).
 
 (b) Assume the columns of $\bar W$ are mutually orthogonal: $\bar We_i = c_iq_i$ with $c_i>0$ and $\{q_i\}$ orthonormal.
 Then the polar flow $\dot W = -\mathrm{polar}(\nabla L)$ from $W(0)=0$ has the solution
@@ -128,7 +138,10 @@ Because $\{q_i\}$ and $\{e_i\}$ are orthonormal families, this is a singular val
 $c_i|a_i|\lambda_i$, left vectors $-\mathrm{sign}(a_i)q_i$ and right vectors $e_i$; therefore
 $$\mathrm{polar}(\nabla L) = -\sum_{i:\,a_i\neq 0}\mathrm{sign}(a_i)\,q_ie_i^\top ,\qquad \dot D = -\mathrm{polar}(D\Sigma) = \sum_{i:\,a_i\ne0}\mathrm{sign}(a_i)\, q_ie_i^\top ,$$
 i.e. $c_i\dot a_i = -\mathrm{sign}(a_i)$ while $a_i\neq0$. Hence $a_i(t) = \max(0,1-t/c_i)$: the ansatz is preserved, and since the
-right-hand side is discontinuous only at $a_i=0$, where the component stops, this is the Filippov solution. Then
+right-hand side is discontinuous only at $a_i=0$, where the component stops, this is a Filippov solution. It is the
+unique one: for two Filippov solutions $W_1,W_2$ with velocities $-Y_1,-Y_2$, $Y_j\in\partial\|\cdot\|_*(\nabla L(W_j))$, the inner product
+$\langle A,B\rangle_\Sigma = \operatorname{tr}(A\Sigma B^\top)$ gives $\tfrac{d}{dt}\tfrac12\|W_1-W_2\|_\Sigma^2 = -\langle Y_1-Y_2,\nabla L(W_1)-\nabla L(W_2)\rangle\le0$ by monotonicity of
+the subdifferential, since $\nabla L(W_1)-\nabla L(W_2) = (W_1-W_2)\Sigma$. Then
 $We_i = \bar We_i + De_i = c_i(1-a_i)q_i$. In discrete time $a_i^{k+1} = a_i^k - (\eta/c_i)\,\mathrm{sign}(a_i^k)$: $a_i$ decreases
 linearly until it changes sign and then oscillates in $[-\eta/c_i,\eta/c_i]$, which gives the bound. $\square$
 **[proved; verified numerically: GD columns match the formula to 4 decimals; polar residuals equal $c_i-k\eta$ or are $\le\eta$]**
@@ -143,17 +156,20 @@ targets $Y = XW^{*\top} + E$ with $E$ i.i.d. $\mathcal N(0,s^2)$, and a directio
 ($W^*e_i = 0$). Then $\bar We_i \sim \mathcal N\big(0,\ \tfrac{s^2}{m\lambda_i}I_d\big)$ and, under the orthogonality assumption of
 3.1(b) (which holds approximately when $d\gg n$, the noise columns being independent Gaussians),
 $$\mathbb E\,\|W^{\rm GD}(t)e_i\|^2 = \big(1-e^{-\lambda_it}\big)^2\frac{d\, s^2}{m\lambda_i} \;\le\; \frac{t^2\,\lambda_i\, d\, s^2}{m}\;\xrightarrow[\lambda_i\to0]{}\;0,$$
-$$\mathbb E\,\|W^{\rm polar}(t)e_i\|^2 = \mathbb E\,\min(t,c_i)^2,\qquad c_i^2\sim \frac{s^2}{m\lambda_i}\chi^2_d ,\qquad \xrightarrow[\lambda_i\to0]{}\; t^2 .$$
+$$\text{(conditional on the orthogonality of 3.1(b))}\qquad \mathbb E\,\|W^{\rm polar}(t)e_i\|^2 = \mathbb E\,\min(t,c_i)^2,\qquad c_i^2\sim \frac{s^2}{m\lambda_i}\chi^2_d ,\qquad \xrightarrow[\lambda_i\to0]{}\; t^2 .$$
 At any fixed training time the GD sensitivity along a direction of variance $\lambda$ vanishes like $\sqrt\lambda$, while the
 polar sensitivity grows like $\min\big(t,\ s\sqrt{d/(m\lambda)}\big)$, i.e. like $\lambda^{-1/2}$ until it saturates at the
 training horizon $t$.
 *Proof.* $\bar W = Y^\top X(X^\top X)^{-1} = W^* + E^\top X\Sigma^{-1}/m$. Its column $i$ is $E^\top X e_i/(m\lambda_i)$ with
 $\|Xe_i\|^2 = m\lambda_i$, a Gaussian vector with covariance $\tfrac{s^2}{m\lambda_i}I_d$. Insert into Theorem 3.1 and use
-$1-e^{-x}\le x$. $\square$ **[proved, linear model]**
+$1-e^{-x}\le x$. $\square$ **[GD half: proved, linear model. Polar half: proved conditional on the orthogonality assumption of 3.1(b),
+which under this Gaussian noise model holds only approximately (with probability 0 exactly); a fully fitted solution, by any
+interpolating method, has noise sensitivity $\|\bar We_i\|\sim s\sqrt{d/(m\lambda_i)}$ without that assumption.]** Note also that the
+polar/GD ratio at fixed $t$ scales as $\lambda^{-1/2}$ only in the saturated regime $c_i>t$; once direction $i$ is fitted it scales as $1/(\lambda_it)$.
 
 This is the classical spectral bias of gradient descent — directions are learned at rates proportional to their
-variance, cf. the mode-by-mode dynamics of [Saxe, McClelland & Ganguli 2014] and the spectral bias of
-[Rahaman et al. 2019] — and its removal by whitening [Wadia et al. 2021]. It differs from [Amari et al. 2021], who show
+variance, the classical eigenvalue-spread picture of linear least-squares learning [LeCun, Kanter & Solla 1991; Advani & Saxe
+2020] — and its removal by whitening [Wadia et al. 2021]. It differs from [Amari et al. 2021], who show
 that preconditioning can *help* in-distribution generalisation under label noise: our quantity is sensitivity to
 *off-distribution* directions, which preconditioning increases.
 
@@ -175,8 +191,13 @@ Corollary 3.2 predicts; SGD and AdamW are flat. **[verified numerically]**
 $$W_{ji}(t) = \mathrm{sign}(\bar W_{ji})\,\min\big(t,|\bar W_{ji}|\big),$$
 independent of $\lambda_i$.
 *Proof.* $(\nabla L)_{ji} = (W-\bar W)_{ji}\lambda_i$ has the sign of $(W-\bar W)_{ji}$, so every entry moves at unit speed to its
-target and stops there. $\square$ **[proved]** For a rotated covariance $R\Lambda R^\top$ no such decoupling exists (Lemma 2.2)
-and AdamW keeps the spectral bias. Prediction checked: with the manifold axis-aligned, AdamW's off/on gain rises
+target and stops there. $\square$ **[proved]** For a rotated covariance $R\Lambda R^\top$ this decoupling is lost (Lemma 2.2), but that
+alone does not imply that AdamW keeps the spectral bias: as Theorem 3.5 shows, idealised sign *flow* also fits every direction in
+finite time. Why AdamW keeps it in practice is an empirical statement here, with two candidate mechanisms that the theory does
+not model: (i) in a rotated basis every weight coordinate mixes all input directions, so Adam's per-coordinate normaliser
+$\sqrt{v}+\epsilon$ is set by the dominant (high-variance) gradient components and is nearly uniform across coordinates, making the
+update approximately a rescaled GD step, whose per-direction rate is $\propto\lambda_i$; (ii) along directions whose gradient falls
+below $\epsilon$, Adam reduces to GD with step $\eta/\epsilon$. Prediction checked: with the manifold axis-aligned, AdamW's off/on gain rises
 0.32 → 0.82 while SGD (0.26 → 0.27) and Muon (1.67 → 1.71) are unchanged (`hcfrl/theory/axis_check.py`)
 **[verified numerically]**. The ELF latents (normalised T5 embeddings) are not axis-aligned.
 
@@ -190,41 +211,51 @@ $$W(t)e_i = e^{-(\lambda_i+\mu)t}\,W_0e_i + \big(1-e^{-(\lambda_i+\mu)t}\big)\fr
 so the initial component decays at rate at least $\mu$ in every direction, and the limit is the ridge solution, whose
 sensitivity along direction $i$ is shrunk by $\lambda_i/(\lambda_i+\mu)\to0$ as $\lambda_i\to0$.
 *Proof.* The ODE $\dot W = -W(\Sigma+\mu I) + \bar W'\Sigma$ is linear and diagonal in $\{e_i\}$; solve column by column ($\mu=0$
-gives (a)). $\square$ **[proved; verified numerically: residual fractions match $e^{-\lambda t}$ and $e^{-(\lambda+\mu)t}$ to the printed precision]**
+gives (a)). $\square$ **[proved; verified numerically for $\bar W'=0$: residual fractions match the discrete-time factors
+$(1-\eta\lambda)^k$ and $(1-\eta(\lambda+\mu))^k$ (the continuous $e^{-\lambda t}$, $e^{-(\lambda+\mu)t}$ differ from them by ≈4% at the tested step);
+the ridge-shrinkage term with $\bar W'\neq0$ is not separately tested]** This is a gradient-flow result; the claim that *AdamW* fine-tuning
+cannot remove the Muon component rests on the toy (below), not on the theorem.
 
-**Theorem 3.5 (general targets: polar flow fits every direction in finite time).** Drop the orthogonality assumption: let
-$\bar W\in\mathbb R^{d\times n}$ be arbitrary and $\Sigma = \operatorname{diag}(\lambda_i)\succ0$. Along any (Filippov) solution of the polar flow
-$\dot W = -\mathrm{polar}(\nabla L)$ from $W(0)=0$,
-$$\frac{d}{dt}\sqrt{L(t)} \;\le\; -\sqrt{\lambda_{\min}/2}\qquad\text{whenever } L(t)>0,$$
-so $L(t)=0$, i.e. $W(t) = \bar W$ **in every direction**, for all $t\ge T_{\rm pol} := \sqrt{2L(0)/\lambda_{\min}}$. In contrast, gradient flow satisfies
-$\|W^{\rm GD}(t)e_i\| = (1-e^{-\lambda_it})\|\bar We_i\| \le \lambda_i t\,\|\bar We_i\|$ (Theorem 3.1(a), no assumption needed). Hence at $t = T_{\rm pol}$
-$$\frac{\|W^{\rm pol}(T_{\rm pol})e_i\|}{\|W^{\rm GD}(T_{\rm pol})e_i\|} \;\ge\; \frac{1}{\lambda_i T_{\rm pol}} = \frac{1}{\lambda_i}\sqrt{\frac{\lambda_{\min}}{2L(0)}} ,$$
-which for the lowest-variance direction ($\lambda_i=\lambda_{\min}$) is $\big(2L(0)\lambda_{\min}\big)^{-1/2}$. Under the noise model of Corollary 3.2,
-$L(0) = \tfrac12\sum_i\lambda_i\|\bar We_i\|^2$ stays bounded as $\lambda_{\min}\to0$ (each noise column contributes $\lambda_i\cdot\tfrac{ds^2}{m\lambda_i} = ds^2/m$), so the ratio
-grows like $\lambda_{\min}^{-1/2}$ — the same law as Corollary 3.2, now without the orthogonality assumption.
-*Proof.* By Lemma 2.3, $\dot L = -\|\nabla L\|_*$ almost everywhere. With $D = W-\bar W$, $\nabla L = D\Sigma = (D\Sigma^{1/2})\Sigma^{1/2}$, so
-$$\|\nabla L\|_* \ge \|\nabla L\|_F \ge \sigma_{\min}(\Sigma^{1/2})\,\|D\Sigma^{1/2}\|_F = \sqrt{\lambda_{\min}}\,\sqrt{2L}.$$
-Thus $\dot L\le-\sqrt{2\lambda_{\min}L}$, i.e. $\tfrac{d}{dt}\sqrt L \le -\sqrt{\lambda_{\min}/2}$ while $L>0$; integrating, $\sqrt{L(t)}\le\sqrt{L(0)}-t\sqrt{\lambda_{\min}/2}$, which
-reaches 0 by $T_{\rm pol}$. Once $L=0$, $D\Sigma=0$ and $\Sigma\succ0$ give $D=0$, and $\mathrm{polar}(0)=0$ keeps it there. The GD ratio uses
-$1-e^{-x}\le x$. $\square$ **[proved; verified numerically with generic non-orthogonal $\bar W$ ($\lambda$ from 1 to $10^{-4}$): discrete
-polar descent reaches loss $1.7\times10^{-7}$ by $t = 1.2\,T_{\rm pol}$ with every column fully fitted (ratio 1.000), while GD has fitted
-3.8% of the lowest-variance column and 32.5% of the next]**
+**Theorem 3.5 (normalised flows fit every direction in finite time — this does *not* separate Muon from GD).** Let
+$\bar W\in\mathbb R^{d\times n}$ be arbitrary and $\Sigma = \operatorname{diag}(\lambda_i)\succ0$. Let $\|\cdot\|$ be any norm on matrices whose dual norm
+dominates the Frobenius norm, $\|G\|_\circ\ge\|G\|_F$ (nuclear norm: polar flow; entrywise $\ell_1$: sign flow; Frobenius: normalised GD
+$\dot W = -\nabla L/\|\nabla L\|_F$). Along any Filippov solution of the corresponding normalised steepest-descent flow from $W(0)=0$,
+$$\frac{d}{dt}\sqrt{L(t)} \;\le\; -\sqrt{\lambda_{\min}/2}\qquad\text{for almost every } t \text{ with } L(t)>0,$$
+so $W(t) = \bar W$ for all $t\ge T := \sqrt{2L(0)/\lambda_{\min}}$.
+*Proof.* As in Lemma 2.3, $\dot L = -\|\nabla L\|_\circ$ a.e. With $D = W-\bar W$, $\|\nabla L\|_\circ\ge\|D\Sigma\|_F \ge \sqrt{\lambda_{\min}}\,\|D\Sigma^{1/2}\|_F = \sqrt{2\lambda_{\min}L}$,
+so $\tfrac{d}{dt}\sqrt L\le-\sqrt{\lambda_{\min}/2}$ wherever $L>0$. Integrating, $L$ reaches 0 by $T$; because $L\circ W$ is absolutely continuous and
+non-increasing, it stays 0, and $L=0$ with $\Sigma\succ0$ forces $W=\bar W$. $\square$ **[proved; verified numerically: with generic non-orthogonal
+$\bar W$, discrete polar descent fits every column by $1.2\,T$; an independent check (proof review, `scratchpad/review/check1.py`) found normalised GD
+does the same and sign descent approaches it as $\eta\to0$]**
 
-This removes the orthogonality assumption of Theorem 3.1(b) at the price of a less explicit trajectory: polar
-descent drives the loss to zero in a time governed by $\lambda_{\min}^{-1/2}$ and the *total* initial loss, whereas GD needs time
-$\propto\lambda_i^{-1}$ per direction — in that time window Muon has fitted the label noise along every low-variance direction and GD
-has not.
+*Why this is not a separation.* The proof uses only that the dual norm dominates $\|\cdot\|_F$, so it holds for normalised GD, which
+traces the same path as GD at a different speed. Comparing polar flow with *unnormalised* gradient flow at the same $t$ compares time
+units, and is not invariant to rescaling the data ($\Sigma\to c\Sigma$ speeds GD by $c$ and leaves $T$ unchanged). An earlier version of this
+theorem drew a Muon-vs-GD ratio $\ge 1/(\lambda_iT)$ from it; that conclusion is withdrawn.
+
+**Corollary 3.5′ (the separation is per step under a stable step size).** With a step budget of $k$ steps:
+(a) discrete GD needs $\eta<2/\lambda_{\max}$ to converge on the top direction, and then by Theorem 3.1(a) has fitted at most a fraction
+$$1-(1-\eta\lambda_i)^k \;\le\; k\eta\lambda_i \;<\; 2k\,\frac{\lambda_i}{\lambda_{\max}}$$
+of direction $i$ — a bound that depends only on the condition ratio $\lambda_i/\lambda_{\max}$ and is invariant to rescaling the data;
+(b) discrete polar descent with step $\eta$ fits direction $i$ to within $\max(c_i-k\eta,\eta)$ (Theorem 3.1(b)), independently of $\lambda_i$, under the
+orthogonality assumption of 3.1(b).
+So with $k\ll\lambda_{\max}/\lambda_i$ steps, GD has fitted almost nothing along direction $i$ while polar descent with $k\eta\ge c_i$ has fitted it
+completely. *Proof.* (a) $1-(1-x)^k\le kx$ for $x\in[0,1]$; (b) Theorem 3.1(b). $\square$ **[proved; (b) conditional on orthogonality]**
+
+*Open.* Part (b) for general (non-orthogonal) $\bar W$ in discrete time. The descent-lemma bound
+$L_{k+1}\le L_k - \eta\|G_k\|_* + \tfrac{\eta^2}{2}\,n\,\lambda_{\max}$ only guarantees a residual of order $\eta n\lambda_{\max}/\lambda_{\min}$ along the weakest direction,
+which is not scale-free; we have no general per-step separation without orthogonality. The numerical evidence for the
+general case is the MLP table above (real Muon with momentum and Newton–Schulz, generic targets).
 
 **Theorem 3.6 (any fixed feature map: the vulnerable input directions are those with large Mahalanobis feature norm).**
-Let $f(x) = W\varphi(x)$ with an arbitrary fixed, differentiable feature map $\varphi:\mathbb R^{n_{\rm in}}\to\mathbb R^p$ (random features, a frozen deep
-network, or the tangent features $\varphi(x) = \nabla_\theta f(x;\theta_0)$ of a network in the linearised / lazy regime [Jacot et al. 2018;
-Chizat et al. 2019]); $m\ge p$ training inputs with feature matrix $\Phi$ and $\hat\Sigma_\varphi = \Phi^\top\Phi/m\succ0$; targets $Y = \Phi W^{*\top} + E$,
+Let $f(x) = W\varphi(x)$ with an arbitrary fixed, differentiable feature map $\varphi:\mathbb R^{n_{\rm in}}\to\mathbb R^p$ (random features, or a frozen
+trunk with a trained linear readout — e.g. a critic head on frozen features); $m\ge p$ training inputs with feature matrix $\Phi$ and $\hat\Sigma_\varphi = \Phi^\top\Phi/m\succ0$; targets $Y = \Phi W^{*\top} + E$,
 $E$ i.i.d. $\mathcal N(0,s^2)$; $W\in\mathbb R^{d\times p}$ trained from 0 on the squared loss. For an input direction $u$ at a point $x$, let
 $J_u := J_\varphi(x)\,u$ be the induced feature perturbation. The input sensitivity of the *noise-fitted part* of the trained model,
 $\Delta(t) := (W(t) - W_{\rm clean}(t))J_u$ with $W_{\rm clean}$ the run on noiseless targets, satisfies:
-$$\text{fully fitted (polar flow for } t\ge T_{\rm pol}\text{, Theorem 3.5):}\qquad \mathbb E\|\Delta\|^2 = \frac{d\,s^2}{m}\;J_u^\top\hat\Sigma_\varphi^{-1}J_u ,$$
+$$\text{fully fitted } (W=\bar W\text{, reached by any interpolating method, e.g. the normalised flows of Theorem 3.5}):\qquad \mathbb E\|\Delta\|^2 = \frac{d\,s^2}{m}\;J_u^\top\hat\Sigma_\varphi^{-1}J_u ,$$
 $$\text{gradient flow at time } t:\qquad \mathbb E\|\Delta(t)\|^2 = \frac{d\,s^2}{m}\;J_u^\top\big(I-e^{-\hat\Sigma_\varphi t}\big)\hat\Sigma_\varphi^{-1}\big(I-e^{-\hat\Sigma_\varphi t}\big)J_u \;\le\; \frac{d\,s^2}{m}\,t^2\;J_u^\top\hat\Sigma_\varphi J_u .$$
-So a fully fitted (Muon) model's noise sensitivity along $u$ is the *inverse*-covariance (Mahalanobis) norm of the feature perturbation,
+So a fully fitted model's noise sensitivity along $u$ is the *inverse*-covariance (Mahalanobis) norm of the feature perturbation,
 large exactly when moving the input along $u$ moves the features into directions the training features barely vary in; the GD
 model's is bounded by the *covariance* norm, small in exactly those directions.
 *Proof.* The least-squares solution is $\bar W = W^* + E^\top\Phi\hat\Sigma_\varphi^{-1}/m$ and gradient flow gives $W(t) = \bar W\big(I-e^{-\hat\Sigma_\varphi t}\big)$
@@ -234,10 +265,13 @@ $(1-e^{-\lambda t})^2/\lambda\le t^2\lambda$ on each eigenvalue. $\square$ **[pr
 manifold, off-manifold input variance $10^{-4}$): fitted sensitivity 1.18 (on) vs 10.11 (off) predicted, 1.16 / 9.65 by Monte Carlo; GD at
 $t=50$: 0.0095 / 0.0105 predicted, 0.010 / 0.010 Monte Carlo]**
 
-This extends Theorems 3.1 and 3.5 from linear layers to every model that is linear in its trained parameters given fixed
-features — in particular to wide networks in the lazy regime, where training is linear in the tangent features — and identifies the
-general vulnerability measure: the Mahalanobis norm $J_u^\top\hat\Sigma_\varphi^{-1}J_u$ of a feature perturbation. Off-manifold input directions are
-dangerous for a fully fitted (Muon) model precisely to the extent that the features respond to them in low-variance directions.
+This extends the noise-sensitivity part of Theorem 3.1 / Corollary 3.2 from linear layers to any model that is linear in its trained
+parameters given fixed features with $m\ge p$, and identifies the vulnerability measure: the Mahalanobis norm $J_u^\top\hat\Sigma_\varphi^{-1}J_u$ of a
+feature perturbation. Off-manifold input directions are dangerous for a fully fitted model precisely to the extent that the features
+respond to them in low-variance directions. *Scope.* It does not cover the lazy/NTK regime, where the tangent features have $p\gg m$
+(one would need $\hat\Sigma_\varphi^+$ with $J_u$ projected onto $\mathrm{range}(\Phi^\top)$), and polar flow on a tangent-feature matrix is not Muon (which
+orthogonalises each layer's matrix separately). Which optimizer reaches the fully fitted solution within a training budget is the
+per-step question of Corollary 3.5′. An earlier version claimed lazy-regime coverage; that claim is withdrawn.
 
 Consequences. (i) Plain AdamW or GD fine-tuning of a Muon-trained critic trunk cannot remove its off-manifold
 sensitivity (toy: off/on gain 1.67 before and after 3,000 AdamW steps). (ii) Weight decay can (toy: 1.67 → 1.55 /
@@ -270,7 +304,7 @@ $\mathbb E\langle g,g'\rangle = \|\bar g\|^2$ and $\mathbb E\|g\|^2 = \|\bar g\|
 
 **Proposition 4.2 (spiked trunk).** Let $\hat\Sigma = \lambda_TP_T + \lambda_NP_N$ with $\dim T = n_T$, $\dim N = n_N$, let $\beta\in T$, and let the
 trunk have gain $a_T$ on $T$ and $a_N$ on $N$ into orthogonal feature subspaces: $A = a_TU_T + a_NU_N$ with
-$U_T^\top U_N = 0$, $U_T^\top U_T = P_T$, $U_N^\top U_N = P_N$. With
+$U_T^\top U_N = 0$, $U_T^\top U_T = P_T$, $U_N^\top U_N = P_N$ (so $p\ge n$: the two feature subspaces are orthogonal and of total rank $n$). With
 $$\mu_T = \frac{a_T^2}{a_T^2\lambda_T+\kappa},\qquad \mu_N = \frac{a_N^2}{a_N^2\lambda_N+\kappa},$$
 we have $M = \mu_TP_T + \mu_NP_N$, $\bar g = \mu_T\lambda_T\,\beta \in T$, and
 $$\operatorname{tr}C = \frac{s^2}{m}\Big(n_T\,\mu_T^2\lambda_T + n_N\,\nu(a_N)\Big),\qquad \nu(a_N) := \mu_N^2\lambda_N = \frac{a_N^4\,\lambda_N}{(a_N^2\lambda_N+\kappa)^2}.$$
@@ -279,7 +313,8 @@ $$F_N = \frac{\tfrac{s^2}{m}\,n_N\,\nu(a_N)}{\|\bar g\|^2+\operatorname{tr}C}.$$
 *Proof.* $A\hat\Sigma A^\top + \kappa I$ acts as $a_T^2\lambda_T+\kappa$ on $\mathrm{range}\,U_T$, as $a_N^2\lambda_N+\kappa$ on $\mathrm{range}\,U_N$, and as $\kappa$ on the
 orthogonal complement; conjugating by $A$ gives $M$. Substitute into Theorem 4.1. $\square$ **[proved]**
 
-**Corollary 4.3 (monotonicity in the trunk's off-manifold gain).** $\nu$ is strictly increasing in $a_N>0$:
+**Corollary 4.3 (monotonicity in the trunk's off-manifold gain).** For a regularised head, $\kappa>0$, $\nu$ is strictly increasing in $a_N>0$
+(at $\kappa=0$, $\nu\equiv1/\lambda_N$ and the effect vanishes: it is a property of regularised, e.g. early-stopped, heads):
 $$\frac{d\nu}{d(a_N^2)} = \frac{2\kappa\,\lambda_N\,a_N^2}{(a_N^2\lambda_N+\kappa)^3} > 0,\qquad \sup_{a_N}\nu = \frac1{\lambda_N}.$$
 Hence the refit stability $\mathcal S$ and the normalised alignment $\|\bar g\|/\sqrt{\mathbb E\|g\|^2} = \sqrt{\mathcal S}$ decrease, and the
 off-manifold share $F_N$ increases, monotonically in $a_N$ — with every on-manifold quantity ($a_T,\lambda_T,\beta$, hence the
@@ -312,7 +347,8 @@ normalised actor steps $x_{t+1} = x_t + \eta\,g_t/\|g_t\|$, and $x_0\in T$.
 
 **Proposition 5.1 (a frozen critic is eventually exploited).** If the critic is frozen, $g_t\equiv g$ with unit direction $u$, then
 $$R(x_t)-R(x_0) = \eta t\,\langle\beta,u\rangle - \tfrac\gamma2\,\eta^2t^2\,\|P_Nu\|^2 ,$$
-which is maximal at $t^\star = \langle\beta,u\rangle\big/\big(\gamma\eta\|P_Nu\|^2\big)$ and negative for $t > 2t^\star$ whenever $P_Nu\ne0$. The time to
+which, if $\langle\beta,u\rangle>0$ and $P_Nu\ne0$, is maximal at $t^\star = \langle\beta,u\rangle\big/\big(\gamma\eta\|P_Nu\|^2\big)$ and negative for $t > 2t^\star$; if
+$\langle\beta,u\rangle\le0$ the reward is non-increasing from $t=0$. The time to
 exploitation grows with the critic's alignment and shrinks with its off-manifold share.
 *Proof.* $x_t = x_0+\eta tu$ and $P_Nx_0 = 0$. $\square$ **[proved]**
 
@@ -332,8 +368,10 @@ no term for self-similarity, which dominates the native case. The frozen-attack 
 alignment and off-manifold share alone.
 
 **Proposition 5.2 (refits with independent noise are self-averaging).** Let $g_t = \bar g + \xi_t$ with $\bar g\in T$ and $\xi_t$ i.i.d. with
-mean zero and $\mathbb E\|P_N\xi_t\|^2 = \sigma_N^2$, and suppose $\|g_t\|\approx\bar\gamma$ is approximately constant (small noise relative to the
-mean, or a clipped step). Then
+mean zero and $\mathbb E\|P_N\xi_t\|^2 = \sigma_N^2$, and suppose $\|g_t\|\approx\bar\gamma$ is approximately constant. (With exact normalisation, the same
+diffusive scaling holds without this approximation if the law of $\xi_t$ is invariant under $P_N\xi\mapsto-P_N\xi$ — true for the Gaussian
+noise of Theorem 4.1 when its covariance is block-diagonal in $(T,N)$ — because then $\mathbb E[P_N\xi_s/\|g_s\|]=0$. The "small noise"
+regime is *not* the Muon regime, which is noise-dominated.) Then
 $$\mathbb E\,R(x_t)-R(x_0) \approx \frac{\eta t}{\bar\gamma}\,\langle\beta,\bar g\rangle - \frac\gamma2\,\frac{\eta^2}{\bar\gamma^2}\,t\,\sigma_N^2 ,$$
 so the off-manifold excursion grows diffusively ($\propto t$ in squared norm), not ballistically ($\propto t^2$) as for a frozen critic.
 *Proof.* With constant normalisation, $x_t - x_0 = \tfrac{\eta}{\bar\gamma}\sum_{s<t}(\bar g+\xi_s)$; then
@@ -351,10 +389,13 @@ $$g_t = \bar g + \xi_t + \Gamma\,\delta_t,\qquad \delta_t := P_N(x_t-x_0),$$
 with $\Gamma$ symmetric PSD on $N$ (the refit head assigns higher value further along the direction the policy has already
 moved). With constant normalisation $\bar\gamma$ the displacement obeys
 $$\delta_{t+1} = \Big(I+\tfrac{\eta}{\bar\gamma}\Gamma\Big)\delta_t + \tfrac{\eta}{\bar\gamma}P_N\xi_t ,$$
-so $\mathbb E\|\delta_t\|^2 \ge \big(\tfrac{\eta}{\bar\gamma}\big)^2\sigma_N^2\sum_{s<t}\big(1+\tfrac\eta{\bar\gamma}\lambda_{\min}(\Gamma)\big)^{2s}$ grows geometrically when $\lambda_{\min}(\Gamma)>0$, and the
-reward loss $\tfrac\gamma2\|\delta_t\|^2$ eventually dominates any linear on-manifold gain.
+so $\mathbb E\|\delta_t\|^2 \ge \big(\tfrac{\eta}{\bar\gamma}\big)^2\sigma_N^2\sum_{s<t}\big(1+\tfrac\eta{\bar\gamma}\lambda_{\min}(\Gamma)\big)^{2s}$ grows geometrically when $\lambda_{\min}(\Gamma)>0$ — **as long as
+$\|\Gamma\delta_t\|\ll\|\bar g\|$**, i.e. while the constant-normalisation approximation holds. With the exact normalised step, $\|\delta_t\|\le\eta t$
+always, so once the feedback term dominates the growth is at most ballistic. The conclusion survives: a ballistic drift costs
+$\tfrac\gamma2\|\delta_t\|^2\propto t^2$, which eventually dominates any linear on-manifold gain.
 *Proof.* Unroll the linear recursion; the noise terms are independent with zero mean, so cross terms vanish, and
-$\|(I+c\Gamma)^s v\|\ge(1+c\lambda_{\min}(\Gamma))^s\|v\|$ for $c\ge0$. $\square$ **[proved, given the feedback assumption]**
+$\|(I+c\Gamma)^s v\|\ge(1+c\lambda_{\min}(\Gamma))^s\|v\|$ for $c\ge0$ (for symmetric PSD $\Gamma$). $\square$ **[proved, given the feedback assumption and within the
+constant-normalisation regime; corrected after review: an earlier version claimed geometric growth without that qualification]**
 
 Whether refits on Muon trunks produce $\Gamma\succ0$ is a **[conjecture]**. Supporting facts: refits on the states of a collapsing
 policy rotate the Muon critic's gradient (cosine 0.60) **[measured]**; the iteration-to-iteration coherence of the actor
@@ -364,26 +405,30 @@ peak +0.58 vs never above the start −0.19) **[verified numerically, `loop_toy.
 off-manifold energy of the clean estimate does not grow in collapsing ELF runs **[measured]**, so if the feedback exists it
 acts on answer-changing directions inside $T$ rather than on the PCA complement $N$.
 
-**Proposition 5.5 (refits are restoring in the linear–Gaussian model).** Model the states produced by the current
-policy as $x = x_c + \zeta$ with $\zeta\sim\mathcal N(0,\Sigma_\zeta)$ and centre $x_c = x_0+\delta$, $\delta\in N$, and the reward as
+**Proposition 5.5 (refit feedback in the linear–Gaussian model).** Model the states produced by the current
+policy as $x = x_c + \zeta$ with $\zeta\sim\mathcal N(0,\Sigma_\zeta)$ and centre $x_c = x_0+\delta$, $x_0\in T$, $\delta\in N$, and the reward as
 $R(x) = \langle\beta,x\rangle - \tfrac\gamma2\|P_Nx\|^2 + \varepsilon$. Refit a ridge head with intercept on the linear trunk of section 4 using
 infinitely many such states. Then the critic's input gradient is
 $$g(\delta) = M_\zeta\,\Sigma_\zeta\,(\beta - \gamma\,\delta),\qquad M_\zeta = A^\top(A\Sigma_\zeta A^\top+\kappa I)^{-1}A,$$
-so in Proposition 5.3's notation $\Gamma = -\gamma\,P_NM_\zeta\Sigma_\zeta P_N$. In the spiked trunk of Proposition 4.2 (with $\Sigma_\zeta = \lambda_TP_T+\lambda_NP_N$),
-$\Gamma = -\gamma\,\mu_N\lambda_N\,P_N\preceq0$: refitting **pulls the policy back** towards the manifold, and more strongly the larger the
-trunk's off-manifold gain $a_N$ ($\mu_N\lambda_N$ increases in $a_N$, Corollary 4.3).
+so in Proposition 5.3's notation $\Gamma = -\gamma\,P_NM_\zeta\Sigma_\zeta P_N$ (in general **not symmetric**). (a) If $\Sigma_\zeta$ is block-diagonal in $(T,N)$,
+$P_NM_\zeta\Sigma_\zeta P_N = (P_NM_\zeta P_N)(P_N\Sigma_\zeta P_N)$ is a product of PSD matrices, whose eigenvalues are real and $\ge0$, so $-\Gamma$ has no
+eigenvalue with negative real part: no linear instability (its symmetric part can still be indefinite, allowing transient growth).
+In the spiked trunk of Proposition 4.2 with $\Sigma_\zeta = \lambda_TP_T+\lambda_NP_N$, $\Gamma = -\gamma\,\mu_N\lambda_N\,P_N\preceq0$: refitting **pulls the policy back**,
+more strongly the larger $a_N$. (b) If $\Sigma_\zeta$ couples $T$ and $N$, $P_NM_\zeta\Sigma_\zeta P_N$ can have eigenvalues with negative real part, so $\Gamma$
+can be **destabilising even for a linear trunk and a smooth reward** (independent check by the proof review, `scratchpad/review/check2.py`:
+eigenvalues down to −0.89 with $p=6\ge n=4$).
 *Proof.* With an intercept, the population ridge slope is $w = (A\Sigma_\zeta A^\top+\kappa I)^{-1}A\,\mathrm{Cov}(x,R)$. For Gaussian $\zeta$,
 Stein's lemma gives $\mathrm{Cov}(x,R) = \Sigma_\zeta\,\mathbb E[\nabla R(x)] = \Sigma_\zeta(\beta - \gamma P_N x_c) = \Sigma_\zeta(\beta-\gamma\delta)$, since $\nabla R$ is affine. Then
 $g = A^\top w = M_\zeta\Sigma_\zeta(\beta-\gamma\delta)$, and in the spiked model $M_\zeta\Sigma_\zeta = \mu_T\lambda_TP_T+\mu_N\lambda_NP_N$. $\square$
 **[proved; verified numerically: slope of the refit gradient along a displacement −0.018 / −0.935 measured vs −0.018 / −0.947
 predicted for $a_N$ = 0.3 / 3]**
 
-**Consequence (resolves item M2 negatively).** A positive feedback term $\Gamma\succ0$ — the premise of Proposition 5.3 — *cannot* arise
-from a linear trunk with a smooth reward: linear refits are restoring, and a whitened (Muon) trunk would be *more*
-restoring. Whatever makes Muon-trunk refits destabilising must come from the trunk's nonlinearity (refit features that
-change with the state, not only their second moments) or from the verifier's non-smoothness (a reward that does not
-fall until a displacement crosses a decision boundary, so that $\mathbb E[\nabla R]$ is blind to the drift). This is consistent with the
-measurement that the collapse does not show up as off-manifold drift in the PCA sense.
+**Consequence (M2, corrected after review).** In the isotropic/block-diagonal model linear refits are restoring, and a whitened
+trunk is *more* restoring, so the destabilising feedback cannot come from that idealisation. But it *can* arise in a linear model as
+soon as the policy's state noise couples on- and off-manifold directions (case (b)), and it can also come from the trunk's
+nonlinearity or the verifier's non-smoothness (a reward that does not fall until a displacement crosses a decision boundary). An
+earlier version of this note concluded that the feedback "must be nonlinear"; that conclusion is withdrawn. Which mechanism
+operates on ELF is an empirical question (item T2).
 
 **Proposition 5.4 (a benign sink stabilises the loop).** Let the pathwise gradient decompose as $J^\top G = J^\top b + J^\top G_{\rm rest}$, where $b$
 is *answer-preserving* — $\langle\nabla R, J\,v\rangle = 0$ for every $v$ in the span of the updates it induces — and suppose the
@@ -392,6 +437,10 @@ $$|\delta R| \le \eta\,\|J^\top\nabla R\|\,\frac{\|J^\top G_{\rm rest}\|}{\|J^\t
 so a steep sink ($\|J^\top b\|\gg\|J^\top G_{\rm rest}\|$) reduces both the useful and the harmful movement per iteration by the factor
 $\|J^\top G_{\rm rest}\|/\|J^\top G\|$.
 *Proof.* $\delta R = \eta\langle J^\top\nabla R, J^\top G\rangle/\|J^\top G\| + O(\eta^2)$, the $b$ part contributes zero, and Cauchy–Schwarz bounds the rest. $\square$ **[proved]**
+
+*Scope.* "Answer-preserving" is a first-order notion; second-order and cumulative effects of moving along $b$ are not covered, and
+the proposition assumes a normalised plain-gradient actor step, not AdamW. It bounds the reward movement $|\delta R|$, not off-manifold
+movement.
 
 Counterparts **[measured]**: AdamW-trunk critics share one steep direction (agreement 0.81–0.85 in input space, 0.94 in
 parameter space; 4–5× the logit gain of Muon critics per unit displacement; a displacement along it changes ≈1% of
@@ -413,8 +462,8 @@ on $O(n)$ ("independent"). Then
 $$\frac{\mathbb E_w\, g^\top Kg\,\big|_{\rm self}}{\mathbb E_R\,\mathbb E_w\, g^\top Kg\,\big|_{\rm indep}} = \frac{n\operatorname{tr}(B^2)}{(\operatorname{tr}B)^2} = \frac{n}{\mathrm{PR}(B)}\ \ge 1,$$
 where $\mathrm{PR}(B) = (\operatorname{tr}B)^2/\operatorname{tr}(B^2)\in[1,n]$ is the participation ratio; equality holds iff the spectrum of $B$ is flat.
 *Proof.* $\mathbb E_w\,ww^\top = I/p$ gives the first identity. By Haar invariance $\mathbb E_R\,RBR^\top = \tfrac{\operatorname{tr}B}{n}I$, so
-$\mathbb E_R\operatorname{tr}(BRBR^\top) = (\operatorname{tr}B)^2/n$, while the self case gives $\operatorname{tr}(B^2)$. Finally $\operatorname{tr}(B^2) = \sum\sigma_i^2 \ge (\sum\sigma_i)^2/n$ by
-Cauchy–Schwarz on the eigenvalues, with equality iff they are all equal. $\square$
+$\mathbb E_R\operatorname{tr}(BRBR^\top) = (\operatorname{tr}B)^2/n$, while the self case gives $\operatorname{tr}(B^2)$. Finally, with $b_i$ the eigenvalues of $B$, $\operatorname{tr}(B^2) = \sum b_i^2 \ge (\sum b_i)^2/n$
+by Cauchy–Schwarz, with equality iff they are all equal. (Identifying $K=B$ for a self-similar critic is a modelling assumption.) $\square$
 **[proved; verified: flat spectrum ratio 1.00; spiky spectrum (3 eigenvalues 100, 27 of 0.09) ratio 9.84 = $n/\mathrm{PR}$]**
 
 Reading. In a *linear* model, self-similarity amplifies the critic gain the policy can obtain by $n/\mathrm{PR}$, close to 1 for
@@ -440,19 +489,21 @@ cannot raise without matching tokens to their classes, i.e. without moving towar
 
 1. *Optimizer fingerprint.* Polar (Muon) updates give every singular direction the same step in a basis that rotates
    with the data (Lemmas 2.1–2.3), so Muon-trained layers become sensitive to low-variance input directions
-   (Theorem 3.1, Corollary 3.2, and without any structural assumption Theorem 3.5: sensitivity $\propto\lambda^{-1/2}$ vs
-   $\propto\lambda^{1/2}$ for GD). AdamW does not (Lemma 2.2,
-   Proposition 3.3) unless the data are axis-aligned. On ELF, Muon updates have stable rank/n 0.18–0.24 vs 0.03.
+   (Theorem 3.1 and Corollary 3.2: sensitivity $\propto\lambda^{-1/2}$ vs $\propto\lambda^{1/2}$ for GD, under orthogonal targets; Corollary 3.5′: per
+   step under a stable step size, GD fits at most $2k\lambda_i/\lambda_{\max}$ of a direction while polar descent fits it at unit speed). The
+   continuous-time flows do *not* separate the optimizers (Theorem 3.5). AdamW empirically keeps the spectral bias unless the data
+   are axis-aligned (Proposition 3.3 and the numerical check; the mechanism is not proved). On ELF, Muon updates have stable
+   rank/n 0.18–0.24 vs 0.03.
 2. *Critic gradients.* A head refit on a trunk with large off-manifold gain has an input gradient whose noise is
    off-manifold and whose direction changes with every refit, at unchanged accuracy (Theorem 4.1, Corollary 4.3).
 3. *Loop.* Frozen critics are eventually exploited (Proposition 5.1). With refits, a stable, steep, benign direction
    (AdamW trunks) absorbs the actor's normalised steps (Proposition 5.4); a refit gradient that rotates and depends on
    the policy's state can destabilise the loop (Proposition 5.3, conditional). Independent refit noise alone would be
-   harmless (Proposition 5.2), which the data falsify for Muon critics; and in the linear–Gaussian model refits are
-   restoring (Proposition 5.5), so the destabilising feedback must come from the trunk's nonlinearity or the verifier's
-   non-smoothness.
+   harmless (Proposition 5.2), which the data falsify for Muon critics. In the linear–Gaussian model refits are restoring when
+   the state noise is block-diagonal in $(T,N)$ and can be destabilising when it couples them (Proposition 5.5).
 4. *Self-similarity* is a second, nonlinear route (frozen own-trunk critic → 3%), blocked by the hierarchy.
-5. *Persistence and remedy.* GD/AdamW fine-tuning cannot remove the Muon component; weight decay can (Theorem 3.4).
+5. *Persistence and remedy.* Gradient-flow fine-tuning cannot remove the Muon component, weight decay can (Theorem 3.4); for AdamW
+   fine-tuning this is shown in the toy only.
 
 **Practical rule.** For pathwise RL: never use a critic trunk that is the policy's own model; use a trunk whose optimizer
 kept the spectral bias (AdamW/SGD), or remove the low-variance component with weight decay strong enough that
@@ -464,22 +515,26 @@ change failed.
 
 ## 8. Connections to prior theory
 
-- **Steepest descent in operator norms.** Muon and Shampoo without accumulation are steepest descent in the spectral
-  norm, Adam in the $\ell_\infty$ norm [Bernstein & Newhouse 2024]. Lemmas 2.1–2.3 are the elementary consequences used here.
+- **Steepest descent in operator norms.** Shampoo without accumulation is steepest descent in the spectral norm and Adam (without
+  EMAs) in the $\ell_\infty$ norm [Bernstein & Newhouse 2024]; the orthogonalised update that Muon approximates with Newton–Schulz
+  iterations is that spectral-norm steepest-descent direction [Jordan et al. 2024; Bernstein & Newhouse, *Modular duality*, 2024].
+  Lemmas 2.1–2.3 are the elementary consequences used here.
 - **Implicit bias of spectral descent.** Normalised steepest descent and Muon converge to the spectral-norm max-margin
-  classifier on separable data, Adam to the $\ell_\infty$ max-margin one [Fan, Schmidt & Thrampoulidis 2025]. The geometry,
-  not the data covariance, selects which directions are used — consistent with Theorem 3.1.
+  classifier on separable data, Adam to the $\ell_\infty$ max-margin one [Fan, Schmidt & Thrampoulidis 2025]: the descent norm determines
+  which max-margin solution is selected (the margin itself still depends on the data).
 - **Whitening makes data information unusable.** Second-order optimisation of a linear model equals first-order
-  optimisation of whitened data, and whitening can prevent generalisation [Wadia et al. 2021]. Polar GD acts as an
-  implicit iterate-dependent whitening preconditioner [*A Quadratic Lens on Muon*, ICML 2026]. Theorem 3.1 is the
-  matrix-polar version of this statement for the quantity that matters for pathwise RL: off-manifold sensitivity.
+  optimisation of whitened data, and whitening can prevent generalisation [Wadia et al. 2021]. Theorem 3.1 and Corollary 3.5′ are a
+  matrix-polar analogue for the quantity that matters for pathwise RL, off-manifold sensitivity — with the caveat of Theorem 3.5 that
+  the separation is per step, not along continuous-time flows.
 - **Preconditioning and generalisation.** [Amari et al. 2021] give exact bias–variance results for preconditioned vs.
   plain GD in ridgeless regression; preconditioning helps under label noise or misaligned signal *in distribution*. Our
   results concern sensitivity *off* the data distribution, where preconditioning hurts; the two are compatible.
-- **Spectral bias and mode-by-mode learning.** GD learns input modes at rates set by their variance
-  [Saxe et al. 2014; Rahaman et al. 2019]; Theorem 3.1(a) is the linear instance.
+- **Eigenvalue spread in linear least squares.** GD on a linear model learns input eigendirections at rates set by their variance,
+  so ill-conditioned inputs are learned slowly along small-eigenvalue directions [LeCun, Kanter & Solla 1991; Advani & Saxe 2020];
+  Theorem 3.1(a) is this classical statement.
 - **Early stopping ≈ ridge.** Early-stopped GD on least squares tracks ridge regression [Ali, Kolter & Tibshirani 2019],
-  justifying the ridge-head model of section 4 for a head refit with a few gradient steps.
+  justifying the ridge-head model of section 4 for a head refit with a few plain gradient steps (the correspondence is for
+  gradient flow; it does not cover AdamW-trained heads, which our RL refits use).
 - **Non-robust features and transfer.** Adversarial directions as predictive but brittle features [Ilyas et al. 2019].
   Unlike adversarial examples in vision, our exploits do not transfer between critics (section 9), consistent with
   Theorem 4.1: the exploitable part of a Muon critic's gradient is its model-specific noise term, not a shared feature.
@@ -496,17 +551,18 @@ change failed.
 | statement | evidence | status |
 |---|---|---|
 | Thm 3.1, Cor 3.2 (GD vs polar sensitivity) | closed forms exact (`verify_theorems`); MLP: off/on gain 0.72 / 1.67 / 3.97 Muon vs 0.21–0.32 SGD/AdamW | proved (linear) + verified |
-| Thm 3.5 (general targets, finite-time fit) | generic $\bar W$: polar fits all columns by $1.2\,T_{\rm pol}$; GD 3.8% of lowest-variance column | proved + verified |
-| Thm 3.6 (fixed features / lazy networks: Mahalanobis sensitivity) | random ReLU features: fitted 1.18 vs 10.11 predicted (MC 1.16 / 9.65); GD 0.01 | proved + verified |
-| Prop 3.3 (AdamW whitens only axis-aligned) | AdamW 0.32 → 0.82 when axis-aligned; SGD, Muon unchanged | proved + verified |
-| Thm 3.4 (persistence; weight decay) | residuals match $e^{-\lambda t}$, $e^{-(\lambda+\mu)t}$; toy: gain 1.67 unchanged by AdamW, 0.13 with weight decay | proved + verified |
+| Thm 3.5 (normalised flows fit everything in finite time) | polar and normalised GD fit all columns by $1.2\,T$ | proved + verified; **not a separation** (earlier claim withdrawn) |
+| Cor 3.5′ (per-step separation, stable GD step) | Thm 3.1 discrete forms | proved (polar side conditional on orthogonality) |
+| Thm 3.6 (fixed features, $m\ge p$: Mahalanobis sensitivity) | random ReLU features: fitted 1.18 vs 10.11 predicted (MC 1.16 / 9.65); GD 0.01 | proved + verified |
+| Prop 3.3 (sign flow whitens when axis-aligned) | AdamW 0.32 → 0.82 when axis-aligned; SGD, Muon unchanged | proved (sign flow) + verified; AdamW's spectral bias in rotated data is empirical |
+| Thm 3.4 (persistence; weight decay) | residuals match the discrete factors (case $\bar W'=0$); toy: gain 1.67 unchanged by AdamW, 0.13 with weight decay | proved + verified |
 | Muon fingerprint on ELF | update stable rank/n 0.18–0.24 vs 0.03; weights 0.143 vs 0.034 | measured |
 | Thm 4.1, Cor 4.3 (refit gradients) | Monte Carlo exact; ELF refit rotation 0.60 vs 0.84; agreement 0.20 (same Muon trunk) vs 0.81–0.85 | proved + measured |
 | Cor 1.3 factors | ELF critic off-share 0.39–0.42 vs 0.33 vs 0.24; policy Jacobian 15× | measured (critic factor modest) |
 | Prop 5.1 (frozen critics exploited) | toy, all trunks; ELF self / sibling / AdamW exploited by 600 steps | proved + measured; independent Muon not exploited (unexplained) |
 | Prop 5.2 (i.i.d. refits harmless) | frozen-head MM7 64.2 vs refit 50.7 at it750 | **falsified** for Muon critics |
-| Prop 5.3 (feedback instability) | refit rotation; coherence decay; toy loop | conditional; premise not derivable linearly (Prop 5.5) |
-| Prop 5.5 (linear refits are restoring) | slope −0.018 / −0.935 vs predicted −0.018 / −0.947 | proved + verified |
+| Prop 5.3 (feedback instability) | refit rotation; coherence decay; toy loop | conditional (growth geometric only while $\|\Gamma\delta\|\ll\|\bar g\|$, then ballistic) |
+| Prop 5.5 (linear refit feedback) | spiked case: slope −0.018 / −0.935 vs predicted −0.018 / −0.947; coupled case destabilising (review check) | proved; restoring only for block-diagonal state noise |
 | Prop 5.1 orders frozen exploitation | proxies predict AdamW < indep. Muon < native ≈ sibling; observed native < AdamW ≈ sibling < indep. Muon | **falsified** (with available proxies) |
 | Prop 5.4 (benign sink) | AdamW critics: steep shared answer-preserving direction; coherence 0.95; frozen attack +5,900 at flat accuracy | proved + measured |
 | Prop 6.1 (linear self-alignment) | verified $n/\mathrm{PR}$ | proved; does not explain the measured self-similarity route |
@@ -520,12 +576,14 @@ change failed.
 
 1. **The nonlinear self-similarity route** (section 6): why the policy's own frozen critic is exploited to 3% while sibling
    and independent Muon critics are not. Proposition 6.1 shows linear self-alignment cannot be the cause.
-2. **The feedback term $\Gamma$** of Proposition 5.3: Proposition 5.5 proves it is restoring ($\Gamma\preceq0$) for linear trunks and smooth
-   rewards, so the destabilising feedback needs a nonlinear-trunk or sharp-verifier model, which is not derived.
+2. **The feedback term $\Gamma$** of Proposition 5.3: Proposition 5.5 shows it is restoring for linear trunks with block-diagonal state
+   noise and can be destabilising when the noise couples $T$ and $N$; which case (or a nonlinear mechanism) operates on ELF is open.
 3. **The ordering of frozen-critic exploitation** (self ≪ AdamW ≈ sibling ≪ independent Muon) is not reproduced by
    Proposition 5.1 with the available alignment and off-share proxies (§5).
-4. **Depth and attention.** All proofs are for linear layers (sections 3–4), fixed-feature / lazy networks (Theorem 3.6), or a free
-   policy (section 5); Theorem 3.5 removes the structural assumption on the targets. The feature-learning regime is not covered. The transfer to transformers rests on the measured spectra
+4. **Depth, attention and the general separation.** All proofs are for linear layers (sections 3–4), fixed features with $m\ge p$
+   (Theorem 3.6), or a free policy (section 5); the per-step Muon-vs-GD separation is proved only for orthogonal targets
+   (Corollary 3.5′), and why AdamW keeps the spectral bias in rotated data is not proved. Lazy/NTK and feature-learning regimes are
+   not covered. The transfer to transformers rests on the measured spectra
    and gradient statistics, not on a theorem.
 5. **ELF test of the weight-decay remedy** is underpowered ($\mu\eta k\approx0.16$ vs the toy's 3–9). The weight-decayed critic
    held to it500 (64.2 / 63.2) and then collapsed (final −6.9), as expected for an underpowered decay.
@@ -537,19 +595,17 @@ change failed.
 - Ali, Kolter & Tibshirani (2019). A continuous-time view of early stopping for least squares regression. AISTATS.
 - Amari, Ba, Grosse, Li, Nitanda, Suzuki, Wu & Xu (2021). When does preconditioning help or hurt generalization? ICLR.
 - Balles & Hennig (2018). Dissecting Adam: the sign, magnitude and variance of stochastic gradients. ICML.
+- Advani & Saxe (2020). High-dimensional dynamics of generalization error in neural networks. Neural Networks (arXiv:1710.03667).
 - Bernstein & Newhouse (2024). Old Optimizer, New Norm: An Anthology. arXiv:2409.20325 (NeurIPS 2024 OPT workshop).
+- Bernstein & Newhouse (2024). Modular Duality in Deep Learning. arXiv:2410.21265.
 - Eisenstein et al. (2023). Helping or herding? Reward model ensembles mitigate but do not eliminate reward hacking.
 - Fan, Schmidt & Thrampoulidis (2025). Implicit bias of spectral descent and Muon on multiclass separable data. NeurIPS (arXiv:2502.04664).
 - Gao, Schulman & Hilton (2023). Scaling laws for reward model overoptimization. ICML.
 - Ilyas, Santurkar, Tsipras, Engstrom, Tran & Madry (2019). Adversarial examples are not bugs, they are features. NeurIPS.
-- Chizat, Oyallon & Bach (2019). On lazy training in differentiable programming. NeurIPS.
-- Jacot, Gabriel & Hongler (2018). Neural tangent kernel: convergence and generalization in neural networks. NeurIPS.
 - Jordan et al. (2024). Muon: an optimizer for hidden layers in neural networks. Technical report.
 - Panickssery, Bowman & Feng (2024). LLM evaluators recognize and favor their own generations. NeurIPS.
-- Rahaman et al. (2019). On the spectral bias of neural networks. ICML.
-- Saxe, McClelland & Ganguli (2014). Exact solutions to the nonlinear dynamics of learning in deep linear neural networks. ICLR (arXiv:1312.6120).
+- LeCun, Kanter & Solla (1991). Eigenvalues of covariance matrices: application to neural-network learning. Physical Review Letters 66(18).
 - Wadia, Duckworth, Schoenholz, Dyer & Sohl-Dickstein (2021). Whitening and second order optimization both make information in the dataset unusable during training, and can reduce or prevent generalization. ICML.
-- *A Quadratic Lens on Muon: Orthogonalization, Invariance, and Implicit Preconditioning* (2026). ICML.
 
 ---
 
@@ -571,11 +627,13 @@ stated, proved in its model, and numerically checked; nothing in this document i
 random-matrix analysis of feature learning); they are recorded so that they are not lost, not because this write-up is unfinished.
 
 **Resolved**
-- [x] **M1. Orthogonality assumption of Theorem 3.1(b).** Removed by Theorem 3.5 (finite-time fit of every direction by polar flow,
-  ratio to GD $\ge 1/(\lambda_iT_{\rm pol})$; proved and verified with generic $\bar W$).
-- [x] **M2. Sign of the refit feedback $\Gamma$.** Proposition 5.5: for linear trunks and smooth rewards $\Gamma = -\gamma P_NM_\zeta\Sigma_\zeta P_N\preceq0$
-  (restoring; proved and verified). The destabilising feedback of Proposition 5.3 therefore cannot be derived in the linear
-  model — a negative result that locates the missing mechanism in trunk nonlinearity or verifier non-smoothness.
+- [~] **M1. Orthogonality assumption of Theorem 3.1(b).** *Corrected after the proof review.* Theorem 3.5 removes the assumption for the
+  continuous-time fit, but it holds for every normalised steepest-descent flow, including normalised GD, so it does not separate Muon
+  from GD. The separation is per step under a stable step size (Corollary 3.5′), proved only under orthogonality; the general
+  discrete-time case remains open.
+- [~] **M2. Sign of the refit feedback $\Gamma$.** *Corrected after the proof review.* Proposition 5.5: restoring (eigenvalue sense) for linear
+  trunks with block-diagonal state noise; possibly destabilising when the noise couples $T$ and $N$. The earlier conclusion that the
+  feedback must be nonlinear is withdrawn; which case applies on ELF is item T2.
 - [x] **T3. Does Proposition 5.1 explain the frozen-attack ordering?** Tested with existing data (§5): no, with the available proxies
   (falsified as stated); self-similarity, which the proposition lacks, dominates the native case.
 - [x] **R1. Refined-trunk critics to it1500.** AdamW-refined −9.6, weight-decay-refined −6.9 (held to it500, then collapsed);
@@ -592,8 +650,27 @@ random-matrix analysis of feature learning); they are recorded so that they are 
 **Requires mathematics beyond this write-up**
 - [ ] **M3. Nonlinear self-similarity model** (critic = next denoiser call). Proposition 6.1 shows the linear model cannot produce it;
   a model needs the critic's dependence on the denoiser's self-consistency, which T1 would measure first.
-- [x] **M4 (partly). Beyond linear layers.** Theorem 3.6 extends the sensitivity law to any model linear in its trained parameters
-  given fixed features (random features, frozen deep features, wide networks in the lazy/NTK regime), with the Mahalanobis
-  norm $J_u^\top\hat\Sigma_\varphi^{-1}J_u$ as the vulnerability measure (proved and verified).
-- [ ] **M4 (rest).** Feature-learning (non-lazy) regime and the polar dynamics of all layers jointly: needs a mean-field or
+- [x] **M4 (partly). Beyond linear layers.** Theorem 3.6 extends the noise-sensitivity law to any model linear in its trained parameters
+  given fixed features with $m\ge p$ (random features; a frozen trunk with a linear readout), with the Mahalanobis norm
+  $J_u^\top\hat\Sigma_\varphi^{-1}J_u$ as the vulnerability measure. *Corrected after review:* it does not cover the lazy/NTK regime ($p\gg m$).
+- [ ] **M4 (rest).** Lazy/NTK regime ($p\gg m$, pseudo-inverse), feature-learning regime and the polar dynamics of all layers jointly: needs a mean-field or
   random-matrix analysis of Muon beyond this write-up.
+
+
+---
+
+## 12. Proof review (2026-10-31)
+
+An independent adversarial review of every [proved] item (separate agent; its numerical checks in
+`scratchpad/review/check{1,2,3}.py`) found the algebra correct throughout and three substantive overclaims, all now corrected:
+(1) Theorem 3.5 as first stated drew a Muon-vs-GD separation from a flow argument that holds for every normalised steepest-descent
+flow, including normalised GD — withdrawn and replaced by the per-step statement Corollary 3.5′; (2) "linear refits are always
+restoring" (Prop. 5.5 consequence) holds only for block-diagonal state noise, and a $T$–$N$ coupling can destabilise even a linear
+trunk — corrected; (3) Theorem 3.6's claimed lazy/NTK coverage contradicts its $m\ge p$ assumption — withdrawn. Smaller fixes:
+Filippov existence/uniqueness arguments added (Lemma 2.3, Theorem 3.1(b)); Corollary 3.2's polar half marked conditional on
+orthogonality; Proposition 5.1's sign condition; Proposition 5.2's symmetry assumption; Proposition 5.3's growth limited to
+the constant-normalisation regime; $\kappa>0$ and $p\ge n$ made explicit; Proposition 3.3 no longer claims that AdamW keeps the spectral
+bias in rotated data (empirical only); Theorem 3.4's numerical claim corrected to the discrete-time factors; citations corrected
+(Bernstein & Newhouse 2024 is Shampoo; Muon via Jordan et al. and *Modular duality*; eigenvalue-spread results via LeCun et al. 1991 and
+Advani & Saxe 2020 instead of Saxe et al. 2014 / Rahaman et al. 2019; an unverifiable 2026 reference removed). The pre-review version is
+kept as `notes/theory_pre-review_2026-10-31.md`.
