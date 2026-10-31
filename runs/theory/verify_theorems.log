@@ -8,3 +8,6 @@ Thm4.1 aN=  1.0: |mean err| 2.02e-03  cov rel err 0.077  stability pred 0.993 mc
 Thm4.1 aN= 10.0: |mean err| 2.56e-02  cov rel err 0.070  stability pred 0.684 mc 0.682  off-share pred 0.315 mc 0.316  mu_N 90.91
 Prop6.1 flat: aligned 30.00  Haar mc 30.00  pred tr(B)^2/n 30.00  ratio n/PR 1.00
 Prop6.1 spiky: aligned 30000.22  Haar mc 3068.35  pred tr(B)^2/n 3048.80  ratio n/PR 9.84
+Thm3.5 L0 5.350  bound T 327.1  ran t=392.5: polar loss 1.72e-07, polar |W e_i|/|Wb e_i| [1.0, 1.0, 1.0, 1.0, 1.0, 1.0], GD [1.0, 1.0, 1.0, 0.98, 0.325, 0.038]
+Prop5.5 aN=0.3: measured slope <dg,v>/eps -0.018  predicted -gam*mu_N*lam_N -0.018
+Prop5.5 aN=3.0: measured slope <dg,v>/eps -0.935  predicted -gam*mu_N*lam_N -0.947

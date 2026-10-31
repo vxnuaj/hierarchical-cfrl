@@ -69,3 +69,39 @@ for spec in ["flat", "spiky"]:
     haar = torch.stack([torch.trace(B @ R @ B @ R.T) for R in rots]).mean()
     pred_haar = torch.trace(B) ** 2 / nn_
     print(f"Prop6.1 {spec}: aligned {aligned:.2f}  Haar mc {haar:.2f}  pred tr(B)^2/n {pred_haar:.2f}  ratio n/PR {aligned / pred_haar:.2f}")
+
+# --- Thm 3.5 (general Wb, no orthogonality): polar flow fits everything by T = sqrt(2 L0 / lam_min); GD does not
+torch.manual_seed(1)
+n, d, eta = 6, 10, 1e-3
+lam = torch.tensor([1.0, 0.5, 0.1, 1e-2, 1e-3, 1e-4]); S = torch.diag(lam)
+Wb = torch.randn(d, n) * torch.tensor([0.5, 0.7, 1.0, 3.0, 10.0, 30.0])     # generic (non-orthogonal) columns, noise-like large on low-variance dirs
+L0 = 0.5 * torch.trace(Wb @ S @ Wb.T)
+Tb = math.sqrt(2 * L0 / lam.min())
+K = int(1.2 * Tb / eta)
+Wp = torch.zeros(d, n); Wg = torch.zeros(d, n)
+for k in range(K):
+    Wp = Wp - eta * polar((Wp - Wb) @ S)
+    Wg = Wg - eta * (Wg - Wb) @ S
+print(f"Thm3.5 L0 {L0:.3f}  bound T {Tb:.1f}  ran t={K*eta:.1f}: polar loss {0.5*torch.trace((Wp-Wb)@S@(Wp-Wb).T):.2e}, "
+      f"polar |W e_i|/|Wb e_i| {[round(x,3) for x in (Wp.norm(dim=0)/Wb.norm(dim=0)).tolist()]}, GD {[round(x,3) for x in (Wg.norm(dim=0)/Wb.norm(dim=0)).tolist()]}")
+
+# --- Prop 5.5 (refit bias is restoring in the linear-Gaussian model): slope of the refit gradient along a displacement
+nT, nN, p, m, kappa, gam = 3, 6, 20, 4000, 0.1, 2.0
+n = nT + nN
+for aN in [0.3, 3.0]:
+    Uf, _ = torch.linalg.qr(torch.randn(p, n))
+    A = torch.cat([Uf[:, :nT], aN * Uf[:, nT:]], 1)
+    beta = torch.zeros(n); beta[:nT] = torch.randn(nT)
+    PN = torch.zeros(n, n); PN[nT:, nT:] = torch.eye(nN)
+    sd = torch.cat([torch.full((nT,), 1.0), torch.full((nN,), 0.1)])
+    def refit_grad(delta):
+        X = delta + sd * torch.randn(m, n)
+        R = X @ beta - 0.5 * gam * ((X @ PN) ** 2).sum(1) + 0.1 * torch.randn(m)
+        F = X @ A.T; Fc = F - F.mean(0); Rc = R - R.mean()
+        w = torch.linalg.solve(Fc.T @ Fc / m + kappa * torch.eye(p), Fc.T @ Rc / m)
+        return A.T @ w
+    v = torch.zeros(n); v[nT] = 1.0
+    eps = 0.5
+    slopes = [float((refit_grad(eps * v) - refit_grad(torch.zeros(n))) @ v / eps) for _ in range(20)]
+    muN = aN**2 / (aN**2 * 0.01 + kappa)
+    print(f"Prop5.5 aN={aN}: measured slope <dg,v>/eps {sum(slopes)/20:+.3f}  predicted -gam*mu_N*lam_N {-gam*muN*0.01:+.3f}")

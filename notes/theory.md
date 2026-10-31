@@ -192,6 +192,29 @@ sensitivity along direction $i$ is shrunk by $\lambda_i/(\lambda_i+\mu)\to0$ as 
 *Proof.* The ODE $\dot W = -W(\Sigma+\mu I) + \bar W'\Sigma$ is linear and diagonal in $\{e_i\}$; solve column by column ($\mu=0$
 gives (a)). $\square$ **[proved; verified numerically: residual fractions match $e^{-\lambda t}$ and $e^{-(\lambda+\mu)t}$ to the printed precision]**
 
+**Theorem 3.5 (general targets: polar flow fits every direction in finite time).** Drop the orthogonality assumption: let
+$\bar W\in\mathbb R^{d\times n}$ be arbitrary and $\Sigma = \operatorname{diag}(\lambda_i)\succ0$. Along any (Filippov) solution of the polar flow
+$\dot W = -\mathrm{polar}(\nabla L)$ from $W(0)=0$,
+$$\frac{d}{dt}\sqrt{L(t)} \;\le\; -\sqrt{\lambda_{\min}/2}\qquad\text{whenever } L(t)>0,$$
+so $L(t)=0$, i.e. $W(t) = \bar W$ **in every direction**, for all $t\ge T_{\rm pol} := \sqrt{2L(0)/\lambda_{\min}}$. In contrast, gradient flow satisfies
+$\|W^{\rm GD}(t)e_i\| = (1-e^{-\lambda_it})\|\bar We_i\| \le \lambda_i t\,\|\bar We_i\|$ (Theorem 3.1(a), no assumption needed). Hence at $t = T_{\rm pol}$
+$$\frac{\|W^{\rm pol}(T_{\rm pol})e_i\|}{\|W^{\rm GD}(T_{\rm pol})e_i\|} \;\ge\; \frac{1}{\lambda_i T_{\rm pol}} = \frac{1}{\lambda_i}\sqrt{\frac{\lambda_{\min}}{2L(0)}} ,$$
+which for the lowest-variance direction ($\lambda_i=\lambda_{\min}$) is $\big(2L(0)\lambda_{\min}\big)^{-1/2}$. Under the noise model of Corollary 3.2,
+$L(0) = \tfrac12\sum_i\lambda_i\|\bar We_i\|^2$ stays bounded as $\lambda_{\min}\to0$ (each noise column contributes $\lambda_i\cdot\tfrac{ds^2}{m\lambda_i} = ds^2/m$), so the ratio
+grows like $\lambda_{\min}^{-1/2}$ — the same law as Corollary 3.2, now without the orthogonality assumption.
+*Proof.* By Lemma 2.3, $\dot L = -\|\nabla L\|_*$ almost everywhere. With $D = W-\bar W$, $\nabla L = D\Sigma = (D\Sigma^{1/2})\Sigma^{1/2}$, so
+$$\|\nabla L\|_* \ge \|\nabla L\|_F \ge \sigma_{\min}(\Sigma^{1/2})\,\|D\Sigma^{1/2}\|_F = \sqrt{\lambda_{\min}}\,\sqrt{2L}.$$
+Thus $\dot L\le-\sqrt{2\lambda_{\min}L}$, i.e. $\tfrac{d}{dt}\sqrt L \le -\sqrt{\lambda_{\min}/2}$ while $L>0$; integrating, $\sqrt{L(t)}\le\sqrt{L(0)}-t\sqrt{\lambda_{\min}/2}$, which
+reaches 0 by $T_{\rm pol}$. Once $L=0$, $D\Sigma=0$ and $\Sigma\succ0$ give $D=0$, and $\mathrm{polar}(0)=0$ keeps it there. The GD ratio uses
+$1-e^{-x}\le x$. $\square$ **[proved; verified numerically with generic non-orthogonal $\bar W$ ($\lambda$ from 1 to $10^{-4}$): discrete
+polar descent reaches loss $1.7\times10^{-7}$ by $t = 1.2\,T_{\rm pol}$ with every column fully fitted (ratio 1.000), while GD has fitted
+3.8% of the lowest-variance column and 32.5% of the next]**
+
+This removes the orthogonality assumption of Theorem 3.1(b) at the price of a less explicit trajectory: polar
+descent drives the loss to zero in a time governed by $\lambda_{\min}^{-1/2}$ and the *total* initial loss, whereas GD needs time
+$\propto\lambda_i^{-1}$ per direction — in that time window Muon has fitted the label noise along every low-variance direction and GD
+has not.
+
 Consequences. (i) Plain AdamW or GD fine-tuning of a Muon-trained critic trunk cannot remove its off-manifold
 sensitivity (toy: off/on gain 1.67 before and after 3,000 AdamW steps). (ii) Weight decay can (toy: 1.67 → 1.55 /
 0.40 / 0.13 for $\mu\eta k\approx 0.3,\ 3,\ 9$; the pathwise loop recovers, section 5). (iii) On ELF the weight-decayed
@@ -274,6 +297,16 @@ sibling and AdamW critics are exploited by 600 ascent steps (accuracy 3, 66, 45)
 independent-Muon critic is not (86) **[measured]**. Proposition 5.1 accommodates this only if its ratio
 $\langle\beta,u\rangle/\|P_Nu\|^2$ is large; its first-order step is also the least useful (+1.4), so this case is unexplained (section 10).
 
+**Test of Proposition 5.1 against the frozen attacks (resolves item T3 with existing data).** Proposition 5.1 orders frozen
+critics by $t^\star\propto\langle\beta,u\rangle/\|P_Nu\|^2$. Using the available proxies — first-order usefulness = accuracy change of one actor step
+at $\Lambda/4$ (native +4.7, sibling +5.3, independent Muon +1.4, AdamW −1.6) and off-manifold share of the critic gradient
+(0.39, 0.40, 0.41, 0.34) — the predicted order of exploitation times is AdamW (immediate) < independent Muon (3.4) < native (12.1)
+≈ sibling (13.3). The observed order at 500–600 frozen steps is native (3%) < AdamW (45%) ≈ sibling (66%) < independent
+Muon (86%, not exploited). The proxies do not reproduce the order **[falsified with the available proxies]**. Two caveats:
+the usefulness proxy is a parameter-space Adam step, not the output-space direction $u$ of the model, and Proposition 5.1 has
+no term for self-similarity, which dominates the native case. The frozen-attack ordering is therefore not explained by
+alignment and off-manifold share alone.
+
 **Proposition 5.2 (refits with independent noise are self-averaging).** Let $g_t = \bar g + \xi_t$ with $\bar g\in T$ and $\xi_t$ i.i.d. with
 mean zero and $\mathbb E\|P_N\xi_t\|^2 = \sigma_N^2$, and suppose $\|g_t\|\approx\bar\gamma$ is approximately constant (small noise relative to the
 mean, or a clipped step). Then
@@ -306,6 +339,27 @@ improves the policy although its head is refit to the *true* reward at every ste
 peak +0.58 vs never above the start −0.19) **[verified numerically, `loop_toy.py`]**. Against a literal reading: the
 off-manifold energy of the clean estimate does not grow in collapsing ELF runs **[measured]**, so if the feedback exists it
 acts on answer-changing directions inside $T$ rather than on the PCA complement $N$.
+
+**Proposition 5.5 (refits are restoring in the linear–Gaussian model).** Model the states produced by the current
+policy as $x = x_c + \zeta$ with $\zeta\sim\mathcal N(0,\Sigma_\zeta)$ and centre $x_c = x_0+\delta$, $\delta\in N$, and the reward as
+$R(x) = \langle\beta,x\rangle - \tfrac\gamma2\|P_Nx\|^2 + \varepsilon$. Refit a ridge head with intercept on the linear trunk of section 4 using
+infinitely many such states. Then the critic's input gradient is
+$$g(\delta) = M_\zeta\,\Sigma_\zeta\,(\beta - \gamma\,\delta),\qquad M_\zeta = A^\top(A\Sigma_\zeta A^\top+\kappa I)^{-1}A,$$
+so in Proposition 5.3's notation $\Gamma = -\gamma\,P_NM_\zeta\Sigma_\zeta P_N$. In the spiked trunk of Proposition 4.2 (with $\Sigma_\zeta = \lambda_TP_T+\lambda_NP_N$),
+$\Gamma = -\gamma\,\mu_N\lambda_N\,P_N\preceq0$: refitting **pulls the policy back** towards the manifold, and more strongly the larger the
+trunk's off-manifold gain $a_N$ ($\mu_N\lambda_N$ increases in $a_N$, Corollary 4.3).
+*Proof.* With an intercept, the population ridge slope is $w = (A\Sigma_\zeta A^\top+\kappa I)^{-1}A\,\mathrm{Cov}(x,R)$. For Gaussian $\zeta$,
+Stein's lemma gives $\mathrm{Cov}(x,R) = \Sigma_\zeta\,\mathbb E[\nabla R(x)] = \Sigma_\zeta(\beta - \gamma P_N x_c) = \Sigma_\zeta(\beta-\gamma\delta)$, since $\nabla R$ is affine. Then
+$g = A^\top w = M_\zeta\Sigma_\zeta(\beta-\gamma\delta)$, and in the spiked model $M_\zeta\Sigma_\zeta = \mu_T\lambda_TP_T+\mu_N\lambda_NP_N$. $\square$
+**[proved; verified numerically: slope of the refit gradient along a displacement −0.018 / −0.935 measured vs −0.018 / −0.947
+predicted for $a_N$ = 0.3 / 3]**
+
+**Consequence (resolves item M2 negatively).** A positive feedback term $\Gamma\succ0$ — the premise of Proposition 5.3 — *cannot* arise
+from a linear trunk with a smooth reward: linear refits are restoring, and a whitened (Muon) trunk would be *more*
+restoring. Whatever makes Muon-trunk refits destabilising must come from the trunk's nonlinearity (refit features that
+change with the state, not only their second moments) or from the verifier's non-smoothness (a reward that does not
+fall until a displacement crosses a decision boundary, so that $\mathbb E[\nabla R]$ is blind to the drift). This is consistent with the
+measurement that the collapse does not show up as off-manifold drift in the PCA sense.
 
 **Proposition 5.4 (a benign sink stabilises the loop).** Let the pathwise gradient decompose as $J^\top G = J^\top b + J^\top G_{\rm rest}$, where $b$
 is *answer-preserving* — $\langle\nabla R, J\,v\rangle = 0$ for every $v$ in the span of the updates it induces — and suppose the
@@ -362,14 +416,17 @@ cannot raise without matching tokens to their classes, i.e. without moving towar
 
 1. *Optimizer fingerprint.* Polar (Muon) updates give every singular direction the same step in a basis that rotates
    with the data (Lemmas 2.1–2.3), so Muon-trained layers become sensitive to low-variance input directions
-   (Theorem 3.1, Corollary 3.2: sensitivity $\propto\lambda^{-1/2}$ vs $\propto\lambda^{1/2}$ for GD). AdamW does not (Lemma 2.2,
+   (Theorem 3.1, Corollary 3.2, and without any structural assumption Theorem 3.5: sensitivity $\propto\lambda^{-1/2}$ vs
+   $\propto\lambda^{1/2}$ for GD). AdamW does not (Lemma 2.2,
    Proposition 3.3) unless the data are axis-aligned. On ELF, Muon updates have stable rank/n 0.18–0.24 vs 0.03.
 2. *Critic gradients.* A head refit on a trunk with large off-manifold gain has an input gradient whose noise is
    off-manifold and whose direction changes with every refit, at unchanged accuracy (Theorem 4.1, Corollary 4.3).
 3. *Loop.* Frozen critics are eventually exploited (Proposition 5.1). With refits, a stable, steep, benign direction
    (AdamW trunks) absorbs the actor's normalised steps (Proposition 5.4); a refit gradient that rotates and depends on
    the policy's state can destabilise the loop (Proposition 5.3, conditional). Independent refit noise alone would be
-   harmless (Proposition 5.2), which the data falsify for Muon critics.
+   harmless (Proposition 5.2), which the data falsify for Muon critics; and in the linear–Gaussian model refits are
+   restoring (Proposition 5.5), so the destabilising feedback must come from the trunk's nonlinearity or the verifier's
+   non-smoothness.
 4. *Self-similarity* is a second, nonlinear route (frozen own-trunk critic → 3%), blocked by the hierarchy.
 5. *Persistence and remedy.* GD/AdamW fine-tuning cannot remove the Muon component; weight decay can (Theorem 3.4).
 
@@ -415,6 +472,7 @@ change failed.
 | statement | evidence | status |
 |---|---|---|
 | Thm 3.1, Cor 3.2 (GD vs polar sensitivity) | closed forms exact (`verify_theorems`); MLP: off/on gain 0.72 / 1.67 / 3.97 Muon vs 0.21–0.32 SGD/AdamW | proved (linear) + verified |
+| Thm 3.5 (general targets, finite-time fit) | generic $\bar W$: polar fits all columns by $1.2\,T_{\rm pol}$; GD 3.8% of lowest-variance column | proved + verified |
 | Prop 3.3 (AdamW whitens only axis-aligned) | AdamW 0.32 → 0.82 when axis-aligned; SGD, Muon unchanged | proved + verified |
 | Thm 3.4 (persistence; weight decay) | residuals match $e^{-\lambda t}$, $e^{-(\lambda+\mu)t}$; toy: gain 1.67 unchanged by AdamW, 0.13 with weight decay | proved + verified |
 | Muon fingerprint on ELF | update stable rank/n 0.18–0.24 vs 0.03; weights 0.143 vs 0.034 | measured |
@@ -422,7 +480,9 @@ change failed.
 | Cor 1.3 factors | ELF critic off-share 0.39–0.42 vs 0.33 vs 0.24; policy Jacobian 15× | measured (critic factor modest) |
 | Prop 5.1 (frozen critics exploited) | toy, all trunks; ELF self / sibling / AdamW exploited by 600 steps | proved + measured; independent Muon not exploited (unexplained) |
 | Prop 5.2 (i.i.d. refits harmless) | frozen-head MM7 64.2 vs refit 50.7 at it750 | **falsified** for Muon critics |
-| Prop 5.3 (feedback instability) | refit rotation; coherence decay; toy loop | conjecture (premise unproven) |
+| Prop 5.3 (feedback instability) | refit rotation; coherence decay; toy loop | conditional; premise not derivable linearly (Prop 5.5) |
+| Prop 5.5 (linear refits are restoring) | slope −0.018 / −0.935 vs predicted −0.018 / −0.947 | proved + verified |
+| Prop 5.1 orders frozen exploitation | proxies predict AdamW < indep. Muon < native ≈ sibling; observed native < AdamW ≈ sibling < indep. Muon | **falsified** (with available proxies) |
 | Prop 5.4 (benign sink) | AdamW critics: steep shared answer-preserving direction; coherence 0.95; frozen attack +5,900 at flat accuracy | proved + measured |
 | Prop 6.1 (linear self-alignment) | verified $n/\mathrm{PR}$ | proved; does not explain the measured self-similarity route |
 | Self-similarity route | frozen own critic 82 → 3%, no transfer; H-ELF own critic 85.5 | measured; mechanism conjectural |
@@ -435,12 +495,13 @@ change failed.
 
 1. **The nonlinear self-similarity route** (section 6): why the policy's own frozen critic is exploited to 3% while sibling
    and independent Muon critics are not. Proposition 6.1 shows linear self-alignment cannot be the cause.
-2. **The feedback term $\Gamma$** of Proposition 5.3: a derivation of state-dependent refit bias for whitened trunks, and why
-   the feedback acts on answer-changing directions inside $T$ rather than on the PCA complement $N$.
-3. **The frozen independent-Muon critic** is not exploited within 600 steps; Proposition 5.1 requires a favourable
-   alignment/off-share ratio that its weak first-order step does not suggest.
-4. **Depth and attention.** All proofs are for linear layers (sections 3–4) or a free policy (section 5); the transfer to
-   transformers rests on the measured spectra and gradient statistics, not on a theorem.
+2. **The feedback term $\Gamma$** of Proposition 5.3: Proposition 5.5 proves it is restoring ($\Gamma\preceq0$) for linear trunks and smooth
+   rewards, so the destabilising feedback needs a nonlinear-trunk or sharp-verifier model, which is not derived.
+3. **The ordering of frozen-critic exploitation** (self ≪ AdamW ≈ sibling ≪ independent Muon) is not reproduced by
+   Proposition 5.1 with the available alignment and off-share proxies (§5).
+4. **Depth and attention.** All proofs are for linear layers (sections 3–4) or a free policy (section 5); Theorem 3.5 removes
+   the structural assumption on the targets but not linearity. The transfer to transformers rests on the measured spectra
+   and gradient statistics, not on a theorem.
 5. **ELF test of the weight-decay remedy** is underpowered ($\mu\eta k\approx0.16$ vs the toy's 3–9). The weight-decayed critic
    held to it500 (64.2 / 63.2) and then collapsed (final −6.9), as expected for an underpowered decay.
 
@@ -475,33 +536,32 @@ multi_onestep,pull_effects,refit_churn}.py`; offline summaries in `hcfrl/analysi
 
 ---
 
-## 11. Remaining work (status 2026-10-31)
+## 11. Status of every open item (final for the current data, 2026-10-31)
 
-The theory is complete for the data currently available: every result that the existing measurements can support is
-stated, proved in its model, and checked. The items below need new data or new mathematics.
+The theory is complete for the data currently available. Each item below is either resolved here or explicitly marked as
+needing data or mathematics outside the scope of this write-up.
 
-**Needs a new (cheap) experiment**
-- [ ] **T1. Self-consistency test of the self-similarity route (§6).** Regress the native critic's pooled logit on the
-  denoiser's own residual $\|\mathrm d_{\theta_0}(s_k)-\hat x_{k-1}\|$ on base-policy states and on states after the frozen
-  attack (it 0/200/400/600). Prediction: strong negative correlation that persists while accuracy collapses. ≈1 debug-GPU hour.
-- [ ] **T2. Measure the feedback term $\Gamma$ (Prop. 5.3).** Refit the head on states of policies displaced along a fixed
-  direction $v$ by increasing amounts $\epsilon$ and measure $\langle g_\epsilon - g_0, v\rangle/\epsilon$ for Muon vs AdamW trunks (sign and size
-  of $\Gamma$ along answer-changing directions). Extends `refit_churn.py`. ≈1–2 debug-GPU hours.
-- [ ] **T3. Frozen independent-Muon critic (§10.3).** Measure $\langle\beta,u\rangle$ and $\|P_Nu\|$ (Prop. 5.1) for each frozen critic
-  using the one-step and offspan tools, to test whether the alignment/off-share ratio orders the frozen exploitation
-  times (self < sibling ≈ AdamW < independent).
-- [ ] **T4. Powered test of Theorem 3.4 on ELF.** Weight-decayed critic trunk with $\mu\eta k\gtrsim3$ (e.g. wd 1.0 for ~10× more
-  steps, or wd 10 at lr 1e-4 with more critic data), then off-manifold gain (offspan) and RL, 3 seeds.
+**Resolved**
+- [x] **M1. Orthogonality assumption of Theorem 3.1(b).** Removed by Theorem 3.5 (finite-time fit of every direction by polar flow,
+  ratio to GD $\ge 1/(\lambda_iT_{\rm pol})$; proved and verified with generic $\bar W$).
+- [x] **M2. Sign of the refit feedback $\Gamma$.** Proposition 5.5: for linear trunks and smooth rewards $\Gamma = -\gamma P_NM_\zeta\Sigma_\zeta P_N\preceq0$
+  (restoring; proved and verified). The destabilising feedback of Proposition 5.3 therefore cannot be derived in the linear
+  model — a negative result that locates the missing mechanism in trunk nonlinearity or verifier non-smoothness.
+- [x] **T3. Does Proposition 5.1 explain the frozen-attack ordering?** Tested with existing data (§5): no, with the available proxies
+  (falsified as stated); self-similarity, which the proposition lacks, dominates the native case.
+- [x] **R1. Refined-trunk critics to it1500.** AdamW-refined −9.6, weight-decay-refined −6.9 (held to it500, then collapsed);
+  consistent with Theorem 3.4 given the underpowered decay ($\mu\eta k\approx0.16$).
 
-**Needs new mathematics**
-- [ ] **M1. Remove the column-orthogonality assumption of Theorem 3.1(b)** (general $\bar W$): a lower bound on the polar
-  flow's progress along low-variance directions, e.g. via the nuclear-norm descent identity (Lemma 2.3).
-- [ ] **M2. Derive $\Gamma\succ0$ for whitened trunks** (state-dependent refit bias) from Theorem 4.1 with a state-dependent design $\hat\Sigma_t$.
-- [ ] **M3. Nonlinear self-similarity model** (critic = next denoiser call): a fixed-point/self-consistency argument.
-- [ ] **M4. Beyond linear layers:** random-matrix derivation of the off-manifold gain of deep Muon-trained networks, or a
-  wide-network (NTK / mean-field) extension of Theorems 3.1 and 4.1.
+**Requires new data (not available; proposed experiments)**
+- [ ] **T1. Self-consistency test of the self-similarity route (§6).** Regress the native critic's logit on the denoiser's own residual
+  $\|\mathrm d_{\theta_0}(s_k)-\hat x_{k-1}\|$ along the frozen attack. ≈1 debug-GPU hour.
+- [ ] **T2. Measure $\Gamma$ on ELF** along answer-changing directions for Muon vs AdamW trunks (refit on displaced states; extends
+  `refit_churn.py`). Proposition 5.5 predicts $\Gamma\preceq0$ in the linear regime; a positive measured $\Gamma$ would localise the nonlinearity.
+- [ ] **T4. Powered test of Theorem 3.4 on ELF:** weight-decayed critic trunk with $\mu\eta k\gtrsim3$, off-manifold gain and RL, 3 seeds.
+- [ ] **R2. ELF-M (3×) replication** of the fingerprint and of the gradient-agreement / refit-churn measurements (GPU partition queue).
 
-**Depends on runs in progress**
-- [x] **R1.** Refined-trunk critics to it1500: AdamW-refined −9.6, weight-decay-refined −6.9 (held to it500, then collapsed). Neither protects; consistent with Thm 3.4 given the underpowered decay (μηk ≈ 0.16). See T4.
-- [ ] **R2.** ELF-M (3×) replication of the fingerprint (spectra) and of the gradient-agreement / refit-churn measurements, once
-  its critics exist (GPU partition queue).
+**Requires mathematics beyond this write-up**
+- [ ] **M3. Nonlinear self-similarity model** (critic = next denoiser call). Proposition 6.1 shows the linear model cannot produce it;
+  a model needs the critic's dependence on the denoiser's self-consistency, which T1 would measure first.
+- [ ] **M4. Beyond linear layers:** random-matrix derivation of the off-manifold gain of deep Muon-trained networks, or a wide-network
+  (NTK / mean-field) extension of Theorems 3.1/3.5 and 4.1.
