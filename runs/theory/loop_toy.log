@@ -1,0 +1,6 @@
+sgd   refit : reward -0.19 +0.37 +0.58 +0.56 +0.50 +0.42 +0.36   off-manifold |P_N mu| 0.23 0.61 0.87 0.99
+sgd   frozen: reward -0.19 -0.02 -1.20 -3.92 -8.34 -14.51 -22.48   off-manifold |P_N mu| 0.23 1.13 2.29 3.53
+adamw refit : reward -0.19 +0.39 +0.58 +0.48 +0.21 -0.01 -0.25   off-manifold |P_N mu| 0.23 0.60 0.95 1.12
+adamw frozen: reward -0.19 -0.04 -1.30 -4.20 -8.91 -15.50 -23.97   off-manifold |P_N mu| 0.23 1.14 2.34 3.63
+muon  refit : reward -0.19 -0.28 -0.48 -0.67 -0.86 -1.04 -1.20   off-manifold |P_N mu| 0.23 0.61 0.81 0.95
+muon  frozen: reward -0.19 -1.08 -3.76 -8.43 -15.34 -24.55 -36.12   off-manifold |P_N mu| 0.23 1.44 2.82 4.29
