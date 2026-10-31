@@ -1,0 +1,9 @@
+sgd   n_fit   128: head-to-head gradient cosine 0.948  on-manifold share 0.685  cosine with true gradient 0.804
+sgd   n_fit   512: head-to-head gradient cosine 0.984  on-manifold share 0.696  cosine with true gradient 0.814
+sgd   n_fit  2048: head-to-head gradient cosine 0.995  on-manifold share 0.699  cosine with true gradient 0.818
+adamw n_fit   128: head-to-head gradient cosine 0.949  on-manifold share 0.736  cosine with true gradient 0.837
+adamw n_fit   512: head-to-head gradient cosine 0.979  on-manifold share 0.728  cosine with true gradient 0.837
+adamw n_fit  2048: head-to-head gradient cosine 0.994  on-manifold share 0.738  cosine with true gradient 0.845
+muon  n_fit   128: head-to-head gradient cosine 0.618  on-manifold share 0.078  cosine with true gradient 0.262
+muon  n_fit   512: head-to-head gradient cosine 0.821  on-manifold share 0.103  cosine with true gradient 0.306
+muon  n_fit  2048: head-to-head gradient cosine 0.941  on-manifold share 0.114  cosine with true gradient 0.323

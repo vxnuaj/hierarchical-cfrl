@@ -98,6 +98,9 @@ def main():
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--bf16", type=int, default=1)
     ap.add_argument("--buf_dtype", choices=["bf16", "fp16"], default="bf16",
                     help="dtype of the cached critic features in the replay buffer. Runs before 2026-10-27 used fp16; the AdamW-trained ELF has trunk activations up to ~5e4 that overflow fp16 (inf -> NaN critic refit), so the default is now bf16")
+    ap.add_argument("--log_gcos", type=int, default=0,
+                    help="1: log the cosine of each actor gradient with the previous one (gcos_prev) and with an EMA (0.9) of past unit "
+                         "gradients (gcos_ema): coherence of the direction the critic asks the policy to move in")
     ap.add_argument("--resume", action="store_true", help="resume from <out>/state.pt if present")
     ap.add_argument("--save_every", type=int, default=50, help="save full resumable state every N iters")
     a = ap.parse_args()
@@ -188,6 +191,7 @@ def main():
         return mets.get("auc")
 
     best_val, t_start, start_it = -1.0, time.time(), 0
+    gstate = [None, None]   # previous unit actor gradient, EMA of unit gradients (--log_gcos)
     last_wauc = [None]
     state_path = os.path.join(a.out, "state.pt")
     if a.resume and os.path.exists(state_path):
@@ -277,6 +281,16 @@ def main():
             loss_a = -obj + a.norm_pen * ref[0][1] * pen if a.norm_pen > 0 else -obj
         opt_a.zero_grad(set_to_none=True); loss_a.backward()
         gn = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0).item()
+        gcos_prev = gcos_ema = None
+        if a.log_gcos:
+            with torch.no_grad():
+                gv = torch.cat([p.grad.float().flatten() for p in model.parameters() if p.grad is not None]); gv = gv / gv.norm().clamp_min(1e-12)
+                if gstate[0] is not None:
+                    gcos_prev = float(gv @ gstate[0]); gcos_ema = float(gv @ gstate[1] / gstate[1].norm().clamp_min(1e-12))
+                    gstate[1].mul_(0.9).add_(gv, alpha=0.1)
+                else:
+                    gstate[1] = gv.clone()
+                gstate[0] = gv
         if not math.isfinite(gn):   # never step the actor on a non-finite gradient (it would poison the policy for good)
             raise RuntimeError(f"non-finite actor gradient at iter {it} (obj {obj.item()})")
         if a.actor_mode == "random":   # same clipped norm (1.0), random direction
@@ -314,7 +328,7 @@ def main():
         rec = {"iter": it, "obj": obj.item(), "grad_norm": gn, "lr": lr_at(it), "buf_succ": float(r2.mean()), "tok_norm": tok_norm, "rsa_gap": (torch.cat(gaps).mean().item() if gaps else None),
                "norm_pen": (a.norm_pen * ref[0][1] * pen.item()) if a.norm_pen > 0 else None,
                "buf_succ_all": sum(buf_r) / max(len(buf_r), 1), "critic_loss": closs, "critic_auc": auc, "critic_wauc": last_wauc[0] if auc is not None else None,
-               "ks": sorted(set(ks)), "elapsed": time.time() - t_start}
+               "ks": sorted(set(ks)), "gcos_prev": gcos_prev, "gcos_ema": gcos_ema, "elapsed": time.time() - t_start}
         logf.write(json.dumps(rec) + "\n"); logf.flush()
         if it % 10 == 0:
             print(json.dumps({k: (round(v, 4) if isinstance(v, float) else v) for k, v in rec.items()}), flush=True)
