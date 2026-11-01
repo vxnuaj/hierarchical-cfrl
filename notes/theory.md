@@ -253,7 +253,8 @@ trunk with a trained linear readout — e.g. a critic head on frozen features); 
 $E$ i.i.d. $\mathcal N(0,s^2)$; $W\in\mathbb R^{d\times p}$ trained from 0 on the squared loss. For an input direction $u$ at a point $x$, let
 $J_u := J_\varphi(x)\,u$ be the induced feature perturbation. The input sensitivity of the *noise-fitted part* of the trained model,
 $\Delta(t) := (W(t) - W_{\rm clean}(t))J_u$ with $W_{\rm clean}$ the run on noiseless targets, satisfies:
-$$\text{fully fitted } (W=\bar W\text{, reached by any interpolating method, e.g. the normalised flows of Theorem 3.5}):\qquad \mathbb E\|\Delta\|^2 = \frac{d\,s^2}{m}\;J_u^\top\hat\Sigma_\varphi^{-1}J_u ,$$
+fully fitted ($W=\bar W$, reached by any interpolating method, e.g. the normalised flows of Theorem 3.5):
+$$ \mathbb E\|\Delta\|^2 = \frac{d\,s^2}{m}\;J_u^\top\hat\Sigma_\varphi^{-1}J_u ,$$
 $$\text{gradient flow at time } t:\qquad \mathbb E\|\Delta(t)\|^2 = \frac{d\,s^2}{m}\;J_u^\top\big(I-e^{-\hat\Sigma_\varphi t}\big)\hat\Sigma_\varphi^{-1}\big(I-e^{-\hat\Sigma_\varphi t}\big)J_u \;\le\; \frac{d\,s^2}{m}\,t^2\;J_u^\top\hat\Sigma_\varphi J_u .$$
 So a fully fitted model's noise sensitivity along $u$ is the *inverse*-covariance (Mahalanobis) norm of the feature perturbation,
 large exactly when moving the input along $u$ moves the features into directions the training features barely vary in; the GD
@@ -379,7 +380,7 @@ $\mathbb E\|P_N(x_t-x_0)\|^2 = (\eta/\bar\gamma)^2\sum_{s<t}\mathbb E\|P_N\xi_s\
 $\mathbb E\langle\beta,x_t-x_0\rangle = \tfrac{\eta t}{\bar\gamma}\langle\beta,\bar g\rangle$ because $\beta\in T$. $\square$ **[proved, under the stated approximation]**
 
 **This model is falsified for Muon critics.** Proposition 5.2 predicts that refits make a noisy critic *safer* than a frozen
-one. On ELF the opposite holds for the independent-Muon critic: frozen head, accuracy 63.9 → 64.2 at it750; refit head,
+one. On ELF the opposite holds for the independent-Muon critic: frozen head, accuracy 63.9 → 64.3 at it750; refit head,
 63.9 → 50.7 (final −11.4) **[measured]**. Hence the refit noise is *not* independent of the policy's state.
 **[falsified: i.i.d.-refit model]**
 
@@ -449,7 +450,7 @@ Readings.
   self-similarity route dominating it (frozen native critic → 3%, §6).
 - The independent Muon critic (MM7) flips sign between $\epsilon=0.5$ and $\epsilon=1$: at full drift its refit rewards *further* drift, at
   92% of probe states. This is a displacement-dependent, i.e. nonlinear, destabilising feedback. It matches the refit route documented for MM7:
-  freezing its head improves RL (64.2 vs 50.7 at it750), and its refits rotate its gradient (cos 0.60 vs AdamW 0.84).
+  freezing its head improves RL (64.3 vs 50.7 at it750), and its refits rotate its gradient (cos 0.60 vs AdamW 0.84).
 - The AdamW critics stay weakly restoring.
 - Caveat: the drift is the native run's, not MM7's own trajectory, and there is one seed.
 - Conclusion: on ELF, refit feedback is restoring near the base. For the independent Muon trunk it turns destabilising at a finite
@@ -608,7 +609,7 @@ change failed.
 | Thm 4.1, Cor 4.3 (refit gradients) | Monte Carlo exact; ELF refit rotation 0.60 vs 0.84; agreement 0.20 (same Muon trunk) vs 0.81–0.85 | proved + measured |
 | Cor 1.3 factors | ELF critic off-share 0.39–0.42 vs 0.33 vs 0.24; policy Jacobian 15× | measured (critic factor modest) |
 | Prop 5.1 (frozen critics exploited) | toy, all trunks; ELF self / sibling / AdamW exploited by 600 steps | proved + measured; independent Muon not exploited (unexplained) |
-| Prop 5.2 (i.i.d. refits harmless) | frozen-head MM7 64.2 vs refit 50.7 at it750 | **falsified** for Muon critics |
+| Prop 5.2 (i.i.d. refits harmless) | frozen-head MM7 64.3 vs refit 50.7 at it750 | **falsified** for Muon critics |
 | Prop 5.3 (feedback instability) | refit rotation; coherence decay; toy loop | conditional (growth geometric only while $\|\Gamma\delta\|\ll\|\bar g\|$, then ballistic) |
 | Prop 5.5 (linear refit feedback) | spiked case: slope −0.018 / −0.935 vs predicted −0.018 / −0.947; coupled case destabilising (review check) | proved; restoring only for block-diagonal state noise |
 | Prop 5.1 orders frozen exploitation | proxies predict AdamW < indep. Muon < native ≈ sibling; observed native < AdamW ≈ sibling < indep. Muon | **falsified** (with available proxies) |
