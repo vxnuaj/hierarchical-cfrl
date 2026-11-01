@@ -1123,3 +1123,14 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
 - Per-seed lines are in the command output, archived with this entry. Seed 4 of native flat and MA is still at it1250 (debug chains 13635705 / 13636269); its final cell will be refreshed when it1500 lands.
 - Seed-3/4 additions: hier s3 +5.1 / +2.4, s4 +3.9 / +3.7; MM7 s3 −10.9, s4 −12.9; Awd s3 +1.1, s4 +1.3 (sel / final as applicable).
 - ELF-M critics (--accum 4): hier field 0.707 → 0.778 at epoch 2 (above the 0.75 bar: no oversampling needed); flat epoch-1 field 0.735.
+
+### 2026-10-31 ~21:00 — all 25 five-seed runs final; paper rewritten
+- swapMA s4 final at it1500: +1.4 (sel +3.8). Five-seed finals (mean ± sd):
+  - native −8.8 ± 5.1; MM7 −11.3 ± 1.1; MA +1.3 ± 1.3 (sel +3.5 ± 1.5); Awd +2.5 ± 0.9; hier +4.2 ± 1.3 (sel +5.7 ± 1.3).
+  - Paired MA − native: +10.1 ± 5.3 (positive on 5/5); MM7 − MA: −12.6 ± 1.4.
+  - MA also dips at it250 (−5.8 ± 2.8), then recovers by it500 (+2.4 ± 1.3).
+- Correction to the earlier paper text: the 16k-critic runs do NOT all crash by it250 (s0 never falls more than 4.5 points; s1 and s2 fall 14–15 at it500; best-val +1.9/+3.4/0). The paper now states this correctly.
+- Paper rewritten (paper/main.tex; backup main_2026-10-31_pre-rewrite.tex) with the academic-writing skill (no em dashes):
+  - New Fig. 1 (`scripts/fig_seed_curves.py`, data `runs/rl/game24_eval_curves.json`) and new headline Table 1 (5 seeds).
+  - Swap table extended to 7 runs; T1/T2 in §8 and App. C; per-seed appendix.
+  - Main text ends on p8.
