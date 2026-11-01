@@ -19,7 +19,7 @@
 #SBATCH --time=2-00:00:00
 #SBATCH --output=outputs/slurm/%x-%j.out
 #SBATCH --signal=B:USR1@240
-#SBATCH --exclude=e22-[01-16],d23-14
+#SBATCH --exclude=e22-[01-16],d23-14,e21-01
 source scripts/common.sh
 export HCFRL_FP32=1   # P100: no bf16; all autocast regions disabled (hcfrl/__init__.py)
 ARGS=("$@")

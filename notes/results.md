@@ -1222,3 +1222,4 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - hier: 81.9 / 80.3 (+1.2 / −0.3); s2 pending.
   - ELF-M checkpoint-700 test accuracy (A40 bf16 eval): flat 74.8, hier 76.6. Still far above ELF-B's 64, so an earlier checkpoint is not a usable way to match accuracy; the hard-prompt set is the method.
   - Screening jobs failed on e22-10 with no log written; all e22 nodes are now excluded in the screen, gate0a_hard and gate0b_p100 scripts, and the screens were resubmitted.
+- 11-01 ~15:15: node e21-01 has a broken torch install (ImportError libtorch_cuda.so); jobs on it "COMPLETED" in 5 min without output. Added it to every P100 script's exclusion list, made the screen fail loudly when summary.txt is missing, and resubmitted screens flat-0 and hier-0/1/3/4/5. hier-2 is running fine on e21-14 (success 0.980 so far).
