@@ -1160,3 +1160,9 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - Decay strength: μη = 2e-3 per step, so μηk ≈ 3 after ~1,600 steps (2 epochs), versus 0.16 in the earlier flatATwd run.
   - RL seeds 0/1/2 (13641057–59, debug relays, --log_gcos 1) run after the critic.
   - Prediction: protects (no collapse), provided field stays ≥ ~0.75.
+- 11-01: paper reformatted on request.
+  - Proofs and full theory merged into one appendix A "Theory" (`paper/theory.tex`, hand-edited LaTeX with theorem environments, now the paper's source; `notes/theory.md` stays the working notes).
+  - Appendix order: A Theory, B Mechanism measurements, C Additional results, D Experimental details, E Every RL run.
+  - No colons, em dashes, lists or "X, not Y" phrasing in prose; edit-history remarks removed.
+  - Sharpness predictor recomputed on 12 Game24 bases: Spearman 0.64 (was 0.76 on 10 bases with 3-seed means).
+  - Backup: paper/main_2026-11-01_pre-format.tex. 37 pages, main text ends p8.
