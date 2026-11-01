@@ -1187,3 +1187,4 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - Fix: `train_svg.py --actor_chunk N`. The actor objective is processed in micro-batches of ≤ N rollouts per denoising step, and gradients accumulate as −sum(logit)/B, the same objective as the unchunked mean.
   - Smoke-tested on an A40 (ELF-M hier, 3 iterations).
   - All six ELF-M RL runs resubmitted with --actor_chunk 2. it0 accuracies already measured: flat s2 79.5, hier s1 80.6, hier s2 80.2.
+- 11-01 ~01:15: wd5 RL s0 (critic field 0.536): 63.1 → 51.4 (it250) → 32.2 (it500). Collapses like the native and wd20 runs. ELF-M runs are in their it0 evals with no OOM so far.
