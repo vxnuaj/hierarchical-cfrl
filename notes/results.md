@@ -1217,3 +1217,8 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - (3) `gate0a_hard_p100.slurm`: critic data of 2000 prompts × 4 on that set, then critic pre-training (accum 4).
   - (4) RL via gate0b_p100 with the hard task dir, 3 seeds per model.
   - Test evaluation stays on the full test set.
+- 11-01 ~14:15: ELF-M (same-recipe) it500.
+  - flat: 77.3 / 75.7 / 76.6, i.e. −2.5 / −4.0 / −2.9 (all three below base and falling from it250).
+  - hier: 81.9 / 80.3 (+1.2 / −0.3); s2 pending.
+  - ELF-M checkpoint-700 test accuracy (A40 bf16 eval): flat 74.8, hier 76.6. Still far above ELF-B's 64, so an earlier checkpoint is not a usable way to match accuracy; the hard-prompt set is the method.
+  - Screening jobs failed on e22-10 with no log written; all e22 nodes are now excluded in the screen, gate0a_hard and gate0b_p100 scripts, and the screens were resubmitted.

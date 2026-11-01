@@ -5,7 +5,7 @@
 #SBATCH --account=irahbari_832
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:p100:1
-#SBATCH --exclude=e22-01,e22-05,d23-14
+#SBATCH --exclude=e22-[01-16],d23-14
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=32G
 #SBATCH --time=12:00:00
