@@ -1192,3 +1192,8 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
 - 11-01 ~03:45: user asked about faster GPUs.
   - Submitted A40 copies of all six ELF-M RL runs (gpu partition, fp32 like the P100 runs, --actor_chunk 2, out tags `game24cdM_*_svg2d_s<s>_a40`, jobs 13651236–41). They are pending on Priority (fair share low).
   - Whichever copy of a seed finishes first is used and the other is cancelled. Same precision (fp32), so the copies are interchangeable.
+- 11-01 ~07:45: **ELF-M it250 (P100 fp32, native critics):**
+  - flat: 79.8 → 80.3, 79.7 → 81.0, 79.5 → 79.2 (+0.5 / +1.3 / −0.3).
+  - hier: 80.7 → 78.7, 80.6 → 78.1, 80.2 → 77.3 (−2.0 / −2.5 / −2.9).
+  - No early flat crash, unlike ELF-B flat (−10.9 to −18.9 at it250). Buffer success stays 0.88–0.97 for both.
+  - Caveats: the bases are at 80% so headroom differs, and the critics are weaker (field 0.78) because failures are rare in their data. Too early to call.
