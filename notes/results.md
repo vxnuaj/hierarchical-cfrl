@@ -1180,6 +1180,6 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
     - Submitted an intermediate wd 5 critic (13642131, μη = 5e-4/step, so μηk ≈ 0.8 per 1,600 steps and ≈ 4.8 over 12 epochs) to look for a field ≥ 0.75 point.
 - 11-01 ~23:15: **T4 wd20 RL is a weak-critic catastrophe, not a test of the remedy.** flatATwd20 s0: 63.1 → 6.4 at it250; s1: 61.5 → 5.5 at it250 (critic field 0.42). The chains were cancelled (s2 had not reached an eval) to free debug slots for the wd 5 critic (13642131, running). Paper treatment: report as "decay strong enough to erase the trunk also destroys the critic".
 - 11-01 ~00:00: **wd5 critic: best field 0.536 at epoch 3** (all epochs 0.40–0.54).
-  - Field against decay strength: wd 0 → 0.814; wd 1 → 0.757 (μηk 0.16); wd 5 → 0.536 (μηk ≈ 1.2 at the best epoch); wd 20 → 0.48 (μηk ≈ 0.6 at epoch 1).
+  - Field against decay strength: wd 0 → 0.814; wd 1 → 0.757 (μηk 0.16); wd 5 → 0.536 (μηk ≈ 1.2 at the best epoch); wd 20 → 0.48 (μηk ≈ 1.6 at epoch 1).
   - Conclusion: on ELF, decoupled weight decay strong enough to approach the theorem's regime (μηk ≳ 1) destroys critic accuracy before it removes the low-variance component.
   - One RL seed with the wd5 critic submitted for the record (dbg-flatATwd5-s0).
