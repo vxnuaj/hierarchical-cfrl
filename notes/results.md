@@ -1079,3 +1079,19 @@ Neither refinement protects, consistent with Theorem 3.4 and the measured spectr
   - Self-consistency residual 0.107 → 0.135.
   - corr(−residual, reward) 0.44 → 0.56; corr(−residual, logit) 0.45–0.62 across critics.
   - Final numbers pending.
+
+### 2026-10-31 ~18:30 — T1 result (self-consistency along the frozen native attack)
+`outputs/analysis/T1_selfconsistency_native.json` (job 13634958, debug A40 bf16; native attacker, lr 1e-6, 600 it, 256 probe prompts, k=40).
+- Accuracy: 0.824 → 0.879 (it100) → 0.832 (it300) → 0.676 → 0.340 → 0.031 (it600). This reproduces the earlier 82 → 3%.
+- Base self-consistency residual rho: 0.100 → 0.107 → 0.135 → 0.169 → 0.206 → 0.254 → 0.379. It rises monotonically.
+- corr(−rho, reward): 0.29 / 0.44 / 0.56 / 0.52 / 0.49 / 0.43 / 0.50.
+- corr(−rho, logit):
+  - native: 0.24 → 0.55 (it400) → −0.03 (it600).
+  - MM7 and MA: 0.30–0.62 throughout.
+- Logits at it600: native 1021 (from 791); MM7 31 (from 867); MA 71 (from 1430).
+- AUC at it600: native 0.51; MM7 0.99; MA 0.95.
+- Verdict:
+  - The "policy raises its self-consistency" conjecture for the self-similarity route is falsified.
+  - The exploit drives states to be *less* consistent under theta0 (which is the native critic's own frozen trunk), and the native head still scores them high.
+  - The independent critics correctly collapse their logits, which is the strongest no-transfer evidence so far.
+- theory.md §6 / §7 / §11 (T1 [x], M3) updated. No paper change: the paper never stated the conjecture.

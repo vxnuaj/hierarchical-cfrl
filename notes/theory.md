@@ -475,8 +475,29 @@ self-similarity effect we measured: the frozen critic on the Muon policy's own m
 critic's trunk *is* the policy's next denoiser call, so its features encode the policy's self-consistency between
 $\tilde z_k$ and $\hat x_{k-1}$; success correlates with self-consistency on the base policy, and the policy can raise its
 self-consistency directly — a gradient-based analogue of a model's preference for its own generations
-[Panickssery et al. 2024]. A test (not yet run): regress the native critic's logit on the denoiser's own residual
-$\|\mathrm d_{\theta_0}(s_k)-\hat x_{k-1}\|$ before and after the frozen attack.
+[Panickssery et al. 2024].
+
+**Test (T1) — the conjecture is falsified as stated.** Along the frozen native attack (ELF-B, Game24, AdamW actor lr $10^{-6}$,
+600 steps, 256 fixed probe prompts) we measured the base denoiser's relative self-consistency residual on the recorded states,
+$\rho = \|(\mathrm d_{\theta_0}(s_k)-\hat x_{k-1})\odot m\|/\|\hat x_{k-1}\odot m\|$ at $k=40$, and its correlation with the true reward and with each
+critic's logit **[measured]**:
+
+| iter | acc | $\rho$ | corr$(-\rho, r)$ | corr$(-\rho,\ell)$ native / MM7 / MA | logit native / MM7 / MA | AUC native / MM7 / MA |
+|---|---|---|---|---|---|---|
+| 0 | 0.824 | 0.100 | 0.29 | 0.24 / 0.30 / 0.28 | 791 / 867 / 1430 | 0.89 / 0.95 / 0.90 |
+| 200 | 0.875 | 0.135 | 0.56 | 0.50 / 0.62 / 0.48 | 911 / 869 / 1548 | 0.89 / 0.94 / 0.96 |
+| 400 | 0.676 | 0.206 | 0.49 | 0.55 / 0.57 / 0.50 | 820 / 666 / 1266 | 0.71 / 0.86 / 0.84 |
+| 500 | 0.340 | 0.254 | 0.43 | 0.38 / 0.60 / 0.53 | 786 / 395 / 778 | 0.59 / 0.85 / 0.85 |
+| 600 | 0.031 | 0.379 | 0.50 | **−0.03** / 0.53 / 0.50 | **1021** / 31 / 71 | **0.51** / 0.99 / 0.95 |
+
+Readings. (i) Self-consistency does predict success on the policy's own states, and it predicts every critic's logit about equally
+(0.24–0.62), so it is not specific to the self-similar critic. (ii) The attack *lowers* self-consistency monotonically ($\rho$ 0.10 → 0.38), the opposite of
+the conjecture, whose mechanism was that the policy raises it. (iii) At collapse the native critic decouples from self-consistency
+(corr $-0.03$, AUC 0.51). Its logit *rises* to 1021, while the independent critics fall to 31 and 71 and still rank correctly (AUC 0.99 and 0.95). The exploited
+states are therefore ones the critic's own frozen trunk ($=\theta_0$) regards as *inconsistent*, yet its head scores them highly. The
+self-similarity route acts through the native head's readout of $\theta_0$ features along directions orthogonal to self-consistency, not by
+raising self-consistency. It remains nonlinear (Proposition 6.1) and specific to the native critic (no transfer: the other critics' logits
+fall 28-fold and 20-fold). Its precise form is open (M3).
 
 **Hierarchy.** The H-ELF critic built on its own policy is *not* exploited by 600 frozen ascent steps (82.8 → 85.5;
 flat: 82 → 3) **[measured]**: the jointly denoised coarse code blocks the self-similarity route. A mechanism
@@ -501,7 +522,8 @@ cannot raise without matching tokens to their classes, i.e. without moving towar
    the policy's state can destabilise the loop (Proposition 5.3, conditional). Independent refit noise alone would be
    harmless (Proposition 5.2), which the data falsify for Muon critics. In the linear–Gaussian model refits are restoring when
    the state noise is block-diagonal in $(T,N)$ and can be destabilising when it couples them (Proposition 5.5).
-4. *Self-similarity* is a second, nonlinear route (frozen own-trunk critic → 3%), blocked by the hierarchy.
+4. *Self-similarity* is a second, nonlinear route (frozen own-trunk critic → 3%), blocked by the hierarchy. It does not act by raising the
+   denoiser's self-consistency: the attack lowers it (T1, §6).
 5. *Persistence and remedy.* Gradient-flow fine-tuning cannot remove the Muon component, weight decay can (Theorem 3.4); for AdamW
    fine-tuning this is shown in the toy only.
 
@@ -640,8 +662,8 @@ random-matrix analysis of feature learning); they are recorded so that they are 
   consistent with Theorem 3.4 given the underpowered decay ($\mu\eta k\approx0.16$).
 
 **Requires new data (outside the scope "given the data we have"; proposed experiments, optional)**
-- [ ] **T1. Self-consistency test of the self-similarity route (§6).** Regress the native critic's logit on the denoiser's own residual
-  $\|\mathrm d_{\theta_0}(s_k)-\hat x_{k-1}\|$ along the frozen attack. ≈1 debug-GPU hour.
+- [x] **T1. Self-consistency test of the self-similarity route (§6).** Done (2026-10-31, `attack_transfer.py --self_consistency 1`):
+  the "raise self-consistency" conjecture is falsified. The attack raises the base residual 0.10 → 0.38, and the native critic decouples from it at collapse (table in §6).
 - [ ] **T2. Measure $\Gamma$ on ELF** along answer-changing directions for Muon vs AdamW trunks (refit on displaced states; extends
   `refit_churn.py`). Proposition 5.5 predicts $\Gamma\preceq0$ in the linear regime; a positive measured $\Gamma$ would localise the nonlinearity.
 - [ ] **T4. Powered test of Theorem 3.4 on ELF:** weight-decayed critic trunk with $\mu\eta k\gtrsim3$, off-manifold gain and RL, 3 seeds.
@@ -649,7 +671,8 @@ random-matrix analysis of feature learning); they are recorded so that they are 
 
 **Requires mathematics beyond this write-up**
 - [ ] **M3. Nonlinear self-similarity model** (critic = next denoiser call). Proposition 6.1 shows the linear model cannot produce it;
-  a model needs the critic's dependence on the denoiser's self-consistency, which T1 would measure first.
+  T1 rules out self-consistency as the exploited quantity, so a model must explain a head that, on frozen $\theta_0$ features, scores
+  states that are inconsistent for $\theta_0$ highly, and only for the policy that shares $\theta_0$.
 - [x] **M4 (partly). Beyond linear layers.** Theorem 3.6 extends the noise-sensitivity law to any model linear in its trained parameters
   given fixed features with $m\ge p$ (random features; a frozen trunk with a linear readout), with the Mahalanobis norm
   $J_u^\top\hat\Sigma_\varphi^{-1}J_u$ as the vulnerability measure. *Corrected after review:* it does not cover the lazy/NTK regime ($p\gg m$).
