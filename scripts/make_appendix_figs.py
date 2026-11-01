@@ -424,6 +424,47 @@ axs[2].set_xticks(range(len(vals))); axs[2].set_xticklabels([l for l, _ in vals]
 axs[2].set_title("critic logit response: off- / on-manifold\nperturbation of equal size ($k{=}40$)", fontsize=6.5); finish(axs[2], ylab="ratio", zero=False, xl="")
 fig.tight_layout(pad=0.3); fig.savefig(FIG + "app_offspan.pdf"); plt.close(fig)
 
+
+# ---------------------------------------------------------------- A17: cross-critic matrices (cross_critic_g24 summary)
+def parse_blocks(path):
+    lines = open(path).read().splitlines(); blocks = {}; i = 0
+    while i < len(lines):
+        if lines[i].startswith("== "):
+            title = lines[i][3:]; cols = lines[i + 1].split(); rows = {}; i += 2
+            while i < len(lines) and lines[i].strip() and not lines[i].startswith("=="):
+                parts = lines[i].split()
+                try: rows[parts[0]] = [float(x) for x in parts[1:]]
+                except ValueError: pass
+                i += 1
+            blocks[title] = (cols, rows)
+        else: i += 1
+    return blocks
+B = parse_blocks("runs/analysis/cross_critic_g24_summary.txt")
+CRL = {"native": "own", "mm43": "sibling", "mm7": "indep.", "big": "own 16k", "ma": "AdamW", "ma43": "AdamW s43", "am": "Muon (A-pol.)", "Anat": "AdamW pol.", "Awd": "AdamW+wd"}
+POLL = {"base0": "base", "nat0_250": "native s0 @250", "nat0_500": "native s0 @500", "nat1_500": "native s1 @500", "nat0_1500": "native s0 @1500",
+        "mm43_250": "sibling @250", "mm7_500": "indep. @500", "mm7_750": "indep. @750", "ma_500": "AdamW tr. @500", "ma_1000": "AdamW tr. @1000",
+        "A_0": "AdamW pol. base", "A_1500": "AdamW pol. @1500", "Awd_0": "AdamW+wd base", "Awd_1500": "AdamW+wd @1500"}
+fig, axs = plt.subplots(2, 1, figsize=(6.9, 5.6))
+for ax, key, cmap, vmin, vmax, title in [(axs[0], "k=40: AUC (rows critics, cols policies)", "Blues", 0.85, 1.0, "AUC of each critic (rows) on the states of each policy (columns), $k{=}40$"),
+                                          (axs[1], "k=40: wrong-answer inflation = mean logit on WRONG samples of policy minus on WRONG samples of base0, in units of the base correct-wrong gap", "Reds", 0, 0.7, "wrong-answer inflation (rise of the logit on wrong answers vs. the base, in base correct-wrong gaps), $k{=}40$")]:
+    cols, rows = B[key]; rn = [r for r in rows if r in CRL]; M = np.array([rows[r] for r in rn])
+    ax.imshow(M, cmap=cmap, vmin=vmin, vmax=vmax, aspect="auto")
+    for a_ in range(M.shape[0]):
+        for b_ in range(M.shape[1]): ax.text(b_, a_, f"{M[a_, b_]:.2f}", ha="center", va="center", fontsize=5.2, color="white" if (M[a_, b_] - vmin) / (vmax - vmin) > 0.65 else "black")
+    ax.set_xticks(range(len(cols))); ax.set_xticklabels([POLL.get(c, c) for c in cols], rotation=35, ha="right", fontsize=5.8); ax.set_yticks(range(len(rn))); ax.set_yticklabels([CRL[r] for r in rn], fontsize=6)
+    ax.set_title(title, fontsize=6.8)
+    for sp in ax.spines.values(): sp.set_visible(False)
+fig.tight_layout(pad=0.3); fig.savefig(FIG + "app_cross.pdf"); plt.close(fig)
+fig, ax = plt.subplots(figsize=(3.4, 3.0))
+cols, rows = B["k=40: cosine between critic input gradients on base0 states (generated positions, z and x_prev)"]
+rn = [r for r in rows if r in CRL]; M = np.array([rows[r] for r in rn])
+ax.imshow(M, cmap="Blues", vmin=0, vmax=1)
+for a_ in range(M.shape[0]):
+    for b_ in range(M.shape[1]): ax.text(b_, a_, f"{M[a_, b_]:.2f}", ha="center", va="center", fontsize=5, color="white" if M[a_, b_] > 0.6 else "black")
+ax.set_xticks(range(len(rn))); ax.set_xticklabels([CRL[r] for r in rn], rotation=60, ha="right", fontsize=5.8); ax.set_yticks(range(len(rn))); ax.set_yticklabels([CRL[r] for r in rn], fontsize=5.8)
+for sp in ax.spines.values(): sp.set_visible(False)
+fig.tight_layout(pad=0.3); fig.savefig(FIG + "app_cross_cos.pdf"); plt.close(fig)
+
 # ---------------------------------------------------------------- generated table: every RL run
 DESC = {}
 def desc(run):
