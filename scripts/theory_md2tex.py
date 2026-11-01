@@ -42,37 +42,40 @@ def cites(s):
     return re.sub(r"\[([A-Z][^\[\]]*?\d{4}[a-z]?)\]", rep, s)
 
 
-def text_escape(t):
-    out = []
-    for piece in re.split(r"(`[^`]*`)", t):
-        if piece.startswith("`") and piece.endswith("`") and len(piece) > 1:
-            body = piece[1:-1].replace("\\", "/").replace("_", "\\_").replace("&", "\\&").replace("{", "\\{").replace("}", "\\}")
-            out.append("\\texttt{" + body + "}")
-            continue
-        p = piece.replace("&", "\\&").replace("%", "\\%").replace("#", "\\#").replace("_", "\\_")
-        p = re.sub(r"\*\*\[([^\]]+)\]\*\*", r"\\textsc{[\1]}", p)
-        p = re.sub(r"\*\*(.+?)\*\*", r"\\textbf{\1}", p)
-        p = re.sub(r"(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])", r"\\emph{\1}", p)
-        p = p.replace(" — ", ", ").replace("—", ", ")
-        for a, b in UNI.items():
-            p = p.replace(a, b)
-        out.append(p)
-    return "".join(out)
+MATHFIX = {"−": "-", "′": "'", "…": "\\dots", "≈": "\\approx", "×": "\\times", "→": "\\to", "≤": "\\le"}
 
 
 def convert_inline(s):
-    """Escape a run of text while leaving $...$ and \\[...\\] math untouched."""
+    """Protect math and code, escape and convert markdown on the whole run (emphasis may span lines), restore."""
     s = tprefix(s)
     s = cites(s)
-    pieces = re.split(r"(\\\[.*?\\\]|\$[^$]+\$)", s, flags=re.S)
-    res = []
-    for i, p in enumerate(pieces):
-        if i % 2 == 1:
-            p = p.replace("−", "-").replace("′", "'").replace("…", "\\dots").replace("≈", "\\approx").replace("×", "\\times").replace("→", "\\to").replace("≤", "\\le")
-            res.append(p)
-        else:
-            res.append(text_escape(p))
-    return "".join(res)
+    store, codes = [], []
+
+    def keep(m):
+        store.append(m.group(0))
+        return f"@@M{len(store) - 1}@@"
+
+    def keepc(m):
+        body = m.group(1).replace("\\", "/").replace("_", "\\_").replace("&", "\\&").replace("{", "\\{").replace("}", "\\}")
+        codes.append("\\texttt{" + body + "}")
+        return f"@@C{len(codes) - 1}@@"
+
+    s = re.sub(r"\\\[.*?\\\]|\$[^$]+\$", keep, s, flags=re.S)
+    s = re.sub(r"`([^`]*)`", keepc, s)
+    s = s.replace("&", "\\&").replace("%", "\\%").replace("#", "\\#").replace("_", "\\_")
+    s = re.sub(r"\*\*\[(.+?)\]\*\*", lambda m: "\\textsc{[" + m.group(1) + "]}", s, flags=re.S)
+    s = re.sub(r"\*\*(.+?)\*\*", lambda m: "\\textbf{" + m.group(1) + "}", s, flags=re.S)
+    s = re.sub(r"(?<![\w*])\*(?!\s)(.+?)(?<!\s)\*(?![\w*])", lambda m: "\\emph{" + m.group(1) + "}", s, flags=re.S)
+    s = s.replace(" — ", ", ").replace("—", ", ")
+    for a, b in UNI.items():
+        s = s.replace(a, b)
+    for k, c in enumerate(codes):
+        s = s.replace(f"@@C{k}@@", c)
+    for k, m in enumerate(store):
+        for a, b in MATHFIX.items():
+            m = m.replace(a, b)
+        s = s.replace(f"@@M{k}@@", m)
+    return s
 
 
 def table(lines):

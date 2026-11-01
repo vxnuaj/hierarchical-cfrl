@@ -1134,3 +1134,21 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - New Fig. 1 (`scripts/fig_seed_curves.py`, data `runs/rl/game24_eval_curves.json`) and new headline Table 1 (5 seeds).
   - Swap table extended to 7 runs; T1/T2 in §8 and App. C; per-seed appendix.
   - Main text ends on p8.
+
+### 2026-10-31 ~23:30 — appendix expanded (all results, full theory, 15 figures)
+- paper/main.tex: 39 pages. Main text still ends on p8.
+- Appendix contents:
+  - Full theory (T0–T10), converted from notes/theory.md by `scripts/theory_md2tex.py`.
+  - 15 figures from `scripts/make_appendix_figs.py`: seeds, loop variables, interventions, margin, failure modes, frozen attacks, T1, refit/T2/agreement, pull effects, spectra, theory toys, hierarchy, K&K/Countdown, GRR, sharpness scatter.
+  - Tables:
+    - Every-evaluation 5-seed table.
+    - Every RL run (115 runs, full trajectories).
+    - Every critic (field score, selected epoch, AUC).
+    - One-step / GSNR / commitment diagnostics.
+  - Further controls: refined trunks, sibling, frozen head, early checkpoint, reverse pairing.
+  - Implementation notes: fp16 → bf16 buffer on 10-27, frozen decoder, GRR lr. Compute appendix.
+- Data now in the repo: `runs/rl/rl_logs_all.json.gz` (all per-iteration RL logs, 'ks' dropped) and `runs/analysis/` (synced from the cluster, except cross_critic_g24.pt at 190 MB).
+- Corrections found while doing this:
+  - Native Game24 critic field score in its log.json is 0.862 (epoch 6). The 0.838 quoted earlier is the seed-44 critic's score. Paper fixed.
+  - Frozen-head MM7 at it500 and it750 is 62.8 and 64.3 (not 62.7 and 64.2). Paper and theory fixed.
+  - The "rsa" run is a sharpness-aware *actor objective* (displaced critic input), not a critic objective. Paper fixed.
