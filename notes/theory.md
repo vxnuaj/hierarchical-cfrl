@@ -430,6 +430,31 @@ nonlinearity or the verifier's non-smoothness (a reward that does not fall until
 earlier version of this note concluded that the feedback "must be nonlinear"; that conclusion is withdrawn. Which mechanism
 operates on ELF is an empirical question (item T2).
 
+**Measurement (T2) [measured; one drift, one refit seed, 64 probe states].** Drift: the native ELF-B Game24 run, seed 0,
+$\theta_0$ (it0) → $\theta_1$ (it250). Interpolate $\theta(\epsilon)$. At each $\epsilon$, roll out 1536 training prompts, then refit each critic's head
+from its pretrained weights with the RL recipe (AdamW $10^{-4}$, 200 steps, batch 64) on the $k=40$ states with verified rewards.
+On fixed $\theta_0$ probe states, take the direction-normalised feedback along the drift of the clean estimate, $v$:
+$\Gamma_v(\epsilon) = \langle g_\epsilon-g_0, v\rangle/(\epsilon\|g_0\|\|v\|)$. Success was 0.818 at $\epsilon=0$ and 0.811 at $\epsilon=0.5$.
+
+| critic (trunk) | $\cos(g_0,v)$ | $\Gamma_v(0.5)$ mean (frac $>0$) | $\Gamma_v(1)$ mean (frac $>0$) |
+|---|---|---|---|
+| native (Muon, own) | +0.14 | −0.21 (5%) | −0.12 (5%) |
+| MM7 (Muon, independent) | −0.10 | −0.11 (8%) | **+0.08 (92%)** |
+| MA (AdamW) | +0.06 | −0.08 (11%) | −0.05 (14%) |
+| Anat (AdamW-trained base's own critic) | +0.08 | −0.09 (16%) | −0.03 (14%) |
+
+Readings.
+- For small displacement every critic's refit is restoring, as Proposition 5.5(a) predicts for the linear regime.
+- The native critic stays strongly restoring at full drift. Its collapse is therefore not driven by refit feedback, consistent with the
+  self-similarity route dominating it (frozen native critic → 3%, §6).
+- The independent Muon critic (MM7) flips sign between $\epsilon=0.5$ and $\epsilon=1$: at full drift its refit rewards *further* drift, at
+  92% of probe states. This is a displacement-dependent, i.e. nonlinear, destabilising feedback. It matches the refit route documented for MM7:
+  freezing its head improves RL (64.2 vs 50.7 at it750), and its refits rotate its gradient (cos 0.60 vs AdamW 0.84).
+- The AdamW critics stay weakly restoring.
+- Caveat: the drift is the native run's, not MM7's own trajectory, and there is one seed.
+- Conclusion: on ELF, refit feedback is restoring near the base. For the independent Muon trunk it turns destabilising at a finite
+  displacement, so the mechanism is the nonlinear one, not the linear $T$–$N$ coupling case (b), which would act at small $\epsilon$ as well.
+
 **Proposition 5.4 (a benign sink stabilises the loop).** Let the pathwise gradient decompose as $J^\top G = J^\top b + J^\top G_{\rm rest}$, where $b$
 is *answer-preserving* — $\langle\nabla R, J\,v\rangle = 0$ for every $v$ in the span of the updates it induces — and suppose the
 actor step is normalised, $\delta\theta = \eta\,J^\top G/\|J^\top G\|$. Then the reward-relevant movement per step satisfies
@@ -521,7 +546,8 @@ cannot raise without matching tokens to their classes, i.e. without moving towar
    (AdamW trunks) absorbs the actor's normalised steps (Proposition 5.4); a refit gradient that rotates and depends on
    the policy's state can destabilise the loop (Proposition 5.3, conditional). Independent refit noise alone would be
    harmless (Proposition 5.2), which the data falsify for Muon critics. In the linear–Gaussian model refits are restoring when
-   the state noise is block-diagonal in $(T,N)$ and can be destabilising when it couples them (Proposition 5.5).
+   the state noise is block-diagonal in $(T,N)$ and can be destabilising when it couples them (Proposition 5.5). On ELF (T2) refits
+   are restoring near the base and turn destabilising at full drift for the independent Muon critic only.
 4. *Self-similarity* is a second, nonlinear route (frozen own-trunk critic → 3%), blocked by the hierarchy. It does not act by raising the
    denoiser's self-consistency: the attack lowers it (T1, §6).
 5. *Persistence and remedy.* Gradient-flow fine-tuning cannot remove the Muon component, weight decay can (Theorem 3.4); for AdamW
@@ -599,7 +625,8 @@ change failed.
 1. **The nonlinear self-similarity route** (section 6): why the policy's own frozen critic is exploited to 3% while sibling
    and independent Muon critics are not. Proposition 6.1 shows linear self-alignment cannot be the cause.
 2. **The feedback term $\Gamma$** of Proposition 5.3: Proposition 5.5 shows it is restoring for linear trunks with block-diagonal state
-   noise and can be destabilising when the noise couples $T$ and $N$; which case (or a nonlinear mechanism) operates on ELF is open.
+   noise and can be destabilising when the noise couples $T$ and $N$. T2 (§5) measures it on ELF: restoring near the base for every
+   critic, and destabilising at full drift only for the independent Muon critic, so the mechanism is nonlinear. A model of that sign flip is open.
 3. **The ordering of frozen-critic exploitation** (self ≪ AdamW ≈ sibling ≪ independent Muon) is not reproduced by
    Proposition 5.1 with the available alignment and off-share proxies (§5).
 4. **Depth, attention and the general separation.** All proofs are for linear layers (sections 3–4), fixed features with $m\ge p$
@@ -655,7 +682,7 @@ random-matrix analysis of feature learning); they are recorded so that they are 
   discrete-time case remains open.
 - [~] **M2. Sign of the refit feedback $\Gamma$.** *Corrected after the proof review.* Proposition 5.5: restoring (eigenvalue sense) for linear
   trunks with block-diagonal state noise; possibly destabilising when the noise couples $T$ and $N$. The earlier conclusion that the
-  feedback must be nonlinear is withdrawn; which case applies on ELF is item T2.
+  feedback must be nonlinear is withdrawn. T2 (done) shows that on ELF the destabilising feedback is displacement-dependent (MM7 at $\epsilon=1$), i.e. nonlinear.
 - [x] **T3. Does Proposition 5.1 explain the frozen-attack ordering?** Tested with existing data (§5): no, with the available proxies
   (falsified as stated); self-similarity, which the proposition lacks, dominates the native case.
 - [x] **R1. Refined-trunk critics to it1500.** AdamW-refined −9.6, weight-decay-refined −6.9 (held to it500, then collapsed);
@@ -664,8 +691,8 @@ random-matrix analysis of feature learning); they are recorded so that they are 
 **Requires new data (outside the scope "given the data we have"; proposed experiments, optional)**
 - [x] **T1. Self-consistency test of the self-similarity route (§6).** Done (2026-10-31, `attack_transfer.py --self_consistency 1`):
   the "raise self-consistency" conjecture is falsified. The attack raises the base residual 0.10 → 0.38, and the native critic decouples from it at collapse (table in §6).
-- [ ] **T2. Measure $\Gamma$ on ELF** along answer-changing directions for Muon vs AdamW trunks (refit on displaced states; extends
-  `refit_churn.py`). Proposition 5.5 predicts $\Gamma\preceq0$ in the linear regime; a positive measured $\Gamma$ would localise the nonlinearity.
+- [x] **T2. Measure $\Gamma$ on ELF.** Done (2026-10-31, `refit_feedback.py`, table in §5). $\Gamma_v<0$ at $\epsilon=0.5$ for all four critics.
+  At $\epsilon=1$ it is $+0.08$ (92% of probes) for MM7 and still negative for native and the AdamW critics. Follow-up (optional): MM7's own drift, more seeds.
 - [ ] **T4. Powered test of Theorem 3.4 on ELF:** weight-decayed critic trunk with $\mu\eta k\gtrsim3$, off-manifold gain and RL, 3 seeds.
 - [ ] **R2. ELF-M (3×) replication** of the fingerprint and of the gradient-agreement / refit-churn measurements (GPU partition queue).
 

@@ -1095,3 +1095,20 @@ Neither refinement protects, consistent with Theorem 3.4 and the measured spectr
   - The exploit drives states to be *less* consistent under theta0 (which is the native critic's own frozen trunk), and the native head still scores them high.
   - The independent critics correctly collapse their logits, which is the strongest no-transfer evidence so far.
 - theory.md §6 / §7 / §11 (T1 [x], M3) updated. No paper change: the paper never stated the conjecture.
+
+### 2026-10-31 ~19:00 — T2 result (refit feedback along the drift)
+`outputs/analysis/T2_refit_feedback.json` (job 13636268, P100 fp32, d23-15).
+- Drift: native flat s0, it0 → it250. Success 0.818 at eps 0 and 0.811 at eps 0.5. Refit: 200 AdamW steps from the pretrained head. 64 probe states.
+- Gamma_v at eps 0.5 / eps 1 (fraction of probes positive), and cos(g0, drift):
+  - native: −0.21 (5%) / −0.12 (5%); cos +0.14.
+  - mm7: −0.11 (8%) / **+0.08 (92%)**; cos −0.10.
+  - ma: −0.08 (11%) / −0.05 (14%); cos +0.06.
+  - Anat: −0.09 (16%) / −0.03 (14%); cos +0.08.
+- Verdict:
+  - Every critic's refit is restoring near the base (Prop 5.5(a)).
+  - Only the independent Muon critic turns destabilising at full drift, a nonlinear sign flip, consistent with its refit route (frozen-head MM7 64.2 vs 50.7).
+  - The native critic is restoring, so its collapse runs through self-similarity.
+- Caveats: native drift, not MM7's own; one seed.
+- theory.md §5 / §7 / §10 / §11 updated.
+
+ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6 epochs ≈ 4.3 h. Will decide on oversampling after the final (best) epoch.
