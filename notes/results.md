@@ -1211,3 +1211,9 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
 - (P2) H-ELF-M with its native critic, under the same matching, falls less than flat ELF-M.
 
 **Falsification.** If flat ELF-M stays within ±2 points with π ≈ 0.8, reward variance does not explain the scale difference and the refit-route account is incomplete at 342M. The paper reports this either way.
+- 11-01 ~14:10: matched-variance ELF-M pipeline started.
+  - (1) Per-prompt screen of the training prompts: `scripts/screen_p100.slurm`, collect --no_states, 2 rollouts per prompt. Flat uses 3 of 6 chunks (≈9k prompts); hier uses all 6, because it fails on only ≈2% of rollouts. Jobs 13656069–80, minus the cancelled flat 3–5.
+  - (2) `build_hard_set.py`: keep every prompt with ≥1 failure plus random all-correct prompts so that the screened success is 0.75. The target sits a little below 0.80 to allow for regression to the mean.
+  - (3) `gate0a_hard_p100.slurm`: critic data of 2000 prompts × 4 on that set, then critic pre-training (accum 4).
+  - (4) RL via gate0b_p100 with the hard task dir, 3 seeds per model.
+  - Test evaluation stays on the full test set.
