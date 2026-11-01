@@ -1197,3 +1197,17 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - hier: 80.7 → 78.7, 80.6 → 78.1, 80.2 → 77.3 (−2.0 / −2.5 / −2.9).
   - No early flat crash, unlike ELF-B flat (−10.9 to −18.9 at it250). Buffer success stays 0.88–0.97 for both.
   - Caveats: the bases are at 80% so headroom differs, and the critics are weaker (field 0.78) because failures are rare in their data. Too early to call.
+
+### 2026-11-01 ~13:45 — PRE-REGISTERED PREDICTION (written before the run): ELF-M at matched reward variance
+**Measured first.**
+- Relative parameter displacement at it250 is matched across sizes: ELF-B flat 5.57e-4, ELF-M flat 5.10e-4 / 5.24e-4, ELF-B hier 5.50e-4, ELF-M hier 6.90e-4 (job an-stepsize, `hcfrl/analysis/offline/step_size.py`). So the step-size explanation (Prop A.16) for the ELF-M stability is not supported.
+- The remaining theory variable is reward variance in the critic's data and refit buffer. Thm A.13: refit noise ∝ s² = π(1−π).
+  - ELF-B flat π ≈ 0.82, s² ≈ 0.148.
+  - ELF-M flat π = 0.896, s² ≈ 0.093.
+  - ELF-M hier π = 0.978, s² ≈ 0.021.
+
+**Prediction.** Run ELF-M with critic pre-training data and RL training prompts drawn so that rollout success is π ≈ 0.80 (hard-prompt sampling; the base model is unchanged), with the same recipe and step. Then:
+- (P1) the native Muon critic on the flat ELF-M policy is exploited: the final Δ, mean over 3 seeds, is ≤ −5 points on the full test set, and no run has a best-validation checkpoint more than 1 point above base;
+- (P2) H-ELF-M with its native critic, under the same matching, falls less than flat ELF-M.
+
+**Falsification.** If flat ELF-M stays within ±2 points with π ≈ 0.8, reward variance does not explain the scale difference and the refit-route account is incomplete at 342M. The paper reports this either way.
