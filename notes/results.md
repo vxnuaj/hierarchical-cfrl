@@ -1155,3 +1155,8 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
 - ~23:50: appendix additions:
   - Off-manifold geometry (`offspan_g24.pt`: drift off-fraction / norm, critic off/on response ratios, on-manifold gradient shares, policy factor) with new Fig. app_offspan.
   - ELF-M status appendix (bases 78.9 / 80.5, checkpoint selection, rollout success 0.896 / 0.978, per-epoch critic field scores); RL still pending.
+- ~00:05 11-01: **T4 submitted** (powered weight-decay remedy, theory Thm T3.4). The debug A40s were idle.
+  - Critic: native Muon trunk refined with AdamW, lr_trunk 1e-4, wd_trunk 20, 12 epochs (`game24cd_flatATwd20`, job 13641056).
+  - Decay strength: μη = 2e-3 per step, so μηk ≈ 3 after ~1,600 steps (2 epochs), versus 0.16 in the earlier flatATwd run.
+  - RL seeds 0/1/2 (13641057–59, debug relays, --log_gcos 1) run after the critic.
+  - Prediction: protects (no collapse), provided field stays ≥ ~0.75.
