@@ -400,6 +400,30 @@ for task, col, mk in [("Game24", C["hier"], "o"), ("K&K", C["mm7"], "s"), ("Coun
 ax.set_xscale("log"); finish(ax, ylab=r"final $\Delta$ (mean over seeds)", xl=r"worst-case logit drop at $\rho=10^{-3}$ (base)"); ax.legend(fontsize=5.6)
 fig.tight_layout(pad=0.3); fig.savefig(FIG + "app_sharp.pdf"); plt.close(fig)
 
+
+# ---------------------------------------------------------------- A16: off-manifold geometry (offspan)
+O = torch.load("runs/analysis/offspan_g24.pt", map_location="cpu", weights_only=False)
+fig, axs = plt.subplots(1, 3, figsize=(6.75, 2.3))
+DR = [("nat", "native", C["native"]), ("mm7", "indep. Muon", C["mm7"]), ("ma", "AdamW trunk", C["ma"]), ("A", "AdamW policy", C["awd"]), ("Awd", "AdamW+wd policy", C["violet"])]
+for k, lab_, col in DR:
+    if k not in O["drift"]: continue
+    its = sorted(O["drift"][k], key=int)
+    axs[0].plot([int(i) for i in its], [O["drift"][k][i]["off_frac"] for i in its], color=col, marker="o", ms=2.5, label=lab_)
+    axs[1].plot([int(i) for i in its], [O["drift"][k][i]["norm"] for i in its], color=col, marker="o", ms=2.5)
+axs[0].set_title("off-manifold energy fraction of $\\hat x$ ($k{=}40$)", fontsize=6.8); finish(axs[0], ylab="fraction", zero=False); axs[0].legend(fontsize=5.4)
+axs[1].set_title("token-embedding norm of $\\hat x$", fontsize=6.8); finish(axs[1], ylab="norm", zero=False)
+CN = [("native", "own"), ("mm43", "sibling"), ("mm7", "indep."), ("big", "own 16k"), ("ma", "AdamW"), ("ma43", "AdamW s43"), ("am", "Muon, A-pol."), ("Anat", "AdamW pol."), ("Awd", "AdamW+wd")]
+vals = []
+for n, lab_ in CN:
+    if n not in O["critics"]: continue
+    c = O["critics"][n]["40"] if "40" in O["critics"][n] else O["critics"][n][40]
+    on, off = c["dl_on"].abs().mean().item(), c["dl_off"].abs().mean().item()
+    vals.append((lab_, off / max(on, 1e-12)))
+axs[2].bar(range(len(vals)), [v for _, v in vals], color=[C["native"], C["violet"], C["mm7"], C["grey"], C["ma"], C["green"], C["hier"], C["awd"], C["red"]][:len(vals)], edgecolor="white", lw=0.5)
+axs[2].set_xticks(range(len(vals))); axs[2].set_xticklabels([l for l, _ in vals], rotation=60, fontsize=5.6)
+axs[2].set_title("critic logit response: off- / on-manifold\nperturbation of equal size ($k{=}40$)", fontsize=6.5); finish(axs[2], ylab="ratio", zero=False, xl="")
+fig.tight_layout(pad=0.3); fig.savefig(FIG + "app_offspan.pdf"); plt.close(fig)
+
 # ---------------------------------------------------------------- generated table: every RL run
 DESC = {}
 def desc(run):

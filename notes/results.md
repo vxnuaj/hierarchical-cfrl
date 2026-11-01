@@ -1152,3 +1152,6 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - Native Game24 critic field score in its log.json is 0.862 (epoch 6). The 0.838 quoted earlier is the seed-44 critic's score. Paper fixed.
   - Frozen-head MM7 at it500 and it750 is 62.8 and 64.3 (not 62.7 and 64.2). Paper and theory fixed.
   - The "rsa" run is a sharpness-aware *actor objective* (displaced critic input), not a critic objective. Paper fixed.
+- ~23:50: appendix additions:
+  - Off-manifold geometry (`offspan_g24.pt`: drift off-fraction / norm, critic off/on response ratios, on-manifold gradient shares, policy factor) with new Fig. app_offspan.
+  - ELF-M status appendix (bases 78.9 / 80.5, checkpoint selection, rollout success 0.896 / 0.978, per-epoch critic field scores); RL still pending.
