@@ -1166,3 +1166,15 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - No colons, em dashes, lists or "X, not Y" phrasing in prose; edit-history remarks removed.
   - Sharpness predictor recomputed on 12 Game24 bases: Spearman 0.64 (was 0.76 on 10 bases with 3-seed means).
   - Backup: paper/main_2026-11-01_pre-format.tex. 37 pages, main text ends p8.
+- 11-01 ~22:40:
+  - ELF-M critics done (--accum 4). Field scores by epoch:
+    - hier: 0.707 / **0.778** / 0.749 / 0.71 / 0.70 / 0.607 (best epoch 2).
+    - flat: 0.735 / 0.769 / **0.776** / 0.76 / 0.764 / 0.732 (best epoch 3).
+  - ELF-M RL started on P100.
+    - hier s0 died on e22-05 after 18 min; e22-05 is a repeat-offender node.
+    - flat s0/s1 had landed on e22-01/e22-05 and were cancelled after 6 min.
+    - gate0b_p100.slurm now carries `--exclude=e22-01,e22-05,d23-14`, so relay successors inherit it.
+    - Resubmitted flat s0/s1 and hier s0 (13642128–30). hier s1/s2 (e22-06, d23-13) and flat s2 (e22-07) continue.
+  - **T4 critic (wd_trunk 20) is a confound.** Field 0.48 at epoch 1, falling to 0.36–0.42 afterwards: the decay destroyed critic accuracy (native 0.862).
+    - Its RL (flatATwd20 s0–s2) still runs, but it tests "decayed and inaccurate critic" rather than the remedy at matched accuracy.
+    - Submitted an intermediate wd 5 critic (13642131, μη = 5e-4/step, so μηk ≈ 0.8 per 1,600 steps and ≈ 4.8 over 12 epochs) to look for a field ≥ 0.75 point.
