@@ -1112,3 +1112,14 @@ Neither refinement protects, consistent with Theorem 3.4 and the measured spectr
 - theory.md §5 / §7 / §10 / §11 updated.
 
 ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6 epochs ≈ 4.3 h. Will decide on oversampling after the final (best) epoch.
+
+### 2026-10-31 ~19:35 — 5-seed table (Game24-cd, SVG-2D, ELF-B; `python -m hcfrl.analysis.offline.seed_table`)
+- Columns: Δ test vs it0. "sel" = test at the val-selected evaluation (ties → earliest), "final" = last evaluation, "min" = worst evaluation. Mean ± std over seeds 0–4.
+- native flat (Muon policy + own critic): sel +0.0 ± 0.0 | final −9.0 ± 4.8 | min −22.7 ± 6.2.
+- AdamW-trunk critic swap (MA): sel +3.5 ± 1.5 | final +1.1 ± 1.3 | min −5.8 ± 2.8.
+- independent Muon critic (MM7): sel +0.0 ± 0.0 | final −11.3 ± 1.1 | min −13.6 ± 2.9.
+- AdamW+wd-trained flat base (own critic): sel +2.1 ± 0.9 | final +2.3 ± 1.1 | min 0.0 (never below base).
+- hierarchical (H-ELF): sel +5.7 ± 1.3 | final +4.2 ± 1.3 | min 0.0 (never below base).
+- Per-seed lines are in the command output, archived with this entry. Seed 4 of native flat and MA is still at it1250 (debug chains 13635705 / 13636269); its final cell will be refreshed when it1500 lands.
+- Seed-3/4 additions: hier s3 +5.1 / +2.4, s4 +3.9 / +3.7; MM7 s3 −10.9, s4 −12.9; Awd s3 +1.1, s4 +1.3 (sel / final as applicable).
+- ELF-M critics (--accum 4): hier field 0.707 → 0.778 at epoch 2 (above the 0.75 bar: no oversampling needed); flat epoch-1 field 0.735.
