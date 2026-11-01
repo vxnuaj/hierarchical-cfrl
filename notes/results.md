@@ -1189,3 +1189,6 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - All six ELF-M RL runs resubmitted with --actor_chunk 2. it0 accuracies already measured: flat s2 79.5, hier s1 80.6, hier s2 80.2.
 - 11-01 ~01:15: wd5 RL s0 (critic field 0.536): 63.1 → 51.4 (it250) → 32.2 (it500). Collapses like the native and wd20 runs. ELF-M runs are in their it0 evals with no OOM so far.
 - 11-01 ~02:00: **wd5 RL s0 final:** 63.1 / 51.4 / 32.2 / 5.9 / 23.0 / 24.8 / 26.1 (final −37.0, worst −57.2). Weight-decay sweep complete; paper tab:app-wd filled in. All-runs table regenerated (119 runs). ELF-M runs are training at ≈64 s/it with no OOM since --actor_chunk 2.
+- 11-01 ~03:45: user asked about faster GPUs.
+  - Submitted A40 copies of all six ELF-M RL runs (gpu partition, fp32 like the P100 runs, --actor_chunk 2, out tags `game24cdM_*_svg2d_s<s>_a40`, jobs 13651236–41). They are pending on Priority (fair share low).
+  - Whichever copy of a seed finishes first is used and the other is cancelled. Same precision (fp32), so the copies are interchangeable.
