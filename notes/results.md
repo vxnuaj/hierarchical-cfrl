@@ -1183,3 +1183,7 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - Field against decay strength: wd 0 → 0.814; wd 1 → 0.757 (μηk 0.16); wd 5 → 0.536 (μηk ≈ 1.2 at the best epoch); wd 20 → 0.48 (μηk ≈ 1.6 at epoch 1).
   - Conclusion: on ELF, decoupled weight decay strong enough to approach the theorem's regime (μηk ≳ 1) destroys critic accuracy before it removes the low-variance component.
   - One RL seed with the wd5 critic submitted for the record (dbg-flatATwd5-s0).
+- 11-01 ~00:20: **ELF-M RL OOM on 16 GB P100.** fp32 actor backward (flat s2, hier s1/s2) died right after the it0 eval; the remaining 3 were cancelled.
+  - Fix: `train_svg.py --actor_chunk N`. The actor objective is processed in micro-batches of ≤ N rollouts per denoising step, and gradients accumulate as −sum(logit)/B, the same objective as the unchunked mean.
+  - Smoke-tested on an A40 (ELF-M hier, 3 iterations).
+  - All six ELF-M RL runs resubmitted with --actor_chunk 2. it0 accuracies already measured: flat s2 79.5, hier s1 80.6, hier s2 80.2.

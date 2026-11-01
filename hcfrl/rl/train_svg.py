@@ -65,6 +65,7 @@ def main():
     ap.add_argument("--K", type=int, default=64); ap.add_argument("--gamma", type=float, default=56.0)
     ap.add_argument("--cfg_scale", type=float, default=2.0)
     ap.add_argument("--iters", type=int, default=1500); ap.add_argument("--B", type=int, default=32)
+    ap.add_argument("--actor_chunk", type=int, default=0, help=">0: process the actor objective in micro-batches of at most this many rollouts per denoising step and accumulate gradients (same objective; needed for ELF-M on 16 GB GPUs). Requires norm_pen=0, rsa_rho=0, actor_channels=all")
     ap.add_argument("--Bp", type=int, default=64); ap.add_argument("--NB", type=int, default=16384)
     ap.add_argument("--mc", type=int, default=2); ap.add_argument("--mc_extra", type=int, default=8)
     ap.add_argument("--nq", type=int, default=10); ap.add_argument("--Nq", type=int, default=256)
@@ -238,48 +239,73 @@ def main():
         ks = [random.randint(k_lo, k_hi) for _ in pb]
         cond_seq, cond_mask, gen_mask, _ = env.encode(pb)
         z0 = (torch.randn((a.B, env.L, model.text_encoder_dim), generator=g) * cfg.denoiser_noise_scale).to(dev)
-        with ac:
-            ro = S.rollout(model, cond_seq, cond_mask, z0, record={k - 1 for k in ks}, stop_before=max(ks), generator=g)
-            logits, norms, gaps = [], [], []
+        if a.actor_chunk > 0:
+            assert a.norm_pen == 0 and a.rsa_rho == 0 and a.actor_channels == "all", "--actor_chunk supports the plain objective only"
+            with torch.no_grad(), ac:
+                ro = S.rollout(model, cond_seq, cond_mask, z0, record={k - 1 for k in ks}, stop_before=max(ks), generator=g)
+            opt_a.zero_grad(set_to_none=True)
+            obj_sum, norms, gaps = 0.0, [], []
             for k in sorted(set(ks)):
-                sel = torch.tensor([i for i, kk in enumerate(ks) if kk == k], device=dev)
+                idx = [i for i, kk in enumerate(ks) if kk == k]
                 prev = ro.inputs[k - 1]
-                sub = DenoiserInput(k - 1, prev.z[sel], prev.t, prev.x_prev[sel])
-                nxt = S.grad_step(model, sub, cond_seq[sel], cond_mask[sel], generator=g)
-                if a.actor_channels != "all":
-                    nxt = split_channels(nxt, n_cl, a.actor_channels)
-                if a.rsa_rho > 0:   # one-step worst-case displacement of the critic input (sharpness-aware step)
-                    zd = nxt.z.detach().requires_grad_(True); xd = nxt.x_prev.detach().requires_grad_(True)
-                    with torch.enable_grad():
-                        o0 = critic(DenoiserInput(nxt.k, zd, nxt.t, xd), cond_seq[sel], cond_mask[sel], gen_mask[sel])
-                        l0 = o0.logit if a.objective == "logit" else o0.value
-                        gz, gx = torch.autograd.grad(l0.sum(), [zd, xd])
-                    gm3 = gen_mask[sel].to(gz.dtype).unsqueeze(-1)
-                    gz, gx = gz * gm3, gx * gm3
-                    gnorm = torch.sqrt((gz.float() ** 2).sum((1, 2)) + (gx.float() ** 2).sum((1, 2))).clamp_min(1e-12)
-                    snorm = torch.sqrt(((nxt.z.detach().float() * gm3.float()) ** 2).sum((1, 2))
-                                       + ((nxt.x_prev.detach().float() * gm3.float()) ** 2).sum((1, 2)))
-                    scale = (a.rsa_rho * snorm / gnorm)[:, None, None]
-                    dz, dx = -(gz.float() * scale).to(nxt.z.dtype).detach(), -(gx.float() * scale).to(nxt.x_prev.dtype).detach()
+                for c0 in range(0, len(idx), a.actor_chunk):
+                    sel = torch.tensor(idx[c0: c0 + a.actor_chunk], device=dev)
+                    with ac:
+                        nxt = S.grad_step(model, DenoiserInput(k - 1, prev.z[sel], prev.t, prev.x_prev[sel]), cond_seq[sel], cond_mask[sel], generator=g)
+                        out = critic(nxt, cond_seq[sel], cond_mask[sel], gen_mask[sel])
+                        lo = out.logit if a.objective == "logit" else out.value
+                    (-lo.float().sum() / a.B).backward()
+                    obj_sum += lo.detach().float().sum().item()
                     with torch.no_grad():
-                        op = critic(DenoiserInput(nxt.k, zd + dz, nxt.t, xd + dx), cond_seq[sel], cond_mask[sel], gen_mask[sel])
-                        lp = op.logit if a.objective == "logit" else op.value
-                        gaps.append((l0.detach() - lp).float())
-                    if a.rsa_apply:
-                        nxt = DenoiserInput(nxt.k, nxt.z + dz, nxt.t, nxt.x_prev + dx)
-                out = critic(nxt, cond_seq[sel], cond_mask[sel], gen_mask[sel])
-                logits.append(out.logit if a.objective == "logit" else out.value)
-                xk_tok = nxt.x_prev[..., : nxt.x_prev.shape[-1] - n_cl]          # clean estimate, token channels
-                gm = gen_mask[sel].to(xk_tok.dtype)
-                pos_norm = xk_tok.float().norm(dim=-1)                              # (b, L)
-                norms.append(((pos_norm * gm).sum(1) / gm.sum(1).clamp_min(1.0)))  # per-sequence mean over generated positions
-            obj = torch.cat(logits).mean()
-            tok_norm_t = torch.cat(norms)                                            # (B,)
-            tok_norm = tok_norm_t.mean().item()
-            if ref[0] is None: ref[0] = (tok_norm, abs(obj.item()))                 # norm_0, |obj_0| from the first actor step
-            pen = ((tok_norm_t / ref[0][0] - 1.0) ** 2).mean()
-            loss_a = -obj + a.norm_pen * ref[0][1] * pen if a.norm_pen > 0 else -obj
-        opt_a.zero_grad(set_to_none=True); loss_a.backward()
+                        xk_tok = nxt.x_prev[..., : nxt.x_prev.shape[-1] - n_cl]; gm = gen_mask[sel].to(xk_tok.dtype)
+                        norms.append(((xk_tok.float().norm(dim=-1) * gm).sum(1) / gm.sum(1).clamp_min(1.0)))
+                    del nxt, out, lo
+            obj = torch.tensor(obj_sum / a.B)
+            tok_norm = torch.cat(norms).mean().item()
+            if ref[0] is None: ref[0] = (tok_norm, abs(obj.item()))
+        else:
+            with ac:
+                ro = S.rollout(model, cond_seq, cond_mask, z0, record={k - 1 for k in ks}, stop_before=max(ks), generator=g)
+                logits, norms, gaps = [], [], []
+                for k in sorted(set(ks)):
+                    sel = torch.tensor([i for i, kk in enumerate(ks) if kk == k], device=dev)
+                    prev = ro.inputs[k - 1]
+                    sub = DenoiserInput(k - 1, prev.z[sel], prev.t, prev.x_prev[sel])
+                    nxt = S.grad_step(model, sub, cond_seq[sel], cond_mask[sel], generator=g)
+                    if a.actor_channels != "all":
+                        nxt = split_channels(nxt, n_cl, a.actor_channels)
+                    if a.rsa_rho > 0:   # one-step worst-case displacement of the critic input (sharpness-aware step)
+                        zd = nxt.z.detach().requires_grad_(True); xd = nxt.x_prev.detach().requires_grad_(True)
+                        with torch.enable_grad():
+                            o0 = critic(DenoiserInput(nxt.k, zd, nxt.t, xd), cond_seq[sel], cond_mask[sel], gen_mask[sel])
+                            l0 = o0.logit if a.objective == "logit" else o0.value
+                            gz, gx = torch.autograd.grad(l0.sum(), [zd, xd])
+                        gm3 = gen_mask[sel].to(gz.dtype).unsqueeze(-1)
+                        gz, gx = gz * gm3, gx * gm3
+                        gnorm = torch.sqrt((gz.float() ** 2).sum((1, 2)) + (gx.float() ** 2).sum((1, 2))).clamp_min(1e-12)
+                        snorm = torch.sqrt(((nxt.z.detach().float() * gm3.float()) ** 2).sum((1, 2))
+                                           + ((nxt.x_prev.detach().float() * gm3.float()) ** 2).sum((1, 2)))
+                        scale = (a.rsa_rho * snorm / gnorm)[:, None, None]
+                        dz, dx = -(gz.float() * scale).to(nxt.z.dtype).detach(), -(gx.float() * scale).to(nxt.x_prev.dtype).detach()
+                        with torch.no_grad():
+                            op = critic(DenoiserInput(nxt.k, zd + dz, nxt.t, xd + dx), cond_seq[sel], cond_mask[sel], gen_mask[sel])
+                            lp = op.logit if a.objective == "logit" else op.value
+                            gaps.append((l0.detach() - lp).float())
+                        if a.rsa_apply:
+                            nxt = DenoiserInput(nxt.k, nxt.z + dz, nxt.t, nxt.x_prev + dx)
+                    out = critic(nxt, cond_seq[sel], cond_mask[sel], gen_mask[sel])
+                    logits.append(out.logit if a.objective == "logit" else out.value)
+                    xk_tok = nxt.x_prev[..., : nxt.x_prev.shape[-1] - n_cl]          # clean estimate, token channels
+                    gm = gen_mask[sel].to(xk_tok.dtype)
+                    pos_norm = xk_tok.float().norm(dim=-1)                              # (b, L)
+                    norms.append(((pos_norm * gm).sum(1) / gm.sum(1).clamp_min(1.0)))  # per-sequence mean over generated positions
+                obj = torch.cat(logits).mean()
+                tok_norm_t = torch.cat(norms)                                            # (B,)
+                tok_norm = tok_norm_t.mean().item()
+                if ref[0] is None: ref[0] = (tok_norm, abs(obj.item()))                 # norm_0, |obj_0| from the first actor step
+                pen = ((tok_norm_t / ref[0][0] - 1.0) ** 2).mean()
+                loss_a = -obj + a.norm_pen * ref[0][1] * pen if a.norm_pen > 0 else -obj
+            opt_a.zero_grad(set_to_none=True); loss_a.backward()
         gn = torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0).item()
         gcos_prev = gcos_ema = None
         if a.log_gcos:
