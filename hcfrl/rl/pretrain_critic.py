@@ -119,6 +119,9 @@ def main():
     ap.add_argument("--bs", type=int, default=64); ap.add_argument("--lr_trunk", type=float, default=1e-5)
     ap.add_argument("--lr_head", type=float, default=1e-4); ap.add_argument("--holdout_frac", type=float, default=0.1)
     ap.add_argument("--freeze_trunk", action="store_true"); ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--accum", type=int, default=1,
+                    help="split each minibatch of --bs into this many micro-batches with gradient accumulation (same effective batch; "
+                         "for large models on small GPUs, e.g. ELF-M on 16 GB P100s)")
     ap.add_argument("--wd_trunk", type=float, default=0.0,
                     help="decoupled weight decay on the trunk (AdamW). Theory: erases the low-variance-direction sensitivity "
                          "a Muon-trained trunk carries, which plain AdamW fine-tuning cannot remove (notes/theory.md)")
@@ -154,16 +157,21 @@ def main():
         else:
             perm = torch.randperm(len(train_ds)).tolist(); batches = [perm[b0 : b0 + a.bs] for b0 in range(0, len(perm), a.bs)]
         for idx in batches:
-            zb, xb, tb, rb, pb, kb, clb = train_ds.batch(idx, dev)
-            with ac:
-                outs, gen_mask = forward_batch(critic, cfg, None, zb, xb, tb, clb, dev)
-            loss = sum(critic.loss(o, rb[sel], gen_mask[sel]) * len(sel) for sel, o in outs) / len(idx)
-            if a.rank_w > 0:
-                # groups are (prompt, k): rows with the same t share a forward call, so rank within each call
-                loss = loss + a.rank_w * sum(group_rank_loss(o.logit, rb[sel], pb[sel.cpu()].to(dev)) * len(sel) for sel, o in outs) / len(idx)
-            opt.zero_grad(set_to_none=True); loss.backward()
+            opt.zero_grad(set_to_none=True)
+            step = max(1, -(-len(idx) // max(1, a.accum)))
+            loss_sum = 0.0
+            for c0 in range(0, len(idx), step):
+                sub = idx[c0: c0 + step]
+                zb, xb, tb, rb, pb, kb, clb = train_ds.batch(sub, dev)
+                with ac:
+                    outs, gen_mask = forward_batch(critic, cfg, None, zb, xb, tb, clb, dev)
+                loss = sum(critic.loss(o, rb[sel], gen_mask[sel]) * len(sel) for sel, o in outs) / len(idx)
+                if a.rank_w > 0:
+                    # groups are (prompt, k): rows with the same t share a forward call, so rank within each call
+                    loss = loss + a.rank_w * sum(group_rank_loss(o.logit, rb[sel], pb[sel.cpu()].to(dev)) * len(sel) for sel, o in outs) / len(idx)
+                loss.backward(); loss_sum += loss.item()
             torch.nn.utils.clip_grad_norm_(critic.parameters(), 1.0); opt.step()
-            tot += loss.item() * len(idx); n += len(idx)
+            tot += loss_sum * len(idx); n += len(idx)
         ev = evaluate(critic, cfg, hold_ds, dev)
         rec = {"epoch": ep, "train_loss": tot / n, "time": time.time() - t0, **{f"k{k}": v for k, v in ev.items() if k != "field_score"}, "field_score": ev["field_score"]}
         log.append(rec); print(json.dumps(rec), flush=True)

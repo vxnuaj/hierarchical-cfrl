@@ -24,5 +24,6 @@ python -m hcfrl.rl.collect --config $CFG --ckpt $CKPT --prompts $TASK/test.jsonl
 python -m hcfrl.rl.collect --config $CFG --ckpt $CKPT --prompts $TASK/train_prompts.jsonl --n $CRIT_N --repeat 4 \
     --K $CRIT_K --gamma $CRIT_GAMMA --steps $CRIT_STEPS --batch 128 --out outputs/critic_data/${TAG} --seed $SEED
 python -m hcfrl.rl.pretrain_critic --config $CFG --ckpt $CKPT --data outputs/critic_data/${TAG} \
-    --out outputs/critic/${TAG}_2d --mode 2d --epochs 6 --seed $SEED
+    --out outputs/critic/${TAG}_2d --mode 2d --epochs 6 --seed $SEED ${CRIT_EXTRA:-}
+[ -f outputs/critic/${TAG}_2d/log.json ] || { echo "critic pretraining failed"; exit 1; }   # do not release dependent RL jobs without a critic
 echo GATE0A_DONE

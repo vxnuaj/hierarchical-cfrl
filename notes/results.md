@@ -1062,3 +1062,20 @@ Neither refinement protects, consistent with Theorem 3.4 and the measured spectr
 - 16:15 10-31 (user: 'do whatever you think is best'): decided to (1) run an independent adversarial review of notes/theory.md (subagent, no GPU), (2) run theory experiments T1 (self-consistency during the frozen attack; attack_transfer.py --self_consistency 1) and T2 (sign of the refit feedback Gamma; new hcfrl/analysis/refit_feedback.py) on debug as slots free, (3) T4 limited to one strongly weight-decayed critic + geometry check before any RL; ELF-M and seeds keep priority.
 - 17:00 10-31: **independent proof review** (subagent) of notes/theory.md: algebra correct throughout; three substantive overclaims found and corrected — (1) Theorem 3.5's flow argument holds for every normalised steepest-descent flow incl. normalised GD, so it does not separate Muon from GD (replaced by the per-step Corollary 3.5′, proved under orthogonality); (2) 'linear refits are always restoring' holds only for block-diagonal state noise (T–N coupling can destabilise a linear trunk); (3) Theorem 3.6 does not cover the lazy/NTK regime. Plus Filippov/uniqueness details, sign conditions, approximations, κ>0, a 4% numerical-claim error, and citation fixes. All corrected in notes/theory.md (§12 review log; pre-review copy notes/theory_pre-review_2026-10-31.md) and in paper/main.tex (Theorem 8.1 now the per-step statement; lazy-regime and 'restoring' claims removed).
 - 17:20 10-31: T2 (13634959) failed instantly on P100 node e22-01 (log only 'Traceback', exit 120; environment fault); resubmitted excluding e22-01/d23-14 (13635654, running on e22-05). T1 (13634958) waiting for a debug GPU. ELF-M critic data: flat 2688→… /8000 (success 0.894), hier 3840→… (0.979).
+
+### 2026-10-31 ~18:10 — ELF-M critic OOM fix; T2 / orphan resubmits
+- ELF-M hier critic pretraining (gate0a 13632626) hit CUDA OOM in backward on the 16 GB P100. gate0a nevertheless printed GATE0A_DONE and exited 0, so dependent RL started with no critic. Cancelled hier RL 13632627–29 and flat RL 13632892–94; the flat flow would OOM the same way.
+- Fixes:
+  - `pretrain_critic --accum N`: gradient accumulation over N micro-batches. The effective batch, loss normalisation (per-sample mean over the full batch), clipping and optimizer step are unchanged, so the result is equivalent to the non-accumulated run up to fp summation order.
+  - `gate0a.slurm` now exits 1 if `outputs/critic/${TAG}_2d/log.json` is missing, and accepts `CRIT_EXTRA`.
+  - New `scripts/critic_pretrain.slurm` reruns the pretraining stage alone.
+- Resubmitted on P100 fp32 with `--accum 4`:
+  - hier critic 13636206 → RL s0/1/2 13636207–09.
+  - flat critic 13636210 (afterany gate0a 13632891) → RL 13636211–13.
+- T2 (refit_feedback) died twice on e22 nodes: SIGBUS exit 135, and the log was nothing but NUL bytes, which points to a node or filesystem fault. Resubmitted as 13636268 excluding e22-[01-16] and d23-14.
+- Orphan relay dbg-swapMA-s4 re-adopted as 13636269.
+- T1 (13634958, native attacker, lr 1e-6, 600 it) partial results:
+  - Accuracy 0.88 at it200.
+  - Self-consistency residual 0.107 → 0.135.
+  - corr(−residual, reward) 0.44 → 0.56; corr(−residual, logit) 0.45–0.62 across critics.
+  - Final numbers pending.
