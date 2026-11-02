@@ -1250,3 +1250,7 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - The original game24cd_flat_svg2d_s0 (code of 2026-10-24, fp16 feature buffer) had 53.3 at it250. The 3-point difference is a code-version effect of the size of seed-to-seed variation (seeds 0–4 range 45.8–53.3 at it250).
   - swapMA replicates running.
 - 11-02 ~01:30: **swapMA replicates reproduce the original run exactly.** repro_swapMA_s0_a and _b: 63.94 → 59.74 at it250, identical to each other and to the original game24cd_swapMA_svg2d_s0 (63.94 → 59.74). That run dates from 2026-10-28, after the bf16 buffer change. Runs from the current code era therefore reproduce bit for bit. Only the 2026-10-24 to 10-27 runs predate numeric changes; they reproduce statistically.
+- 11-02 ~02:30:
+  - Matched-variance critics done: flat best field 0.801 (ep4), hier 0.890 (ep5).
+  - All six matched RL runs (game24cdMhard_{flat,hier}_svg2d_s{0,1,2}) are running on P100, with --actor_chunk 2 and the hard-set train prompts; test is the full set.
+  - The original ELF-M runs are at it1000 (evaluation in progress).
