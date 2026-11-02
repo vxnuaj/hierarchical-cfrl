@@ -1224,3 +1224,13 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - Screening jobs failed on e22-10 with no log written; all e22 nodes are now excluded in the screen, gate0a_hard and gate0b_p100 scripts, and the screens were resubmitted.
 - 11-01 ~15:15: node e21-01 has a broken torch install (ImportError libtorch_cuda.so); jobs on it "COMPLETED" in 5 min without output. Added it to every P100 script's exclusion list, made the screen fail loudly when summary.txt is missing, and resubmitted screens flat-0 and hier-0/1/3/4/5. hier-2 is running fine on e21-14 (success 0.980 so far).
 - 11-01 ~16:15: all 9 screens are running on healthy nodes, ≈2 h each. `scripts/launch_hard.slurm` (job 13657294, afterany on all screens) builds `data/game24_hardM_{flat,hier}` and submits gate0a_hard (critic) → 3 RL seeds per model automatically. Tags: `game24cdMhard_{flat,hier}`.
+- 11-01 ~18:35: **screens done.**
+  - ELF-M flat: 89.4% success over 8,983 train prompts (2 rollouts each).
+  - ELF-M hier: 97.4% over all 17,961.
+  - Hard sets (screened π = 0.75):
+    - flat: 1,214 prompts with ≥1 failure + 2,590 random all-correct, giving 3,804 prompts.
+    - hier: 707 + 1,161, giving 1,868 prompts.
+  - Auto-launch submitted:
+    - critics `game24cdMhard_{flat,hier}`: 13658573 (flat, running) and 13658577 (hier, pending).
+    - RL seeds 0–2: flat 13658574–76, hier 13658578–80 (afterok).
+  - The critic collection's measured success gives the actual π of each set.
