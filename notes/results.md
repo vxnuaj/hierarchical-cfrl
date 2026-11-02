@@ -1241,3 +1241,4 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - **Hard-set critics** (pre-training running, accum 4): field scores are higher than the original ELF-M critics (0.78), comparable to ELF-B native (0.862). Mixed groups 35 (flat) and 39 (hier).
     - flat: 0.781 (ep2), 0.799 (ep3).
     - hier: 0.866 (ep1), 0.879 (ep2).
+  - **Measured success of the hard-set critic data:** flat 0.779 (8,000 rollouts), hier 0.825 (7,472). ELF-B flat was ≈0.82, so reward variance is matched: s² = 0.172 (flat) and 0.144 (hier), against 0.148 for ELF-B.
