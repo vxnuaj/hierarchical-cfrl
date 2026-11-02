@@ -146,9 +146,7 @@ the same stream.
 
 Not bit-reproducible:
 1. GPU kernels. Deterministic algorithms are not enabled, and bf16 accumulation order varies between runs, so a
-   rerun with the same seed reproduces a run statistically, not bit for bit. The size of this effect is measured by
-   rerunning `game24cd_flat_svg2d_s0` and `game24cd_swapMA_svg2d_s0` twice each with identical seeds to iteration 250
-   (`repro_*`, see `notes/results.md`).
+   rerun with the same seed reproduces a run statistically, not bit for bit. In practice the effect is nil on our hardware. Two reruns each of `game24cd_flat_svg2d_s0` and `game24cd_swapMA_svg2d_s0` with identical seeds and current code (`repro_*`, different jobs and nodes, A40 bf16) agree exactly with each other through iteration 250 (same actor objective to three decimals, same test accuracy), and the swapMA reruns reproduce the original 2026-10-28 run exactly (63.94 → 59.74). Runs from the same code version therefore reproduce bit for bit given seed and hardware.
 2. Code changes during the project that alter numerics for runs started after them:
    - 2026-10-25 (`d55f47c`): fix of the channel-ablation gradient (ablation runs before it were void and were rerun).
    - 2026-10-27 (`5eb3d78`): critic-feature replay buffer fp16 → bf16 (runs before this used fp16; Muon trunks are
