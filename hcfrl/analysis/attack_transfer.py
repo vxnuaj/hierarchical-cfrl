@@ -38,6 +38,7 @@ def main():
     ap.add_argument("--n_val", type=int, default=384); ap.add_argument("--k_rec", type=int, default=40)
     ap.add_argument("--K", type=int, default=64); ap.add_argument("--gamma", type=float, default=56.0)
     ap.add_argument("--bs", type=int, default=64); ap.add_argument("--seed", type=int, default=0); ap.add_argument("--out", required=True)
+    ap.add_argument("--accum", type=int, default=0, help="1: backward per denoising-step group (same objective, lower memory; for ELF-M on 16 GB GPUs)")
     ap.add_argument("--self_consistency", type=int, default=0,
                     help="1: at every probe also measure the base denoiser's self-consistency residual on the recorded states, "
                          "|d_theta0(s_k) - x_{k-1}| / |x_{k-1}| over generated positions (theta0 = the starting policy), and its correlation "
@@ -105,7 +106,20 @@ def main():
         pb = random.sample(train, a.B); ks = [random.randint(k_lo, k_hi) for _ in pb]
         cond_seq, cond_mask, gen_mask, _ = env.encode(pb)
         z0 = (torch.randn((a.B, env.L, model.text_encoder_dim), generator=g) * cfg.denoiser_noise_scale).to(dev)
-        with ac:
+        if a.accum:
+            with torch.no_grad(), ac:
+                ro = S.rollout(model, cond_seq, cond_mask, z0, record={k - 1 for k in ks}, stop_before=max(ks), generator=g)
+            opt.zero_grad(set_to_none=True)
+            for k in sorted(set(ks)):
+                sel = torch.tensor([i for i, kk in enumerate(ks) if kk == k], device=dev)
+                prev = ro.inputs[k - 1]
+                with ac:
+                    nxt = S.grad_step(model, DenoiserInput(k - 1, prev.z[sel], prev.t, prev.x_prev[sel]), cond_seq[sel], cond_mask[sel], generator=g)
+                    lo = attacker(nxt, cond_seq[sel], cond_mask[sel], gen_mask[sel]).logit
+                (-lo.float().sum() / a.B).backward()
+                del nxt, lo
+        else:
+          with ac:
             ro = S.rollout(model, cond_seq, cond_mask, z0, record={k - 1 for k in ks}, stop_before=max(ks), generator=g)
             objs = []
             for k in sorted(set(ks)):
@@ -114,7 +128,7 @@ def main():
                 nxt = S.grad_step(model, DenoiserInput(k - 1, prev.z[sel], prev.t, prev.x_prev[sel]), cond_seq[sel], cond_mask[sel], generator=g)
                 objs.append(attacker(nxt, cond_seq[sel], cond_mask[sel], gen_mask[sel]).logit)
             obj = torch.cat(objs).mean()
-        opt.zero_grad(set_to_none=True); (-obj).backward()
+          opt.zero_grad(set_to_none=True); (-obj).backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0); opt.step()
         if it % a.every == 0:
             hist.append(probe(it)); print(f"  ({time.time() - t0:.0f}s)", flush=True)

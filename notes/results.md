@@ -1278,3 +1278,7 @@ Motivation: the matched-variance ELF-M runs show no early crash at it250 (flat �
 - **Q5, self-similarity route:** 600-step frozen attack on the ELF-M native critic (`attack_transfer.py`). ELF-B: 82 → 3%.
 
 **Reading rule (fixed now).** The quantity whose ELF-M value moves towards the AdamW side, i.e. lower stable rank, lower off-share, smaller policy factor, cosine ≥ 0.8 after refit, or no frozen exploitation, is the candidate explanation. We then pre-register a run that restores it. If none differs, the account is incomplete at 342M and is reported as such.
+- 11-02 ~11:30: diagnostic jobs launched, P100 fp32 except spectra (CPU):
+  - an-specM 13672026, an-offspanM 13672027, an-churnM 13672028, an-attM 13672029.
+  - `attack_transfer.py` gained `--accum 1` (per-step-group backward, same objective) so the 342M attack fits in 16 GB.
+  - Precision caveat: ELF-B diagnostics ran in bf16 on A40, these in fp32. Ratios and cosines are compared, not raw magnitudes.
