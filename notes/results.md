@@ -1282,3 +1282,18 @@ Motivation: the matched-variance ELF-M runs show no early crash at it250 (flat �
   - an-specM 13672026, an-offspanM 13672027, an-churnM 13672028, an-attM 13672029.
   - `attack_transfer.py` gained `--accum 1` (per-step-group backward, same objective) so the 342M attack fits in 16 GB.
   - Precision caveat: ELF-B diagnostics ran in bf16 on A40, these in fp32. Ratios and cosines are compared, not raw magnitudes.
+- 11-02 ~12:40: **diagnostic results Q1–Q4** (ELF-M against ELF-B, same scripts):
+  - **Q1 fingerprint, unchanged.** Muon update stable rank/n: ELF-M 0.18 (Countdown) and 0.29 (Game24) vs ELF-B 0.17 and 0.24 (AdamW 0.03). Weights 0.14 vs 0.14 (106 vs 58 matrices). Muon flattens the spectrum at 342M at least as much.
+  - **Q2 critic factor, unchanged.** Off/on logit response and on-manifold gradient share at k=40:
+    - ELF-M native 0.39 / 0.62; hard-set critic 0.47 / 0.61.
+    - ELF-B native 0.45 / 0.61; AdamW critics 0.30–0.38 / 0.66–0.76.
+    - The ELF-M critics are Muon-like.
+  - **Q3 policy factor, unchanged.** Output movement on/off manifold per unit parameter step: ELF-M 681 / 628 vs ELF-B Muon 614 / 534 (AdamW 35 / 29).
+  - **Off-manifold drift:** flat at 0.586–0.596 for both sizes.
+  - **Q4 refit rotation, the only quantity that moved.** Cosine to the original after a 200-step refit, mean of 3 subsets:
+    - ELF-M native 0.78 (0.75 / 0.91 / 0.66), hard 0.81 (0.85 / 0.71 / 0.87).
+    - ELF-B native 0.60, MM7 0.59, AdamW 0.84 / 0.85.
+    - So ELF-M refits rotate the gradient less, between ELF-B's Muon and AdamW values.
+    - Between-refit cosine: ELF-M 0.60 / 0.76 vs ELF-B Muon 0.65–0.89 and AdamW 0.87–0.89 (no clear shift).
+    - **Confound:** the refit states come from each run's own it250 policy. ELF-B's had collapsed (53.3), ELF-M's had not (+0.5), so the ELF-M refit sees less-drifted states. A drift-matched comparison is needed before this counts.
+  - **Q5 frozen attack:** running.
