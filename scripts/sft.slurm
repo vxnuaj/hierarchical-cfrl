@@ -11,4 +11,5 @@
 #SBATCH --output=outputs/slurm/%x-%j.out
 source scripts/common.sh
 CFG=$1; shift
+set -x
 python hcfrl/elf/train.py --config $CFG --config_override num_workers=4 "$@"

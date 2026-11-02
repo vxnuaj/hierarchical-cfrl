@@ -12,7 +12,10 @@ rsync -az -e "$SSH" --exclude "*.pt" --exclude "state.pt*" "$R/analysis/" runs/a
 rsync -az -e "$SSH" --include='*/' --include='*.txt' --include='*.json' --include='*.jsonl' --exclude='*' "$R/eval/" runs/eval/
 rsync -az -e "$SSH" --include='*/' --include='log.json' --exclude='*' "$R/critic/" runs/critic/
 rsync -az -e "$SSH" "$R/slurm/" runs/slurm/
+rsync -az -e "$SSH" --include='*/' --include='config.yml' --exclude='rl/' --exclude='critic/' --exclude='critic_data/' --exclude='analysis/' --exclude='screen/' --exclude='*' --prune-empty-dirs "$R/" runs/sft_configs/
+rsync -az -e "$SSH" "$R/provenance/" runs/provenance/ 2>/dev/null || true
 # compress slurm logs (tqdm output) in place
 find runs/slurm -name '*.out' -exec gzip -f {} \;
 python3 scripts/build_manifest.py
+python3 scripts/build_command_ledger.py
 echo "archived: $(ls runs/rl | wc -l) rl runs, $(ls runs/slurm | wc -l) slurm logs"
