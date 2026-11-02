@@ -1246,3 +1246,6 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - Provenance snapshot committed (`runs/provenance/`): environment and package list, sha256 of 70 data/config files, and sha256 of 487 checkpoints (selected bases, best critic epochs, policy it0/best/final of every RL run).
   - Replicate runs (identical seed, current code, A40 bf16): iteration-0 test accuracy of the seed-42 flat base is 63.94 in both. The evaluation is therefore deterministic under the current code, and the 64.2 of the 2026-10-24 run comes from code changes made since (REPRODUCE §7).
   - Iteration-250 comparison pending.
+- 11-02 ~01:00: **flat replicates are identical.** repro_flat_s0_a and _b (same seed, same code, A40 bf16, different jobs and nodes) agree exactly through iteration 250: actor objective equal to 3 decimals at iterations 0/1/2/10/100/200, and test 50.36 / val 50.80 at it250 in both. In practice a run is deterministic given code, seed and hardware.
+  - The original game24cd_flat_svg2d_s0 (code of 2026-10-24, fp16 feature buffer) had 53.3 at it250. The 3-point difference is a code-version effect of the size of seed-to-seed variation (seeds 0–4 range 45.8–53.3 at it250).
+  - swapMA replicates running.
