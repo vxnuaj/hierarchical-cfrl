@@ -1260,3 +1260,11 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
     - hier: 77.4 / 71.0 / 83.9, i.e. −3.3 / **−9.6** / +3.7.
     - At 342M the hierarchical model is the more volatile one. Seed 1 fell 9.6 points between it750 and it1000 while its buffer success stays 0.91.
   - **Matched-variance runs at it≈200:** buffer success flat 0.69–0.81, hier 0.81–0.91 (the hard sets are working). First eval at it250 in ~2.5 h.
+- 11-02 11:00:
+  - **Matched-variance it250:**
+    - flat 79.0 / 81.7 / 80.1, i.e. −0.8 / +2.0 / +0.6.
+    - hier 79.6 / 80.1 / 81.6, i.e. −1.1 / −0.5 / +1.4.
+    - No early crash, whereas ELF-B flat was −10.9 to −18.9 at it250. Buffer success flat 0.72–0.88.
+  - **Same-recipe it1250:**
+    - flat 80.1 / 78.8 / 77.4, i.e. +0.3 / −0.9 / −2.1.
+    - hier 80.8 / 76.3 / 82.6, i.e. +0.1 / −4.3 / +2.4 (seed 1 partly recovered from −9.6).
