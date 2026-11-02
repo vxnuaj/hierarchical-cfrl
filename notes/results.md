@@ -1234,3 +1234,10 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
     - critics `game24cdMhard_{flat,hier}`: 13658573 (flat, running) and 13658577 (hier, pending).
     - RL seeds 0–2: flat 13658574–76, hier 13658578–80 (afterok).
   - The critic collection's measured success gives the actual π of each set.
+- 11-01 ~23:30:
+  - **ELF-M same-recipe it750:**
+    - flat: 78.9 / 77.3 / 77.8, i.e. −0.9 / −2.4 / −1.7 (partial recovery from it500).
+    - hier: 83.4 / 77.2 / 80.9, i.e. +2.7 / −3.4 / +0.7.
+  - **Hard-set critics** (pre-training running, accum 4): field scores are higher than the original ELF-M critics (0.78), comparable to ELF-B native (0.862). Mixed groups 35 (flat) and 39 (hier).
+    - flat: 0.781 (ep2), 0.799 (ep3).
+    - hier: 0.866 (ep1), 0.879 (ep2).
