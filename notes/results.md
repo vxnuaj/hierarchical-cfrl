@@ -1268,3 +1268,13 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - **Same-recipe it1250:**
     - flat 80.1 / 78.8 / 77.4, i.e. +0.3 / −0.9 / −2.1.
     - hier 80.8 / 76.3 / 82.6, i.e. +0.1 / −4.3 / +2.4 (seed 1 partly recovered from −9.6).
+
+### 2026-11-02 ~11:15 — PRE-REGISTERED DIAGNOSTIC: what differs between ELF-B and ELF-M (theory quantities)
+Motivation: the matched-variance ELF-M runs show no early crash at it250 (flat −0.8 / +2.0 / +0.6), while ELF-B crashed by it250. Before any new training we measure each quantity the theory says drives exploitation, on ELF-M, with the same scripts and settings as on ELF-B.
+- **Q1, fingerprint** (Thm A.4 premise): stable rank/n of ELF-M Muon fine-tuning updates and weights (`spectra.py`). ELF-B: updates 0.18–0.24, weights 0.143.
+- **Q2, critic factor** (Cor A.3): off/on logit response and on-manifold gradient share of the ELF-M native and hard-set critics (`offspan.py`). ELF-B native: 0.45 and 0.61.
+- **Q3, policy factor** (Cor A.3): output movement per unit parameter step on/off manifold (`offspan.py`). ELF-B Muon policy: 614 / 534.
+- **Q4, refit rotation** (Thm A.13): cosine of the input gradient to the original after a 200-step refit on drifted states (`refit_churn.py`). ELF-B native 0.74 (to original), Muon critics 0.42–0.74, AdamW 0.83–0.87.
+- **Q5, self-similarity route:** 600-step frozen attack on the ELF-M native critic (`attack_transfer.py`). ELF-B: 82 → 3%.
+
+**Reading rule (fixed now).** The quantity whose ELF-M value moves towards the AdamW side, i.e. lower stable rank, lower off-share, smaller policy factor, cosine ≥ 0.8 after refit, or no frozen exploitation, is the candidate explanation. We then pre-register a run that restores it. If none differs, the account is incomplete at 342M and is reported as such.
