@@ -1254,3 +1254,9 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
   - Matched-variance critics done: flat best field 0.801 (ep4), hier 0.890 (ep5).
   - All six matched RL runs (game24cdMhard_{flat,hier}_svg2d_s{0,1,2}) are running on P100, with --actor_chunk 2 and the hard-set train prompts; test is the full set.
   - The original ELF-M runs are at it1000 (evaluation in progress).
+- 11-02 07:20:
+  - **ELF-M same-recipe it1000:**
+    - flat: 79.7 / 77.7 / 78.2, i.e. −0.1 / −2.0 / −1.3.
+    - hier: 77.4 / 71.0 / 83.9, i.e. −3.3 / **−9.6** / +3.7.
+    - At 342M the hierarchical model is the more volatile one. Seed 1 fell 9.6 points between it750 and it1000 while its buffer success stays 0.91.
+  - **Matched-variance runs at it≈200:** buffer success flat 0.69–0.81, hier 0.81–0.91 (the hard sets are working). First eval at it250 in ~2.5 h.
