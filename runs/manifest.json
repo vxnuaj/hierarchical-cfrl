@@ -1459,6 +1459,143 @@
     "gamma": "56"
    }
   },
+  "game24cdAwd_flat_svg2d_s3": {
+   "tag": "game24cdAwd_flat_svg2d_s3",
+   "n_evals": 7,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.7028596961572833,
+     "test_acc": 0.7135835567470956
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.7158176943699732,
+     "test_acc": 0.7211796246648794
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.7216264521894549,
+     "test_acc": 0.7158176943699732
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.7149240393208222,
+     "test_acc": 0.7336907953529938
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.7220732797140303,
+     "test_acc": 0.7202859696157283
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.7247542448614834,
+     "test_acc": 0.724307417336908
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.7319034852546917,
+     "test_acc": 0.7327971403038427
+    }
+   ],
+   "base_test_acc": 0.7135835567470956,
+   "final_test_acc": 0.7327971403038427,
+   "best_test_acc": 0.7336907953529938,
+   "last_iter": 1499,
+   "jobs": [
+    {
+     "job_id": "13634838",
+     "job_name": "dbg-Awd-s3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfA_b_game24_cd.yml --ckpt outputs/elfAwd_b-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdAwd_flat_2d/critic_ep1.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdAwd_flat_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3 --resume"
+    },
+    {
+     "job_id": "13638029",
+     "job_name": "dbg-Awd-s3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfA_b_game24_cd.yml --ckpt outputs/elfAwd_b-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdAwd_flat_2d/critic_ep1.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdAwd_flat_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3 --resume"
+    },
+    {
+     "job_id": "13630640",
+     "job_name": "dbg-Awd-s3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfA_b_game24_cd.yml --ckpt outputs/elfAwd_b-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdAwd_flat_2d/critic_ep1.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdAwd_flat_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3 --resume"
+    },
+    {
+     "job_id": "13633065",
+     "job_name": "dbg-Awd-s3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfA_b_game24_cd.yml --ckpt outputs/elfAwd_b-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdAwd_flat_2d/critic_ep1.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdAwd_flat_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3 --resume"
+    }
+   ],
+   "args": {
+    "config": "configs/elfA_b_game24_cd.yml",
+    "ckpt": "outputs/elfAwd_b-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cdAwd_flat_2d/critic_ep1.pt",
+    "seed": "3",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cdAwd_flat_svg2d_s4": {
+   "tag": "game24cdAwd_flat_svg2d_s4",
+   "n_evals": 7,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6934763181411975,
+     "test_acc": 0.710455764075067
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.7140303842716711,
+     "test_acc": 0.7193923145665773
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.7220732797140303,
+     "test_acc": 0.724307417336908
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.7162645218945487,
+     "test_acc": 0.7327971403038427
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.725201072386059,
+     "test_acc": 0.7359249329758714
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.7274352100089365,
+     "test_acc": 0.7220732797140303
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.7265415549597856,
+     "test_acc": 0.7238605898123325
+    }
+   ],
+   "base_test_acc": 0.710455764075067,
+   "final_test_acc": 0.7238605898123325,
+   "best_test_acc": 0.7359249329758714,
+   "last_iter": 1499,
+   "jobs": [
+    {
+     "job_id": "13618548",
+     "job_name": "gate0b-g24-Awd-s4",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfA_b_game24_cd.yml --ckpt outputs/elfAwd_b-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdAwd_flat_2d/critic_ep1.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdAwd_flat_svg2d_s4 --K 64 --gamma 56 --iters 1500 --seed 4"
+    }
+   ],
+   "args": {
+    "config": "configs/elfA_b_game24_cd.yml",
+    "ckpt": "outputs/elfAwd_b-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cdAwd_flat_2d/critic_ep1.pt",
+    "seed": "4",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
   "game24cdK_hier_svg2d_s0": {
    "tag": "game24cdK_hier_svg2d_s0",
    "n_evals": 7,
@@ -1642,9 +1779,526 @@
     "gamma": "56"
    }
   },
+  "game24cdM_flat_svg2d_s0": {
+   "tag": "game24cdM_flat_svg2d_s0",
+   "n_evals": 4,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.7913315460232351,
+     "test_acc": 0.7980339588918678
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.7975871313672922,
+     "test_acc": 0.8029490616621984
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.7658623771224308,
+     "test_acc": 0.773011617515639
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.7815013404825737,
+     "test_acc": 0.7890974084003575
+    }
+   ],
+   "base_test_acc": 0.7980339588918678,
+   "final_test_acc": 0.7890974084003575,
+   "best_test_acc": 0.8029490616621984,
+   "last_iter": 899,
+   "jobs": [
+    {
+     "job_id": "13642128",
+     "job_name": "p100-Mflat-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfM_b_game24_cd.yml --ckpt outputs/elf_m-game24-cd/checkpoint_1400 --critic outputs/critic/game24cdM_flat_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_flat_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume"
+    },
+    {
+     "job_id": "13648133",
+     "job_name": "p100-Mflat-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfM_b_game24_cd.yml --ckpt outputs/elf_m-game24-cd/checkpoint_1400 --critic outputs/critic/game24cdM_flat_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_flat_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --actor_chunk 2"
+    }
+   ],
+   "args": {
+    "config": "configs/elfM_b_game24_cd.yml",
+    "ckpt": "outputs/elf_m-game24-cd/checkpoint_1400",
+    "critic": "outputs/critic/game24cdM_flat_2d/critic_ep3.pt",
+    "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cdM_flat_svg2d_s0_a40": {
+   "tag": "game24cdM_flat_svg2d_s0_a40",
+   "n_evals": 1,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.789544235924933,
+     "test_acc": 0.7899910634495085
+    }
+   ],
+   "base_test_acc": 0.7899910634495085,
+   "final_test_acc": 0.7899910634495085,
+   "best_test_acc": 0.7899910634495085,
+   "last_iter": 131,
+   "jobs": [
+    {
+     "job_id": "13651236",
+     "job_name": "a40-Mflat-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfM_b_game24_cd.yml --ckpt outputs/elf_m-game24-cd/checkpoint_1400 --critic outputs/critic/game24cdM_flat_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_flat_svg2d_s0_a40 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --actor_chunk 2"
+    }
+   ],
+   "args": {
+    "config": "configs/elfM_b_game24_cd.yml",
+    "ckpt": "outputs/elf_m-game24-cd/checkpoint_1400",
+    "critic": "outputs/critic/game24cdM_flat_2d/critic_ep3.pt",
+    "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cdM_flat_svg2d_s1": {
+   "tag": "game24cdM_flat_svg2d_s1",
+   "n_evals": 4,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.7944593386952636,
+     "test_acc": 0.7971403038427167
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.8252904378909741,
+     "test_acc": 0.8100983020554066
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.7605004468275246,
+     "test_acc": 0.7573726541554959
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.7707774798927614,
+     "test_acc": 0.773011617515639
+    }
+   ],
+   "base_test_acc": 0.7971403038427167,
+   "final_test_acc": 0.773011617515639,
+   "best_test_acc": 0.8100983020554066,
+   "last_iter": 892,
+   "jobs": [
+    {
+     "job_id": "13642129",
+     "job_name": "p100-Mflat-s1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfM_b_game24_cd.yml --ckpt outputs/elf_m-game24-cd/checkpoint_1400 --critic outputs/critic/game24cdM_flat_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_flat_svg2d_s1 --K 64 --gamma 56 --iters 1500 --seed 1 --resume"
+    },
+    {
+     "job_id": "13648135",
+     "job_name": "p100-Mflat-s1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfM_b_game24_cd.yml --ckpt outputs/elf_m-game24-cd/checkpoint_1400 --critic outputs/critic/game24cdM_flat_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_flat_svg2d_s1 --K 64 --gamma 56 --iters 1500 --seed 1 --resume --actor_chunk 2"
+    }
+   ],
+   "args": {
+    "config": "configs/elfM_b_game24_cd.yml",
+    "ckpt": "outputs/elf_m-game24-cd/checkpoint_1400",
+    "critic": "outputs/critic/game24cdM_flat_2d/critic_ep3.pt",
+    "seed": "1",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cdM_flat_svg2d_s1_a40": {
+   "tag": "game24cdM_flat_svg2d_s1_a40",
+   "n_evals": 1,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.7877569258266309,
+     "test_acc": 0.7913315460232351
+    }
+   ],
+   "base_test_acc": 0.7913315460232351,
+   "final_test_acc": 0.7913315460232351,
+   "best_test_acc": 0.7913315460232351,
+   "last_iter": 118,
+   "jobs": [
+    {
+     "job_id": "13651238",
+     "job_name": "a40-Mflat-s1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfM_b_game24_cd.yml --ckpt outputs/elf_m-game24-cd/checkpoint_1400 --critic outputs/critic/game24cdM_flat_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_flat_svg2d_s1_a40 --K 64 --gamma 56 --iters 1500 --seed 1 --resume --actor_chunk 2"
+    }
+   ],
+   "args": {
+    "config": "configs/elfM_b_game24_cd.yml",
+    "ckpt": "outputs/elf_m-game24-cd/checkpoint_1400",
+    "critic": "outputs/critic/game24cdM_flat_2d/critic_ep3.pt",
+    "seed": "1",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cdM_flat_svg2d_s2": {
+   "tag": "game24cdM_flat_svg2d_s2",
+   "n_evals": 5,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.7877569258266309,
+     "test_acc": 0.7949061662198391
+    },
+    {
+     "iter": 0,
+     "val_acc": 0.7877569258266309,
+     "test_acc": 0.7949061662198391
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.7743521000893655,
+     "test_acc": 0.7917783735478106
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.743521000893655,
+     "test_acc": 0.7658623771224308
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.7792672028596962,
+     "test_acc": 0.7779267202859697
+    }
+   ],
+   "base_test_acc": 0.7949061662198391,
+   "final_test_acc": 0.7779267202859697,
+   "best_test_acc": 0.7949061662198391,
+   "last_iter": 899,
+   "jobs": [
+    {
+     "job_id": "13648137",
+     "job_name": "p100-Mflat-s2",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfM_b_game24_cd.yml --ckpt outputs/elf_m-game24-cd/checkpoint_1400 --critic outputs/critic/game24cdM_flat_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_flat_svg2d_s2 --K 64 --gamma 56 --iters 1500 --seed 2 --resume --actor_chunk 2"
+    },
+    {
+     "job_id": "13636213",
+     "job_name": "p100-Mflat-s2",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfM_b_game24_cd.yml --ckpt outputs/elf_m-game24-cd/checkpoint_1400 --critic outputs/critic/game24cdM_flat_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_flat_svg2d_s2 --K 64 --gamma 56 --iters 1500 --seed 2 --resume"
+    }
+   ],
+   "args": {
+    "config": "configs/elfM_b_game24_cd.yml",
+    "ckpt": "outputs/elf_m-game24-cd/checkpoint_1400",
+    "critic": "outputs/critic/game24cdM_flat_2d/critic_ep3.pt",
+    "seed": "2",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cdM_flat_svg2d_s2_a40": {
+   "tag": "game24cdM_flat_svg2d_s2_a40",
+   "n_evals": 1,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.7850759606791778,
+     "test_acc": 0.7944593386952636
+    }
+   ],
+   "base_test_acc": 0.7944593386952636,
+   "final_test_acc": 0.7944593386952636,
+   "best_test_acc": 0.7944593386952636,
+   "last_iter": 81,
+   "jobs": [
+    {
+     "job_id": "13651240",
+     "job_name": "a40-Mflat-s2",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elfM_b_game24_cd.yml --ckpt outputs/elf_m-game24-cd/checkpoint_1400 --critic outputs/critic/game24cdM_flat_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_flat_svg2d_s2_a40 --K 64 --gamma 56 --iters 1500 --seed 2 --resume --actor_chunk 2"
+    }
+   ],
+   "args": {
+    "config": "configs/elfM_b_game24_cd.yml",
+    "ckpt": "outputs/elf_m-game24-cd/checkpoint_1400",
+    "critic": "outputs/critic/game24cdM_flat_2d/critic_ep3.pt",
+    "seed": "2",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cdM_hier_svg2d_s0": {
+   "tag": "game24cdM_hier_svg2d_s0",
+   "n_evals": 4,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.8114387846291331,
+     "test_acc": 0.8065236818588025
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.7859696157283289,
+     "test_acc": 0.7868632707774799
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.8181411974977658,
+     "test_acc": 0.8185880250223414
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.824396782841823,
+     "test_acc": 0.8337801608579088
+    }
+   ],
+   "base_test_acc": 0.8065236818588025,
+   "final_test_acc": 0.8337801608579088,
+   "best_test_acc": 0.8337801608579088,
+   "last_iter": 900,
+   "jobs": [
+    {
+     "job_id": "13642130",
+     "job_name": "p100-Mhier-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helfM_b_game24_cd.yml --ckpt outputs/helf_m-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdM_hier_2d/critic_ep2.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_hier_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume"
+    },
+    {
+     "job_id": "13648134",
+     "job_name": "p100-Mhier-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helfM_b_game24_cd.yml --ckpt outputs/helf_m-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdM_hier_2d/critic_ep2.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_hier_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --actor_chunk 2"
+    }
+   ],
+   "args": {
+    "config": "configs/helfM_b_game24_cd.yml",
+    "ckpt": "outputs/helf_m-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cdM_hier_2d/critic_ep2.pt",
+    "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cdM_hier_svg2d_s0_a40": {
+   "tag": "game24cdM_hier_svg2d_s0_a40",
+   "n_evals": 1,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.8060768543342269,
+     "test_acc": 0.8042895442359249
+    }
+   ],
+   "base_test_acc": 0.8042895442359249,
+   "final_test_acc": 0.8042895442359249,
+   "best_test_acc": 0.8042895442359249,
+   "last_iter": 128,
+   "jobs": [
+    {
+     "job_id": "13651237",
+     "job_name": "a40-Mhier-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helfM_b_game24_cd.yml --ckpt outputs/helf_m-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdM_hier_2d/critic_ep2.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_hier_svg2d_s0_a40 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --actor_chunk 2"
+    }
+   ],
+   "args": {
+    "config": "configs/helfM_b_game24_cd.yml",
+    "ckpt": "outputs/helf_m-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cdM_hier_2d/critic_ep2.pt",
+    "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cdM_hier_svg2d_s1": {
+   "tag": "game24cdM_hier_svg2d_s1",
+   "n_evals": 5,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.8020554066130474,
+     "test_acc": 0.8060768543342269
+    },
+    {
+     "iter": 0,
+     "val_acc": 0.8020554066130474,
+     "test_acc": 0.8060768543342269
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.7832886505808758,
+     "test_acc": 0.7810545129579982
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.7993744414655943,
+     "test_acc": 0.8029490616621984
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.7605004468275246,
+     "test_acc": 0.7721179624664879
+    }
+   ],
+   "base_test_acc": 0.8060768543342269,
+   "final_test_acc": 0.7721179624664879,
+   "best_test_acc": 0.8060768543342269,
+   "last_iter": 903,
+   "jobs": [
+    {
+     "job_id": "13632628",
+     "job_name": "p100-Mhier-s1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helfM_b_game24_cd.yml --ckpt outputs/helf_m-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdM_hier_2d/critic_ep.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_hier_svg2d_s1 --K 64 --gamma 56 --iters 1500 --seed 1 --resume"
+    },
+    {
+     "job_id": "13636208",
+     "job_name": "p100-Mhier-s1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helfM_b_game24_cd.yml --ckpt outputs/helf_m-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdM_hier_2d/critic_ep2.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_hier_svg2d_s1 --K 64 --gamma 56 --iters 1500 --seed 1 --resume"
+    },
+    {
+     "job_id": "13648136",
+     "job_name": "p100-Mhier-s1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helfM_b_game24_cd.yml --ckpt outputs/helf_m-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdM_hier_2d/critic_ep2.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_hier_svg2d_s1 --K 64 --gamma 56 --iters 1500 --seed 1 --resume --actor_chunk 2"
+    }
+   ],
+   "args": {
+    "config": "configs/helfM_b_game24_cd.yml",
+    "ckpt": "outputs/helf_m-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cdM_hier_2d/critic_ep2.pt",
+    "seed": "1",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cdM_hier_svg2d_s1_a40": {
+   "tag": "game24cdM_hier_svg2d_s1_a40",
+   "n_evals": 1,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.8065236818588025,
+     "test_acc": 0.8042895442359249
+    }
+   ],
+   "base_test_acc": 0.8042895442359249,
+   "final_test_acc": 0.8042895442359249,
+   "best_test_acc": 0.8042895442359249,
+   "last_iter": 87,
+   "jobs": [
+    {
+     "job_id": "13651239",
+     "job_name": "a40-Mhier-s1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helfM_b_game24_cd.yml --ckpt outputs/helf_m-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdM_hier_2d/critic_ep2.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_hier_svg2d_s1_a40 --K 64 --gamma 56 --iters 1500 --seed 1 --resume --actor_chunk 2"
+    }
+   ],
+   "args": {
+    "config": "configs/helfM_b_game24_cd.yml",
+    "ckpt": "outputs/helf_m-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cdM_hier_2d/critic_ep2.pt",
+    "seed": "1",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cdM_hier_svg2d_s2": {
+   "tag": "game24cdM_hier_svg2d_s2",
+   "n_evals": 5,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.8074173369079535,
+     "test_acc": 0.8020554066130474
+    },
+    {
+     "iter": 0,
+     "val_acc": 0.8074173369079535,
+     "test_acc": 0.8020554066130474
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.7779267202859697,
+     "test_acc": 0.773011617515639
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.8159070598748883,
+     "test_acc": 0.8185880250223414
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.8074173369079535,
+     "test_acc": 0.80875781948168
+    }
+   ],
+   "base_test_acc": 0.8020554066130474,
+   "final_test_acc": 0.80875781948168,
+   "best_test_acc": 0.8185880250223414,
+   "last_iter": 879,
+   "jobs": [
+    {
+     "job_id": "13636209",
+     "job_name": "p100-Mhier-s2",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helfM_b_game24_cd.yml --ckpt outputs/helf_m-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdM_hier_2d/critic_ep2.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_hier_svg2d_s2 --K 64 --gamma 56 --iters 1500 --seed 2 --resume"
+    },
+    {
+     "job_id": "13632629",
+     "job_name": "p100-Mhier-s2",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helfM_b_game24_cd.yml --ckpt outputs/helf_m-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdM_hier_2d/critic_ep.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_hier_svg2d_s2 --K 64 --gamma 56 --iters 1500 --seed 2 --resume"
+    },
+    {
+     "job_id": "13648138",
+     "job_name": "p100-Mhier-s2",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helfM_b_game24_cd.yml --ckpt outputs/helf_m-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdM_hier_2d/critic_ep2.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_hier_svg2d_s2 --K 64 --gamma 56 --iters 1500 --seed 2 --resume --actor_chunk 2"
+    }
+   ],
+   "args": {
+    "config": "configs/helfM_b_game24_cd.yml",
+    "ckpt": "outputs/helf_m-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cdM_hier_2d/critic_ep2.pt",
+    "seed": "2",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cdM_hier_svg2d_s2_a40": {
+   "tag": "game24cdM_hier_svg2d_s2_a40",
+   "n_evals": 1,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.8141197497765862,
+     "test_acc": 0.8011617515638964
+    }
+   ],
+   "base_test_acc": 0.8011617515638964,
+   "final_test_acc": 0.8011617515638964,
+   "best_test_acc": 0.8011617515638964,
+   "last_iter": 77,
+   "jobs": [
+    {
+     "job_id": "13651241",
+     "job_name": "a40-Mhier-s2",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helfM_b_game24_cd.yml --ckpt outputs/helf_m-game24-cd/checkpoint_2800 --critic outputs/critic/game24cdM_hier_2d/critic_ep2.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cdM_hier_svg2d_s2_a40 --K 64 --gamma 56 --iters 1500 --seed 2 --resume --actor_chunk 2"
+    }
+   ],
+   "args": {
+    "config": "configs/helfM_b_game24_cd.yml",
+    "ckpt": "outputs/helf_m-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cdM_hier_2d/critic_ep2.pt",
+    "seed": "2",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
   "game24cd_flatAT_svg2d_s0": {
    "tag": "game24cd_flatAT_svg2d_s0",
-   "n_evals": 3,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -1660,12 +2314,32 @@
      "iter": 500,
      "val_acc": 0.5714924039320822,
      "test_acc": 0.5741733690795353
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.5755138516532619,
+     "test_acc": 0.5795352993744415
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.5625558534405719,
+     "test_acc": 0.5661304736371761
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.5473637176050045,
+     "test_acc": 0.5366398570151921
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.5455764075067024,
+     "test_acc": 0.5437890974084003
     }
    ],
    "base_test_acc": 0.6394101876675603,
-   "final_test_acc": 0.5741733690795353,
+   "final_test_acc": 0.5437890974084003,
    "best_test_acc": 0.6394101876675603,
-   "last_iter": 746,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13628632",
@@ -1673,7 +2347,17 @@
      "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flatAT_2d/critic_ep7.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flatAT_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --log_gcos 1"
     },
     {
+     "job_id": "13630016",
+     "job_name": "dbg-flatAT-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flatAT_2d/critic_ep7.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flatAT_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --log_gcos 1"
+    },
+    {
      "job_id": "13628180",
+     "job_name": "dbg-flatAT-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flatAT_2d/critic_ep7.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flatAT_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --log_gcos 1"
+    },
+    {
+     "job_id": "13629430",
      "job_name": "dbg-flatAT-s0",
      "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flatAT_2d/critic_ep7.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flatAT_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --log_gcos 1"
     }
@@ -1688,9 +2372,188 @@
     "gamma": "56"
    }
   },
+  "game24cd_flatATwd20_svg2d_s0": {
+   "tag": "game24cd_flatATwd20_svg2d_s0",
+   "n_evals": 2,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6228775692582663,
+     "test_acc": 0.6309204647006256
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.07462019660411082,
+     "test_acc": 0.064343163538874
+    }
+   ],
+   "base_test_acc": 0.6309204647006256,
+   "final_test_acc": 0.064343163538874,
+   "best_test_acc": 0.6309204647006256,
+   "last_iter": 499,
+   "jobs": [
+    {
+     "job_id": "13641057",
+     "job_name": "dbg-flatATwd20-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd --critic outputs/critic/game24cd_flatATwd20_2d/critic_ep1.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flatATwd20_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --log_gcos 1"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_game24_cd.yml",
+    "ckpt": "outputs/elf_b-game24-cd",
+    "critic": "outputs/critic/game24cd_flatATwd20_2d/critic_ep1.pt",
+    "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cd_flatATwd20_svg2d_s1": {
+   "tag": "game24cd_flatATwd20_svg2d_s1",
+   "n_evals": 2,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6179624664879356,
+     "test_acc": 0.6152815013404825
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.0679177837354781,
+     "test_acc": 0.054959785522788206
+    }
+   ],
+   "base_test_acc": 0.6152815013404825,
+   "final_test_acc": 0.054959785522788206,
+   "best_test_acc": 0.6152815013404825,
+   "last_iter": 499,
+   "jobs": [
+    {
+     "job_id": "13641058",
+     "job_name": "dbg-flatATwd20-s1",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd --critic outputs/critic/game24cd_flatATwd20_2d/critic_ep1.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flatATwd20_svg2d_s1 --K 64 --gamma 56 --iters 1500 --seed 1 --resume --log_gcos 1"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_game24_cd.yml",
+    "ckpt": "outputs/elf_b-game24-cd",
+    "critic": "outputs/critic/game24cd_flatATwd20_2d/critic_ep1.pt",
+    "seed": "1",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cd_flatATwd20_svg2d_s2": {
+   "tag": "game24cd_flatATwd20_svg2d_s2",
+   "n_evals": 1,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6108132260947274,
+     "test_acc": 0.6206434316353887
+    }
+   ],
+   "base_test_acc": 0.6206434316353887,
+   "final_test_acc": 0.6206434316353887,
+   "best_test_acc": 0.6206434316353887,
+   "last_iter": 32,
+   "jobs": [
+    {
+     "job_id": "13641059",
+     "job_name": "dbg-flatATwd20-s2",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd --critic outputs/critic/game24cd_flatATwd20_2d/critic_ep1.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flatATwd20_svg2d_s2 --K 64 --gamma 56 --iters 1500 --seed 2 --resume --log_gcos 1"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_game24_cd.yml",
+    "ckpt": "outputs/elf_b-game24-cd",
+    "critic": "outputs/critic/game24cd_flatATwd20_2d/critic_ep1.pt",
+    "seed": "2",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cd_flatATwd5_svg2d_s0": {
+   "tag": "game24cd_flatATwd5_svg2d_s0",
+   "n_evals": 7,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6228775692582663,
+     "test_acc": 0.6309204647006256
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.48525469168900803,
+     "test_acc": 0.5138516532618409
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.3248436103663986,
+     "test_acc": 0.3221626452189455
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.05451295799821269,
+     "test_acc": 0.058534405719392314
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.2292225201072386,
+     "test_acc": 0.22966934763181412
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.24352100089365505,
+     "test_acc": 0.2479892761394102
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.2605004468275246,
+     "test_acc": 0.2613941018766756
+    }
+   ],
+   "base_test_acc": 0.6309204647006256,
+   "final_test_acc": 0.2613941018766756,
+   "best_test_acc": 0.6309204647006256,
+   "last_iter": 1499,
+   "jobs": [
+    {
+     "job_id": "13648591",
+     "job_name": "dbg-flatATwd5-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd --critic outputs/critic/game24cd_flatATwd5_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flatATwd5_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --log_gcos 1"
+    },
+    {
+     "job_id": "13650689",
+     "job_name": "dbg-flatATwd5-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd --critic outputs/critic/game24cd_flatATwd5_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flatATwd5_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --log_gcos 1"
+    },
+    {
+     "job_id": "13647891",
+     "job_name": "dbg-flatATwd5-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd --critic outputs/critic/game24cd_flatATwd5_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flatATwd5_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --log_gcos 1"
+    },
+    {
+     "job_id": "13649898",
+     "job_name": "dbg-flatATwd5-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd --critic outputs/critic/game24cd_flatATwd5_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flatATwd5_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --log_gcos 1"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_game24_cd.yml",
+    "ckpt": "outputs/elf_b-game24-cd",
+    "critic": "outputs/critic/game24cd_flatATwd5_2d/critic_ep3.pt",
+    "seed": "0",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
   "game24cd_flatATwd_svg2d_s0": {
    "tag": "game24cd_flatATwd_svg2d_s0",
-   "n_evals": 3,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -1706,15 +2569,45 @@
      "iter": 500,
      "val_acc": 0.6166219839142091,
      "test_acc": 0.6322609472743521
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.5638963360142984,
+     "test_acc": 0.5781948168007149
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.5536193029490617,
+     "test_acc": 0.5554066130473637
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.5357462019660411,
+     "test_acc": 0.5388739946380697
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.5527256478999106,
+     "test_acc": 0.5701519213583557
     }
    ],
    "base_test_acc": 0.6394101876675603,
-   "final_test_acc": 0.6322609472743521,
+   "final_test_acc": 0.5701519213583557,
    "best_test_acc": 0.6420911528150134,
-   "last_iter": 511,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13628479",
+     "job_name": "dbg-flatATwd-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flatATwd_2d/critic_ep2.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flatATwd_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --log_gcos 1"
+    },
+    {
+     "job_id": "13629644",
+     "job_name": "dbg-flatATwd-s0",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flatATwd_2d/critic_ep2.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flatATwd_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --log_gcos 1"
+    },
+    {
+     "job_id": "13630057",
      "job_name": "dbg-flatATwd-s0",
      "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flatATwd_2d/critic_ep2.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flatATwd_svg2d_s0 --K 64 --gamma 56 --iters 1500 --seed 0 --resume --log_gcos 1"
     },
@@ -3003,7 +3896,7 @@
   },
   "game24cd_flat_svg2d_s3": {
    "tag": "game24cd_flat_svg2d_s3",
-   "n_evals": 4,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -3024,15 +3917,40 @@
      "iter": 750,
      "val_acc": 0.5178731009830205,
      "test_acc": 0.5317247542448614
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.5357462019660411,
+     "test_acc": 0.5545129579982127
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.5737265415549598,
+     "test_acc": 0.5907059874888293
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.5795352993744415,
+     "test_acc": 0.6036639857015192
     }
    ],
    "base_test_acc": 0.6429848078641645,
-   "final_test_acc": 0.5317247542448614,
+   "final_test_acc": 0.6036639857015192,
    "best_test_acc": 0.6429848078641645,
-   "last_iter": 959,
+   "last_iter": 1499,
    "jobs": [
     {
      "job_id": "13621189",
+     "job_name": "dbg-flat-s3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flat_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flat_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3 --resume"
+    },
+    {
+     "job_id": "13632042",
+     "job_name": "dbg-flat-s3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flat_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flat_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3 --resume"
+    },
+    {
+     "job_id": "13630637",
      "job_name": "dbg-flat-s3",
      "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flat_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flat_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3 --resume"
     },
@@ -3047,6 +3965,82 @@
     "ckpt": "outputs/elf_b-game24-cd/checkpoint_2450",
     "critic": "outputs/critic/game24cd_flat_2d/critic_ep6.pt",
     "seed": "3",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cd_flat_svg2d_s4": {
+   "tag": "game24cd_flat_svg2d_s4",
+   "n_evals": 7,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6210902591599643,
+     "test_acc": 0.6398570151921358
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.4776586237712243,
+     "test_acc": 0.4879356568364611
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.41420911528150134,
+     "test_acc": 0.41420911528150134
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.5335120643431636,
+     "test_acc": 0.5491510277033065
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.5866845397676497,
+     "test_acc": 0.5759606791778373
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.6036639857015192,
+     "test_acc": 0.5942806076854334
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.6005361930294906,
+     "test_acc": 0.6058981233243967
+    }
+   ],
+   "base_test_acc": 0.6398570151921358,
+   "final_test_acc": 0.6058981233243967,
+   "best_test_acc": 0.6398570151921358,
+   "last_iter": 1499,
+   "jobs": [
+    {
+     "job_id": "13635705",
+     "job_name": "dbg-flat-s4",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flat_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flat_svg2d_s4 --K 64 --gamma 56 --iters 1500 --seed 4 --resume"
+    },
+    {
+     "job_id": "13639832",
+     "job_name": "dbg-flat-s4",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flat_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flat_svg2d_s4 --K 64 --gamma 56 --iters 1500 --seed 4 --resume"
+    },
+    {
+     "job_id": "13632895",
+     "job_name": "dbg-flat-s4",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flat_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flat_svg2d_s4 --K 64 --gamma 56 --iters 1500 --seed 4 --resume"
+    },
+    {
+     "job_id": "13634223",
+     "job_name": "dbg-flat-s4",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flat_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_flat_svg2d_s4 --K 64 --gamma 56 --iters 1500 --seed 4 --resume"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_game24_cd.yml",
+    "ckpt": "outputs/elf_b-game24-cd/checkpoint_2450",
+    "critic": "outputs/critic/game24cd_flat_2d/critic_ep6.pt",
+    "seed": "4",
     "iters": "1500",
     "K": "64",
     "gamma": "56"
@@ -4286,6 +5280,128 @@
     "gamma": "56"
    }
   },
+  "game24cd_hier_svg2d_s3": {
+   "tag": "game24cd_hier_svg2d_s3",
+   "n_evals": 7,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.646112600536193,
+     "test_acc": 0.6487935656836461
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.6528150134048257,
+     "test_acc": 0.6796246648793566
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.6831992850759607,
+     "test_acc": 0.6997319034852547
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.6827524575513851,
+     "test_acc": 0.6992850759606791
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.6711349419124218,
+     "test_acc": 0.6903485254691689
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.6559428060768543,
+     "test_acc": 0.676496872207328
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.676496872207328,
+     "test_acc": 0.6724754244861484
+    }
+   ],
+   "base_test_acc": 0.6487935656836461,
+   "final_test_acc": 0.6724754244861484,
+   "best_test_acc": 0.6997319034852547,
+   "last_iter": 1499,
+   "jobs": [
+    {
+     "job_id": "13618544",
+     "job_name": "gate0b-g24-hier-s3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helf_b_game24_cd.yml --ckpt outputs/helf_b-game24-cd/checkpoint_2800 --critic outputs/critic/game24cd_hier_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_hier_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3"
+    }
+   ],
+   "args": {
+    "config": "configs/helf_b_game24_cd.yml",
+    "ckpt": "outputs/helf_b-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cd_hier_2d/critic_ep3.pt",
+    "seed": "3",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cd_hier_svg2d_s4": {
+   "tag": "game24cd_hier_svg2d_s4",
+   "n_evals": 7,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6304736371760501,
+     "test_acc": 0.6537086684539768
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.6514745308310992,
+     "test_acc": 0.6630920464700626
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.6729222520107239,
+     "test_acc": 0.6974977658623771
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.6791778373547811,
+     "test_acc": 0.709562109025916
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.6854334226988382,
+     "test_acc": 0.6925826630920465
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.6747095621090259,
+     "test_acc": 0.6867739052725648
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.6684539767649688,
+     "test_acc": 0.6903485254691689
+    }
+   ],
+   "base_test_acc": 0.6537086684539768,
+   "final_test_acc": 0.6903485254691689,
+   "best_test_acc": 0.709562109025916,
+   "last_iter": 1499,
+   "jobs": [
+    {
+     "job_id": "13618549",
+     "job_name": "gate0b-g24-hier-s4",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/helf_b_game24_cd.yml --ckpt outputs/helf_b-game24-cd/checkpoint_2800 --critic outputs/critic/game24cd_hier_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_hier_svg2d_s4 --K 64 --gamma 56 --iters 1500 --seed 4"
+    }
+   ],
+   "args": {
+    "config": "configs/helf_b_game24_cd.yml",
+    "ckpt": "outputs/helf_b-game24-cd/checkpoint_2800",
+    "critic": "outputs/critic/game24cd_hier_2d/critic_ep3.pt",
+    "seed": "4",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
   "game24cd_hier_svg2d_tokgrad_s0": {
    "tag": "game24cd_hier_svg2d_tokgrad_s0",
    "n_evals": 7,
@@ -5300,7 +6416,7 @@
   },
   "game24cd_swapMA_svg2d_s3": {
    "tag": "game24cd_swapMA_svg2d_s3",
-   "n_evals": 4,
+   "n_evals": 7,
    "evals": [
     {
      "iter": 0,
@@ -5321,15 +6437,40 @@
      "iter": 750,
      "val_acc": 0.6733690795352993,
      "test_acc": 0.6818588025022342
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.6747095621090259,
+     "test_acc": 0.6943699731903485
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.6630920464700626,
+     "test_acc": 0.6760500446827524
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.6496872207327972,
+     "test_acc": 0.662645218945487
     }
    ],
    "base_test_acc": 0.6429848078641645,
-   "final_test_acc": 0.6818588025022342,
-   "best_test_acc": 0.6818588025022342,
-   "last_iter": 952,
+   "final_test_acc": 0.662645218945487,
+   "best_test_acc": 0.6943699731903485,
+   "last_iter": 1499,
    "jobs": [
     {
+     "job_id": "13632177",
+     "job_name": "dbg-swapMA-s3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_swapMA_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_swapMA_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3 --resume"
+    },
+    {
      "job_id": "13621188",
+     "job_name": "dbg-swapMA-s3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_swapMA_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_swapMA_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3 --resume"
+    },
+    {
+     "job_id": "13630638",
      "job_name": "dbg-swapMA-s3",
      "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_swapMA_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_swapMA_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3 --resume"
     },
@@ -5344,6 +6485,82 @@
     "ckpt": "outputs/elf_b-game24-cd/checkpoint_2450",
     "critic": "outputs/critic/game24cd_swapMA_2d/critic_ep6.pt",
     "seed": "3",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cd_swapMA_svg2d_s4": {
+   "tag": "game24cd_swapMA_svg2d_s4",
+   "n_evals": 7,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6210902591599643,
+     "test_acc": 0.6398570151921358
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.5831099195710456,
+     "test_acc": 0.5750670241286864
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.6706881143878463,
+     "test_acc": 0.67828418230563
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.6630920464700626,
+     "test_acc": 0.677390527256479
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.6532618409294012,
+     "test_acc": 0.6684539767649688
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.6501340482573726,
+     "test_acc": 0.6456657730116175
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.6376228775692583,
+     "test_acc": 0.6541554959785523
+    }
+   ],
+   "base_test_acc": 0.6398570151921358,
+   "final_test_acc": 0.6541554959785523,
+   "best_test_acc": 0.67828418230563,
+   "last_iter": 1499,
+   "jobs": [
+    {
+     "job_id": "13634645",
+     "job_name": "dbg-swapMA-s4",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_swapMA_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_swapMA_svg2d_s4 --K 64 --gamma 56 --iters 1500 --seed 4 --resume"
+    },
+    {
+     "job_id": "13636269",
+     "job_name": "dbg-swapMA-s4",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_swapMA_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_swapMA_svg2d_s4 --K 64 --gamma 56 --iters 1500 --seed 4 --resume"
+    },
+    {
+     "job_id": "13632896",
+     "job_name": "dbg-swapMA-s4",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_swapMA_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_swapMA_svg2d_s4 --K 64 --gamma 56 --iters 1500 --seed 4 --resume"
+    },
+    {
+     "job_id": "13639841",
+     "job_name": "dbg-swapMA-s4",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_swapMA_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_swapMA_svg2d_s4 --K 64 --gamma 56 --iters 1500 --seed 4 --resume"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_game24_cd.yml",
+    "ckpt": "outputs/elf_b-game24-cd/checkpoint_2450",
+    "critic": "outputs/critic/game24cd_swapMA_2d/critic_ep6.pt",
+    "seed": "4",
     "iters": "1500",
     "K": "64",
     "gamma": "56"
@@ -5644,6 +6861,143 @@
     "ckpt": "outputs/elf_b-game24-cd/checkpoint_2450",
     "critic": "outputs/critic/game24cd_swapMM7_2d/critic_ep3.pt",
     "seed": "2",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cd_swapMM7_svg2d_s3": {
+   "tag": "game24cd_swapMM7_svg2d_s3",
+   "n_evals": 7,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6376228775692583,
+     "test_acc": 0.6429848078641645
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.565236818588025,
+     "test_acc": 0.5853440571939231
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.5522788203753352,
+     "test_acc": 0.5773011617515639
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.5442359249329759,
+     "test_acc": 0.5630026809651475
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.5491510277033065,
+     "test_acc": 0.5638963360142984
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.5571939231456657,
+     "test_acc": 0.5670241286863271
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.5285969615728329,
+     "test_acc": 0.533958891867739
+    }
+   ],
+   "base_test_acc": 0.6429848078641645,
+   "final_test_acc": 0.533958891867739,
+   "best_test_acc": 0.6429848078641645,
+   "last_iter": 1499,
+   "jobs": [
+    {
+     "job_id": "13630639",
+     "job_name": "dbg-swapMM7-s3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_swapMM7_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_swapMM7_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3 --resume"
+    },
+    {
+     "job_id": "13635418",
+     "job_name": "dbg-swapMM7-s3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_swapMM7_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_swapMM7_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3 --resume"
+    },
+    {
+     "job_id": "13633841",
+     "job_name": "dbg-swapMM7-s3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_swapMM7_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_swapMM7_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3 --resume"
+    },
+    {
+     "job_id": "13632615",
+     "job_name": "dbg-swapMM7-s3",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_swapMM7_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_swapMM7_svg2d_s3 --K 64 --gamma 56 --iters 1500 --seed 3 --resume"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_game24_cd.yml",
+    "ckpt": "outputs/elf_b-game24-cd/checkpoint_2450",
+    "critic": "outputs/critic/game24cd_swapMM7_2d/critic_ep3.pt",
+    "seed": "3",
+    "iters": "1500",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "game24cd_swapMM7_svg2d_s4": {
+   "tag": "game24cd_swapMM7_svg2d_s4",
+   "n_evals": 7,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6210902591599643,
+     "test_acc": 0.6398570151921358
+    },
+    {
+     "iter": 250,
+     "val_acc": 0.5384271671134941,
+     "test_acc": 0.5621090259159964
+    },
+    {
+     "iter": 500,
+     "val_acc": 0.533065236818588,
+     "test_acc": 0.5518319928507596
+    },
+    {
+     "iter": 750,
+     "val_acc": 0.5013404825737265,
+     "test_acc": 0.5210008936550492
+    },
+    {
+     "iter": 1000,
+     "val_acc": 0.5080428954423593,
+     "test_acc": 0.5049151027703307
+    },
+    {
+     "iter": 1250,
+     "val_acc": 0.48525469168900803,
+     "test_acc": 0.49553172475424484
+    },
+    {
+     "iter": 1500,
+     "val_acc": 0.5093833780160858,
+     "test_acc": 0.5111706881143878
+    }
+   ],
+   "base_test_acc": 0.6398570151921358,
+   "final_test_acc": 0.5111706881143878,
+   "best_test_acc": 0.6398570151921358,
+   "last_iter": 1499,
+   "jobs": [
+    {
+     "job_id": "13618547",
+     "job_name": "gate0b-g24-swapMM7-s4",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_swapMM7_2d/critic_ep3.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --test_prompts data/game24/test.jsonl --out outputs/rl/game24cd_swapMM7_svg2d_s4 --K 64 --gamma 56 --iters 1500 --seed 4"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_game24_cd.yml",
+    "ckpt": "outputs/elf_b-game24-cd/checkpoint_2450",
+    "critic": "outputs/critic/game24cd_swapMM7_2d/critic_ep3.pt",
+    "seed": "4",
     "iters": "1500",
     "K": "64",
     "gamma": "56"
@@ -6448,6 +7802,37 @@
     "critic": "outputs/critic/kk_swapMM7_2d/critic_ep4.pt",
     "seed": "2",
     "iters": "1000",
+    "K": "64",
+    "gamma": "56"
+   }
+  },
+  "p100_speedtest": {
+   "tag": "p100_speedtest",
+   "n_evals": 1,
+   "evals": [
+    {
+     "iter": 0,
+     "val_acc": 0.6367292225201072,
+     "test_acc": null
+    }
+   ],
+   "base_test_acc": null,
+   "final_test_acc": null,
+   "best_test_acc": null,
+   "last_iter": 14,
+   "jobs": [
+    {
+     "job_id": "13632501",
+     "job_name": "p100-speed",
+     "cmd": "python -m hcfrl.rl.train_svg --config configs/elf_b_game24_cd.yml --ckpt outputs/elf_b-game24-cd/checkpoint_2450 --critic outputs/critic/game24cd_flat_2d/critic_ep6.pt --train_prompts data/game24/train.jsonl --val_prompts data/game24/val.jsonl --out outputs/rl/p100_speedtest --K 64 --gamma 56 --iters 40 --eval_every 1000 --seed 0 --bf16 0 --buf_dtype bf16"
+    }
+   ],
+   "args": {
+    "config": "configs/elf_b_game24_cd.yml",
+    "ckpt": "outputs/elf_b-game24-cd/checkpoint_2450",
+    "critic": "outputs/critic/game24cd_flat_2d/critic_ep6.pt",
+    "seed": "0",
+    "iters": "40",
     "K": "64",
     "gamma": "56"
    }

@@ -1,0 +1,1 @@
+0.7480	2238	K=64	gamma=56.0	cfg=2.0	ckpt=outputs/elf_m-game24-cd/checkpoint_700

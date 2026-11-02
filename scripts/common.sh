@@ -12,3 +12,5 @@ export HF_HOME=/scratch1/verajuan/hf_cache HF_HUB_OFFLINE=1 TOKENIZERS_PARALLELI
 export PYTHONPATH=/scratch1/verajuan/hcfrl:$PYTHONPATH
 nvidia-smi --query-gpu=name,memory.total --format=csv,noheader || true
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+# provenance: fingerprint of the code and environment this job runs with (recorded in every Slurm log)
+echo "PROVENANCE code_sha256=$(cd /scratch1/verajuan/hcfrl && find hcfrl scripts configs -type f \( -name '*.py' -o -name '*.slurm' -o -name '*.sh' -o -name '*.yml' \) -print0 | sort -z | xargs -0 sha256sum | sha256sum | cut -c1-16) host=$(hostname) python=$(python -c 'import sys;print(sys.version.split()[0])' 2>/dev/null) torch=$(python -c 'import torch;print(torch.__version__, torch.version.cuda)' 2>/dev/null | tr ' ' '/') HCFRL_FP32=${HCFRL_FP32:-0} date=$(date -Is)"

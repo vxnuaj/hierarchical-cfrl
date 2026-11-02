@@ -65,6 +65,7 @@ def main():
     ap.add_argument("--K", type=int, default=64); ap.add_argument("--gamma", type=float, default=56.0)
     ap.add_argument("--cfg_scale", type=float, default=2.0)
     ap.add_argument("--iters", type=int, default=1500); ap.add_argument("--B", type=int, default=32)
+    ap.add_argument("--stop_at", type=int, default=0, help=">0: stop after the evaluation at this iteration (keeps the --iters learning-rate schedule; used for replicate runs)")
     ap.add_argument("--actor_chunk", type=int, default=0, help=">0: process the actor objective in micro-batches of at most this many rollouts per denoising step and accumulate gradients (same objective; needed for ELF-M on 16 GB GPUs). Requires norm_pen=0, rsa_rho=0, actor_channels=all")
     ap.add_argument("--Bp", type=int, default=64); ap.add_argument("--NB", type=int, default=16384)
     ap.add_argument("--mc", type=int, default=2); ap.add_argument("--mc_extra", type=int, default=8)
@@ -230,7 +231,7 @@ def main():
                 best_val = val
                 torch.save({"params": model.state_dict(), "iter": it, "val_acc": val, "test_acc": test},
                            os.path.join(a.out, "policy_best.pt"))
-            if it == a.iters: break
+            if it == a.iters or (a.stop_at and it >= a.stop_at): break
 
         for gq in opt_a.param_groups: gq["lr"] = lr_at(it) * gq.get("mult", 1.0)
 
