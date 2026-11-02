@@ -1242,3 +1242,7 @@ ELF-M hier critic (13636206, --accum 4): epoch 1 field 0.707, 2576 s/epoch, so 6
     - flat: 0.781 (ep2), 0.799 (ep3).
     - hier: 0.866 (ep1), 0.879 (ep2).
   - **Measured success of the hard-set critic data:** flat 0.779 (8,000 rollouts), hier 0.825 (7,472). ELF-B flat was ≈0.82, so reward variance is matched: s² = 0.172 (flat) and 0.144 (hier), against 0.148 for ELF-B.
+- 11-02 ~00:30: **reproducibility.**
+  - Provenance snapshot committed (`runs/provenance/`): environment and package list, sha256 of 70 data/config files, and sha256 of 487 checkpoints (selected bases, best critic epochs, policy it0/best/final of every RL run).
+  - Replicate runs (identical seed, current code, A40 bf16): iteration-0 test accuracy of the seed-42 flat base is 63.94 in both. The evaluation is therefore deterministic under the current code, and the 64.2 of the 2026-10-24 run comes from code changes made since (REPRODUCE §7).
+  - Iteration-250 comparison pending.
