@@ -1319,3 +1319,7 @@ Motivation: the matched-variance ELF-M runs show no early crash at it250 (flat â
   - flat 86.2 / 84.7 / 84.3, i.e. +6.4 / +5.0 / +4.8 (mean +5.4).
   - hier 83.6 / 84.5 / 87.2, i.e. +2.9 / +3.9 / +7.0 (mean +4.6).
   - Both models gain steadily at 342M on the hard-prompt sets; P1 (flat collapse) is contradicted through it1000.
+- 11-03 ~13:05: **matched-variance it1250:**
+  - flat 86.0 / 84.5 / 85.0, i.e. +6.2 / +4.8 / +5.5 (mean +5.5).
+  - hier 84.4 / 84.6 / 87.5, i.e. +3.7 / +4.0 / +7.3 (mean +5.0).
+  - Steady gains; finals at it1500 in ~6 h.
