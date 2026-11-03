@@ -1301,3 +1301,12 @@ Motivation: the matched-variance ELF-M runs show no early crash at it250 (flat �
   - **Same-recipe finals (partial):** flat s2 79.4 (−0.1); hier s1 79.1 (−1.5, after −9.6 at it1000). Other finals in their evals.
   - **Matched-variance it500, flat:** s0 83.3 (+3.5), s2 86.0 (+6.5). The 342M flat Muon policy with its own Muon critic **gains** when trained on hard prompts; the opposite of pre-registered P1 so far.
   - Frozen ELF-M attack: 97.7% at step 400 (ELF-B was 67.6 at 400 and 3.1 at 600).
+- 11-02 ~17:25: **ELF-M same-recipe finals (it1500), all 6:**
+  - flat 80.3 / 78.3 / 79.4, i.e. +0.5 / −1.4 / −0.1 (mean −0.3). No checkpoint more than 1.3 above base.
+  - hier 82.5 / 79.1 / 80.9, i.e. +1.8 / −1.5 / +0.7 (mean +0.3). Seed 1 dipped to −9.6 at it1000 and recovered.
+  - **No collapse for either model at 342M with the same recipe.**
+- **Matched-variance it500:**
+  - flat 83.3 / 85.5 / 86.0, i.e. **+3.5 / +5.8 / +6.5 (mean +5.3)**.
+  - hier 81.6 / 82.4 / 82.0, i.e. +0.9 / +1.8 / +1.8.
+  - Pre-registered P1 (flat ≤ −5) is contradicted at it500, and P2 (hier falls less) is inverted, with flat gaining more. Runs continue to it1500.
+- **Frozen ELF-M attack:** 98.4% at step 500 (ELF-B 34% at 500). The ELF-M policy does not exploit its own frozen critic either.
