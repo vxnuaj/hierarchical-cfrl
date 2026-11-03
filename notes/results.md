@@ -1310,3 +1310,4 @@ Motivation: the matched-variance ELF-M runs show no early crash at it250 (flat �
   - hier 81.6 / 82.4 / 82.0, i.e. +0.9 / +1.8 / +1.8.
   - Pre-registered P1 (flat ≤ −5) is contradicted at it500, and P2 (hier falls less) is inverted, with flat gaining more. Runs continue to it1500.
 - **Frozen ELF-M attack:** 98.4% at step 500 (ELF-B 34% at 500). The ELF-M policy does not exploit its own frozen critic either.
+- 11-02 ~18:25: **Q5 frozen ELF-M attack done** (600 steps, native attacker, 256 val prompts): accuracy 93.8 → 96.1 → … → 98.8% at step 600, against ELF-B 82.4 → 3.1%. The native logit rises 802 → 1,019, as on ELF-B (791 → 1,021), but here the rise tracks correct answers. The self-similarity route is absent at 342M.

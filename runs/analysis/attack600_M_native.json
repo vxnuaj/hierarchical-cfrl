@@ -1,0 +1,143 @@
+{
+ "attacker": "native",
+ "critics": [
+  "native",
+  "hard"
+ ],
+ "args": {
+  "config": "configs/elfM_b_game24_cd.yml",
+  "ckpt": "outputs/elf_m-game24-cd/checkpoint_1400",
+  "policy": null,
+  "attacker": "native",
+  "critics": "native=outputs/critic/game24cdM_flat_2d,hard=outputs/critic/game24cdMhard_flat_2d",
+  "train_prompts": "data/game24/train.jsonl",
+  "val_prompts": "data/game24/val.jsonl",
+  "iters": 600,
+  "every": 100,
+  "B": 32,
+  "lr": 1e-06,
+  "n_val": 256,
+  "k_rec": 40,
+  "K": 64,
+  "gamma": 56.0,
+  "bs": 64,
+  "seed": 0,
+  "out": "outputs/analysis/attack600_M_native.json",
+  "accum": 1,
+  "self_consistency": 0
+ },
+ "hist": [
+  {
+   "iter": 0,
+   "acc": 0.9375,
+   "native": {
+    "logit": 802.3047485351562,
+    "logit_correct": 859.6821899414062,
+    "logit_wrong": -58.355125427246094,
+    "auc": 0.9928385615348816
+   },
+   "hard": {
+    "logit": 564.0761108398438,
+    "logit_correct": 606.6083984375,
+    "logit_wrong": -73.90833282470703,
+    "auc": 0.9923177361488342
+   }
+  },
+  {
+   "iter": 100,
+   "acc": 0.9609375,
+   "native": {
+    "logit": 866.8544921875,
+    "logit_correct": 905.6857299804688,
+    "logit_wrong": -88.39442443847656,
+    "auc": 0.9963414669036865
+   },
+   "hard": {
+    "logit": 576.9462280273438,
+    "logit_correct": 604.240234375,
+    "logit_wrong": -94.48705291748047,
+    "auc": 0.9955284595489502
+   }
+  },
+  {
+   "iter": 200,
+   "acc": 0.9140625,
+   "native": {
+    "logit": 882.78662109375,
+    "logit_correct": 933.0452270507812,
+    "logit_wrong": 348.2179870605469,
+    "auc": 0.6898795366287231
+   },
+   "hard": {
+    "logit": 466.427001953125,
+    "logit_correct": 489.23101806640625,
+    "logit_wrong": 223.87461853027344,
+    "auc": 0.7337801456451416
+   }
+  },
+  {
+   "iter": 300,
+   "acc": 0.97265625,
+   "native": {
+    "logit": 958.115234375,
+    "logit_correct": 980.8770751953125,
+    "logit_wrong": 148.439697265625,
+    "auc": 0.8531267642974854
+   },
+   "hard": {
+    "logit": 555.6585693359375,
+    "logit_correct": 571.8943481445312,
+    "logit_wrong": -21.86935806274414,
+    "auc": 0.9228341579437256
+   }
+  },
+  {
+   "iter": 400,
+   "acc": 0.9765625,
+   "native": {
+    "logit": 962.9222412109375,
+    "logit_correct": 987.5640258789062,
+    "logit_wrong": -63.81878662109375,
+    "auc": 0.9900000095367432
+   },
+   "hard": {
+    "logit": 587.8201293945312,
+    "logit_correct": 603.318115234375,
+    "logit_wrong": -57.926387786865234,
+    "auc": 0.9880000352859497
+   }
+  },
+  {
+   "iter": 500,
+   "acc": 0.984375,
+   "native": {
+    "logit": 982.634521484375,
+    "logit_correct": 998.2417602539062,
+    "logit_wrong": -0.6170991063117981,
+    "auc": 0.9821428656578064
+   },
+   "hard": {
+    "logit": 591.9263916015625,
+    "logit_correct": 601.33837890625,
+    "logit_wrong": -1.0228079557418823,
+    "auc": 0.9801587462425232
+   }
+  },
+  {
+   "iter": 600,
+   "acc": 0.98828125,
+   "native": {
+    "logit": 1018.9786987304688,
+    "logit_correct": 1031.0556640625,
+    "logit_wrong": 0.4780940115451813,
+    "auc": 0.8306982517242432
+   },
+   "hard": {
+    "logit": 630.1634521484375,
+    "logit_correct": 637.7374267578125,
+    "logit_wrong": -8.579708099365234,
+    "auc": 0.9973649382591248
+   }
+  }
+ ]
+}
