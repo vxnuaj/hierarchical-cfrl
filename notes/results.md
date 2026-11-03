@@ -1297,3 +1297,7 @@ Motivation: the matched-variance ELF-M runs show no early crash at it250 (flat �
     - Between-refit cosine: ELF-M 0.60 / 0.76 vs ELF-B Muon 0.65–0.89 and AdamW 0.87–0.89 (no clear shift).
     - **Confound:** the refit states come from each run's own it250 policy. ELF-B's had collapsed (53.3), ELF-M's had not (+0.5), so the ELF-M refit sees less-drifted states. A drift-matched comparison is needed before this counts.
   - **Q5 frozen attack:** running.
+- 11-02 ~16:25:
+  - **Same-recipe finals (partial):** flat s2 79.4 (−0.1); hier s1 79.1 (−1.5, after −9.6 at it1000). Other finals in their evals.
+  - **Matched-variance it500, flat:** s0 83.3 (+3.5), s2 86.0 (+6.5). The 342M flat Muon policy with its own Muon critic **gains** when trained on hard prompts; the opposite of pre-registered P1 so far.
+  - Frozen ELF-M attack: 97.7% at step 400 (ELF-B was 67.6 at 400 and 3.1 at 600).
