@@ -1315,3 +1315,7 @@ Motivation: the matched-variance ELF-M runs show no early crash at it250 (flat â
   - flat 83.7 / 86.1 / 86.0, i.e. +3.9 / +6.4 / +6.5 (mean +5.6), still gaining and stable.
   - hier s1 84.8 (+4.2); s0 and s2 still in eval.
 - 11-03 ~02:20: matched-variance hier it750: s0 83.3 (+2.6), s2 86.1 (+5.9); with s1 84.8 (+4.2) the mean is +4.2. All 6 runs healthy at itâ‰ˆ900.
+- 11-03 ~06:10: **matched-variance it1000:**
+  - flat 86.2 / 84.7 / 84.3, i.e. +6.4 / +5.0 / +4.8 (mean +5.4).
+  - hier 83.6 / 84.5 / 87.2, i.e. +2.9 / +3.9 / +7.0 (mean +4.6).
+  - Both models gain steadily at 342M on the hard-prompt sets; P1 (flat collapse) is contradicted through it1000.
