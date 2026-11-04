@@ -1323,3 +1323,17 @@ Motivation: the matched-variance ELF-M runs show no early crash at it250 (flat �
   - flat 86.0 / 84.5 / 85.0, i.e. +6.2 / +4.8 / +5.5 (mean +5.5).
   - hier 84.4 / 84.6 / 87.5, i.e. +3.7 / +4.0 / +7.3 (mean +5.0).
   - Steady gains; finals at it1500 in ~6 h.
+
+### 2026-11-03 ~19:30 — RESULT of the pre-registered ELF-M matched-variance test: prediction falsified
+Final test accuracy at it1500 (Δ from the run's own it0), hard-prompt training sets, native critics, 3 seeds each:
+- **flat ELF-M:** 85.8 / 84.9 / 84.5, i.e. **+6.0 / +5.2 / +5.0 (mean +5.4 ± 0.5)**. Best-validation +6.2 / +6.4 / +6.5. Worst evaluation −0.8 / 0.0 / 0.0.
+- **H-ELF-M:** 84.9 / 85.3 / 87.3, i.e. **+4.2 / +4.7 / +7.1 (mean +5.3 ± 1.5)**. Best-validation +4.2 / +3.9 / +7.0.
+- **P1 is falsified.** P1 predicted flat ≤ −5 with no best-validation checkpoint above +1; the flat Muon policy with its own Muon critic gains +5.4 with no collapse at any evaluation.
+- **P2 is falsified.** P2 predicted that hier falls less than flat; both gain about equally.
+
+Summary at 342M:
+- same recipe: flat −0.3, hier +0.3;
+- matched reward variance: flat +5.4, hier +5.3;
+- the frozen own-critic attack is not exploited (93.8 → 98.8%).
+
+The Muon geometry (spectra, critic off-share, policy factor) is unchanged from 105M, yet neither exploitation route operates. The theory's account of the 105M failure is therefore incomplete as an account of when the failure occurs. Reward variance, step size, critic quality and Muon geometry together do not explain the size dependence. The matched runs also show that hard-prompt sampling makes pathwise RL effective at 342M (+5.4).
